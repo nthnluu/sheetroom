@@ -18,12 +18,18 @@ export default function () {
         config: {},
         questions: [
             {
-                id: '129bs',
+                id: '129frgbs',
                 type: 1,
                 text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur doloremque doloribus ea in iure magnam tempora tenetur veniam vero voluptatem! A cumque delectusmagnam quia, rem rerum sint veniam. Fugit.',
                 choices: ['Choice A', 'Choice B', 'Choice C', 'Choice D']
             }, {
-                id: '129basds',
+                id: '12dawdad9bs',
+                type: 1,
+                text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur doloremque doloribus ea in iure magnam tempora tenetur veniam vero voluptatem! A cumque delectusmagnam quia, rem rerum sint veniam. Fugit.',
+                choices: ['Choice A', 'Choice B', 'Choice C', 'Choice D']
+            },
+            {
+                id: '129basasdadsds',
                 type: 2,
                 text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur doloremque doloribus ea in iure magnam tempora tenetur veniam vero voluptatem! A cumque delectusmagnam quia, rem rerum sint veniam. Fugit.'
             }
@@ -44,7 +50,7 @@ export default function () {
             <main>
                 <div className="max-w-4xl mx-auto px-4 lg:px-0">
                     {/*// <!-- Replace with your content -->*/}
-                    {assignment.questions.map(question => <div className="examCard mb-12">
+                    {assignment.questions.map(question => <div key={question.id} className="examCard mb-12">
                         <div className="p-6 sm:p-8">
                             {/*// <!-- Content goes here -->*/}
                             <QuestionFrame question={question}/>
@@ -63,10 +69,12 @@ class AssignmentWindow extends React.Component {
         super(props);
         this.textInput = React.createRef();
     }
+
     componentDidMount() {
         this.textInput.current.focus();
     }
+
     render() {
-        return <input ref={this.textInput} />;
+        return <input ref={this.textInput}/>;
     }
 }

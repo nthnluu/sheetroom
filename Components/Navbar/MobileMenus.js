@@ -32,7 +32,7 @@ export function MobileMenuActionButtons({item, actionButtons}) {
 export function MobileMenu({items, actionButtons}) {
     return (<div className="block md:hidden border-b border-gray-300">
         <div className="px-2 pt-2 pb-3 sm:px-3">
-            {items.map(item => <a href="#"
+            {items.map((item, i) => <a href="#" key={i}
                                   className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-400 transition duration-150 ease-in-out">{item.icon ?
                 <i
                     className={item.icon + ' mr-2'}/> : null}{item.label}

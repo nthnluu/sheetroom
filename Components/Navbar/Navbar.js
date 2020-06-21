@@ -3,7 +3,7 @@ import {MobileMenu, MenuButton} from "./MobileMenus";
 
 function Links({items}) {
 
-    return items.map(item => <a href="#"
+    return items.map((item, i) => <a href="#" key={i}
                                 className="ml-2 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-900 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 transition duration-150 ease-in-out">
         <i className={item.icon}/>{item.label}
     </a>);

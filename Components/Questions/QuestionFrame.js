@@ -6,7 +6,7 @@ function Controller({type, question}) {
     //2: short answer
     switch (type) {
         case(1):
-            return <MultipleChoice choices={question.choices}/>;
+            return <MultipleChoice choices={question.choices} questionId={question.id}/>;
             break;
         case(2):
             return <ShortAnswer/>;
