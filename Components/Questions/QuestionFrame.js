@@ -17,7 +17,7 @@ export default function ({question}) {
             <p className="text-gray-800 text-lg mb-6">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus
                 adipisci dicta dolor eligendi, illo illum itaque magni officia perferendis, possimus quam repellendus
                 rerum, similique sint suscipit. Delectus dicta dolore et!</p>
-            <Controller type={1} />
+            <Controller type={1}/>
         </article>)
 
 }

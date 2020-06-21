@@ -11,7 +11,7 @@
     @apply bg-white overflow-hidden rounded-lg my-8 border border-gray-100
 }
 .card {
-    @apply rounded-lg p-4 mb-2 transition-all duration-100 w-full text-left
+    @apply rounded-lg border p-4 mb-3 transition-all duration-100 w-full text-left
 }
 .card:active {
     @apply shadow-outline outline-none
@@ -21,7 +21,7 @@
 }
 
 .unselectedCard {
-    @apply border border-gray-300
+    @apply border-gray-300
 
 }
 .unselectedCard:hover {
@@ -29,15 +29,11 @@
 }
 
 .selectedCard {
-    @apply text-white font-semibold;
-    background: #56ccf2; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #56ccf2, #2f80ed); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #56ccf2, #2f80ed); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    @apply text-white font-semibold bg-blue-500 border-blue-600;
 
 }
 .selectedCard:hover {
-    @apply opacity-75;
-
+    opacity: 0.9;
 }
 
 @tailwind utilities;
