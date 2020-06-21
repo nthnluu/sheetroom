@@ -19,7 +19,7 @@ function Controller({type, question}) {
 export default function ({question}) {
     return (
         <article>
-            <p className="text-gray-800 sm:text-lg mb-8">{question.text}</p>
+            <article className="text-gray-800 sm:text-lg mb-8">{question.text}</article>
             <Controller type={question.type} question={question}/>
         </article>)
 

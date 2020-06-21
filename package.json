@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.3.0",
@@ -15,5 +18,11 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "tailwindcss": "^1.4.6"
+  },
+  "devDependencies": {
+    "babel-jest": "^26.0.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "jest": "^26.0.1"
   }
 }
