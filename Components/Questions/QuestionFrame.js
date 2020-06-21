@@ -1,10 +1,15 @@
 import MultipleChoice from "./Controllers/MultipleChoice";
+import ShortAnswer from "./Controllers/ShortAnswer";
 
 function Controller({type, question}) {
     //1: multiple choice
+    //2: short answer
     switch (type) {
         case(1):
-            return <MultipleChoice/>;
+            return <MultipleChoice choices={question.choices}/>;
+            break;
+        case(2):
+            return <ShortAnswer/>;
             break;
 
     }
@@ -14,10 +19,8 @@ function Controller({type, question}) {
 export default function ({question}) {
     return (
         <article>
-            <p className="text-gray-800 text-lg mb-6">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus
-                adipisci dicta dolor eligendi, illo illum itaque magni officia perferendis, possimus quam repellendus
-                rerum, similique sint suscipit. Delectus dicta dolore et!</p>
-            <Controller type={1}/>
+            <p className="text-gray-800 sm:text-lg mb-8">{question.text}</p>
+            <Controller type={question.type} question={question}/>
         </article>)
 
 }

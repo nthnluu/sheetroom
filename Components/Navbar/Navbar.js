@@ -38,7 +38,7 @@ export default function ({items, exam, actionButtons, sticky}) {
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
-        <nav className={sticky ? "bg-white stickyNav fixed top-0 w-full" : "bg-white"}>
+        <nav className={sticky ? "bg-white stickyNav fixed top-0 w-full z-50" : "bg-white"}>
             <div className="max-w-6xl mx-auto px-4 lg:px-0">
                 <div className="flex h-16">
                     <div className="flex justify-between w-full">
