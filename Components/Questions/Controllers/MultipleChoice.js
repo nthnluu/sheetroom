@@ -1,5 +1,4 @@
 import React, {useRef, useState} from "react";
-import _uniqueId from 'lodash/uniqueId';
 
 function checkSelect({selected}) {
     if (selected) {
