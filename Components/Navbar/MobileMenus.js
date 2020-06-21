@@ -19,9 +19,9 @@ export function MobileMenuProfile() {
 
 export function MobileMenuActionButtons({item, actionButtons}) {
     return (<div className="px-2 sm:px-3">
-        <button
-           className="mt-1 w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:bg-gray-400 transition duration-150 ease-in-out">{actionButtons.secondary.label}
-        </button>
+        {actionButtons.secondary.label ? <button
+            className="mt-1 w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:bg-gray-400 transition duration-150 ease-in-out">{actionButtons.secondary.label}
+        </button> : null}
         <button
             className="mt-1 w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:bg-gray-400 transition duration-150 ease-in-out">{actionButtons.primary.label}
         </button>
@@ -33,8 +33,9 @@ export function MobileMenu({items, actionButtons}) {
     return (<div className="block md:hidden border-b border-gray-300">
         <div className="px-2 pt-2 pb-3 sm:px-3">
             {items.map(item => <a href="#"
-                                  className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-400 transition duration-150 ease-in-out">{item.label ? <i
-                className={item.icon + ' mr-2'}/>:null}{item.label}
+                                  className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-400 transition duration-150 ease-in-out">{item.label ?
+                <i
+                    className={item.icon + ' mr-2'}/> : null}{item.label}
             </a>)}
         </div>
         <div className="py-3 border-t border-gray-300">
@@ -44,16 +45,19 @@ export function MobileMenu({items, actionButtons}) {
     </div>)
 }
 
-export function MenuButton({open, onClick}) {
-    return (<button
-        className="inline-flex text-gray-800 items-center justify-center p-2 rounded-md text-gray-400 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 transition duration-150 ease-in-out"
-        aria-label="Main menu" aria-expanded={open} onClick={() => onClick()}>
-        {open ? <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 18L18 6M6 6L18 18" stroke="#4A5568" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round"/>
-        </svg> : <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>}
-    </button>)
+export function MenuButton({open, onClick, exam}) {
+    return (
+        <>
+            <button
+                className="inline-flex text-gray-800 items-center justify-center p-2 rounded-md text-gray-400 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 transition duration-150 ease-in-out"
+                aria-label="Main menu" aria-expanded={open} onClick={() => onClick()}>
+                {open ? <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 18L18 6M6 6L18 18" stroke="#4A5568" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg> : <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>}
+            </button>
+        </>)
 }

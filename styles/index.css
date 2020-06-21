@@ -2,4 +2,42 @@
 @tailwind base;
 @tailwind components;
 /* purgecss end ignore */
+.stickyNav {
+    box-shadow: 0 12px 10px -10px rgba(0, 0, 0, 0.12);
+}
+
+.examCard {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    @apply bg-white overflow-hidden rounded-lg my-8 border border-gray-100
+}
+.card {
+    @apply rounded-lg p-4 mb-2 transition-all duration-100 w-full text-left
+}
+.card:active {
+    @apply shadow-outline outline-none
+}
+.card:focus {
+    @apply shadow-outline outline-none
+}
+
+.unselectedCard {
+    @apply border border-gray-300
+
+}
+.unselectedCard:hover {
+    @apply border-gray-500
+}
+
+.selectedCard {
+    @apply text-white font-semibold;
+    background: #56ccf2; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #56ccf2, #2f80ed); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #56ccf2, #2f80ed); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+.selectedCard:hover {
+    @apply opacity-75;
+
+}
+
 @tailwind utilities;
