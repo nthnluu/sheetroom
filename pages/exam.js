@@ -24,17 +24,20 @@ export default function Assignment() {
                 choices: ['The growing gap between wealthy people and people living in poverty',
                     'The rise of the settlement house and Populist movements',
                     'The increased corruption in urban politics',
-                    'The migration of African Americans to the North']
+                    'The migration of African Americans to the North'],
+                response: ''
             }, {
                 id: '12dawdad9bs',
                 type: 1,
                 text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur doloremque doloribus ea in iure magnam tempora tenetur veniam vero voluptatem! A cumque delectusmagnam quia, rem rerum sint veniam. Fugit.',
-                choices: ['Choice A', 'Choice B', 'Choice C', 'Choice D']
+                choices: ['Choice A', 'Choice B', 'Choice C', 'Choice D'],
+                response: 'Choice A'
             },
             {
                 id: '129basasdadsds',
                 type: 2,
-                text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur doloremque doloribus ea in iure magnam tempora tenetur veniam vero voluptatem! A cumque delectusmagnam quia, rem rerum sint veniam. Fugit.'
+                text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur doloremque doloribus ea in iure magnam tempora tenetur veniam vero voluptatem! A cumque delectusmagnam quia, rem rerum sint veniam. Fugit.',
+                response: ''
             }
         ]
 
@@ -53,12 +56,12 @@ export default function Assignment() {
             <main className="relative">
                 <div className="max-w-4xl mx-auto px-4 lg:px-0">
                     {/*// <!-- Replace with your content -->*/}
-                    {assignment.questions.map(question => <div key={question.id} className="examCard mb-6" role="region">
+                    {assignment.questions.map((question, index) => <article key={question.id} className="examCard mb-6" aria-label={'Question ' + (index+1)}>
                         <div className="p-6 sm:p-8">
                             {/*// <!-- Content goes here -->*/}
-                            <QuestionFrame question={question}/>
+                            <QuestionFrame question={question} index={index}/>
                         </div>
-                    </div>)}
+                    </article>)}
                     {/*// <!-- /End replace -->*/}
                 </div>
             </main>

@@ -16,14 +16,14 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index}) {
 
     return (
         <>
-            <input id={inputId} aria-label={text} aria-labelledby={labelId} aria-selected={selected} type="radio"
+            <input id={inputId} aria-labelledby={labelId} aria-selected={selected} type="radio"
                    defaultChecked={selected} name={radioName} value={text}
                    onClick={() => onClick()} className="absolute mt-6 ml-5 opacity-0" onFocus={() => setFocus(true)}
                    onBlur={() => setFocus(false)}/>
             <label id={labelId} htmlFor={inputId} onClick={() => onClick()}
                    className={selected ? 'card selectedCard cursor-pointer' : 'card unselectedCard cursor-pointer ' + checkFocus()}>
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
-                <span className="table-cell pl-2 w-full" role="presentation">{text}</span>
+                <span className="table-cell pl-2 w-full">{text}</span>
             </label>
         </>
     )
@@ -31,8 +31,8 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index}) {
 }
 
 
-export default function ({choices, questionId}) {
-    const [selected, setSelected] = useState(null);
+export default function ({choices, questionId, response}) {
+    const [selected, setSelected] = useState(response);
     const radioName = questionId;
 
     return (

@@ -6,20 +6,23 @@ function Controller({type, question}) {
     //2: short answer
     switch (type) {
         case(1):
-            return <MultipleChoice choices={question.choices} questionId={question.id}/>;
+            return <section aria-label="Answer Choices"><MultipleChoice choices={question.choices} response={question.response}
+                                                                        questionId={question.id}/></section>;
             break;
         case(2):
-            return <ShortAnswer/>;
+            return <section aria-label="Response Text Field"><ShortAnswer/></section>;
             break;
 
     }
 
 }
 
-export default function ({question}) {
+export default function ({question, index}) {
     return (
         <article>
-            <article className="text-gray-800 sm:text-lg mb-8">{question.text}</article>
+            <h2 className="font-semibold text-gray-800 text-lg">Question {index+1}</h2>
+            <section className="text-gray-800 sm:text-lg mb-8 mt-1" aria-label="Question Text"><p>{question.text}</p>
+            </section>
             <Controller type={question.type} question={question}/>
         </article>)
 
