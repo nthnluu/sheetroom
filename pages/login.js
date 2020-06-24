@@ -3,6 +3,7 @@ import {useMutation} from '@apollo/react-hooks';
 import {withApollo} from '../libs/apollo';
 import Cookie from "js-cookie";
 import {useRouter} from 'next/router'
+import {useState} from "react";
 
 
 export default function () {
@@ -16,34 +17,43 @@ export default function () {
 }
 `;
     const [logIn, {data}] = useMutation(LOG_IN);
+    const [validationErrors, setValidationError] = useState(false);
     const router = useRouter();
 
     function handleSubmit(event) {
         event.preventDefault();
         logIn({variables: {email: event.target.email.value, password: event.target.password.value}})
             .then((data) =>handleLogIn({token: data.data.tokenAuth.token, refreshToken: data.data.tokenAuth.refreshToken}))
-            .catch((error) => alert('error! ' + error))
+            .catch((error) => setValidationError(true))
     }
 
     function handleLogIn({token, refreshToken}) {
         Cookie.set("homework.authToken", token);
         Cookie.set("homework.refreshToken", refreshToken, { expires: 365 });
-        router.push('/')
+        router.push('/');
     }
 
+    function checkValid() {
+        if (validationErrors)  {
+            return  'border-red-400 bg-red-50 text-red-900 placeholder-red-300 focus:border-red-300 focus:shadow-outline-red'
+        }  else {
+            return  'border-gray-300 placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300'
+        }
+
+    }
     return (<div className="min-h-screen bg-white flex">
         <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div className="mx-auto w-full max-w-sm">
                 <div>
-                    <img className="h-12 w-auto" src="/img/logos/workflow-mark-on-white.svg" alt="Workflow"/>
+                    <img className="h-12 w-auto" src="/hw_symbol.svg" alt="Workflow"/>
                     <h2 className="mt-6 text-3xl leading-9 font-extrabold text-gray-900">
-                        Sign in to your account
+                        Log in to your account
                     </h2>
                     <p className="mt-2 text-sm leading-5 text-gray-600 max-w">
                         Or
                         <a href="#"
-                           className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
-                            start your 14-day free trial
+                           className="font-medium text-blue-600 ml-1  hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                            get started for free
                         </a>
                     </p>
                 </div>
@@ -52,7 +62,7 @@ export default function () {
                     <div>
                         <div>
                             <p className="text-sm leading-5 font-medium text-gray-700">
-                                Sign in with
+                                Log in with
                             </p>
 
                             <div className="mt-1 grid grid-cols-3 gap-3">
@@ -114,37 +124,37 @@ export default function () {
                     <div className="mt-6">
                         <form onSubmit={(event => handleSubmit(event))}>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-700">
+                                <label htmlFor="email" className={validationErrors ?  "block text-sm font-medium leading-5 text-red-700" : "block text-sm font-medium leading-5 text-gray-700"}>
                                     Email address
                                 </label>
                                 <div className="mt-1 rounded-md shadow-sm">
                                     <input id="email" type="email" required required name="email"
-                                           className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                                           className={"appearance-none block w-full px-3 py-2 border rounded-md transition duration-150 ease-in-out sm:text-sm sm:leading-5 " + checkValid()}/>
                                 </div>
                             </div>
 
                             <div className="mt-6">
-                                <label htmlFor="password" className="block text-sm font-medium leading-5 text-gray-700">
+                                <label htmlFor="password" className={validationErrors ?  "block text-sm font-medium leading-5 text-red-700" : "block text-sm font-medium leading-5 text-gray-700"}>
                                     Password
                                 </label>
                                 <div className="mt-1 rounded-md shadow-sm">
                                     <input id="password" type="password" required name="password"
-                                           className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
+                                           className={"appearance-none block w-full px-3 py-2 border rounded-md transition duration-150 ease-in-out sm:text-sm sm:leading-5 " + checkValid()}/>
                                 </div>
                             </div>
 
                             <div className="mt-6 flex items-center justify-between">
-                                {/*<div className="flex items-center">*/}
-                                {/*    <input id="remember_me" type="checkbox"*/}
-                                {/*           className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"/>*/}
-                                {/*    <label htmlFor="remember_me" className="ml-2 block text-sm leading-5 text-gray-900">*/}
-                                {/*        Remember me*/}
-                                {/*    </label>*/}
-                                {/*</div>*/}
+                                <div className="flex items-center">
+                                    <input id="remember_me" type="checkbox"
+                                           className="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out"/>
+                                    <label htmlFor="remember_me" className="ml-2 block text-sm leading-5 text-gray-900">
+                                        Remember me
+                                    </label>
+                                </div>
 
                                 <div className="text-sm leading-5">
                                     <a href="#"
-                                       className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                                       className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
                                         Forgot your password?
                                     </a>
                                 </div>
@@ -153,10 +163,11 @@ export default function () {
                             <div className="mt-6">
               <span className="block w-full rounded-md shadow-sm">
                 <button type="submit"
-                        className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
-                  Sign in
+                        className="w-full flex justify-center py-2 px-4 mb-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out">
+                  Log in
                 </button>
               </span>
+                                {validationErrors ? <span className="text-red-600 font-semibold text-sm mt-4"><i className="fas fa-exclamation-circle mr-2"/>Invalid email or password.</span> : null}
                             </div>
                         </form>
                     </div>

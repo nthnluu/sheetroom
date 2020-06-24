@@ -1,3 +1,5 @@
+import {useRouter} from 'next/router'
+
 export function MobileMenuProfile() {
     return (
         <div className="flex items-center px-5 sm:px-6">
@@ -18,11 +20,12 @@ export function MobileMenuProfile() {
 }
 
 export function MobileMenuActionButtons({item, actionButtons}) {
+    const router = useRouter();
     return (<div className="px-2 sm:px-3">
-        {actionButtons.secondary.label ? <button
+        {actionButtons.secondary.label ? <button onClick={()=> router.push(actionButtons.secondary.href)}
             className="mt-1 w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:bg-gray-400 transition duration-150 ease-in-out">{actionButtons.secondary.label}
         </button> : null}
-        <button
+        <button onClick={()=> router.push(actionButtons.primary.href)}
             className="mt-1 w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:bg-gray-400 transition duration-150 ease-in-out">{actionButtons.primary.label}
         </button>
     </div>)
