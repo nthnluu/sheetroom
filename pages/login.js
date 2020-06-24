@@ -1,4 +1,36 @@
+import gql from 'graphql-tag';
+import {useMutation} from '@apollo/react-hooks';
+import {withApollo} from '../libs/apollo';
+import Cookie from "js-cookie";
+import {useRouter} from 'next/router'
+
+
 export default function () {
+    const LOG_IN = gql`
+  mutation($email: String!, $password: String!) {
+  tokenAuth(email: $email, password: $password) {
+    token
+    refreshToken
+    refreshExpiresIn
+  }
+}
+`;
+    const [logIn, {data}] = useMutation(LOG_IN);
+    const router = useRouter();
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        logIn({variables: {email: event.target.email.value, password: event.target.password.value}})
+            .then((data) =>handleLogIn({token: data.data.tokenAuth.token, refreshToken: data.data.tokenAuth.refreshToken}))
+            .catch((error) => alert('error! ' + error))
+    }
+
+    function handleLogIn({token, refreshToken}) {
+        Cookie.set("homework.authToken", token);
+        Cookie.set("homework.refreshToken", refreshToken, { expires: 365 });
+        router.push('/')
+    }
+
     return (<div className="min-h-screen bg-white flex">
         <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div className="mx-auto w-full max-w-sm">
@@ -80,13 +112,13 @@ export default function () {
                     </div>
 
                     <div className="mt-6">
-                        <form action="#" method="POST">
+                        <form onSubmit={(event => handleSubmit(event))}>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-700">
                                     Email address
                                 </label>
                                 <div className="mt-1 rounded-md shadow-sm">
-                                    <input id="email" type="email" required
+                                    <input id="email" type="email" required required name="email"
                                            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                                 </div>
                             </div>
@@ -96,19 +128,19 @@ export default function () {
                                     Password
                                 </label>
                                 <div className="mt-1 rounded-md shadow-sm">
-                                    <input id="password" type="password" required
+                                    <input id="password" type="password" required name="password"
                                            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                                 </div>
                             </div>
 
                             <div className="mt-6 flex items-center justify-between">
-                                <div className="flex items-center">
-                                    <input id="remember_me" type="checkbox"
-                                           className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"/>
-                                    <label htmlFor="remember_me" className="ml-2 block text-sm leading-5 text-gray-900">
-                                        Remember me
-                                    </label>
-                                </div>
+                                {/*<div className="flex items-center">*/}
+                                {/*    <input id="remember_me" type="checkbox"*/}
+                                {/*           className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"/>*/}
+                                {/*    <label htmlFor="remember_me" className="ml-2 block text-sm leading-5 text-gray-900">*/}
+                                {/*        Remember me*/}
+                                {/*    </label>*/}
+                                {/*</div>*/}
 
                                 <div className="text-sm leading-5">
                                     <a href="#"

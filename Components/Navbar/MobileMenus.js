@@ -52,10 +52,10 @@ export function MenuButton({open, onClick, exam}) {
                 className="inline-flex text-gray-800 items-center justify-center p-2 rounded-md text-gray-400 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 transition duration-150 ease-in-out"
                 aria-label="Main menu" aria-expanded={open} onClick={() => onClick()}>
                 {open ? <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 18L18 6M6 6L18 18" stroke="#4A5568" stroke-width="2" stroke-linecap="round"
-                          stroke-linejoin="round"/>
+                    <path d="M6 18L18 6M6 6L18 18" stroke="#4A5568" strokeWidth="2" strokeLinecap="round"
+                          strokeLinejoin="round"/>
                 </svg> : <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                           d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>}
             </button>
