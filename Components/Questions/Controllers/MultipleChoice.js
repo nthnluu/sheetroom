@@ -31,8 +31,8 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index}) {
 }
 
 
-export default function ({choices, questionId, response}) {
-    const [selected, setSelected] = useState(response);
+export default function ({choices, questionId}) {
+    const [selected, setSelected] = useState();
     const radioName = questionId;
 
     return (
@@ -40,10 +40,10 @@ export default function ({choices, questionId, response}) {
             <form>
                 <fieldset className="pt-2" role="radiogroup">
                     <legend className="font-semibold text-gray-800">Select one:</legend>
-                    {choices.map((choice, index) => <AnswerChoice index={index} selected={selected === choice}
+                    {choices.map((choice, index) => <AnswerChoice index={index} selected={selected === choice.id}
                                                                   questionId={questionId}
-                                                                  onClick={() => setSelected(choice)} key={index}
-                                                                  text={choice} radioName={radioName}/>)}
+                                                                  onClick={() => setSelected(choice.id)} key={choice.id}
+                                                                  text={choice.content} radioName={radioName}/>)}
                 </fieldset>
             </form>
         </>

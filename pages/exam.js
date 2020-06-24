@@ -1,9 +1,14 @@
 import Navbar from "../Components/Navbar/Navbar";
 import QuestionFrame from "../Components/Questions/QuestionFrame";
 import {useState} from "react";
+import {withApollo} from '../libs/apollo';
+import {useQuery} from '@apollo/react-hooks';
+import {ASSIGNMENT} from '../gql/getAssignment';
 
-export default function Assignment() {
-    const [saving, setSaving] = useState(true);
+const Assignment = () => {
+    const {loading, error, data} = useQuery(ASSIGNMENT);
+    if (error) return <h1>{error.message}</h1>;
+    if (loading) return <h1>Loading...</h1>;
 
     const [navBarItems, setNavBarItems] = useState({
         links: [
@@ -49,23 +54,24 @@ export default function Assignment() {
             <header className="mb-8" role="banner">
                 <div className="max-w-4xl mx-auto px-4 lg:px-0">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-gray-900">
-                        {assignment.title}
+                        {data.assignment.title}
                     </h1>
                 </div>
             </header>
             <main className="relative">
                 <div className="max-w-4xl mx-auto px-4 lg:px-0">
-                    {/*// <!-- Replace with your content -->*/}
-                    {assignment.questions.map((question, index) => <article key={question.id} className="examCard mb-6" aria-label={'Question ' + (index+1)}>
+                    {data.assignment.questions.map((question, index) => <article key={question.id} className="examCard mb-6"
+                                                                            aria-label={'Question ' + (index + 1)}>
                         <div className="p-6 sm:p-8">
-                            {/*// <!-- Content goes here -->*/}
+
                             <QuestionFrame question={question} index={index}/>
                         </div>
                     </article>)}
-                    {/*// <!-- /End replace -->*/}
                 </div>
             </main>
         </div>
     </>)
 
 };
+
+export default withApollo({ ssr: true })(Assignment);

@@ -1,8 +1,14 @@
 import Navbar from "../Components/Navbar/Navbar";
 import PrimaryButton from "../Components/Buttons/PrimaryButton";
 import SecondaryButton from "../Components/Buttons/SecondaryButton";
+import {withApollo} from '../libs/apollo';
+import {useQuery} from '@apollo/react-hooks';
+import {ALL_ASSIGNMENTS} from '../gql/allAssignments';
 
-export default function Index() {
+const Index = () => {
+    // const {loading, error, data} = useQuery(ALL_ASSIGNMENTS);
+    // if (error) return <h1>{error.message}</h1>;
+    // if (loading) return <h1>Loading...</h1>;
 
     const navBarItems = {
         links: [{label: 'Features'}, {label: 'About us'}, {label: 'Pricing'}],
@@ -31,3 +37,6 @@ export default function Index() {
         </>
     )
 };
+
+// export default withApollo({ ssr: true })(Index);
+export default Index;
