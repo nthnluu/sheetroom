@@ -7,7 +7,6 @@ import Cookies from 'js-cookie';
 
 function App({Component, pageProps}) {
 
-    const user = {name: 'Tania', loggedIn: true};
     const token = Cookies.get("homework.AuthToken");
     const refreshToken = Cookies.get("homework.RefreshToken");
     const createdToken = Cookies.get("homework.AuthTokenCreated");
