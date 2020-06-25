@@ -1,22 +1,10 @@
-import gql from 'graphql-tag';
-import {useMutation} from '@apollo/react-hooks';
-import {withApollo} from '../libs/apollo';
-import Cookie from "js-cookie";
 import {useRouter} from 'next/router'
 import {useState} from "react";
 
 
 export default function () {
-    const LOG_IN = gql`
-  mutation($email: String!, $password: String!) {
-  tokenAuth(email: $email, password: $password) {
-    token
-    refreshToken
-    refreshExpiresIn
-  }
-}
-`;
-    const [logIn, {data}] = useMutation(LOG_IN);
+
+
     const [validationErrors, setValidationError] = useState(false);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
@@ -24,9 +12,6 @@ export default function () {
     function handleSubmit(event) {
         event.preventDefault();
         setLoading(true);
-        logIn({variables: {email: event.target.email.value, password: event.target.password.value}})
-            .then((data) =>handleLogIn({token: data.data.tokenAuth.token, refreshToken: data.data.tokenAuth.refreshToken}))
-            .catch((error) => handleError())
     }
 
     function handleError() {
@@ -34,23 +19,18 @@ export default function () {
         setLoading(false);
     }
 
-    function handleLogIn({token, refreshToken}) {
-        Cookie.set("homework.authToken", token);
-        Cookie.set("homework.authTokenCreated", Date.now());
-        Cookie.set("homework.refreshToken", refreshToken, { expires: 365 });
-        window.location.href = '/';
-    }
-
     function checkValid() {
-        if (validationErrors)  {
-            return  'border-red-400 bg-red-50 text-red-900 placeholder-red-300 focus:border-red-300 focus:shadow-outline-red'
-        }  else {
-            return  'border-gray-300 placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300'
+        if (validationErrors) {
+            return 'border-red-400 bg-red-50 text-red-900 placeholder-red-300 focus:border-red-300 focus:shadow-outline-red'
+        } else {
+            return 'border-gray-300 placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300'
         }
 
     }
+
     return (<div className="min-h-screen bg-white flex">
-        <div className="flex-1 flex flex-col justify-center py-12 -mt-24 md:mt-0 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div
+            className="flex-1 flex flex-col justify-center py-12 -mt-24 md:mt-0 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div className="mx-auto w-full max-w-sm">
                 <div>
                     <img className="h-12 w-auto" src="/hw_symbol.svg" alt="Workflow"/>
@@ -132,7 +112,8 @@ export default function () {
                     <div className="mt-6">
                         <form onSubmit={(event => handleSubmit(event))}>
                             <div>
-                                <label htmlFor="email" className={validationErrors ?  "block text-sm font-medium leading-5 text-red-700" : "block text-sm font-medium leading-5 text-gray-700"}>
+                                <label htmlFor="email"
+                                       className={validationErrors ? "block text-sm font-medium leading-5 text-red-700" : "block text-sm font-medium leading-5 text-gray-700"}>
                                     Email address
                                 </label>
                                 <div className="mt-1 rounded-md shadow-sm">
@@ -142,11 +123,13 @@ export default function () {
                             </div>
 
                             <div className="mt-6">
-                                <label htmlFor="password" className={validationErrors ?  "block text-sm font-medium leading-5 text-red-700" : "block text-sm font-medium leading-5 text-gray-700"}>
+                                <label htmlFor="password"
+                                       className={validationErrors ? "block text-sm font-medium leading-5 text-red-700" : "block text-sm font-medium leading-5 text-gray-700"}>
                                     Password
                                 </label>
                                 <div className="mt-1 rounded-md shadow-sm">
-                                    <input id="password" type="password" required name="password" autoComplete="password"
+                                    <input id="password" type="password" required name="password"
+                                           autoComplete="password"
                                            className={"appearance-none block w-full px-3 py-2 border rounded-md transition duration-150 ease-in-out sm:text-sm sm:leading-5 " + checkValid()}/>
                                 </div>
                             </div>
@@ -178,7 +161,8 @@ export default function () {
 
                 </button>
               </span>
-                                {validationErrors ? <span className="text-red-600 font-semibold text-sm mt-4"><i className="fas fa-exclamation-circle mr-2"/>Invalid email or password.</span> : null}
+                                {validationErrors ? <span className="text-red-600 font-semibold text-sm mt-4"><i
+                                    className="fas fa-exclamation-circle mr-2"/>Invalid email or password.</span> : null}
                             </div>
                         </form>
                     </div>

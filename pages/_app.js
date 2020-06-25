@@ -1,7 +1,6 @@
 import '../styles/index.css'
-import {ApolloProvider, useMutation} from '@apollo/react-hooks';
+import {ApolloProvider} from '@apollo/react-hooks';
 import apolloClient from "../apolloClient";
-import Cookie from "js-cookie";
 
 
 function App({Component, pageProps}) {
