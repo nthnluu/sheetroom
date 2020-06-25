@@ -15,3 +15,12 @@ export const VERIFY_TOKEN = gql`
   }
   }
 `;
+
+export const ME = gql`
+  query Me($token: String!) {
+      me(token: $token){
+    email
+    firstName
+  }
+  }
+`;

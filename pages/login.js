@@ -1,4 +1,3 @@
-import {useRouter} from 'next/router'
 import {useState} from "react";
 import {useMutation} from '@apollo/react-hooks';
 import Cookies from 'js-cookie';
@@ -19,7 +18,7 @@ export default function () {
     const [validationErrors, setValidationError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [tokenAuth, {data}] = useMutation(TOKEN_AUTH);
-    const router = useRouter();
+
 
     function setAuthToken({newToken, newRefreshToken}) {
         Cookies.set('homework.AuthToken', newToken);
