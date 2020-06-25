@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const ALL_ASSIGNMENTS = gql`
-    {
-  allAssignments {
+query allAssignments($token: String!) {
+  allAssignments(token: $token) {
     id
   }
 }

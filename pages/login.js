@@ -18,19 +18,27 @@ export default function () {
 `;
     const [logIn, {data}] = useMutation(LOG_IN);
     const [validationErrors, setValidationError] = useState(false);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     function handleSubmit(event) {
         event.preventDefault();
+        setLoading(true);
         logIn({variables: {email: event.target.email.value, password: event.target.password.value}})
             .then((data) =>handleLogIn({token: data.data.tokenAuth.token, refreshToken: data.data.tokenAuth.refreshToken}))
-            .catch((error) => setValidationError(true))
+            .catch((error) => handleError())
+    }
+
+    function handleError() {
+        setValidationError(true);
+        setLoading(false);
     }
 
     function handleLogIn({token, refreshToken}) {
         Cookie.set("homework.authToken", token);
+        Cookie.set("homework.authTokenCreated", Date.now());
         Cookie.set("homework.refreshToken", refreshToken, { expires: 365 });
-        router.push('/');
+        window.location.href = '/';
     }
 
     function checkValid() {
@@ -42,7 +50,7 @@ export default function () {
 
     }
     return (<div className="min-h-screen bg-white flex">
-        <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div className="flex-1 flex flex-col justify-center py-12 -mt-24 md:mt-0 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div className="mx-auto w-full max-w-sm">
                 <div>
                     <img className="h-12 w-auto" src="/hw_symbol.svg" alt="Workflow"/>
@@ -50,10 +58,10 @@ export default function () {
                         Log in to your account
                     </h2>
                     <p className="mt-2 text-sm leading-5 text-gray-600 max-w">
-                        Or
+                        Need an account?
                         <a href="#"
                            className="font-medium text-blue-600 ml-1  hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
-                            get started for free
+                            Create one now.
                         </a>
                     </p>
                 </div>
@@ -128,7 +136,7 @@ export default function () {
                                     Email address
                                 </label>
                                 <div className="mt-1 rounded-md shadow-sm">
-                                    <input id="email" type="email" required required name="email"
+                                    <input id="email" type="email" required name="email" autoComplete="email"
                                            className={"appearance-none block w-full px-3 py-2 border rounded-md transition duration-150 ease-in-out sm:text-sm sm:leading-5 " + checkValid()}/>
                                 </div>
                             </div>
@@ -138,7 +146,7 @@ export default function () {
                                     Password
                                 </label>
                                 <div className="mt-1 rounded-md shadow-sm">
-                                    <input id="password" type="password" required name="password"
+                                    <input id="password" type="password" required name="password" autoComplete="password"
                                            className={"appearance-none block w-full px-3 py-2 border rounded-md transition duration-150 ease-in-out sm:text-sm sm:leading-5 " + checkValid()}/>
                                 </div>
                             </div>
@@ -164,7 +172,10 @@ export default function () {
               <span className="block w-full rounded-md shadow-sm">
                 <button type="submit"
                         className="w-full flex justify-center py-2 px-4 mb-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out">
-                  Log in
+                  <span>
+                      {loading ? <i className="fas fa-circle-notch fa-spin"/> : "Log in"}
+                  </span>
+
                 </button>
               </span>
                                 {validationErrors ? <span className="text-red-600 font-semibold text-sm mt-4"><i className="fas fa-exclamation-circle mr-2"/>Invalid email or password.</span> : null}

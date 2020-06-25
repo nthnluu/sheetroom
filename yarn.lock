@@ -1814,6 +1814,14 @@ apollo-client@^2.6.10:
     tslib "^1.10.0"
     zen-observable "^0.8.0"
 
+apollo-link-context@^1.0.20:
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/apollo-link-context/-/apollo-link-context-1.0.20.tgz#1939ac5dc65d6dff0c855ee53521150053c24676"
+  integrity sha512-MLLPYvhzNb8AglNsk2NcL9AvhO/Vc9hn2ZZuegbhRHGet3oGr0YH9s30NS9+ieoM0sGT11p7oZ6oAILM/kiRBA==
+  dependencies:
+    apollo-link "^1.2.14"
+    tslib "^1.9.3"
+
 apollo-link-http-common@^0.2.16:
   version "0.2.16"
   resolved "https://registry.yarnpkg.com/apollo-link-http-common/-/apollo-link-http-common-0.2.16.tgz#756749dafc732792c8ca0923f9a40564b7c59ecc"
@@ -5743,10 +5751,10 @@ neo-async@2.6.1, neo-async@^2.5.0, neo-async@^2.6.1:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
-next-auth@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-2.0.0.tgz#9c418825a5607ff52ce665f0a4a965b2ac0a1a25"
-  integrity sha512-KY+pcVUwy53GF2HOJJViQvCRFvOUDdWVDBbRvXGpMs65L3JV79ykhRu38n/D9Ww7nDFOvi6c/IdyHVzDGBR9TQ==
+next-auth@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-2.1.0.tgz#40a746baf70df2294b4ed9fd1cb59c61a24f4338"
+  integrity sha512-IgjEkDYUMgvWGartSFC5ATRLceWWoNEzSccvVxxLHT9BxqD8Y5f4xzODaVMilGgtgqCu+0R7Xcl3m82TNc041g==
   dependencies:
     crypto-js "^4.0.0"
     jsonwebtoken "^8.5.1"
