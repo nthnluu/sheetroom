@@ -1,6 +1,9 @@
 import Navbar from "../Components/Navbar/Navbar";
+import UserContext from "../Components/AuthProvider";
+import React, {useContext} from 'react';
 
 const Index = () => {
+    const user = useContext(UserContext);
 
     const navBarItems = {
         links: [{label: 'Features'}, {label: 'About us'}, {label: 'Pricing'}],
@@ -16,6 +19,7 @@ const Index = () => {
                         assignments that just work
                     </h1>
                 </header>
+                <p>{user}</p>
             </div>
         </>
     )
