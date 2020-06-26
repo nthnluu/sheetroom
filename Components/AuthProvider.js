@@ -45,7 +45,7 @@ export const UserContextProvider = ({token, refreshToken, createdToken, children
             //user is anp
             setToken(undefined);
         }
-    }, []);
+    }, [token, refreshToken]);
 
     return (
         <UserContext.Provider value={authToken}>

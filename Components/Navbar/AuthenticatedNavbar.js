@@ -1,6 +1,8 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {MobileMenu, MenuButton} from "./MobileMenus";
 import {useRouter} from 'next/router'
+import {useQuery} from "@apollo/react-hooks";
+import {ME} from "../../gql/authentication";
 
 function Links({items}) {
 
@@ -37,7 +39,7 @@ function ActionButtons({secondaryLabel, primaryLabel, primaryHref, secondaryHref
     </div>)
 }
 
-export default function ({items, exam, actionButtons, sticky}) {
+export default function ({items, exam, actionButtons, sticky, token}) {
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
