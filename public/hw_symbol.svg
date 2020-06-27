@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="100.5" height="156.246" viewBox="0 0 100.5 156.246"><g transform="translate(-439.5 -202.929)"><g transform="translate(444.5 210)"><line y1="116.712" transform="translate(0 12.919)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="10"/><line x2="72" transform="translate(0.5 12)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="10"/><line x1="12" y2="13" transform="translate(60.5 12)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="10"/><line x2="12" y2="12" transform="translate(60.5)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="10"/></g><g transform="translate(462.319 222.473)"><line y2="117" transform="translate(72.681 -0.473)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="10"/><line x1="72.165" transform="translate(0 117.158)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="10"/><line y1="12.473" x2="12.473" transform="translate(0 104.685)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="10"/><line x1="12.473" y1="12.473" transform="translate(0 117.158)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="10"/></g><line x2="22" transform="translate(458.5 242.5)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="6"/><line x2="59" transform="translate(458.5 256.5)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="6"/><line x2="52" transform="translate(458.5 270.5)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="6"/><line x2="43" transform="translate(458.5 284.5)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="6"/><line x2="52" transform="translate(458.5 298.5)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="6"/><line x2="22" transform="translate(458.5 312.5)" fill="none" stroke="#323248" stroke-linecap="round" stroke-width="6"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="228.39" height="122.348" viewBox="0 0 228.39 122.348">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.056" y1="0.531" x2="0.971" y2="0.297" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#00a1ed"/>
+      <stop offset="1" stop-color="#00ffeb"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.043" y1="0.54" x2="0.987" y2="0.251" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#3e7fff"/>
+      <stop offset="1" stop-color="#000aff"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_6" transform="translate(-79.048 -273.652)">
+    <path id="Path_3" d="M306.038,300.658l-25.606-25.606a4.782,4.782,0,0,0-6.762,0l-65.022,65.022-32.231-32.232-32.505,32.5,48.505,48.762a22.592,22.592,0,0,0,31.952,0l16.657-16.657-.009-.01,65.021-65.021A4.783,4.783,0,0,0,306.038,300.658Z" opacity="0.66" fill="url(#linear-gradient)"/>
+    <path id="Path_4" d="M241.3,300.932,215.7,275.326a4.78,4.78,0,0,0-6.762,0l-65.021,65.021-30.829-30.829a4.781,4.781,0,0,0-6.763,0L80.449,335.389a4.78,4.78,0,0,0,0,6.762l47.231,47.231a22.592,22.592,0,0,0,31.952,0l16.658-16.657-.01-.01L241.3,307.694A4.78,4.78,0,0,0,241.3,300.932Z" opacity="0.66" fill="url(#linear-gradient-2)"/>
+  </g>
+</svg>
