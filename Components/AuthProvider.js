@@ -26,7 +26,7 @@ export const UserContextProvider = ({token, refreshToken, createdToken, children
 
     useEffect(() => {
         if (token) {
-            if (Date.now() - createdToken <= 240000 || refreshToken) {
+            if (Date.now() - createdToken >= 240000) {
                 //the authToken either expired or doesn't exist, BUT there is a refresh token
                 refToken({variables: {refreshToken: refreshToken}})
                     .then(result => setAuthToken({

@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export const REFRESH_TOKEN = gql`
-  mutation TokenAuth($refreshToken: String!) {
+  mutation RefreshToken($refreshToken: String!) {
     refreshToken(refreshToken: $refreshToken) {
     token
   }
