@@ -1,159 +1,20 @@
 import React, {useState} from 'react';
 import auth0 from "../utils/auth0";
 import Transition from "../Components/Transition";
+import AdminPageLayout from "../Components/AdminPageLayout";
+import gql from "graphql-tag";
 
-function AuthNavbar({user}) {
-    const [profileDropdown, toggleProfileDropdown] = useState(false);
-    const [mobileMenu, toggleMobileMenu] = useState(false);
-
-    return (<nav className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-                <div className="flex">
-                    <div className="flex-shrink-0 flex items-center">
-                        <img className="block lg:hidden h-8 w-auto"
-                             src="/hw_symbol.svg" alt="Workflow logo"/>
-                        <img className="hidden lg:block h-8 w-auto"
-                             src="/hw_symbol.svg" alt="Workflow logo"/>
-                    </div>
-                    <div className="hidden sm:-my-px sm:ml-6 sm:flex">
-                        <a href="#"
-                           className="inline-flex items-center px-1 pt-1 border-b-2 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out">
-                            Dashboard
-                        </a>
-                        <a href="#"
-                           className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            Library
-                        </a>
-                        <a href="#"
-                           className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            Classes
-                        </a>
-                        <a href="#"
-                           className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            Settings
-                        </a>
-                    </div>
-                </div>
-                <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                    <button
-                        className="p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition duration-150 ease-in-out"
-                        aria-label="Notifications">
-                        <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                        </svg>
-                    </button>
-
-                    {/*// <!-- Profile dropdown -->*/}
-                    <div className="ml-3 relative">
-                        <div>
-                            <button onClick={() => toggleProfileDropdown(!profileDropdown)}
-                                    className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out"
-                                    id="user-menu" aria-label="User menu" aria-haspopup="true">
-                                <img className="h-8 w-8 rounded-full"
-                                     src={user.picture}
-                                     alt=""/>
-                            </button>
-                        </div>
-                        <Transition show={profileDropdown} enter="transition ease-out duration-200"
-                                    enterFrom="transform opacity-0 scale-95"
-                                    enterTo="transform opacity-100 scale-100"
-                                    leave="transition ease-in duration-75"
-                                    leaveFrom="transform opacity-100 scale-100"
-                                    leaveTo="transform opacity-0 scale-95">
-                            <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
-                                <div className="py-1 rounded-md bg-white shadow-xs">
-                                    <a href="#"
-                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Your
-                                        Profile
-                                    </a>
-                                    <a href="#"
-                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Settings
-                                    </a>
-                                    <a href="/api/logout"
-                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Sign
-                                        out
-                                    </a>
-                                </div>
-                            </div>
-                        </Transition>
-                    </div>
-                </div>
-                <div className="-mr-2 flex items-center sm:hidden">
-                    {/*// <!-- Mobile menu button -->*/}
-                    <button onClick={() => toggleMobileMenu(!mobileMenu)}
-                        className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                        {/*// <!-- Menu open: "hidden", Menu closed: "block" -->*/}
-                        <svg className="block h-6 w-6" stroke="currentColor" fill="none"
-                             viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                  d="M4 6h16M4 12h16M4 18h16"/>
-                        </svg>
-                        {/*// <!-- Menu open: "block", Menu closed: "hidden" -->*/}
-                        <svg className="hidden h-6 w-6" stroke="currentColor" fill="none"
-                             viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                  d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        {/*MOBILE MENU*/}
-        {mobileMenu ? <div className="block sm:hidden">
-            <div className="pt-2 pb-3">
-                <a href="#"
-                   className="block pl-3 pr-4 py-2 border-l-4 border-blue-500 text-base font-medium text-blue-700 bg-blue-50 focus:outline-none focus:text-blue-800 focus:bg-blue-100 focus:border-blue-700 transition duration-150 ease-in-out">Dashboard
-                </a>
-                <a href="#"
-                   className="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">Team
-                </a>
-                <a href="#"
-                   className="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">Projects
-                </a>
-                <a href="#"
-                   className="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">Calendar
-                </a>
-            </div>
-            <div className="pt-4 pb-3 border-t border-gray-200">
-                <div className="flex items-center px-4">
-                    <div className="flex-shrink-0">
-                        <img className="h-10 w-10 rounded-full"
-                             src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                             alt=""/>
-                    </div>
-                    <div className="ml-3">
-                        <div className="text-base font-medium leading-6 text-gray-800">{user.given_name}
-                        </div>
-                        <div className="text-sm font-medium leading-5 text-gray-500">tom@example.com
-                        </div>
-                    </div>
-                </div>
-                <div className="mt-3" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-                    <a href="#"
-                       className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out"
-                       role="menuitem">Your Profile
-                    </a>
-                    <a href="#"
-                       className="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out"
-                       role="menuitem">Settings
-                    </a>
-                    <a href="#"
-                       className="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out"
-                       role="menuitem">Sign out
-                    </a>
-                </div>
-            </div>
-        </div> : null}
-
-    </nav>)
-
+const USER_CONTENT = gql`
+query QuizByPk($id: uuid!) {
+  quiz_by_pk(id: $id)
+  {
+    title
+  }
 }
+`;
 
 function AssignmentTable() {
-    return (<div className="bg-white shadow-lg border border-gray-200 overflow-hidden rounded-lg mt-3">
+    return (<div className="bg-white shadow-lg border border-gray-200 overflow-hidden rounded-lg mt-3 w-full">
         <ul>
             <li>
                 <a href="#"
@@ -333,7 +194,7 @@ const Dashboard = ({user}) => {
             greet.greeting = 'Good afternoon';
             greet.emoji = '👋';
         } else if (hrs >= 17 && hrs <= 24) {
-            greet.greeting = 'Good afternoon';
+            greet.greeting = 'Good evening';
             greet.emoji = '🌌';
         }
 
@@ -343,30 +204,363 @@ const Dashboard = ({user}) => {
 
 
     return (
-        <>
-            <div className="min-h-screen bg-white">
-                <AuthNavbar user={user}/>
-                <div className="py-12">
-                    <header>
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <h1 className="text-3xl lg:text-4xl font-bold leading-tight text-gray-900">
-                                {timeGreeting().greeting}, {user.given_name} <span style={{fontFamily: 'serif'}}>{timeGreeting().emoji}</span>
-                            </h1>
+        <AdminPageLayout user={user} currentPage={0}>
+            <div className="py-12">
+                <header>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <h1 className="text-3xl lg:text-4xl font-bold leading-tight text-gray-900">
+                            {timeGreeting().greeting}, {user.given_name} <span style={{fontFamily: 'serif'}}>{timeGreeting().emoji}</span>
+                        </h1>
+                    </div>
+                </header>
+                <main className="mt-6">
+                    <section className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        {/*// <!-- Replace with your content -->*/}
+                        <div className="px-4 py-8 sm:px-0">
+                            <h2 className="text-lg leading-6 font-medium text-gray-900">Recent Assignments</h2>
+                            <AssignmentTable/>
                         </div>
-                    </header>
-                    <main className="mt-6">
-                        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                            {/*// <!-- Replace with your content -->*/}
-                            <div className="px-4 py-8 sm:px-0">
-                                <h2 className="uppercase font-semibold text-gray-400">Active Assignments</h2>
-                                <AssignmentTable/>
+                        {/*// <!-- /End replace -->*/}
+                    </section>
+                    <section className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        {/*// <!-- Replace with your content -->*/}
+                        <div className="px-4 py-8 sm:px-0">
+                            <h2 className="text-lg leading-6 font-medium text-gray-900">Your Library</h2>
+                            <div className="flex justify-between mt-3">
+                                <div className="bg-white rounded-lg">
+                                    <nav>
+                                        <div>
+                                            <a href="#"
+                                               className="group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-900 rounded-md bg-gray-100 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150"
+                                               aria-current="page">
+                                                <svg
+                                                    className="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                                                </svg>
+                                                <span className="truncate">
+        Quizzes
+      </span>
+                                            </a>
+                                            <a href="#"
+                                               className="mt-1 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150">
+                                                <svg
+                                                    className="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                                </svg>
+                                                <span className="truncate">
+        Classes
+      </span>
+                                            </a>
+                                            <a href="#"
+                                               className="mt-1 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150">
+                                                <svg
+                                                    className="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                                                </svg>
+                                                <span className="truncate">
+        Assignments
+      </span>
+                                            </a>
+                                            <a href="#"
+                                               className="mt-1 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150">
+                                                <svg
+                                                    className="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                                </svg>
+                                                <span className="truncate">
+        Calendar
+      </span>
+                                            </a>
+                                            <a href="#"
+                                               className="mt-1 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150">
+                                                <svg
+                                                    className="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
+                                                </svg>
+                                                <span className="truncate">
+        Documents
+      </span>
+                                            </a>
+                                            <a href="#"
+                                               className="mt-1 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150">
+                                                <svg
+                                                    className="flex-shrink-0 -ml-1 mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                                </svg>
+                                                <span className="truncate">
+        Reports
+      </span>
+                                            </a>
+                                        </div>
+                                        <div className="mt-8">
+                                            <h3 className="px-3 text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider"
+                                                id="projects-headline">
+                                                Projects
+                                            </h3>
+                                            <div className="mt-1" role="group" aria-labelledby="projects-headline">
+                                                <a href="#"
+                                                   className="group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150">
+        <span className="truncate">
+          Website redesign
+        </span>
+                                                </a>
+                                                <a href="#"
+                                                   className="mt-1 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150">
+        <span className="truncate">
+          GraphQL API
+        </span>
+                                                </a>
+                                                <a href="#"
+                                                   className="mt-1 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150">
+        <span className="truncate">
+          Customer migration guides
+        </span>
+                                                </a>
+                                                <a href="#"
+                                                   className="mt-1 group flex items-center px-3 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150">
+        <span className="truncate">
+          Profit sharing program
+        </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </nav>
+
+                                </div>
+                                <div className="bg-white shadow-lg border border-gray-200 rounded-lg w-full ml-4">
+                                    <div className="rounded-lg">
+                                        <ul>
+                                            <li>
+                                                <a href="#"
+                                                   className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+                                                    <div className="flex items-center px-4 py-4 sm:px-6">
+                                                        <div className="min-w-0 flex-1 flex items-center">
+                                                            <div className="flex-shrink-0">
+                                                                <img className="h-12 w-12 rounded-full"
+                                                                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                                     alt=""/>
+                                                            </div>
+                                                            <div
+                                                                className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+                                                                <div>
+                                                                    <div
+                                                                        className="text-sm leading-5 font-medium text-indigo-600 truncate">Ricardo
+                                                                        Cooper
+                                                                    </div>
+                                                                    <div
+                                                                        className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+                                                                        <svg
+                                                                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                                                                            viewBox="0 0 20 20" fill="currentColor">
+                                                                            <path
+                                                                                d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                                                            <path
+                                                                                d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                                                                        </svg>
+                                                                        <span className="truncate">ricardo.cooper@example.com
+                  </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="hidden md:block">
+                                                                    <div>
+                                                                        <div
+                                                                            className="text-sm leading-5 text-gray-900">
+                                                                            Applied on
+                                                                            <time dateTime="2020-01-07">January 7,
+                                                                                2020
+                                                                            </time>
+                                                                        </div>
+                                                                        <div
+                                                                            className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+                                                                            <svg
+                                                                                className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400"
+                                                                                viewBox="0 0 20 20"
+                                                                                fill="currentColor">
+                                                                                <path fill-rule="evenodd"
+                                                                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                                                      clip-rule="evenodd"/>
+                                                                            </svg>
+                                                                            Completed phone screening
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <svg className="h-5 w-5 text-gray-400"
+                                                                 viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fill-rule="evenodd"
+                                                                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                                      clip-rule="evenodd"/>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li className="border-t border-gray-200">
+                                                <a href="#"
+                                                   className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+                                                    <div className="flex items-center px-4 py-4 sm:px-6">
+                                                        <div className="min-w-0 flex-1 flex items-center">
+                                                            <div className="flex-shrink-0">
+                                                                <img className="h-12 w-12 rounded-full"
+                                                                     src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                                     alt=""/>
+                                                            </div>
+                                                            <div
+                                                                className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+                                                                <div>
+                                                                    <div
+                                                                        className="text-sm leading-5 font-medium text-indigo-600 truncate">Kristen
+                                                                        Ramos
+                                                                    </div>
+                                                                    <div
+                                                                        className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+                                                                        <svg
+                                                                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                                                                            viewBox="0 0 20 20" fill="currentColor">
+                                                                            <path
+                                                                                d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                                                            <path
+                                                                                d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                                                                        </svg>
+                                                                        <span className="truncate">kristen.ramos@example.com
+                  </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="hidden md:block">
+                                                                    <div>
+                                                                        <div
+                                                                            className="text-sm leading-5 text-gray-900">
+                                                                            Applied on
+                                                                            <time dateTime="2020-01-07">January 7,
+                                                                                2020
+                                                                            </time>
+                                                                        </div>
+                                                                        <div
+                                                                            className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+                                                                            <svg
+                                                                                className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400"
+                                                                                viewBox="0 0 20 20"
+                                                                                fill="currentColor">
+                                                                                <path fill-rule="evenodd"
+                                                                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                                                      clip-rule="evenodd"/>
+                                                                            </svg>
+                                                                            Completed phone screening
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <svg className="h-5 w-5 text-gray-400"
+                                                                 viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fill-rule="evenodd"
+                                                                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                                      clip-rule="evenodd"/>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li className="border-t border-gray-200">
+                                                <a href="#"
+                                                   className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+                                                    <div className="flex items-center px-4 py-4 sm:px-6">
+                                                        <div className="min-w-0 flex-1 flex items-center">
+                                                            <div className="flex-shrink-0">
+                                                                <img className="h-12 w-12 rounded-full"
+                                                                     src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                                     alt=""/>
+                                                            </div>
+                                                            <div
+                                                                className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+                                                                <div>
+                                                                    <div
+                                                                        className="text-sm leading-5 font-medium text-indigo-600 truncate">Ted
+                                                                        Fox
+                                                                    </div>
+                                                                    <div
+                                                                        className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+                                                                        <svg
+                                                                            className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                                                                            viewBox="0 0 20 20" fill="currentColor">
+                                                                            <path
+                                                                                d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                                                            <path
+                                                                                d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                                                                        </svg>
+                                                                        <span className="truncate">ted.fox@example.com
+                  </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="hidden md:block">
+                                                                    <div>
+                                                                        <div
+                                                                            className="text-sm leading-5 text-gray-900">
+                                                                            Applied on
+                                                                            <time dateTime="2020-01-07">January 7,
+                                                                                2020
+                                                                            </time>
+                                                                        </div>
+                                                                        <div
+                                                                            className="mt-2 flex items-center text-sm leading-5 text-gray-500">
+                                                                            <svg
+                                                                                className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400"
+                                                                                viewBox="0 0 20 20"
+                                                                                fill="currentColor">
+                                                                                <path fill-rule="evenodd"
+                                                                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                                                      clip-rule="evenodd"/>
+                                                                            </svg>
+                                                                            Completed phone screening
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <svg className="h-5 w-5 text-gray-400"
+                                                                 viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fill-rule="evenodd"
+                                                                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                                                      clip-rule="evenodd"/>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
                             </div>
-                            {/*// <!-- /End replace -->*/}
+
                         </div>
-                    </main>
-                </div>
+                        {/*// <!-- /End replace -->*/}
+                    </section>
+                </main>
             </div>
-        </>
+        </AdminPageLayout>
     )
 };
 

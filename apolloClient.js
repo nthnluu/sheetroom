@@ -2,11 +2,12 @@ import {ApolloClient} from 'apollo-client';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {HttpLink} from 'apollo-link-http';
 import fetch from 'isomorphic-unfetch';
+import auth0 from "./utils/auth0";
 
 
-const httpLink = new HttpLink({
-    uri: 'https://homework-gg-backend.herokuapp.com/graphql', // Server URL (must be absolute)
-    credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
+const httpLink = () => new HttpLink({
+    uri: 'https://homework-gg-graphql.herokuapp.com/v1/graphql', // Server URL (must be absolute)
+    credentials: 'include', // Additional fetch() options like `credentials` or `headers`
     fetch,
 });
 
@@ -19,3 +20,5 @@ export default function createApolloClient(initialState, ctx) {
         cache: new InMemoryCache().restore(initialState),
     });
 }
+
+
