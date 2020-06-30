@@ -1,4 +1,5 @@
-import auth0 from "../../utils/auth0";
+import jwt from 'jsonwebtoken'
+import CryptoJS from 'crypto-js'
 
 const callAPI = async (path, body, headers) => {
     const res = await fetch(process.env.GRAPHQL_URL, {
@@ -15,24 +16,29 @@ const callAPI = async (path, body, headers) => {
         headers: res.headers,
     };
 };
-
 const forwardHeader = (res, apiRes, header) => {
     if (apiRes.headers.get(header)) {
         res.setHeader(header, apiRes.headers.get(header));
     }
 };
-
 const forwardResponse = (res, apiRes) => {
     forwardHeader(res, apiRes, 'content-type');
     forwardHeader(res, apiRes, 'www-authenticate');
     res.status(apiRes.status);
     res.send(apiRes.body);
 };
-
 export default async function graph(req, res) {
     try {
-        const tokenCache = await auth0.tokenCache(req, res);
-        const { idToken } = await tokenCache.getAccessToken();
+        const insecureCookieName = 'next-auth.session-token';
+        const encryptedToken = req.cookies[insecureCookieName];
+
+        // Decrypt using secret and return as string
+        const decryptedBytes = CryptoJS.AES.decrypt(encryptedToken, process.env.SECRET);
+        const decryptedToken = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+        // Still signed but not encrypted (this is what you want)
+        console.log(decryptedToken);
+        const { idToken } = await auth0.getSession(req);
         const apiRes = await callAPI('graphql', req.body, {
             authorization: idToken ? `Bearer ${idToken}` : ""
         });
