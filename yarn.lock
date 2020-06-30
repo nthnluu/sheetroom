@@ -6016,10 +6016,10 @@ neo-async@2.6.1, neo-async@^2.5.0, neo-async@^2.6.1:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
-next-auth@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-2.1.0.tgz#40a746baf70df2294b4ed9fd1cb59c61a24f4338"
-  integrity sha512-IgjEkDYUMgvWGartSFC5ATRLceWWoNEzSccvVxxLHT9BxqD8Y5f4xzODaVMilGgtgqCu+0R7Xcl3m82TNc041g==
+next-auth@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-2.2.0.tgz#caf2d52cc8eead7781e8cc14441746b378392ac2"
+  integrity sha512-QdtGcJCM2CMsxX0RUTh7nzsgIlW03KF13XypGfTCF1GO+BIiPtxzZ3Y27FRiqYaoqN9/g9vgtng6Eelk7q+Ojw==
   dependencies:
     crypto-js "^4.0.0"
     jsonwebtoken "^8.5.1"

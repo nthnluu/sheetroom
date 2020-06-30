@@ -26,14 +26,14 @@ function ActionButtons({secondaryLabel, primaryLabel, primaryHref, secondaryHref
     const router = useRouter();
 
     return (<div className="ml-4 pl-4 border-l border-gray-400 w-auto flex-shrink-0">
-        {secondaryLabel ? <button onClick={() => router.push(secondaryHref)}
+        {secondaryLabel ? <a onClick={() => router.push(secondaryHref)}
                                   className="px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-900 hover:bg-gray-200 focus:outline-none focus:bg-gray-300 transition duration-150 ease-in-out">
             {secondaryLabel}
-        </button> : null}
-        {primaryLabel ? <button onClick={() => router.push(primaryHref)}
+        </a> : null}
+        {primaryLabel ? <a onClick={() => router.push(primaryHref)}
                                 className="ml-2 px-3 py-2 rounded-md text-sm font-medium leading-5 text-white hover:bg-gray-800 focus:outline-none focus:bg-gray-600 focus:shadow-outline transition duration-150 ease-in-out bg-gray-900">
             {primaryLabel}
-        </button> : null}
+        </a> : null}
     </div>)
 }
 

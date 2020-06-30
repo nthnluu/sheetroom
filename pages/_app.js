@@ -2,26 +2,28 @@ import '../styles/index.css'
 import {ApolloProvider} from '@apollo/react-hooks';
 import apolloClient from "../apolloClient";
 import auth0 from "../utils/auth0";
+import {createHttpLink} from "apollo-link-http";
+import ApolloClient from "apollo-client";
+import {InMemoryCache} from "apollo-cache-inmemory";
+import {Provider} from 'next-auth/client'
 
 const App = ({Component, pageProps}) => {
+    const {session} = pageProps;
 
-    return <ApolloProvider client={apolloClient()}>
+    const client = new ApolloClient({
+        link: createHttpLink({
+            uri: "/api/graph",
+            credentials: 'include',
+            fetch,
+        }),
+        cache: new InMemoryCache()
+    })
+
+
+    return <Provider options={{site: process.env.SITE}} session={session}><ApolloProvider client={client}>
         <Component {...pageProps} />
-    </ApolloProvider>;
+    </ApolloProvider></Provider>;
 };
-
-// App.getInitialProps = async ({ req, res }) => {
-//     if (typeof window === 'undefined') {
-//         const session = await auth0.getSession(req);
-//         if (!session || !session.user) {
-//             return {token: undefined};
-//         } else {
-//             const tokenCache = await auth0.tokenCache(req, res);
-//             const { accessToken } = await tokenCache.getAccessToken();
-//             return {token: accessToken };
-//         }
-//     }
-// };
 
 export default App;
 
