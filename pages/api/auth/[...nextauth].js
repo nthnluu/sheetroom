@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import CryptoJS from 'crypto-js'
 
 const options = {
-    debug: true,
+    debug: false,
     site: process.env.SITE || 'http://localhost:3000',
 
     // Configure one or more authentication providers
@@ -61,6 +61,10 @@ const options = {
             // Return the object you want to be stored in the token here
             // e.g. `token.auth0 = oAuthProfile`
             token.auth0 = oAuthProfile;
+            token.hasura = {
+                "x-hasura-default-role": "user",
+                "x-hasura-user-id": token.user.id,
+            };
             // Note: Try to only store information you need in the JWT to avoid the
             // cookie size growing too large (should not exceed 4KB)
             return Promise.resolve(token)
@@ -69,7 +73,8 @@ const options = {
         session: async (session, token) => {
             // The first object is the default session contents that is returned
             // The second object is the NextAuth.js JWT (aways passed if JWT enabled)
-
+            session.userId = token.user.id;
+            session.oAuthProfile = token.auth0;
             console.log('NextAuth.js session and token', session, token);
 
             // As with the JWT, you can add properties to the 'session' object

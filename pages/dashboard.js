@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
-import auth0 from "../utils/auth0";
-import Transition from "../Components/Transition";
 import AdminPageLayout from "../Components/AdminPageLayout";
 import gql from "graphql-tag";
-import {getSession, useSession} from 'next-auth/client'
-import Index from "./index";
+import {getSession} from 'next-auth/client'
 
 const USER_CONTENT = gql`
 query QuizByPk($id: uuid!) {
@@ -211,7 +208,7 @@ const Dashboard = ({user, session}) => {
                 <header>
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <h1 className="text-3xl lg:text-4xl font-bold leading-tight text-gray-900">
-                            {timeGreeting().greeting}, {user.id} <span style={{fontFamily: 'serif'}}>{timeGreeting().emoji}</span>
+                            {timeGreeting().greeting}, {session.name} <span style={{fontFamily: 'serif'}}>{timeGreeting().emoji}</span>
                         </h1>
                     </div>
                 </header>
