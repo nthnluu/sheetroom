@@ -1,6 +1,7 @@
 import Transition from "./Transition";
 import {useState} from "react";
 import Link from "next/link";
+import { signout } from 'next-auth/client'
 
 function AuthNavbar({user, currentPage}) {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
@@ -112,10 +113,10 @@ function AuthNavbar({user, currentPage}) {
                                     <a href="#"
                                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Settings
                                     </a>
-                                    <a href="/api/logout"
-                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Sign
+                                    <button onClick={signout}
+                                       className="block px-4 py-2 w-full text-left text-sm cursor-pointer leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Sign
                                         out
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </Transition>

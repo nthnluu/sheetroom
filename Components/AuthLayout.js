@@ -1,6 +1,13 @@
 import React from "react";
+import { signout } from 'next-auth/client'
 
 export default function({content}) {
+
+    function signOut () {
+        Cookies.remove('next-auth.session-token');
+        window.location.href = '/';
+    }
+
     return (<div className="min-h-screen bg-white">
         <nav className="bg-white border-b border-gray-200">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,7 +78,7 @@ export default function({content}) {
                                     <a href="#"
                                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Settings
                                     </a>
-                                    <a href="#"
+                                    <a href="/api/auth/signout"
                                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Sign
                                         out
                                     </a>
@@ -141,7 +148,7 @@ export default function({content}) {
                            className="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out"
                            role="menuitem">Settings
                         </a>
-                        <a href="#"
+                        <a href="/api/auth/signout"
                            className="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out"
                            role="menuitem">Sign out
                         </a>

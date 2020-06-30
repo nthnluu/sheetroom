@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import {useQuery} from "@apollo/react-hooks";
 import {ME} from "../../gql/authentication";
 
+
 function Links({items}) {
 
     return items.map((item, i) => <a href="#" key={i}

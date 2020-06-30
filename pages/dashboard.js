@@ -251,7 +251,7 @@ Dashboard.getInitialProps = async ({res, ...context}) => {
         const session = await getSession(context);
         if (!session || !session.user) {
             res.writeHead(302, {
-                Location: '/'
+                Location: '/api/auth/signin'
             });
             res.end();
             return;

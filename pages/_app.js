@@ -20,7 +20,7 @@ const App = ({Component, pageProps}) => {
     })
 
 
-    return <Provider options={{site: process.env.SITE}} session={session}><ApolloProvider client={client}>
+    return <Provider options={{site: process.env.SITE, clientMaxAge: 86400}} session={session}><ApolloProvider client={client}>
         <Component {...pageProps} />
     </ApolloProvider></Provider>;
 };
