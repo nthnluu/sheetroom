@@ -63,7 +63,8 @@ const options = {
             token.auth0 = oAuthProfile;
             token.hasura = {
                 "x-hasura-default-role": "user",
-                "x-hasura-user-id": token.user.id,
+                "x-hasura-allowed-roles": ["user", "admin"],
+                "x-hasura-user-id": token.user.id.toString(),
             };
             // Note: Try to only store information you need in the JWT to avoid the
             // cookie size growing too large (should not exceed 4KB)
@@ -97,31 +98,31 @@ const options = {
         // Note: This option is ignored if using JSON Web Tokens
         updateAge: 24 * 60 * 60, // 24 hours
     },
-    // jwt: {
-    //     // secret: 'my-secret-123', // Secret auto-generated if not specified.
-    //
-    //     // By default the JSON Web Token is signed with SHA256 and encrypted with AES.
-    //     //
-    //     // You can define your own encode/decode functions for signing + encryption if
-    //     // you want to override the default behaviour (or to add/remove information
-    //     // from the JWT when it is encoded).
-    //     encode: async ({ secret, key, token, maxAge }) => {
-    //         if (maxAge) {
-    //             if (token.iat) { delete token.iat }
-    //             if (token.exp) { delete token.exp }
-    //         }
-    //         const signedToken = jwt.sign(token, secret, { expiresIn: maxAge });
-    //         const encryptedToken = CryptoJS.AES.encrypt(signedToken, key).toString();
-    //         return encryptedToken
-    //     },
-    //     decode: async ({ secret, key, token, maxAge }) => {
-    //         if (!token) return null;
-    //         const decryptedBytes = CryptoJS.AES.decrypt(token, key);
-    //         const decryptedToken = decryptedBytes.toString(CryptoJS.enc.Utf8);
-    //         const verifiedToken = jwt.verify(decryptedToken, secret, { maxAge });
-    //         return verifiedToken
-    //     },
-    // }
+    jwt: {
+        secret: process.env.SECRET, // Secret auto-generated if not specified.
+
+        // By default the JSON Web Token is signed with SHA256 and encrypted with AES.
+        //
+        // You can define your own encode/decode functions for signing + encryption if
+        // you want to override the default behaviour (or to add/remove information
+        // from the JWT when it is encoded).
+        // encode: async ({ secret, key, token, maxAge }) => {
+        //     if (maxAge) {
+        //         if (token.iat) { delete token.iat }
+        //         if (token.exp) { delete token.exp }
+        //     }
+        //     const signedToken = jwt.sign(token, secret, { expiresIn: maxAge });
+        //     const encryptedToken = CryptoJS.AES.encrypt(signedToken, key).toString();
+        //     return encryptedToken
+        // },
+        // decode: async ({ secret, key, token, maxAge }) => {
+        //     if (!token) return null;
+        //     const decryptedBytes = CryptoJS.AES.decrypt(token, key);
+        //     const decryptedToken = decryptedBytes.toString(CryptoJS.enc.Utf8);
+        //     const verifiedToken = jwt.verify(decryptedToken, secret, { maxAge });
+        //     return verifiedToken
+        // },
+    }
 }
 
 export default (req, res) => NextAuth(req, res, options)

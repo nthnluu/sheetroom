@@ -1,14 +1,14 @@
 import AdminPageLayout from "../../Components/AdminPageLayout";
-import auth0 from "../../utils/auth0";
 import {useMutation} from "@apollo/react-hooks";
 import {CREATE_QUIZ} from "../../gql/quizzes";
+import {getSession} from "next-auth/client";
 
-function QuizFormSet() {
+function QuizFormSet({session}) {
     const [addQuiz, {data}] = useMutation(CREATE_QUIZ);
 
     function handleSubmit(e) {
         e.preventDefault();
-        addQuiz({variables: {title: e.target.title.value, desc: e.target.description.value}})
+        addQuiz({variables: {title: e.target.title.value, desc: e.target.description.value, creator: session.userId }})
             .then((result) => window.location.href = '/edit/quiz/' + result.data.insert_quiz.returning[0].id)
             .catch((error) => alert(error));
     }
@@ -69,7 +69,7 @@ function QuizFormSet() {
 
 }
 
-const Class = ({user}) => {
+const NewQuiz = ({user, session}) => {
     return (<AdminPageLayout user={user}>
         <div className="py-12">
             <header>
@@ -83,25 +83,26 @@ const Class = ({user}) => {
             </header>
             <main className="mt-6">
                 <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <QuizFormSet/>
+                    <QuizFormSet session={session}/>
                 </section>
             </main>
         </div>
     </AdminPageLayout>)
 };
 
-Class.getInitialProps = async ({req, res}) => {
+NewQuiz.getInitialProps = async ({res, ...context}) => {
     if (typeof window === 'undefined') {
-        const session = await auth0.getSession(req);
+        const session = await getSession(context);
         if (!session || !session.user) {
             res.writeHead(302, {
-                Location: '/api/login'
+                Location: '/api/auth/signin'
             });
             res.end();
             return;
+        } else {
+            return {session: session, user: session.user}
         }
-        return {user: session.user};
     }
 };
 
-export default Class
+export default NewQuiz

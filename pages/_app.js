@@ -11,7 +11,7 @@ const App = ({Component, pageProps}) => {
     const {session} = pageProps;
 
     const httpLink = createHttpLink({
-        uri: 'http://api.homework.gg/v1/graphql',
+        uri: '/api/token',
     });
 
     const authLink = setContext((_, {headers}) => {
@@ -27,7 +27,7 @@ const App = ({Component, pageProps}) => {
     });
 
     const client = new ApolloClient({
-        link: authLink.concat(httpLink),
+        link: httpLink,
         cache: new InMemoryCache()
     });
 
