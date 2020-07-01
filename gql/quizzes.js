@@ -14,6 +14,7 @@ query QuizByPk($id: uuid!) {
   quiz_by_pk(id: $id)
   {
     title
+    description
   }
 }
 `;

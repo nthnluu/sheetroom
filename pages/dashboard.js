@@ -2,15 +2,56 @@ import React, {useState} from 'react';
 import AdminPageLayout from "../Components/AdminPageLayout";
 import gql from "graphql-tag";
 import {getSession} from 'next-auth/client'
+import { useQuery } from '@apollo/react-hooks';
 
-const USER_CONTENT = gql`
-query QuizByPk($id: uuid!) {
-  quiz_by_pk(id: $id)
-  {
-    title
+const QUIZZES = gql`
+query Quizzes($userId: Int!){
+  quiz(where: {created_by: {_eq: $userId}}) {
+    id,
+    title,
+    description
   }
 }
 `;
+
+function QuizGrid({userId}) {
+    const { loading, error, data } = useQuery(QUIZZES, {variables: {userId: userId}});
+    if (loading) return (<div className="px-4 py-8 sm:px-0">
+        <h2 className="text-xl leading-6 font-bold text-gray-900 mb-3">Your Library</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-3">
+           <div>
+                <div className="h-64 rounded-lg bg-gray-100 mb-2 hover:bg-blue-100 hover:border-blue-300 transition-all duration-200"/>
+            </div>
+            <div>
+                <div className="h-64 rounded-lg bg-gray-100 mb-2 hover:bg-blue-100 hover:border-blue-300 transition-all duration-200"/>
+            </div>
+            <div>
+                <div className="h-64 rounded-lg bg-gray-100 mb-2 hover:bg-blue-100 hover:border-blue-300 transition-all duration-200"/>
+            </div>
+            <div>
+                <div className="h-64 rounded-lg bg-gray-100 mb-2 hover:bg-blue-100 hover:border-blue-300 transition-all duration-200"/>
+            </div>
+        </div>
+    </div>);
+    if (error) return <p>Error :(</p>;
+
+
+    return (
+        <div className="px-4 py-8 sm:px-0">
+            <h2 className="text-xl leading-6 font-bold text-gray-900 mb-3">Your Library</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-3">
+                {data.quiz.map((item) => <div onClick={() => window.location.href = '/edit/quiz/' + item.id}>
+                    <div className="h-64 rounded-lg border-2 mb-2 hover:bg-blue-100 hover:border-blue-300 transition-all duration-200 cursor-pointer"/>
+                    <div className="leading-tight pt-2">
+                        <h3 className="text-lg font-medium">{item.title}</h3>
+                        <p className="text-gray-600 text-sm">{item.description}</p>
+                    </div>
+                </div>)}
+
+            </div>
+        </div>
+    )
+}
 
 function AssignmentTable() {
     return (<div className="bg-white shadow-lg border border-gray-200 overflow-hidden rounded-lg mt-3 w-full">
@@ -176,6 +217,7 @@ function AssignmentTable() {
 }
 
 const Dashboard = ({user, session}) => {
+    const userId = session.userId;
     const navBarItems = {
         links: [{label: 'Library'}, {label: 'Your Classes'}, {label: 'More'}],
         actionButtons: {primary: {label: 'Sign up', href: '/signup'}, secondary: {label: 'Log in', href: '/login'}}
@@ -223,18 +265,8 @@ const Dashboard = ({user, session}) => {
                     </section>
                     <section className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         {/*// <!-- Replace with your content -->*/}
-                        <div className="px-4 py-8 sm:px-0">
-                            <h2 className="text-lg leading-6 font-medium text-gray-900">Your Library</h2>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-3">
-                                <div>
-                                    <div className="h-64 rounded-lg border-2 mb-2 hover:bg-blue-100 hover:border-blue-300 transition-all duration-200"/>
-                                    <h3>Assignment Title</h3>
-                                </div>
+                        <QuizGrid userId={userId}/>
 
-
-                            </div>
-
-                        </div>
                         {/*// <!-- /End replace -->*/}
                     </section>
                 </main>

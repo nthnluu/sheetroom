@@ -1,7 +1,6 @@
 import Navbar from "../Components/Navbar/Navbar";
 import QuestionFrame from "../Components/Questions/QuestionFrame";
 import {useState} from "react";
-import {withApollo} from "../utils/apollo";
 import {useQuery} from '@apollo/react-hooks';
 import {ASSIGNMENT} from '../gql/getAssignment';
 
@@ -74,4 +73,4 @@ const Assignment = () => {
 
 };
 
-export default withApollo({ ssr: true })(Assignment);
+export default Assignment;

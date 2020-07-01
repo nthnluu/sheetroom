@@ -93,8 +93,10 @@ function AuthNavbar({user, currentPage}) {
                             <button onClick={() => toggleProfileDropdown(!profileDropdown)}
                                     className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out"
                                     id="user-menu" aria-label="User menu" aria-haspopup="true">
-                                <img className="h-8 w-8 rounded-full"
-                                     src={user.picture}
+                                {/*<svg className="rounded-full" width="80" height="80" data-jdenticon-value="user127"></svg>*/}
+
+                                <img className="h-8 w-8 rounded-full border"
+                                     src="https://www.aalforum.eu/wp-content/uploads/2016/04/profile-placeholder.png"
                                      alt=""/>
                             </button>
                         </div>
