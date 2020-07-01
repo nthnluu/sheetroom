@@ -1,8 +1,8 @@
 import AdminPageLayout from "../../../Components/AdminPageLayout";
-import auth0 from "../../../utils/auth0";
 import {useRouter} from 'next/router'
 import {QUIZ} from "../../../gql/quizzes";
 import {useQuery} from "@apollo/react-hooks";
+import {getSession} from "next-auth/client";
 
 function QuizFormSet() {
     return (<form>
@@ -33,7 +33,7 @@ function QuizFormSet() {
                         </label>
                         <div className="mt-1 rounded-md shadow-sm">
                             <textarea id="description" rows="3"
-                                      className="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"></textarea>
+                                      className="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <p className="mt-2 text-sm text-gray-500">Write a few sentences about yourself.
                         </p>
@@ -92,17 +92,17 @@ const QuizEditor = ({user}) => {
     </AdminPageLayout>)
 };
 
-QuizEditor.getInitialProps = async ({req, res}) => {
+QuizEditor.getInitialProps = async ({res, ...context}) => {
     if (typeof window === 'undefined') {
-        const session = await auth0.getSession(req);
+        const session = await getSession(context);
         if (!session || !session.user) {
             res.writeHead(302, {
-                Location: '/api/login'
+                Location: '/api/auth/signin'
             });
             res.end();
-            return;
+        } else {
+            return {session: session, user: session.user}
         }
-        return {user: session.user};
     }
 };
 

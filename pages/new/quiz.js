@@ -2,12 +2,15 @@ import AdminPageLayout from "../../Components/AdminPageLayout";
 import {useMutation} from "@apollo/react-hooks";
 import {CREATE_QUIZ} from "../../gql/quizzes";
 import {getSession} from "next-auth/client";
+import {useState} from "react";
 
 function QuizFormSet({session}) {
     const [addQuiz, {data}] = useMutation(CREATE_QUIZ);
+    const [isLoading, toggleLoading] = useState(false);
 
     function handleSubmit(e) {
         e.preventDefault();
+        toggleLoading(true);
         addQuiz({variables: {title: e.target.title.value, desc: e.target.description.value, creator: session.userId }})
             .then((result) => window.location.href = '/edit/quiz/' + result.data.insert_quiz.returning[0].id)
             .catch((error) => alert(error));
@@ -41,7 +44,7 @@ function QuizFormSet({session}) {
                         </label>
                         <div className="mt-1 rounded-md shadow-sm">
                             <textarea id="description" rows="3"
-                                      className="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"></textarea>
+                                      className="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"/>
                         </div>
                         <p className="mt-2 text-sm text-gray-500">Write a few sentences about yourself.
                         </p>
@@ -60,8 +63,8 @@ function QuizFormSet({session}) {
                 <span className="ml-3 inline-flex rounded-md shadow-sm">
         <button type="submit"
                 className="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition duration-150 ease-in-out">
-          Save
-        </button>
+            <span className="w-9">{!isLoading ? 'Save' : <i className="fas fa-circle-notch fa-spin w-full"/>}</span>
+            </button>
       </span>
             </div>
         </div>
@@ -98,7 +101,7 @@ NewQuiz.getInitialProps = async ({res, ...context}) => {
                 Location: '/api/auth/signin'
             });
             res.end();
-            return;
+            return {};
         } else {
             return {session: session, user: session.user}
         }
