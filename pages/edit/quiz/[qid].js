@@ -53,7 +53,7 @@ const QuizEditor = ({user}) => {
     if (error) return `Error! ${error}`;
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-50">
             <div className="max-w-5xl mx-auto">
                 <DnDList items={quizSampleData.items}/>
             </div>
