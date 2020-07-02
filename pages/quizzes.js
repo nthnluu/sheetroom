@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import Transition from "../Components/Transition";
 import gql from "graphql-tag";
 import {useQuery} from "@apollo/react-hooks";
@@ -18,6 +18,26 @@ query Quizzes($userId: Int!){
   }
 }
 `;
+
+function useOutsideAlerter(ref, toggleTextbox) {
+    useEffect(() => {
+        /**
+         * Alert if clicked on outside of element
+         */
+        function handleClickOutside(event) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                toggleTextbox();
+            }
+        }
+
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            // Unbind the event listener on clean up
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [ref]);
+}
 
 function QuizCard({title, tag, color, selected, id}) {
 
@@ -68,8 +88,8 @@ function QuizCard({title, tag, color, selected, id}) {
 
     }
 
-    return (<button onClick={() => window.location.href = '/edit/quiz/' + id}
-                    className="h-96 bg-white rounded-lg hover:shadow-xl transition-all duration-300 relative p-8 focus:shadow-outline focus:outline-none text-left">
+    return (<a href={'/edit/quiz/' + id}
+               className="h-96 bg-white rounded-lg hover:shadow-xl transition-all duration-300 relative p-8 focus:shadow-outline focus:outline-none text-left">
         <div className="absolute top-0 pt-8">
             <div>
                 <div className="">
@@ -88,36 +108,69 @@ function QuizCard({title, tag, color, selected, id}) {
                 <i className="fas fa-question mr-2 text-gray-300"/>12
             </div>
         </div>
-    </button>)
+    </a>)
 }
 
 function Sidebar() {
+    const [textBox, toggleTextBox] = useState(false);
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef, ()=>toggleTextBox(false));
     function Item({active, label, color}) {
         return (
-            <nav>
-                <ul>
-                    <li>
-                        <button
-                            className={active ? "font-medium w-full text-left text-gray-800 bg-white p-3 rounded-lg shadow-lg mb-2" : "font-medium w-full text-left text-gray-400 p-3 mb-2 hover:text-gray-500 transition-all duration-200"}>{color ?
-                            <span className={"mr-2 text-" + color + "-500"}>•</span> : null}{label}</button>
-                    </li>
-                </ul>
-            </nav>)
+            <li>
+                <button
+                    className={active ? "font-medium w-full text-left text-gray-800 bg-white p-3 rounded-lg shadow-lg mb-2" : "font-medium w-full text-left text-gray-400 p-3 mb-2 hover:text-gray-500 transition-all duration-200"}>{color ?
+                    <span className={"mr-2 text-" + color + "-500"}>•</span> : null}{label}</button>
+            </li>
 
+        )
+
+    }
+
+    function ColorSelector() {
+        return (<div className="flex justify-between text-xs py-4">
+            <i className="far fa-dot-circle text-gray-400"/>
+            <i className="fas fa-circle text-red-400"/>
+            <i className="fas fa-circle text-orange-400"/>
+            <i className="fas fa-circle text-yellow-400"/>
+            <i className="fas fa-circle text-green-400"/>
+            <i className="fas fa-circle text-teal-400"/>
+            <i className="fas fa-circle text-blue-400"/>
+            <i className="fas fa-circle text-purple-400"/>
+            <i className="fas fa-circle text-pink-400"/>
+
+        </div>)
     }
 
     return (<div className="w-64">
         <h2 className="text-gray-500 text-lg font-semibold">TOPICS</h2>
-        <ul className="mt-4">
-            <Item active label="All"/>
-            <Item label="AP Biology" color="green"/>
-            <Item label="AP Calculus" color="pink"/>
-            <Item label="AP US History" color="orange"/>
-            <Item label="AP Psychology" color="red"/>
-            <li className="font-medium text-gray-400 p-3 mb-2 hover:text-gray-500 transition-all duration-200">
-                <i className="fas fa-plus mr-2"/>Create Topic
-            </li>
-        </ul>
+        <nav>
+            <ul className="mt-4">
+                <Item active label="All"/>
+                <Item label="AP Biology" color="green"/>
+                <Item label="AP Calculus" color="pink"/>
+                <Item label="AP US History" color="orange"/>
+                <Item label="AP Psychology" color="red"/>
+                <li ref={wrapperRef}>
+                    {textBox ? <><div>
+                        <div className="mt-1 flex rounded-md shadow-sm">
+                            <div className="relative flex-grow focus-within:z-10">
+                                <input id="email"
+                                       className="form-input block w-full rounded-none rounded-l-md transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                                       placeholder="New Topic Name"/>
+                            </div>
+                            <button
+                                className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-r-md text-gray-700 bg-gray-50 hover:text-gray-500 hover:bg-white focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+                                <i className="fas fa-plus text-gray-400"/>
+                            </button>
+                        </div>
+                    </div><ColorSelector/></>:<button onClick={()=>toggleTextBox(!textBox)} className="font-light text-gray-400 p-3 w-full text-left mb-2 hover:text-gray-500 transition-all duration-200"><i className="fas fa-plus mr-2"/>Create Topic</button>}
+
+                </li>
+
+
+            </ul>
+        </nav>
     </div>)
 }
 
