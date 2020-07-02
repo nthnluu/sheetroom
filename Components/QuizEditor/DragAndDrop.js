@@ -36,15 +36,21 @@ const getListStyle = isDraggingOver => ({
 const DnDCard = ({item, index}) => {
     return (<Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided, snapshot) => (
-            <div
+            <div className="flex justify-between"
                 ref={provided.innerRef}
                 {...provided.draggableProps}
-                {...provided.dragHandleProps}
                 style={getItemStyle(
                     snapshot.isDragging,
                     provided.draggableProps.style
                 )}
             >
+                <div className="bg-gray-100 p-2">
+                    <div className="bg-white rounded-lg text-gray-400 border">
+                        <button className="w-full"><i className="fas fa-chevron-up"/></button>
+                        <i {...provided.dragHandleProps}  className="fas fa-grip-lines w-full text-center"></i>
+                        <button className="w-full"><i className="fas fa-chevron-down"/></button>
+                    </div>
+                </div>
                 <CardFrame item={item}/>
             </div>
         )}
