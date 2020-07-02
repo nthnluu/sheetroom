@@ -1,6 +1,6 @@
 const CardFrame = ({item}) => {
     return (
-        <div className="h-64 bg-green-100 w-full">
+        <div className="h-64 bg-white w-full p-5 rounded-r-lg">
             <p>{item.question}</p>
 
         </div>

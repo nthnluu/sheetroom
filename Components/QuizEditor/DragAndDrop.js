@@ -27,7 +27,6 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 });
 
 const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? "lightblue" : "lightgrey",
     padding: grid,
     width: '100%'
 });
@@ -36,15 +35,12 @@ const getListStyle = isDraggingOver => ({
 const DnDCard = ({item, index}) => {
     return (<Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided, snapshot) => (
-            <div className="flex justify-between"
+            <div className={snapshot.isDragging ? "flex justify-between rounded-lg mb-2 shadow-outline":"flex justify-between rounded-lg mb-4 shadow-lg"}
                 ref={provided.innerRef}
                 {...provided.draggableProps}
-                style={getItemStyle(
-                    snapshot.isDragging,
-                    provided.draggableProps.style
-                )}
+
             >
-                <div className="bg-gray-100 p-2 text-gray-400">
+                <div className="bg-gray-200 p-2 text-gray-400 rounded-l-lg">
                     <div className="bg-white rounded-lg border">
                         <button className="w-full"><i className="fas fa-chevron-up"/></button>
                         <i {...provided.dragHandleProps}  className="fas fa-grip-lines w-full text-center"></i>
