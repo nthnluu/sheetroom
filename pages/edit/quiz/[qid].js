@@ -23,6 +23,21 @@ const quizSampleData = {
                 {id: "22222c", text: "35 days", isCorrect: false},
                 {id: "22222d", text: "37 days", isCorrect: false}
             ]
+        },{
+            id: '333333333', type: "MC", question: "How many days are in a month?", choices: [
+                {id: "333333333a", text: "30 days", isCorrect: true},
+                {id: "333333333b", text: "33 days", isCorrect: false},
+                {id: "333333333c", text: "35 days", isCorrect: false},
+                {id: "333333333d", text: "37 days", isCorrect: false}
+            ]
+        },
+        {
+            id: '4444444', type: "MC", question: "How many days are in a month?", choices: [
+                {id: "344444443333a", text: "30 days", isCorrect: true},
+                {id: "3333444444433333b", text: "33 days", isCorrect: false},
+                {id: "3333444444433333c", text: "35 days", isCorrect: false},
+                {id: "3333444444433333d", text: "37 days", isCorrect: false}
+            ]
         }
     ]
 }
