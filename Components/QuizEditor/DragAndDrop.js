@@ -40,12 +40,12 @@ const DnDCard = ({item, index}) => {
                 {...provided.draggableProps}
             >
                 <div className="p-3 text-gray-400 rounded-l-lg bg-gray-200">
-                    <div className="bg-white rounded-lg border">
+                    <div className="bg-white rounded-full py-1 border">
                         <button className="w-full active:text-blue-500"><i className="fas fa-chevron-up"/></button>
                         <i {...provided.dragHandleProps}  className="fas fa-grip-lines w-full text-center active:text-blue-500"></i>
-                        <button className="w-full"><i className="fas fa-chevron-down"/></button>
+                        <button className="w-full active:text-blue-500"><i className="fas fa-chevron-down"/></button>
                     </div>
-                    <button className="w-full rounded-full bg-white border p-2 mt-4"><i className="far fa-trash-alt"/></button>
+                    <button className="w-full rounded-full bg-white border p-2 mt-4 active:text-red-500"><i className="far fa-trash-alt"/></button>
                 </div>
                 <CardFrame item={item}/>
             </div>
