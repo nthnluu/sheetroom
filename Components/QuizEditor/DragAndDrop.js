@@ -44,12 +44,13 @@ const DnDCard = ({item, index}) => {
                     provided.draggableProps.style
                 )}
             >
-                <div className="bg-gray-100 p-2">
-                    <div className="bg-white rounded-lg text-gray-400 border">
+                <div className="bg-gray-100 p-2 text-gray-400">
+                    <div className="bg-white rounded-lg border">
                         <button className="w-full"><i className="fas fa-chevron-up"/></button>
                         <i {...provided.dragHandleProps}  className="fas fa-grip-lines w-full text-center"></i>
                         <button className="w-full"><i className="fas fa-chevron-down"/></button>
                     </div>
+                    <button className="w-full rounded-lg bg-white border p-2 mt-4"><i className="far fa-trash-alt"/></button>
                 </div>
                 <CardFrame item={item}/>
             </div>
