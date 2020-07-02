@@ -19,7 +19,7 @@ query Quizzes($userId: Int!){
 }
 `;
 
-function QuizCard({title, tag, color, selected}) {
+function QuizCard({title, tag, color, selected, id}) {
 
     function DotMenu() {
         const [isOpen, toggleMenu] = useState(false);
@@ -68,8 +68,8 @@ function QuizCard({title, tag, color, selected}) {
 
     }
 
-    return (<button
-        className="h-96 bg-white rounded-lg hover:shadow-xl transition-all duration-300 relative p-8 focus:shadow-outline focus:outline-none text-left">
+    return (<button onClick={() => window.location.href = '/edit/quiz/' + id}
+                    className="h-96 bg-white rounded-lg hover:shadow-xl transition-all duration-300 relative p-8 focus:shadow-outline focus:outline-none text-left">
         <div className="absolute top-0 pt-8">
             <div>
                 <div className="">
@@ -93,11 +93,16 @@ function QuizCard({title, tag, color, selected}) {
 
 function Sidebar() {
     function Item({active, label, color}) {
-        return (<li>
-            <button
-                className={active ? "font-medium w-full text-left text-gray-800 bg-white p-3 rounded-lg shadow-lg mb-2" : "font-medium w-full text-left text-gray-400 p-3 mb-2 hover:text-gray-500 transition-all duration-200"}>{color ?
-                <span className={"mr-2 text-" + color + "-500"}>•</span> : null}{label}</button>
-        </li>)
+        return (
+            <nav>
+                <ul>
+                    <li>
+                        <button
+                            className={active ? "font-medium w-full text-left text-gray-800 bg-white p-3 rounded-lg shadow-lg mb-2" : "font-medium w-full text-left text-gray-400 p-3 mb-2 hover:text-gray-500 transition-all duration-200"}>{color ?
+                            <span className={"mr-2 text-" + color + "-500"}>•</span> : null}{label}</button>
+                    </li>
+                </ul>
+            </nav>)
 
     }
 
@@ -117,35 +122,22 @@ function Sidebar() {
 }
 
 function QuizGrid({userId}) {
-    const { loading, error, data } = useQuery(QUIZZES, {variables: {userId: userId}});
+    const {loading, error, data} = useQuery(QUIZZES, {variables: {userId: userId}});
 
     return (<>
         {loading ? <div className="mx-auto text-center w-full">
             <i className="fas fa-circle-notch text-6xl fa-spin text-gray-200"/>
-        </div>: <div className="ml-8 md:ml-16 lg:ml-24 mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 w-full ">
-            {data.quiz.map(item => <QuizCard title={item.title} tag={item.quiz_topic ? item.quiz_topic.title : null} color={item.quiz_topic ? item.quiz_topic.color : null}/>)}
-
-            <QuizCard title="Integrals of Trig Functions Practice" tag="AP Calculus" color="orange"/>
-            <QuizCard title="Industrial Revolution DBQ Essay" tag="AP US History" color="yellow"/>
-            <QuizCard title="Applications of the Derivative Exam" tag="AP Calculus" color="green"/>
-            <QuizCard title="Integrals of Trig Functions Practice" tag="AP Biology" color="blue"/>
-            <QuizCard title="Integrals of Trig Functions Practice" tag="AP Calculus" color="purple"/>
-            <QuizCard title="Industrial Revolution DBQ Essay" tag="AP US History" color="teal"/>
-            <QuizCard title="Applications of the Derivative Exam" tag="AP Calculus" color="pink"/>
-            <QuizCard title="Integrals of Trig Functions Practice" tag="AP Biology" color="red"/>
-            <QuizCard title="Integrals of Trig Functions Practice" tag="AP Calculus" color="orange"/>
-            <QuizCard title="Industrial Revolution DBQ Essay" tag="AP US History" color="yellow"/>
-            <QuizCard title="Applications of the Derivative Exam" tag="AP Calculus" color="green"/>
-
-
+        </div> : <div
+            className="ml-8 md:ml-16 lg:ml-24 mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 w-full ">
+            {data.quiz.map(item => <QuizCard title={item.title} id={item.id}
+                                             tag={item.quiz_topic ? item.quiz_topic.title : null}
+                                             color={item.quiz_topic ? item.quiz_topic.color : null}/>)}
         </div>}
-
-
     </>)
 
 }
 
-const QuizPage= ({session}) => {
+const QuizPage = ({session}) => {
     const [selectedQuizzes, setSelectedQuizzes] = useState([]);
     return (<div className="bg-gray-100 min-h-screen px-6 md:px-12 lg:px-24 py-16">
         <div className="flex justify-start">
