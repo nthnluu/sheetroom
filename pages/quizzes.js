@@ -148,19 +148,40 @@ function Sidebar({user, topics}) {
     }
 
     function ColorSelector() {
-        return (<div className="flex justify-between text-xs py-4">
-            <i className="fas fa-dot-circle text-gray-400"/>
-            <i className="fas fa-circle text-red-500"/>
-            <i className="fas fa-circle text-orange-400"/>
-            <i className="fas fa-circle text-yellow-300"/>
-            <i className="fas fa-circle text-green-400"/>
-            <i className="fas fa-circle text-teal-400"/>
-            <i className="fas fa-circle text-blue-400"/>
-            <i className="fas fa-circle text-indigo-400"/>
-            <i className="fas fa-circle text-purple-400"/>
-            <i className="fas fa-circle text-pink-400"/>
+        return (
+            <div className="flex justify-between text-xs py-4">
+                <input id="gray" value="gray" name="colorSelector" type="radio"
+                       className="form-radio h-4 w-4 bg-gray-400 text-gray-400 transition duration-150 ease-in-out"/>
 
-        </div>)
+                <input id="red" value="red" name="colorSelector" type="radio"
+                       className="form-radio h-4 w-4 bg-red-500 text-red-500 transition duration-150 ease-in-out"/>
+
+                <input id="orange" value="orange" name="colorSelector" type="radio"
+                       className="form-radio h-4 w-4 bg-orange-500 text-orange-500 transition duration-150 ease-in-out"/>
+
+                <input id="pink" value="pink" name="colorSelector" type="radio"
+                       className="form-radio h-4 w-4 bg-pink-400 text-pink-400 transition duration-150 ease-in-out"/>
+
+                <input id="yellow" value="yellow" name="colorSelector" type="radio"
+                       className="form-radio h-4 w-4 bg-yellow-300 text-yellow-300 transition duration-150 ease-in-out"/>
+
+                <input id="green" value="green" name="colorSelector" type="radio"
+                       className="form-radio h-4 w-4 bg-green-400 text-green-400 transition duration-150 ease-in-out"/>
+
+                <input id="teal" value="teal" name="colorSelector" type="radio"
+                       className="form-radio h-4 w-4 bg-teal-400 text-teal-400 transition duration-150 ease-in-out"/>
+
+                <input id="blue" value="blue" name="colorSelector" type="radio"
+                       className="form-radio h-4 w-4 bg-blue-500 text-blue-500 transition duration-150 ease-in-out"/>
+
+                <input id="indigo" value="indigo" name="colorSelector" type="radio"
+                       className="form-radio h-4 w-4 bg-indigo-500 text-indigo-500 transition duration-150 ease-in-out"/>
+
+                <input id="purple" value="purple" name="colorSelector" type="radio"
+                       className="form-radio h-4 w-4 bg-purple-500 text-purple-400 transition duration-150 ease-in-out"/>
+
+            </div>
+        )
     }
 
     return (<div className="w-64">
@@ -201,7 +222,7 @@ function Sidebar({user, topics}) {
                         <form onSubmit={event => addQuizTopic({
                             variables: {
                                 title: event.target.title.value,
-                                color: "red",
+                                color: event.target.colorSelector.value,
                                 user: user
                             }
                         })}>
@@ -216,9 +237,40 @@ function Sidebar({user, topics}) {
                                     <i className={isLoading ? "fas fa-circle-notch text-gray-400 fa-spin" : "fas fa-plus text-gray-400"}/>
                                 </button>
                             </div>
-                        </form>
-                        <ColorSelector/></> : <button onClick={() => toggleTextBox(!textBox)}
-                                                      className="font-light text-gray-400 p-3 w-full text-left mb-2 hover:text-gray-500 transition-all duration-200">
+                            <div className="flex justify-between text-xs py-4">
+                                <input id="gray" value="gray" name="colorSelector" type="radio" defaultChecked
+                                       className="form-radio h-4 w-4 bg-gray-400 text-gray-400 transition duration-150 ease-in-out"/>
+
+                                <input id="red" value="red" name="colorSelector" type="radio"
+                                       className="form-radio h-4 w-4 bg-red-500 text-red-500 transition duration-150 ease-in-out"/>
+
+                                <input id="orange" value="orange" name="colorSelector" type="radio"
+                                       className="form-radio h-4 w-4 bg-orange-500 text-orange-500 transition duration-150 ease-in-out"/>
+
+                                <input id="pink" value="pink" name="colorSelector" type="radio"
+                                       className="form-radio h-4 w-4 bg-pink-400 text-pink-400 transition duration-150 ease-in-out"/>
+
+                                <input id="yellow" value="yellow" name="colorSelector" type="radio"
+                                       className="form-radio h-4 w-4 bg-yellow-300 text-yellow-300 transition duration-150 ease-in-out"/>
+
+                                <input id="green" value="green" name="colorSelector" type="radio"
+                                       className="form-radio h-4 w-4 bg-green-400 text-green-400 transition duration-150 ease-in-out"/>
+
+                                <input id="teal" value="teal" name="colorSelector" type="radio"
+                                       className="form-radio h-4 w-4 bg-teal-400 text-teal-400 transition duration-150 ease-in-out"/>
+
+                                <input id="blue" value="blue" name="colorSelector" type="radio"
+                                       className="form-radio h-4 w-4 bg-blue-500 text-blue-500 transition duration-150 ease-in-out"/>
+
+                                <input id="indigo" value="indigo" name="colorSelector" type="radio"
+                                       className="form-radio h-4 w-4 bg-indigo-500 text-indigo-500 transition duration-150 ease-in-out"/>
+
+                                <input id="purple" value="purple" name="colorSelector" type="radio"
+                                       className="form-radio h-4 w-4 bg-purple-500 text-purple-400 transition duration-150 ease-in-out"/>
+
+                            </div></form>
+                    </> : <button onClick={() => toggleTextBox(!textBox)}
+                                  className="font-light text-gray-400 p-3 w-full text-left mb-2 hover:text-gray-500 transition-all duration-200">
                         <i className="fas fa-plus mr-2"/>Create Topic</button>}
 
                 </li>
