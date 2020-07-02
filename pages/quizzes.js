@@ -1,9 +1,10 @@
 import {useEffect, useRef, useState} from "react";
 import Transition from "../Components/Transition";
 import gql from "graphql-tag";
-import {useQuery} from "@apollo/react-hooks";
+import {useMutation, useQuery} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import Dashboard from "./dashboard";
+import {CREATE_QUIZ} from "../gql/quizzes";
 
 const QUIZZES = gql`
 query Quizzes($userId: Int!){
@@ -15,6 +16,20 @@ query Quizzes($userId: Int!){
       color
       title
     }
+  }
+  
+  quiz_topics(where: {created_by: {_eq: $userId}}) {
+    title
+    color
+    id
+  }
+}
+`;
+
+const INSERT_QUIZ_TOPIC = gql`
+mutation InsertQuiz($title: String!, $color: String!, $user: Int!){
+  insert_quiz_topics_one(object: {title: $title, color:$color, created_by: $user}) {
+    id
   }
 }
 `;
@@ -111,10 +126,14 @@ function QuizCard({title, tag, color, selected, id}) {
     </a>)
 }
 
-function Sidebar() {
+function Sidebar({user, topics}) {
+    const {loading, error, data} = useQuery(QUIZZES, {variables: {userId: user}});
     const [textBox, toggleTextBox] = useState(false);
+    const [isLoading, toggleLoading] = useState(false);
+    const [addQuizTopic] = useMutation(INSERT_QUIZ_TOPIC);
     const wrapperRef = useRef(null);
-    useOutsideAlerter(wrapperRef, ()=>toggleTextBox(false));
+    useOutsideAlerter(wrapperRef, () => toggleTextBox(false));
+
     function Item({active, label, color}) {
         return (
             <li>
@@ -123,19 +142,21 @@ function Sidebar() {
                     <span className={"mr-2 text-" + color + "-500"}>•</span> : null}{label}</button>
             </li>
 
+
         )
 
     }
 
     function ColorSelector() {
         return (<div className="flex justify-between text-xs py-4">
-            <i className="far fa-dot-circle text-gray-400"/>
-            <i className="fas fa-circle text-red-400"/>
+            <i className="fas fa-dot-circle text-gray-400"/>
+            <i className="fas fa-circle text-red-500"/>
             <i className="fas fa-circle text-orange-400"/>
-            <i className="fas fa-circle text-yellow-400"/>
+            <i className="fas fa-circle text-yellow-300"/>
             <i className="fas fa-circle text-green-400"/>
             <i className="fas fa-circle text-teal-400"/>
             <i className="fas fa-circle text-blue-400"/>
+            <i className="fas fa-circle text-indigo-400"/>
             <i className="fas fa-circle text-purple-400"/>
             <i className="fas fa-circle text-pink-400"/>
 
@@ -147,24 +168,58 @@ function Sidebar() {
         <nav>
             <ul className="mt-4">
                 <Item active label="All"/>
-                <Item label="AP Biology" color="green"/>
-                <Item label="AP Calculus" color="pink"/>
-                <Item label="AP US History" color="orange"/>
-                <Item label="AP Psychology" color="red"/>
-                <li ref={wrapperRef}>
-                    {textBox ? <><div>
-                        <div className="mt-1 flex rounded-md shadow-sm">
-                            <div className="relative flex-grow focus-within:z-10">
-                                <input id="email"
-                                       className="form-input block w-full rounded-none rounded-l-md transition ease-in-out duration-150 sm:text-sm sm:leading-5"
-                                       placeholder="New Topic Name"/>
-                            </div>
-                            <button
-                                className="-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-r-md text-gray-700 bg-gray-50 hover:text-gray-500 hover:bg-white focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-                                <i className="fas fa-plus text-gray-400"/>
-                            </button>
+                {loading ? <>
+                    <li>
+                        <div
+                            className="font-medium w-full text-left text-gray-200 bg-gray-200 p-3 rounded-lg mb-2 select-none">Loading
                         </div>
-                    </div><ColorSelector/></>:<button onClick={()=>toggleTextBox(!textBox)} className="font-light text-gray-400 p-3 w-full text-left mb-2 hover:text-gray-500 transition-all duration-200"><i className="fas fa-plus mr-2"/>Create Topic</button>}
+                    </li>
+                    <li>
+                        <div
+                            className="font-medium w-full text-left text-gray-200 bg-gray-200 p-3 rounded-lg mb-2 select-none">Loading
+                        </div>
+                    </li>
+                    <li>
+                        <div
+                            className="font-medium w-full text-left text-gray-200 bg-gray-200 p-3 rounded-lg mb-2 select-none">Loading
+                        </div>
+                    </li>
+                    <li>
+                        <div
+                            className="font-medium w-full text-left text-gray-200 bg-gray-200 p-3 rounded-lg mb-2 select-none">Loading
+                        </div>
+                    </li>
+                    <li>
+                        <div
+                            className="font-medium w-full text-left text-gray-200 bg-gray-200 p-3 rounded-lg mb-2 select-none">Loading
+                        </div>
+                    </li>
+                </> : data.quiz_topics.map(topic => <Item label={topic.title} color={topic.color}/>)}
+
+                <li ref={isLoading ? null : wrapperRef}>
+                    {textBox ? <>
+                        <form onSubmit={event => addQuizTopic({
+                            variables: {
+                                title: event.target.title.value,
+                                color: "red",
+                                user: user
+                            }
+                        })}>
+                            <div className="mt-1 flex rounded-md shadow-sm">
+                                <div className="relative flex-grow focus-within:z-10">
+                                    <input id="title" autoComplete="off"
+                                           className="form-input block w-full rounded-none rounded-l-md transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                                           placeholder="New Topic Name"/>
+                                </div>
+                                <button onClick={() => toggleLoading(true)} type="submit"
+                                        className="-ml-px w-12 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-r-md text-gray-700 bg-gray-50 hover:text-gray-500 hover:bg-white focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
+                                    <i className={isLoading ? "fas fa-circle-notch text-gray-400 fa-spin" : "fas fa-plus text-gray-400"}/>
+                                </button>
+                            </div>
+                        </form>
+                        <ColorSelector/></> : <button onClick={() => toggleTextBox(!textBox)}
+                                                      className="font-light text-gray-400 p-3 w-full text-left mb-2 hover:text-gray-500 transition-all duration-200">
+                        <i className="fas fa-plus mr-2"/>Create Topic</button>}
 
                 </li>
 
@@ -176,7 +231,6 @@ function Sidebar() {
 
 function QuizGrid({userId}) {
     const {loading, error, data} = useQuery(QUIZZES, {variables: {userId: userId}});
-
     return (<>
         {loading ? <div className="mx-auto text-center w-full">
             <i className="fas fa-circle-notch text-6xl fa-spin text-gray-200"/>
@@ -190,17 +244,17 @@ function QuizGrid({userId}) {
 
 }
 
+
 const QuizPage = ({session}) => {
     const [selectedQuizzes, setSelectedQuizzes] = useState([]);
+    const userId = session.userId;
     return (<div className="bg-gray-100 min-h-screen px-6 md:px-12 lg:px-24 py-16">
         <div className="flex justify-start">
             <h1 className="text-5xl font-bold text-gray-800">Quizzes</h1>
         </div>
         <div className="mt-12 flex justify-between">
-            <Sidebar/>
-            <QuizGrid userId={session.userId}/>
-
-
+            <Sidebar user={userId}/>
+            <QuizGrid userId={userId}/>
         </div>
 
 
