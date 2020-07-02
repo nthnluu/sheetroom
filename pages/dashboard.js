@@ -249,9 +249,21 @@ const Dashboard = ({user, session}) => {
             <div className="py-12">
                 <header>
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl lg:text-4xl font-bold leading-tight text-gray-900">
-                            {timeGreeting().greeting}, {session.name} <span style={{fontFamily: 'serif'}}>{timeGreeting().emoji}</span>
-                        </h1>
+                        {/*<h1 className="text-3xl lg:text-4xl font-bold leading-tight text-gray-900">*/}
+                        {/*    {timeGreeting().greeting}, {session.name} <span style={{fontFamily: 'serif'}}>{timeGreeting().emoji}</span>*/}
+                        {/*</h1>*/}
+                        <div className="flex justify-start">
+                            <h1 className="text-4xl lg:text-5xl font-bold leading-tight text-gray-900">
+                                Quizzes
+                            </h1>
+                            <div className="rounded-full bg-blue-600 text-white h-14 w-14 text-center pt-4 ml-6">
+                                <svg className="mx-auto" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 4V20M20 12L4 12" stroke="#ffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+
+                        </div>
+
                     </div>
                 </header>
                 <main className="mt-6">
