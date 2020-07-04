@@ -25,7 +25,7 @@ export default function ({sidebar, thirdArea, title, content}) {
                 <div className="h-full flex">
                     {/*// <!-- Static sidebar for desktop -->*/}
                     {sidebar ? <div className="hidden md:flex md:flex-shrink-0">
-                        <div className="flex flex-col border-r border-gray-200 bg-white px-6" style={{width: '17rem'}}>
+                        <div className="flex flex-col border-r border-gray-200 bg-white px-4 lg:px-6" style={{width: '17rem'}}>
                             <div className="h-0 flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                                 {/*// <!-- Sidebar component, swap this element with another sidebar if you like -->*/}
                                 <nav className="flex-1 px-2 bg-white">
@@ -59,13 +59,13 @@ export default function ({sidebar, thirdArea, title, content}) {
                     </div> : null}
 
                     {/*Content Area*/}
-                    <div className="flex flex-col w-0 flex-1 overflow-hidden mt-4 md:mt-0 lg:px-12">
+                    <div className="flex flex-col w-0 flex-1 overflow-hidden mt-4 md:mt-0 lg:px-6">
                         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none" tabIndex="0">
                             <div className="pt-2 pb-6 md:py-6">
-                                <div className="mx-auto px-4 sm:px-6 md:px-8 my-4">
+                                <div className="mx-auto px-4 sm:px-6 lg:px-2 my-4">
                                     <HeaderWithAction title={title}/>
                                 </div>
-                                <div className="mx-auto px-4 sm:px-6 md:px-8">
+                                <div className="mx-auto px-4 sm:px-6 lg:px-2">
                                     {/*// <!-- Replace with your content -->*/}
                                     <div className="py-4">
                                         {content}

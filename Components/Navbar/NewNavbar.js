@@ -15,24 +15,6 @@ export default function () {
                             <img className="hidden lg:block h-8 w-auto" src="/hw_logo.svg"
                                  alt="Workflow logo"/>
                         </div>
-                        {/*<div className="hidden lg:ml-6 lg:flex">*/}
-                        {/*    <a href="#"*/}
-                        {/*       className="inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">*/}
-                        {/*        Dashboard*/}
-                        {/*    </a>*/}
-                        {/*    <a href="#"*/}
-                        {/*       className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">*/}
-                        {/*        Team*/}
-                        {/*    </a>*/}
-                        {/*    <a href="#"*/}
-                        {/*       className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">*/}
-                        {/*        Projects*/}
-                        {/*    </a>*/}
-                        {/*    <a href="#"*/}
-                        {/*       className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">*/}
-                        {/*        Calendar*/}
-                        {/*    </a>*/}
-                        {/*</div>*/}
                     </div>
                     <div className="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
                         <div className="max-w-lg w-full lg:max-w-xs">
@@ -92,7 +74,7 @@ export default function () {
 
                             <Transition show={profileDropdown} enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95"
                                         enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95">
-                                <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
+                                <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg" style={{zIndex: 10}}>
                                     <div className="py-1 rounded-md bg-white shadow-xs" role="menu"
                                          aria-orientation="vertical" aria-labelledby="user-menu">
                                         <a href="#"
