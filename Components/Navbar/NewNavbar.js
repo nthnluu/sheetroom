@@ -10,7 +10,7 @@ export default function () {
                 <div className="flex justify-between h-16">
                     <div className="flex px-2 lg:px-0">
                         <div className="flex-shrink-0 flex items-center">
-                            <img className="block lg:hidden h-8 w-auto" src="/hw_symbol.svg"
+                            <img className="block lg:hidden h-10 w-auto" style={{opacity: '0.9'}} src="/hw_symbol.svg"
                                  alt="Workflow logo"/>
                             <img className="hidden lg:block h-8 w-auto" src="/hw_logo.svg"
                                  alt="Workflow logo"/>

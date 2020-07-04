@@ -9,7 +9,7 @@ const Index = ({user, session}) => {
     };
     return (
         <>
-            <Navbar items={navBarItems.links} actionButtons={navBarItems.actionButtons}/>
+            <Navbar />
             <div className="max-w-6xl mx-auto pt-32 px-4">
                 <header>
                     <h1 className="text-5xl md:text-6xl lg:text-7xl text-center font-black text-gray-900 leading-tight">The ultimate platform for designing online and paper assignments
