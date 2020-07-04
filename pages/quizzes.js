@@ -5,6 +5,8 @@ import {useMutation, useQuery} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import Dashboard from "./dashboard";
 import {CREATE_QUIZ} from "../gql/quizzes";
+import Router from "next/router";
+import Editor from "../Components/TextEditor/Editor";
 
 const QUIZZES = gql`
 query Quizzes($userId: Int!){
@@ -143,6 +145,19 @@ function Sidebar({user, topics}) {
             </li>
         )
     }
+    const submitForm = (event) => {
+        event.preventDefault();
+        toggleLoading(true);
+        addQuizTopic({
+            variables: {
+                title: event.target.title.value,
+                color: event.target.colorSelector.value,
+                user: user
+            }
+        })
+            .then(() => Router.reload())
+
+    };
 
     return (<div className="w-64">
         <h2 className="text-gray-500 text-lg font-semibold">TOPICS</h2>
@@ -179,20 +194,14 @@ function Sidebar({user, topics}) {
 
                 <li ref={isLoading ? null : wrapperRef}>
                     {textBox ? <>
-                        <form onSubmit={event => addQuizTopic({
-                            variables: {
-                                title: event.target.title.value,
-                                color: event.target.colorSelector.value,
-                                user: user
-                            }
-                        })}>
+                        <form onSubmit={event => submitForm(event)}>
                             <div className="mt-1 flex rounded-md shadow-sm">
                                 <div className="relative flex-grow focus-within:z-10">
-                                    <input id="title" autoComplete="off"
+                                    <input id="title" autoComplete="off" required
                                            className="form-input block w-full rounded-none rounded-l-md transition ease-in-out duration-150 sm:text-sm sm:leading-5"
                                            placeholder="New Topic Name"/>
                                 </div>
-                                <button onClick={() => toggleLoading(true)} type="submit"
+                                <button type="submit"
                                         className="-ml-px w-12 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-r-md text-gray-700 bg-gray-50 hover:text-gray-500 hover:bg-white focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
                                     <i className={isLoading ? "fas fa-circle-notch text-gray-400 fa-spin" : "fas fa-plus text-gray-400"}/>
                                 </button>
@@ -261,7 +270,7 @@ function QuizGrid({userId}) {
 const QuizPage = ({session}) => {
     const [selectedQuizzes, setSelectedQuizzes] = useState([]);
     const userId = session.userId;
-    return (<div className="bg-gray-100 min-h-screen px-6 md:px-12 lg:px-24 py-16">
+    return (<div className="min-h-screen px-6 md:px-12 lg:px-24 py-16" style={{backgroundColor: "#F7F7F7"}}>
         <div className="flex justify-start">
             <h1 className="text-5xl font-bold text-gray-800">Quizzes</h1>
         </div>
@@ -269,6 +278,7 @@ const QuizPage = ({session}) => {
             <Sidebar user={userId}/>
             <QuizGrid userId={userId}/>
         </div>
+        <Editor/>
 
 
     </div>)

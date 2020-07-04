@@ -36,6 +36,8 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "16.13.1",
     "react-transition-group": "^4.4.1",
+    "slate": "^0.58.3",
+    "slate-react": "^0.58.3",
     "subscriptions-transport-ws": "^0.9.16",
     "tailwindcss": "^1.4.6"
   },
