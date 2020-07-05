@@ -11,7 +11,7 @@ const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
-const grid = 8;
+const grid = 1;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
@@ -35,11 +35,11 @@ const getListStyle = isDraggingOver => ({
 const DnDCard = ({item, index}) => {
     return (<Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided, snapshot) => (
-            <div className={snapshot.isDragging ? "flex justify-between rounded-lg shadow-outline":"flex justify-between rounded-lg mb-4 shadow-lg hover:shadow-xl transition-shadow duration-200"}
+            <div className={snapshot.isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200":"flex border border-gray-200 justify-between rounded-lg mb-4 shadow-lg hover:shadow-xl transition-shadow duration-200"}
                 ref={provided.innerRef}
                 {...provided.draggableProps}
             >
-                <div className="p-3 text-gray-400 rounded-l-lg bg-gray-200">
+                <div className="p-2 text-gray-400 rounded-l-lg bg-gray-200">
                     <div className="bg-white rounded-full py-1 border shadow-sm">
                         <button className="w-full active:text-blue-500 transition-all duration-100"><i className="fas fa-chevron-up"/></button>
                         <i {...provided.dragHandleProps}  className="fas fa-grip-lines w-full text-center active:text-blue-500 transition-all duration-100"></i>

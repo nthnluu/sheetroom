@@ -1,38 +1,29 @@
 import React, {useState} from 'react';
-import AdminPageLayout from "../Components/AdminPageLayout";
-import gql from "graphql-tag";
 import {getSession} from 'next-auth/client'
-import {useQuery} from '@apollo/react-hooks';
-import Transition from "../Components/Transition";
-import NewNavbar from "../Components/Navbar/NewNavbar";
 import AppLayout from "../Components/AppLayout";
-import SimpleCards from "../Components/GridLists/SimpleCards";
 import QuizList from "../Components/Lists/QuizList";
+import CourseCards from "../Components/GridLists/CourseCards";
+import CreateQuizModal from "../Components/Modals/CreateQuizModal";
 
-const QUIZZES = gql`
-query Quizzes($userId: Int!){
-  quiz(where: {created_by: {_eq: $userId}}) {
-    id,
-    title,
-    description
-  }
-}
-`;
 
-const PageContent = () => {
+const PageContent = ({userId}) => {
+
     return (
         <>
-            <SimpleCards header="Pinned Cards"/>
-            <QuizList/>
+            <CourseCards header="My Classes" userId={userId}/>
+            <QuizList userId={userId}/>
         </>
     )
-}
+};
 
-const Dashboard = ({user, session}) => {
-    const userId = session.userId;
+const Dashboard = ({session}) => {
+    const [activeModal, setActiveModal] = useState(0);
 
     return (
-        <AppLayout sidebar={1} title="Dashboard" content={PageContent()}/>
+        <>
+            <CreateQuizModal isOpen={activeModal === 1} setModal={(index)=>setActiveModal(index)}/>
+            <AppLayout setModal={(index)=>setActiveModal(index)} sidebar={1} title="Dashboard" content={<PageContent userId={session.userId}/>} newButton/>
+        </>
     )
 };
 

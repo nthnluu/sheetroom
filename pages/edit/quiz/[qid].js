@@ -3,6 +3,8 @@ import {QUIZ} from "../../../gql/quizzes";
 import {useQuery} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
+import AppLayout from "../../../Components/AppLayout";
+import CreateQuizModal from "../../../Components/Modals/CreateQuizModal";
 
 const quizSampleData = {
     title: "Semester 2 Final",
@@ -40,6 +42,14 @@ const quizSampleData = {
             ]
         }
     ]
+};
+
+const PageContent = () =>{
+    return (
+        <div>
+            <DnDList items={quizSampleData.items}/>
+        </div>
+    )
 }
 
 const QuizEditor = ({user}) => {
@@ -54,9 +64,7 @@ const QuizEditor = ({user}) => {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <div className="max-w-5xl mx-auto">
-                <DnDList items={quizSampleData.items}/>
-            </div>
+            <AppLayout title={quizSampleData.title} content={<PageContent/>} questionMenu editableTitle/>
         </div>
     )
 };

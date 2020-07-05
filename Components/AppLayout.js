@@ -2,7 +2,7 @@ import NewNavbar from "./Navbar/NewNavbar";
 import React from "react";
 import HeaderWithAction from "./PageHeadings/HeaderWithActions";
 
-export default function ({sidebar, thirdArea, title, content}) {
+export default function ({sidebar, thirdArea, title, content, newButton, editableTitle, questionMenu, setModal}) {
 
     const SidebarItem = ({sidebar, number, label, icon}) => {
         return (
@@ -63,7 +63,7 @@ export default function ({sidebar, thirdArea, title, content}) {
                         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none" tabIndex="0">
                             <div className="pt-2 pb-6 md:py-6">
                                 <div className="mx-auto px-4 sm:px-6 lg:px-2 my-4">
-                                    <HeaderWithAction title={title}/>
+                                    <HeaderWithAction title={title} setModal={setModal} newButton={newButton} questionMenu={questionMenu} editableTitle={editableTitle}/>
                                 </div>
                                 <div className="mx-auto px-4 sm:px-6 lg:px-2">
                                     {/*// <!-- Replace with your content -->*/}
