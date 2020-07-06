@@ -22,7 +22,7 @@ function QuizFormSet({session}) {
         e.preventDefault();
         toggleLoading(true);
         addAssignment({variables: {title: e.target.title.value, desc: e.target.description.value, userId: session.userId}})
-            .then((result) => window.location.href = '/edit/assignment/' + result.data.insert_assignments_assignment.returning[0].id)
+            .then((result) => window.location.href = '/edit/quiz/' + result.data.insert_assignments_assignment.returning[0].id)
             .catch((error) => alert(error));
     }
 
@@ -82,15 +82,15 @@ function QuizFormSet({session}) {
 
 }
 
-const NewQuiz = ({user, session}) => {
+const NewCourse = ({user, session}) => {
     return (
         <AppLayout content={<div>
             <header>
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h1 className="text-2xl lg:text-3xl font-bold leading-tight text-gray-900">
-                        Create a new assignment
+                        Create a new course
                     </h1>
-                    <h2 className="text-gray-500">An assignment is a reuseable set of questions you can assign to anyone with a link.</h2>
+                    <h2 className="text-gray-500">A course allows you to organize your assignments and store rosters for easier and more secure assigning.</h2>
                 </div>
             </header>
             <main className="mt-6">
@@ -101,7 +101,7 @@ const NewQuiz = ({user, session}) => {
         </div>}/>)
 };
 
-NewQuiz.getInitialProps = async ({res, ...context}) => {
+NewCourse.getInitialProps = async ({res, ...context}) => {
     if (typeof window === 'undefined') {
         const session = await getSession(context);
         if (!session || !session.user) {
@@ -116,4 +116,4 @@ NewQuiz.getInitialProps = async ({res, ...context}) => {
     }
 };
 
-export default NewQuiz
+export default NewCourse

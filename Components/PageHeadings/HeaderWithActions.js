@@ -183,8 +183,8 @@ const NewMenu = ({setModal}) => {
                                 </svg>
                                 Assignment
                             </a></li>
-                            <li><button href="#" tabIndex="0"
-                                   className="group w-full text-left flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            <li><a href="/new/course" tabIndex="0"
+                                   className="group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                    role="menuitem">
                                 <svg
                                     className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500"
@@ -193,7 +193,7 @@ const NewMenu = ({setModal}) => {
                                         d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/>
                                 </svg>
                                 Course
-                            </button></li>
+                            </a></li>
 
                         </ul>
                     </div>
