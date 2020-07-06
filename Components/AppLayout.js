@@ -83,7 +83,7 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
                     {/*Tertiary Sidebar*/}
                     {thirdArea ? <div className="hidden md:flex md:flex-shrink-0">
                         <div className="flex flex-col w-auto border-l border-gray-200 bg-white">
-                            <div className="h-0 flex-1 flex flex-col w-96 overflow-y-auto">
+                            <div className="h-0 flex-1 flex flex-col overflow-y-auto" style={{width: '18rem'}}>
                                 {/*// <!-- Sidebar component, swap this element with another sidebar if you like -->*/}
                                 {thirdArea}
                             </div>

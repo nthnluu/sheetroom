@@ -5,7 +5,7 @@ import Transition from "../Transition";
 const NewQuestion = () => {
     const [isOpen, toggleMenu] = useState(false);
     return (
-        <div className="relative inline-block text-left">
+        <div className="relative inline-block text-left z-50">
             <div>
     <span className="rounded-md shadow-sm">
       <button type="button" onClick={() => toggleMenu(!isOpen)}
