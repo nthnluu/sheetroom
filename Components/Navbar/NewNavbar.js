@@ -3,18 +3,19 @@ import React, {useState} from "react";
 
 export default function () {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
+    const [mobileMenu, toggleMobileMenu] = useState(false);
 
     return (
         <nav className="bg-white border-b border-gray-200">
             <div className="mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex px-2 lg:px-0">
-                        <div className="flex-shrink-0 flex items-center">
+                        <a href="/dashboard" className="flex-shrink-0 flex items-center hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200 focus:outline-none -ml-2 px-2">
                             <img className="block lg:hidden h-10 w-auto" style={{opacity: '0.9'}} src="/hw_symbol.svg"
                                  alt="Workflow logo"/>
                             <img className="hidden lg:block h-8 w-auto" src="/hw_logo.svg"
                                  alt="Workflow logo"/>
-                        </div>
+                        </a>
                     </div>
                     <div className="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
                         <div className="max-w-lg w-full lg:max-w-xs">
@@ -35,7 +36,7 @@ export default function () {
                     </div>
                     <div className="flex items-center lg:hidden">
                         {/*// <!-- Mobile menu button -->*/}
-                        <button
+                        <button onClick={() => toggleMobileMenu(!mobileMenu)}
                             className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
                             aria-label="Main menu" aria-expanded="false">
                             {/*// <!-- Icon when menu is closed. -->*/}
@@ -83,7 +84,7 @@ export default function () {
                                         <a href="#"
                                            className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                                            role="menuitem">Settings</a>
-                                        <a href="#"
+                                        <a href="/api/auth/signout"
                                            className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                                            role="menuitem">Sign out</a>
                                     </div>
@@ -99,7 +100,7 @@ export default function () {
             {/*//*/}
             {/*//   Menu open: "block", Menu closed: "hidden"*/}
             {/*// -->*/}
-            <div className="hidden lg:hidden">
+            {mobileMenu ? <div className="block lg:hidden">
                 <div className="pt-2 pb-3">
                     <a href="#"
                        className="block pl-3 pr-4 py-2 border-l-4 border-indigo-500 text-base font-medium text-indigo-700 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out">Dashboard</a>
@@ -133,7 +134,7 @@ export default function () {
                             out</a>
                     </div>
                 </div>
-            </div>
+            </div> : null}
         </nav>
     )
 

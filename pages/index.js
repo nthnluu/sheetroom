@@ -12,9 +12,8 @@ const Index = ({user, session}) => {
             <Navbar />
             <div className="max-w-6xl mx-auto pt-32 px-4">
                 <header>
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl text-center font-black text-gray-900 leading-tight">The ultimate platform for designing online and paper assignments
+                    <h1 className="text-5xl md:text-6xl lg:text-7xl text-center font-black text-gray-900 leading-tight">Online assignments that just work
                     </h1>
-                    <input className="h-12 w-12 hover:w-full border rounded-full" placeholder="hi"/>
                 </header>
             </div>
         </>
