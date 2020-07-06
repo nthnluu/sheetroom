@@ -1,8 +1,9 @@
 import NewNavbar from "./Navbar/NewNavbar";
 import React from "react";
 import HeaderWithAction from "./PageHeadings/HeaderWithActions";
+import Head from "next/head";
 
-export default function ({sidebar, thirdArea, title, content, newButton, editableTitle, questionMenu, setModal}) {
+export default function ({sidebar, thirdArea, title, content, newButton, editableTitle, questionMenu, setModal, windowTitle}) {
 
     const SidebarItem = ({sidebar, number, label, icon}) => {
         return (
@@ -20,6 +21,9 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
 
     return (
         <div className="min-h-screen bg-gray-100">
+            <Head>
+                <title>{windowTitle ? (windowTitle + " - Homework") : "Homework"}</title>
+            </Head>
             <div className="h-screen overflow-hidden bg-white">
                 <NewNavbar/>
                 <div className="h-full flex">

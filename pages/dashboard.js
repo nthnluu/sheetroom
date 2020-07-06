@@ -5,6 +5,7 @@ import QuizList from "../Components/Lists/QuizList";
 import CourseCards from "../Components/GridLists/CourseCards";
 import Modal from 'react-modal';
 import QuizModal from "../Components/Modals/Modal";
+import Head from "next/head";
 
 
 const CreateQuizContent = () => {
@@ -40,7 +41,7 @@ const Dashboard = ({session}) => {
 
     return (
         <>
-            <AppLayout setModal={(index)=>setActiveModal(index)} sidebar={1} title="Dashboard" content={<PageContent userId={session.userId}/>} newButton/>
+            <AppLayout setModal={(index)=>setActiveModal(index)} sidebar={1} title="Dashboard" content={<PageContent userId={session.userId}/>} newButton windowTitle="Dashboard"/>
         </>
     )
 };

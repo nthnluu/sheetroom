@@ -10,7 +10,7 @@ export default function () {
             <div className="mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex px-2 lg:px-0">
-                        <a href="/dashboard" className="flex-shrink-0 flex items-center hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200 focus:outline-none -ml-2 px-2">
+                        <a href="/dashboard" className="flex-shrink-0 flex items-center hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200 focus:outline-none -ml-2 px-2 transition-color duration-150">
                             <img className="block lg:hidden h-10 w-auto" style={{opacity: '0.9'}} src="/hw_symbol.svg"
                                  alt="Workflow logo"/>
                             <img className="hidden lg:block h-8 w-auto" src="/hw_logo.svg"

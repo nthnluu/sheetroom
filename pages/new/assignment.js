@@ -1,8 +1,9 @@
 import {useMutation} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
-import {useState} from "react";
+import React, {useState} from "react";
 import AppLayout from "../../Components/AppLayout";
 import gql from "graphql-tag";
+import Head from "next/head";
 
 export const CREATE_ASSIGNMENT = gql`
   mutation InsertAssignment($title: String!, $desc: String, $userId: Int!) {
@@ -21,7 +22,13 @@ function QuizFormSet({session}) {
     function handleSubmit(e) {
         e.preventDefault();
         toggleLoading(true);
-        addAssignment({variables: {title: e.target.title.value, desc: e.target.description.value, userId: session.userId}})
+        addAssignment({
+            variables: {
+                title: e.target.title.value,
+                desc: e.target.description.value,
+                userId: session.userId
+            }
+        })
             .then((result) => window.location.href = '/edit/assignment/' + result.data.insert_assignments_assignment.returning[0].id)
             .catch((error) => alert(error));
     }
@@ -65,7 +72,7 @@ function QuizFormSet({session}) {
         <div className="mt-8 border-t border-gray-200 pt-5">
             <div className="flex justify-end">
       <span className="inline-flex rounded-md shadow-sm">
-        <button type="button"
+        <button onClick={() => window.history.back()}
                 className="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
           Cancel
         </button>
@@ -82,23 +89,28 @@ function QuizFormSet({session}) {
 
 }
 
+const PageContent = ({session}) => {
+    return (<div>
+        <header>
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 className="text-2xl lg:text-3xl font-bold leading-tight text-gray-900">
+                    Create a new assignment
+                </h1>
+                <h2 className="text-gray-500">An assignment is a reuseable set of questions you can assign to
+                    anyone with a link.</h2>
+            </div>
+        </header>
+        <main className="mt-6">
+            <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <QuizFormSet session={session}/>
+            </section>
+        </main>
+    </div>)
+}
+
 const NewQuiz = ({user, session}) => {
     return (
-        <AppLayout content={<div>
-            <header>
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h1 className="text-2xl lg:text-3xl font-bold leading-tight text-gray-900">
-                        Create a new assignment
-                    </h1>
-                    <h2 className="text-gray-500">An assignment is a reuseable set of questions you can assign to anyone with a link.</h2>
-                </div>
-            </header>
-            <main className="mt-6">
-                <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <QuizFormSet session={session}/>
-                </section>
-            </main>
-        </div>}/>)
+        <AppLayout content={<PageContent session={session}/>} windowTitle="New Assignment"/>)
 };
 
 NewQuiz.getInitialProps = async ({res, ...context}) => {

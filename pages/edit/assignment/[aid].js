@@ -4,6 +4,8 @@ import {useQuery} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
+import Head from 'next/head'
+import React from "react";
 
 const quizSampleData = {
     title: "Semester 2 Final",
@@ -42,7 +44,6 @@ const quizSampleData = {
         }
     ]
 };
-
 const PageContent = () => {
     return (
         <div>
@@ -156,32 +157,34 @@ const PageContent = () => {
             </div>
         </div>
     )
-}
+};
 const LoadingPlaceholder = () => {
     return (
         <div className="pt-56">
+            <Head>
+                <title>Homework</title>
+            </Head>
             <i className="fas fa-circle-notch text-5xl text-center w-full text-gray-300 fa-spin"></i>
             <h1 className="text-center text-gray-400 mt-4">Hang on, we're loading this page</h1>
         </div>
     )
 };
-
 const ThirdArea = ({data}) => {
     return (
         <>
             <header className="space-y-1 py-4 px-4 border-b border-gray-200 sm:px-6">
                 <div className="space-y-1">
                     <button
-                       className="py-3 px-4 w-full text-left rounded-md  leading-5 font-medium text-blue-600 hover:bg-blue-100 focus:outline-none focus:bg-blue-100 focus:shadow-outline-blue active:bg-blue-200 transition duration-150 ease-in-out">
+                        className="py-3 px-4 w-full text-left rounded-md  leading-5 font-medium text-blue-600 hover:bg-blue-100 focus:outline-none focus:bg-blue-100 focus:shadow-outline-blue active:bg-blue-200 transition duration-150 ease-in-out">
                         <i className="fas fa-clipboard-check mr-4"/>Assign to Course
                     </button>
                     <button
-                       className="py-3 px-4 w-full text-left rounded-md leading-5 font-medium text-gray-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline-blue active:bg-gray-200 transition duration-150 ease-in-out">
+                        className="py-3 px-4 w-full text-left rounded-md leading-5 font-medium text-gray-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline-blue active:bg-gray-200 transition duration-150 ease-in-out">
                         <i className="fas fa-link mr-4"/>Copy Link
                     </button>
 
                     <button
-                       className="py-3 px-4 w-full text-left rounded-md leading-5 font-medium text-gray-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline-blue active:bg-gray-200 transition duration-150 ease-in-out">
+                        className="py-3 px-4 w-full text-left rounded-md leading-5 font-medium text-gray-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline-blue active:bg-gray-200 transition duration-150 ease-in-out">
                         <i className="fas fa-print mr-4"/>Generate Print Version
                     </button>
                 </div>
@@ -430,11 +433,14 @@ const QuizEditor = ({user}) => {
     if (error) return `Error! ${error}`;
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {loading ? <LoadingPlaceholder/> :
-                <AppLayout title={data.assignments_assignment_by_pk.title} content={<PageContent/>} questionMenu
-                           editableTitle thirdArea={<ThirdArea data={data}/>}/>}
-        </div>
+        <>
+            <div className="min-h-screen bg-gray-50">
+                {loading ? <LoadingPlaceholder/> :
+                    <AppLayout title={data.assignments_assignment_by_pk.title} content={<PageContent/>} questionMenu
+                               editableTitle thirdArea={<ThirdArea data={data}/>}
+                               windowTitle={data.assignments_assignment_by_pk.title}/>}
+            </div>
+        </>
     )
 };
 
