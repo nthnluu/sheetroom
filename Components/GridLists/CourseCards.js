@@ -17,6 +17,7 @@ const CourseCards = ({header, userId}) => {
 
     const {loading, error, data} = useQuery(COURSES, {variables: {userId: 8}});
     if (loading) return null;
+    if (data === undefined) return null;
 
     const getInitials = (name) => {
         var initials = name.match(/\b\w/g) || [];

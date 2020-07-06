@@ -1,10 +1,9 @@
 import {useRouter} from 'next/router'
-import {QUIZ} from "../../../gql/quizzes";
+import {ASSIGNMENT, QUIZ} from "../../../gql/quizzes";
 import {useQuery} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
-import CreateQuizModal from "../../../Components/Modals/CreateQuizModal";
 
 const quizSampleData = {
     title: "Semester 2 Final",
@@ -54,10 +53,10 @@ const PageContent = () =>{
 
 const QuizEditor = ({user}) => {
     const router = useRouter();
-    const {qid} = router.query;
+    const {aid} = router.query;
 
-    const {loading, error, data} = useQuery(QUIZ, {
-        variables: {id: qid},
+    const {loading, error, data} = useQuery(ASSIGNMENT, {
+        variables: {id: aid},
     });
     if (loading) return null;
     if (error) return `Error! ${error}`;

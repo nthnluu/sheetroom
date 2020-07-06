@@ -156,10 +156,10 @@ const NewMenu = ({setModal}) => {
         <div className="relative inline-block text-left">
             <div>
     <span className="rounded-md shadow-sm">
-      <button type="button" onClick={() => toggleMenu(!isOpen)}
+      <button aria-labelledby="dropdown-label" tabIndex="0" type="button" onClick={() => toggleMenu(!isOpen)}
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-700 focus:outline-none focus:shadow-outline-purple focus:border-gray-700 active:bg-gray-700 transition duration-150 ease-in-out"
-              id="options-menu" aria-haspopup="true" aria-expanded="true">
-        <i className="fas fa-plus mr-2"/>New
+              id="options-menu" aria-haspopup="true" aria-expanded={isOpen}>
+        <i className="fas fa-plus mr-2"/><span id="dropdown-label">New</span>
       </button>
     </span>
             </div>
@@ -171,20 +171,21 @@ const NewMenu = ({setModal}) => {
                 <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg">
                     <div className="rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical"
                          aria-labelledby="options-menu">
-                        <div className="py-1">
-                            <button href="#" onClick={() => setModal(1)}
-                               className="group w-full text-left flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                               role="menuitem">
+                        <ul className="py-1">
+                            <li>
+                                <a href="/new/assignment" tabIndex="0" onClick={() => setModal(1)}
+                                        className="group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                        role="menuitem">
                                 <svg
                                     className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                                 Assignment
-                            </button>
-                            <a href="#"
-                               className="group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                               role="menuitem">
+                            </a></li>
+                            <li><button href="#" tabIndex="0"
+                                   className="group w-full text-left flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                   role="menuitem">
                                 <svg
                                     className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500"
                                     viewBox="0 0 20 20" fill="currentColor">
@@ -192,8 +193,9 @@ const NewMenu = ({setModal}) => {
                                         d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/>
                                 </svg>
                                 Course
-                            </a>
-                        </div>
+                            </button></li>
+
+                        </ul>
                     </div>
                 </div>
             </Transition>

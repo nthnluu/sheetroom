@@ -2,23 +2,14 @@ import {useQuery} from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import React from "react";
 
-const QUIZZES = gql`
-query Quizzes($userId: Int!){
-  quiz(where: {created_by: {_eq: $userId}}) {
+const ASSIGNMENTS = gql`
+query Assignments($userId: Int!){
+  assignments_assignment(where: {created_by: {_eq: $userId}}) {
     id,
     title,
     description,
-    quiz_topic {
-      color
-      title
-    }
   }
   
-  quiz_topics(where: {created_by: {_eq: $userId}}) {
-    title
-    color
-    id
-  }
 }
 `;
 
@@ -30,16 +21,17 @@ const LoadingPlaceholder = () => {
 
 
 const QuizList = ({userId}) => {
-    const {loading, error, data} = useQuery(QUIZZES, {variables: {userId: userId}});
+    const {loading, error, data} = useQuery(ASSIGNMENTS, {variables: {userId: userId}});
     if (loading) return <LoadingPlaceholder/>;
+    if (data === undefined) return null;
 
     return (
         <>
             <div className="bg-white shadow-sm border border-gray-200 overflow-hidden rounded-md mt-10">
                 <ul>
-                    {data.quiz.map((item, index) => <li key={item.id}
+                    {data.assignments_assignment.map((item, index) => <li key={item.id}
                                                         className={(index === 0) ? null : "border-t border-gray-200"}>
-                        <a href={"/edit/quiz/" + item.id}
+                        <a href={"/edit/assignment/" + item.id}
                            className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
                             <div className="px-4 py-4 sm:px-6">
                                 <div className="flex items-center justify-between">

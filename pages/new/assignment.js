@@ -1,18 +1,28 @@
-import AdminPageLayout from "../../Components/AdminPageLayout";
 import {useMutation} from "@apollo/react-hooks";
-import {CREATE_QUIZ} from "../../gql/quizzes";
 import {getSession} from "next-auth/client";
 import {useState} from "react";
+import AppLayout from "../../Components/AppLayout";
+import gql from "graphql-tag";
+
+export const CREATE_ASSIGNMENT = gql`
+  mutation InsertAssignment($title: String!, $desc: String, $userId: Int!) {
+      insert_assignments_assignment(objects: {title: $title, description: $desc, created_by: $userId}) {
+    returning {
+      id
+    }
+  }
+  }
+`;
 
 function QuizFormSet({session}) {
-    const [addQuiz, {data}] = useMutation(CREATE_QUIZ);
+    const [addAssignment, {data}] = useMutation(CREATE_ASSIGNMENT);
     const [isLoading, toggleLoading] = useState(false);
 
     function handleSubmit(e) {
         e.preventDefault();
         toggleLoading(true);
-        addQuiz({variables: {title: e.target.title.value, desc: e.target.description.value, creator: session.userId }})
-            .then((result) => window.location.href = '/edit/quiz/' + result.data.insert_quiz.returning[0].id)
+        addAssignment({variables: {title: e.target.title.value, desc: e.target.description.value, userId: session.userId}})
+            .then((result) => window.location.href = '/edit/quiz/' + result.data.insert_assignments_assignment.returning[0].id)
             .catch((error) => alert(error));
     }
 
@@ -73,24 +83,22 @@ function QuizFormSet({session}) {
 }
 
 const NewQuiz = ({user, session}) => {
-    return (<AdminPageLayout user={user}>
-        <div className="py-12">
+    return (
+        <AppLayout content={<div>
             <header>
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h1 className="text-2xl lg:text-3xl font-bold leading-tight text-gray-900">
-                        Create a new quiz
+                        Create a new assignment
                     </h1>
-                    <h2 className="text-gray-500 mt-1">A quiz is an interactive problem set that students can complete
-                        digitally or on paper.</h2>
+                    <h2 className="text-gray-500">An assignment is a reuseable set of questions you can assign to anyone with a link.</h2>
                 </div>
             </header>
             <main className="mt-6">
-                <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
                     <QuizFormSet session={session}/>
                 </section>
             </main>
-        </div>
-    </AdminPageLayout>)
+        </div>}/>)
 };
 
 NewQuiz.getInitialProps = async ({res, ...context}) => {

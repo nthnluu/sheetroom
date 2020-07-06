@@ -3,9 +3,28 @@ import {getSession} from 'next-auth/client'
 import AppLayout from "../Components/AppLayout";
 import QuizList from "../Components/Lists/QuizList";
 import CourseCards from "../Components/GridLists/CourseCards";
-import CreateQuizModal from "../Components/Modals/CreateQuizModal";
+import Modal from 'react-modal';
+import QuizModal from "../Components/Modals/Modal";
 
 
+const CreateQuizContent = () => {
+    return (<form>
+        <div>
+            <label htmlFor="title" className="sr-only">Title</label>
+            <div className="relative rounded-md shadow-sm">
+                <input required id="title" className="form-input block w-full sm:text-sm sm:leading-5"
+                       placeholder="Assignment Title"/>
+            </div>
+        </div>
+        <div className="mt-4">
+            <label htmlFor="description" className="sr-only">Description</label>
+            <div className="relative rounded-md shadow-sm">
+                <textarea id="description" className="form-input block w-full sm:text-sm sm:leading-5"
+                       placeholder="Description (optional)"/>
+            </div>
+        </div>
+    </form>)
+}
 const PageContent = ({userId}) => {
 
     return (
@@ -21,7 +40,6 @@ const Dashboard = ({session}) => {
 
     return (
         <>
-            <CreateQuizModal isOpen={activeModal === 1} setModal={(index)=>setActiveModal(index)}/>
             <AppLayout setModal={(index)=>setActiveModal(index)} sidebar={1} title="Dashboard" content={<PageContent userId={session.userId}/>} newButton/>
         </>
     )
