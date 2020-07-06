@@ -176,7 +176,7 @@ const ThirdArea = ({data}) => {
                 <div className="space-y-1">
                     <button
                         className="py-3 px-4 w-full text-left rounded-md  leading-5 font-medium text-blue-600 hover:bg-blue-100 focus:outline-none focus:bg-blue-100 focus:shadow-outline-blue active:bg-blue-200 transition duration-150 ease-in-out">
-                        <i className="fas fa-clipboard-check mr-4"/>Assign to Course
+                        <i className="fas fa-clipboard-check mr-5"/>Assign to Course
                     </button>
                     <button
                         className="py-3 px-4 w-full text-left rounded-md leading-5 font-medium text-gray-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline-blue active:bg-gray-200 transition duration-150 ease-in-out">
@@ -191,7 +191,7 @@ const ThirdArea = ({data}) => {
             </header>
             <div className="flex-1 flex flex-col justify-between">
                 <div className="px-4 divide-y divide-gray-200 sm:px-6">
-                    <div className="space-y-6 pt-6 pb-5">
+                    <div className="space-y-6 pt-8 pb-4">
                         <div className="space-y-1">
                             <label htmlFor="description"
                                    className="block text-sm font-medium leading-5 text-gray-900">
@@ -203,7 +203,7 @@ const ThirdArea = ({data}) => {
                                                                   className="form-input block w-full sm:text-sm sm:leading-5 transition ease-in-out duration-150"></textarea>
                             </div>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-2 pb-8">
                             <h3 className="text-sm font-medium leading-5 text-gray-900">
                                 Team Members
                             </h3>
@@ -247,142 +247,6 @@ const ThirdArea = ({data}) => {
                                 </div>
                             </div>
                         </div>
-                        <fieldset className="space-y-2 ">
-                            <legend className="text-sm leading-5 font-medium text-gray-900">
-                                Calculator
-                            </legend>
-                            <div className="space-y-5">
-                                <div className="relative flex items-start">
-                                    <div className="absolute flex items-center h-5">
-                                        <input id="privacy_public"
-                                               aria-describedby="privacy_public_description"
-                                               type="radio" name="privacy"
-                                               className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"/>
-                                    </div>
-                                    <div className="pl-7 text-sm leading-5">
-                                        <label htmlFor="privacy_public"
-                                               className="font-medium text-gray-900">
-                                            Graphing Calculator
-                                        </label>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="relative flex items-start">
-                                        <div className="absolute flex items-center h-5">
-                                            <input id="privacy_private-to-project"
-                                                   aria-describedby="privacy_private-to-project_description"
-                                                   type="radio" name="privacy"
-                                                   className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"/>
-                                        </div>
-                                        <div className="pl-7 text-sm leading-5">
-                                            <label htmlFor="privacy_private-to-project"
-                                                   className="font-medium text-gray-900">
-                                                Scientific Calculator
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="relative flex items-start">
-                                        <div className="absolute flex items-center h-5">
-                                            <input id="privacy_private"
-                                                   aria-describedby="privacy_private-to-project_description"
-                                                   type="radio" name="privacy"
-                                                   className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"/>
-                                        </div>
-                                        <div className="pl-7 text-sm leading-5">
-                                            <label htmlFor="privacy_private"
-                                                   className="font-medium text-gray-900">
-                                                Four-function Calculator
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="relative flex items-start">
-                                        <div className="absolute flex items-center h-5">
-                                            <input id="privacy_private"
-                                                   aria-describedby="privacy_private-to-project_description"
-                                                   type="radio" name="privacy"
-                                                   className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"/>
-                                        </div>
-                                        <div className="pl-7 text-sm leading-5">
-                                            <label htmlFor="privacy_private"
-                                                   className="font-medium text-gray-900">
-                                                No Calculator
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <fieldset className="space-y-2">
-                            <legend className="text-sm leading-5 font-medium text-gray-900">
-                                Privacy
-                            </legend>
-                            <div className="space-y-5">
-                                <div className="relative flex items-start">
-                                    <div className="absolute flex items-center h-5">
-                                        <input id="privacy_public"
-                                               aria-describedby="privacy_public_description"
-                                               type="radio" name="privacy"
-                                               className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"/>
-                                    </div>
-                                    <div className="pl-7 text-sm leading-5">
-                                        <label htmlFor="privacy_public"
-                                               className="font-medium text-gray-900">
-                                            Public access
-                                        </label>
-                                        <p id="privacy_public_description"
-                                           className="text-gray-500">
-                                            Everyone with the link will see this project.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="relative flex items-start">
-                                        <div className="absolute flex items-center h-5">
-                                            <input id="privacy_private-to-project"
-                                                   aria-describedby="privacy_private-to-project_description"
-                                                   type="radio" name="privacy"
-                                                   className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"/>
-                                        </div>
-                                        <div className="pl-7 text-sm leading-5">
-                                            <label htmlFor="privacy_private-to-project"
-                                                   className="font-medium text-gray-900">
-                                                Private to project members
-                                            </label>
-                                            <p id="privacy_private-to-project_description"
-                                               className="text-gray-500">
-                                                Only members of this project would be able to
-                                                access.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="relative flex items-start">
-                                        <div className="absolute flex items-center h-5">
-                                            <input id="privacy_private"
-                                                   aria-describedby="privacy_private-to-project_description"
-                                                   type="radio" name="privacy"
-                                                   className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"/>
-                                        </div>
-                                        <div className="pl-7 text-sm leading-5">
-                                            <label htmlFor="privacy_private"
-                                                   className="font-medium text-gray-900">
-                                                Private to you
-                                            </label>
-                                            <p id="privacy_private_description"
-                                               className="text-gray-500">
-                                                You are the only one able to access this
-                                                project.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
                     </div>
                     <div className="space-y-4 pt-4 pb-6">
                         <div className="flex text-sm leading-5">

@@ -1,6 +1,7 @@
 import Navbar from "../Components/Navbar/Navbar";
 import React from 'react';
 import { getSession } from 'next-auth/client';
+import RichTextEditor from "../Components/Editor/RichTextEditor";
 
 const Index = ({user, session}) => {
     const navBarItems = {
@@ -14,6 +15,7 @@ const Index = ({user, session}) => {
                 <header>
                     <h1 className="text-5xl md:text-6xl lg:text-7xl text-center font-black text-gray-900 leading-tight">Online assignments that just work
                     </h1>
+                    <RichTextEditor/>
                 </header>
             </div>
         </>

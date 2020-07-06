@@ -27,7 +27,7 @@ const QuizList = ({userId}) => {
 
     return (
         <>
-            <div className="bg-white shadow-sm border border-gray-200 overflow-hidden rounded-md mt-10">
+            <div className="bg-white shadow-sm border border-gray-200 overflow-hidden rounded-md">
                 <ul>
                     {data.assignments_assignment.map((item, index) => <li key={item.id}
                                                         className={(index === 0) ? null : "border-t border-gray-200"}>

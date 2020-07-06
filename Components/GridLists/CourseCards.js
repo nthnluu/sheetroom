@@ -25,7 +25,7 @@ const CourseCards = ({header, userId}) => {
     };
 
     return (
-        <div>
+        <div className="mb-10">
             <h2 className="text-gray-500 text-xs font-medium uppercase tracking-wide">{header}</h2>
             <ul className="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {data.course.map(item => <li key={item.id} className="col-span-1 flex items-center bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">

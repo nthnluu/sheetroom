@@ -3,11 +3,11 @@ import React from "react";
 import HeaderWithAction from "./PageHeadings/HeaderWithActions";
 import Head from "next/head";
 
-export default function ({sidebar, thirdArea, title, content, newButton, editableTitle, questionMenu, setModal, windowTitle}) {
+export default function ({sidebar, thirdArea, title, content, newButton, editableTitle, questionMenu, windowTitle}) {
 
-    const SidebarItem = ({sidebar, number, label, icon}) => {
+    const SidebarItem = ({sidebar, number, label, icon, link}) => {
         return (
-            <a href="#"
+            <a href={link}
                className={(sidebar === number) ? "group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-900 rounded-md bg-gray-100 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150" : "mt-1 group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150"}>
                 <svg
                     className={(sidebar === number) ? "mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150" : "mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"}
@@ -49,7 +49,7 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
                                                  icon={<path stroke-linecap="round" stroke-linejoin="round"
                                                              stroke-width="2"
                                                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>}/>
-                                    <SidebarItem sidebar={sidebar} number={5} label="Documents"
+                                    <SidebarItem sidebar={sidebar} number={5} label="Component Sandbox" link="/sandbox"
                                                  icon={<path stroke-linecap="round" stroke-linejoin="round"
                                                              stroke-width="2"
                                                              d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>}/>
@@ -65,10 +65,10 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
                     {/*Content Area*/}
                     <div className="flex flex-col w-0 flex-1 overflow-hidden mt-4 md:mt-0">
                         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none lg:px-6" tabIndex="0">
-                            <div className="pt-2 pb-6 md:py-6">
-                                <div className="mx-auto px-4 sm:px-6 lg:px-2 my-4">
-                                    <HeaderWithAction title={title} setModal={setModal} newButton={newButton} questionMenu={questionMenu} editableTitle={editableTitle}/>
-                                </div>
+                            <div className="pt-0 pb-6 md:py-6">
+                                {title ? <div className="mx-auto px-4 sm:px-6 lg:px-2 my-8">
+                                    <HeaderWithAction title={title} newButton={newButton} questionMenu={questionMenu} editableTitle={editableTitle}/>
+                                </div> : null}
                                 <div className="mx-auto px-4 sm:px-6 lg:px-2">
                                     {/*// <!-- Replace with your content -->*/}
                                     <div className="py-4">
