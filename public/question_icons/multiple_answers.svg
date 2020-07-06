@@ -1,0 +1,10 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <rect class="cls-1" strokeMiterLimit="10" strokeWidth="45" stroke="currentColor" fill="none" x="429.5" y="23.5" width="343" height="343" rx="89.93"/>
+  <rect class="cls-2" strokeMiterLimit="10" strokeWidth="45" stroke="currentColor" x="19.5" y="23.5" width="343" height="343" rx="89.93"/>
+  <path class="cls-3" strokeMiterLimit="10" stroke="#fff" strokeLinecap="round" strokeWidth="45" fill="none" d="M274.79 132.88l-95.32 119.54M121.29 190.95l48.95 61.43"/>
+  <g>
+    <rect class="cls-2" strokeMiterLimit="10" strokeWidth="45" stroke="currentColor" x="433.5" y="434.5" width="343" height="343" rx="89.93"/>
+    <path class="cls-3" strokeMiterLimit="10" stroke="#fff" strokeLinecap="round" strokeWidth="45" fill="none" d="M688.79 543.88l-95.32 119.54M535.29 601.95l48.95 61.43"/>
+  </g>
+  <rect class="cls-1" strokeMiterLimit="10" strokeWidth="45" fill="none"  x="19.5" y="432.5" width="343" height="343" rx="89.93"/>
+</svg>
