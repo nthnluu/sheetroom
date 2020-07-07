@@ -3,7 +3,6 @@ import {getSession} from 'next-auth/client'
 import AppLayout from "../Components/AppLayout";
 import QuizList from "../Components/Lists/QuizList";
 import CourseCards from "../Components/GridLists/CourseCards";
-import RichTextExample from "../Components/Editor/SlateEditor";
 
 const PageContent = ({userId}) => {
 
@@ -11,7 +10,6 @@ const PageContent = ({userId}) => {
         <>
             <CourseCards header="My Classes" userId={userId}/>
             <QuizList userId={userId}/>
-            <RichTextExample/>
         </>
     )
 };

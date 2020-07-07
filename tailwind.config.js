@@ -4,6 +4,10 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
     theme: {
         extend: {
+            spacing: {
+                ...defaultTheme.spacing,
+                '86': '20rem'
+            },
             colors: {
                 // darkGray: '#323248',
                 // ...defaultTheme.colors

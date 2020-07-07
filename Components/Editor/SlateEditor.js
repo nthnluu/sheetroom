@@ -1,11 +1,10 @@
 import React, {useCallback, useMemo, useState} from 'react'
 import isHotkey from 'is-hotkey'
 import {Editable, withReact, useSlate, Slate} from 'slate-react'
-import {Editor, Transforms, createEditor, Selection} from 'slate'
+import {Editor, Transforms, createEditor} from 'slate'
 import {withHistory} from 'slate-history'
-
-import {Button, Icon, Toolbar} from "./Components";
 import ToolbarButton from "./Buttons";
+import Transition from "../Transition";
 
 const HOTKEYS = {
     'mod+b': 'bold',
@@ -14,10 +13,10 @@ const HOTKEYS = {
     'mod+`': 'code',
 }
 
-const LIST_TYPES = ['numbered-list', 'bulleted-list']
+const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 
-const RichTextExample = () => {
-    const [value, setValue] = useState(initialValue)
+const RichTextField = ({active}) => {
+    const [value, setValue] = useState(initialValue);
     const [toolbarOpen, toggleToolbar] = useState(false);
     const renderElement = useCallback(props => <Element {...props} />, []);
     const renderLeaf = useCallback(props => <Leaf {...props} />, []);
@@ -25,14 +24,15 @@ const RichTextExample = () => {
 
 
     return (
-        <div className="group" onMouseOver={() => toggleToolbar(true)} onMouseLeave={() => toggleToolbar(false)}>
+        <div className="group py-8 -mt-8" onMouseOver={() => {if (active) {toggleToolbar(true)} else { return }}}
+             onMouseLeave={() => toggleToolbar(false)}>
             <Slate editor={editor} value={value} onChange={value => setValue(value)}>
-                <div className="border rounded-lg py-3 px-4 shadow-sm">
+                <div className={active ? "border border-gray-100 group-hover:border-gray-300 active:border-blue-400 rounded-lg py-3 px-4 shadow-sm " : "rounded-lg py-3 px-4 -ml-4 -mt-3"}>
                     <Editable
+                        readOnly={!active}
                         renderElement={renderElement}
                         renderLeaf={renderLeaf}
                         placeholder="Start typing…"
-                        autoFocus
                         spellCheck={false}
                         isSelected
                         onFocus={() => toggleToolbar(true)}
@@ -47,8 +47,13 @@ const RichTextExample = () => {
                         }}
                     />
                 </div>
-                {toolbarOpen ?
-                    <div className="flex justify-between mt-2 border rounded-lg p-1 shadow-lg" style={{width: '20rem'}}>
+
+                <Transition show={toolbarOpen} enter="transition ease-out duration-100"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95">
+                    <div className="flex justify-between mt-2 border rounded-lg p-2 sm:p-1 shadow w-full sm:w-86">
                         <MarkButton format="bold" icon={<>B</>}/>
                         <MarkButton format="italic" icon={<i>I</i>}/>
                         <MarkButton format="underline" icon={<u>U</u>}/>
@@ -58,7 +63,8 @@ const RichTextExample = () => {
                         <BlockButton format="block-quote" icon={<i className="fas fa-quote-right"/>}/>
                         <BlockButton format="numbered-list" icon={<i className="fas fa-list-ol"/>}/>
                         <BlockButton format="bulleted-list" icon={<i className="fas fa-list-ul"></i>}/>
-                    </div> : null}
+                    </div>
+                </Transition>
             </Slate>
         </div>
     )
@@ -200,4 +206,4 @@ const initialValue = [
     },
 ]
 
-export default RichTextExample
+export default RichTextField
