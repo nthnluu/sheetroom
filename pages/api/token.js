@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken'
 import CryptoJS from 'crypto-js'
 
 const callAPI = async (path, body, headers) => {
