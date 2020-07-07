@@ -49,9 +49,9 @@ const PageContent = () => {
         <div>
             <DnDList items={quizSampleData.items}/>
             <div className="pt-12 pb-32">
-                <div className="grid grid-cols-3 gap-6 max-w-sm mx-auto leading-tight">
+                <div className="grid grid-cols-2 items-center sm:grid-cols-3 gap-6 max-w-sm mx-auto leading-tight">
                     <button
-                        className="h-28 w-28 p-4 border rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        className="h-28 w-28 p-4 border mx-auto rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 800 800"
                              className="h-8 w-8 mb-2 mx-auto">
@@ -75,7 +75,7 @@ const PageContent = () => {
                         Multiple Choice
                     </button>
                     <button
-                        className="h-28 w-28 p-4 border rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        className="h-28 w-28 p-4 border mx-auto rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         <svg
                             className="h-8 w-8 mb-2 mx-auto"
                             id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +102,7 @@ const PageContent = () => {
                         Multiple Answers
                     </button>
                     <button
-                        className="h-28 w-28 p-4 border rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        className="h-28 w-28 p-4 border mx-auto rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         <svg
                             className="h-8 w-8 mb-2 mx-auto"
                             data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800.91 800.91">
@@ -114,7 +114,7 @@ const PageContent = () => {
                         Short Answer
                     </button>
                     <button
-                        className="h-28 w-28 p-4 border rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        className="h-28 w-28 p-4 border mx-auto rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         <svg
                             className="h-8 w-8 mb-2 mx-auto"
                             data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800.91 800.91">
@@ -126,7 +126,7 @@ const PageContent = () => {
                         Math
                     </button>
                     <button
-                        className="h-28 w-28 p-4 border rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        className="h-28 w-28 p-4 border mx-auto rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                              viewBox="0 0 800 800"
                              className="h-8 w-8 mb-2 mx-auto">
@@ -142,7 +142,7 @@ const PageContent = () => {
                         Graph
                     </button>
                     <button
-                        className="h-28 w-28 p-4 border rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        className="h-28 w-28 p-4 border mx-auto rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         <svg className="h-8 w-8 mb-2 mx-auto" viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg">
                             <path

@@ -27,7 +27,7 @@ const RichTextField = ({active}) => {
         <div className="group py-8 -mt-8" onMouseOver={() => {if (active) {toggleToolbar(true)} else { return }}}
              onMouseLeave={() => toggleToolbar(false)}>
             <Slate editor={editor} value={value} onChange={value => setValue(value)}>
-                <div className={active ? "border border-gray-100 group-hover:border-gray-300 active:border-blue-400 rounded-lg py-3 px-4 shadow-sm " : "rounded-lg py-3 px-4 -ml-4 -mt-3"}>
+                <div className={active ? "border border-gray-100 group-hover:border-gray-300 active:border-blue-400 rounded-lg py-3 px-4 shadow-sm " : "rounded-lg py-3 px-4 border border-transparent"}>
                     <Editable
                         readOnly={!active}
                         renderElement={renderElement}
@@ -53,7 +53,7 @@ const RichTextField = ({active}) => {
                             enterTo="transform opacity-100 scale-100"
                             leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100"
                             leaveTo="transform opacity-0 scale-95">
-                    <div className="flex justify-between mt-2 border rounded-lg p-2 sm:p-1 shadow w-full sm:w-86">
+                    <div className="flex justify-between mt-2 border rounded-lg p-2 sm:p-1 shadow w-full sm:w-86 flex-wrap flex-shrink-0">
                         <MarkButton format="bold" icon={<>B</>}/>
                         <MarkButton format="italic" icon={<i>I</i>}/>
                         <MarkButton format="underline" icon={<u>U</u>}/>
