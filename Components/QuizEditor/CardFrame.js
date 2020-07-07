@@ -346,7 +346,7 @@ const InactiveCard = () => {
 };
 
 const CardFrame = ({item}) => {
-    const [modalActive, toggleSelected] = useState(false);
+    const [modalActive, toggleSelected] = useState(true);
     return (
         <div className="bg-white focus:shadow-outline w-full rounded-r-lg py-8 px-8 focus:outline-none">
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">

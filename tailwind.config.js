@@ -26,6 +26,10 @@ module.exports = {
             },
         },
     },
+    variants: {
+        flex: ['responsive', 'group-hover'],
+        visibility: ['responsive', 'group-hover']
+    },
     plugins: [
         require('@tailwindcss/ui')({
             layout: 'sidebar',

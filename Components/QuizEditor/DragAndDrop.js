@@ -45,7 +45,7 @@ const DnDCard = ({item, index, setActive}) => {
                         <i {...provided.dragHandleProps}  className="fas fa-grip-lines w-full text-center active:text-blue-500 transition-all duration-100"></i>
                         <button className="w-full active:text-blue-500 transition-all duration-100"><i className="fas fa-chevron-down"/></button>
                     </div>
-                    <button className="w-full p-2 mt-2 active:text-red-500 transition-color duration-100"><i className="far fa-trash-alt"/></button>
+                    <button className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100"><i className="far fa-trash-alt"/></button>
                 </div>
                 <CardFrame item={item}/>
             </div>
