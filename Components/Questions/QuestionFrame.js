@@ -1,6 +1,6 @@
 import MultipleChoice from "./Controllers/MultipleChoice";
 import ShortAnswer from "./Controllers/ShortAnswer";
-import ReadOnlyEditor from "../Editor/ReadOnlyEditor";
+import {ReadOnlyEditor} from "../Editor/SlateEditor";
 
 function Controller({type, item}) {
     //1: multiple choice

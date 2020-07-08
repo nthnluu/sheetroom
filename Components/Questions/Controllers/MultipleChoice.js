@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import ReadOnlyEditor from "../../Editor/ReadOnlyEditor";
+import {ReadOnlyEditor} from "../../Editor/SlateEditor";
 
 function AnswerChoice({selected, onClick, text, radioName, questionId, index}) {
     const [focused, setFocus] = useState(false);

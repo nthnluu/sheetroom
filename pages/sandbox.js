@@ -1,12 +1,10 @@
 import {getSession} from "next-auth/client";
 import AppLayout from "../Components/AppLayout";
-import RichTextEditor from "../Components/Editor/RichTextEditor";
 
 
 const PageContent = ({session}) => {
     return (<div>
         <h1 className="font-medium mb-2 ">Rich Text Editor</h1>
-        <RichTextEditor/>
     </div>)
 };
 

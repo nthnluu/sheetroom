@@ -1,4 +1,3 @@
-import RichTextEditor from "../Editor/RichTextEditor";
 import {useState} from "react";
 import Transition from "../Transition";
 import RichTextField from "../Editor/SlateEditor";
