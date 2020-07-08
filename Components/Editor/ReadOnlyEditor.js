@@ -24,7 +24,7 @@ const ReadOnlyEditor = ({active, content}) => {
     return (
         <div>
             <Slate editor={editor} value={content}>
-                <div>
+                <div className="font-serif">
                     <Editable
                         readOnly={true}
                         renderElement={renderElement}

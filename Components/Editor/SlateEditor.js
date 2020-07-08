@@ -54,7 +54,7 @@ const RichTextField = ({active}) => {
                             enterTo="transform opacity-100 scale-100"
                             leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100"
                             leaveTo="transform opacity-0 scale-95">
-                    <div className="flex justify-between mt-2 border rounded-lg p-2 sm:p-1 shadow w-full sm:w-86 flex-wrap flex-shrink-0">
+                    <div className="flex justify-between mt-2 border rounded-lg p-2 sm:p-1 shadow w-full sm:w-96 flex-wrap flex-shrink-0">
                         <MarkButton format="bold" icon={<>B</>}/>
                         <MarkButton format="italic" icon={<i>I</i>}/>
                         <MarkButton format="underline" icon={<u>U</u>}/>
@@ -64,6 +64,8 @@ const RichTextField = ({active}) => {
                         <BlockButton format="block-quote" icon={<i className="fas fa-quote-right"/>}/>
                         <BlockButton format="numbered-list" icon={<i className="fas fa-list-ol"/>}/>
                         <BlockButton format="bulleted-list" icon={<i className="fas fa-list-ul"></i>}/>
+                        <ToolbarButton icon={<i className="fas fa-bug"/>} color="gray"
+                                       onMouseDown={() => console.log(value)}/>
                     </div>
                 </Transition>
             </Slate>
