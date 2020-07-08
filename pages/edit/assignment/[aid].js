@@ -5,7 +5,7 @@ import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
-import React from "react";
+import React, {useState} from "react";
 
 const quizSampleData = {
     title: "Semester 2 Final",
@@ -45,9 +45,11 @@ const quizSampleData = {
     ]
 };
 const PageContent = ({data}) => {
+    const [currentItem, setCurrentItem] = useState(undefined);
     return (
         <div>
-            <DnDList items={data.assignments_assignment_by_pk.sections[0].items}/>
+            <p>{JSON.stringify(currentItem)}</p>
+            <DnDList currentItem={currentItem} setItem={setCurrentItem} items={data.assignments_assignment_by_pk.sections[0].items}/>
             <div className="pt-12 pb-32">
                 <div className="grid grid-cols-2 items-center sm:grid-cols-3 gap-6 max-w-sm mx-auto leading-tight">
                     <button
@@ -200,7 +202,7 @@ const ThirdArea = ({data}) => {
                             <div className="relative rounded-md shadow-sm">
                                                         <textarea id="description" rows="4"
                                                                   value={data.assignments_assignment_by_pk.description}
-                                                                  className="form-input block w-full sm:text-sm sm:leading-5 transition ease-in-out duration-150"></textarea>
+                                                                  className="form-input z-0 block w-full sm:text-sm sm:leading-5 transition ease-in-out duration-150"></textarea>
                             </div>
                         </div>
                         <div className="space-y-2 pb-8">

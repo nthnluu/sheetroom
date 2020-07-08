@@ -345,18 +345,19 @@ const InactiveCard = () => {
     )
 };
 
-const CardFrame = ({item}) => {
+const CardFrame = ({item, active}) => {
     const [modalActive, toggleSelected] = useState(true);
     return (
         <div className="bg-white focus:shadow-outline w-full rounded-r-lg py-8 px-8 focus:outline-none">
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
 
                 <div className="w-full border-r border-transparent md:border-gray-200 md:pr-4 md:mr-4 pr-0 mr-0">
-                    {modalActive ? <RichTextField active initialContent={item.content} /> : <InactiveCard/>}
+                    {modalActive ? <RichTextField active={active} initialContent={item.content} /> : <InactiveCard/>}
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
                     <QuestionType/>
                     <Calculator/>
+                    <p>{JSON.stringify(active)}</p>
                 </div>
             </div>
         </div>

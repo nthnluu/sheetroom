@@ -150,7 +150,7 @@ const NewQuestion = () => {
         </div>
     )
 };
-const NewMenu = ({setModal}) => {
+const NewMenu = () => {
     const [isOpen, toggleMenu] = useState(false);
     return (
         <div className="relative inline-block text-left">
@@ -173,7 +173,7 @@ const NewMenu = ({setModal}) => {
                          aria-labelledby="options-menu">
                         <ul className="py-1">
                             <li>
-                                <a href="/new/assignment" tabIndex="0" onClick={() => setModal(1)}
+                                <a href="/new/assignment" tabIndex="0"
                                         className="group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                         role="menuitem">
                                 <svg
@@ -202,7 +202,7 @@ const NewMenu = ({setModal}) => {
         </div>
     )
 };
-const HeaderWithAction = ({title, newButton, editableTitle, questionMenu, setModal}) => {
+const HeaderWithAction = ({title, newButton, editableTitle, questionMenu}) => {
     return (
         <div className="flex items-center justify-between">
             <div className="flex-1 min-w-0">
@@ -215,7 +215,7 @@ const HeaderWithAction = ({title, newButton, editableTitle, questionMenu, setMod
             </div>
             {newButton ? <div className="flex mt-0 ml-4">
                 <span className="ml-3 shadow-sm rounded-md">
-                    <NewMenu setModal={setModal}/>
+                    <NewMenu/>
                 </span>
             </div> : null}
 

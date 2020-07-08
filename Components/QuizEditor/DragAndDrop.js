@@ -32,14 +32,14 @@ const getListStyle = isDraggingOver => ({
 });
 
 
-const DnDCard = ({item, index, setActive}) => {
+const DnDCard = ({item, index, setActive, active}) => {
     return (<Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided, snapshot) => (
-            <div className={snapshot.isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200":"flex border border-gray-200 justify-between rounded-lg mb-4 shadow-sm hover:shadow-lg transition-shadow duration-200"}
+            <div onClick={() => setActive()} className={snapshot.isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200 z-50":"flex border border-gray-200 justify-between rounded-lg mb-4 shadow-sm transition-shadow duration-200 z-50"}
                 ref={provided.innerRef}
                 {...provided.draggableProps}
             >
-                <div className="p-2 text-gray-400 rounded-l-lg bg-white">
+                <div className={active ? "p-2 text-gray-400 rounded-l-lg bg-white h-96" : "p-2 text-gray-400 rounded-l-lg bg-white"}>
                     <div className="py-1">
                         <button className="w-full active:text-blue-500 transition-all duration-100"><i className="fas fa-chevron-up"/></button>
                         <i {...provided.dragHandleProps}  className="fas fa-grip-lines w-full text-center active:text-blue-500 transition-all duration-100"></i>
@@ -47,20 +47,20 @@ const DnDCard = ({item, index, setActive}) => {
                     </div>
                     <button className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100"><i className="far fa-trash-alt"/></button>
                 </div>
-                <CardFrame item={item}/>
+                <CardFrame item={item} active={active}/>
             </div>
         )}
     </Draggable>)
 }
 
-const DnDContainer = ({provided, snapshot, items, setActive}) => {
+const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setItem}) => {
     return (<div
         {...provided.droppableProps}
         ref={provided.innerRef}
         style={getListStyle(snapshot.isDraggingOver)}
     >
         {items.map((item, index) => (
-            <DnDCard setActive={(index) => setActive(index)} item={item} index={index}/>
+            <DnDCard setActive={() => setItem(item.id)} active={currentItem===item.id} item={item} index={index}/>
         ))}
         {provided.placeholder}
     </div>)
@@ -71,7 +71,8 @@ class DnDList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: props.items
+            items: props.items,
+            currentItem: props.currentItem
         };
         this.onDragEnd = this.onDragEnd.bind(this);
     }
@@ -100,7 +101,7 @@ class DnDList extends Component {
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <Droppable droppableId="droppable">
                     {(provided, snapshot) => (
-                        <DnDContainer provided={provided} snapshot={snapshot} items={this.state.items}/>
+                        <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => this.props.setItem(id)} currentItem={this.props.currentItem} items={this.state.items}/>
                     )}
                 </Droppable>
             </DragDropContext>
