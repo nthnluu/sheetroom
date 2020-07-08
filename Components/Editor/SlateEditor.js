@@ -14,8 +14,8 @@ const HOTKEYS = {
     'mod+`': 'code',
 }
 
-export const RichTextField = ({active}) => {
-    const [value, setValue] = useState(initialValue);
+export const RichTextField = ({active, initialContent}) => {
+    const [value, setValue] = useState(initialContent);
     const [toolbarOpen, toggleToolbar] = useState(false);
     const renderElement = useCallback(props => <Element {...props} />, []);
     const renderLeaf = useCallback(props => <Leaf {...props} />, []);

@@ -44,10 +44,10 @@ const quizSampleData = {
         }
     ]
 };
-const PageContent = () => {
+const PageContent = ({data}) => {
     return (
         <div>
-            <DnDList items={quizSampleData.items}/>
+            <DnDList items={data.assignments_assignment_by_pk.sections[0].items}/>
             <div className="pt-12 pb-32">
                 <div className="grid grid-cols-2 items-center sm:grid-cols-3 gap-6 max-w-sm mx-auto leading-tight">
                     <button
@@ -300,7 +300,7 @@ const QuizEditor = ({user}) => {
         <>
             <div className="min-h-screen bg-gray-50">
                 {loading ? <LoadingPlaceholder/> :
-                    <AppLayout title={data.assignments_assignment_by_pk.title} content={<PageContent/>} questionMenu
+                    <AppLayout title={data.assignments_assignment_by_pk.title} content={<PageContent data={data}/>} questionMenu
                                editableTitle thirdArea={<ThirdArea data={data}/>}
                                windowTitle={data.assignments_assignment_by_pk.title}/>}
             </div>

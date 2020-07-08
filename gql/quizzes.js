@@ -8,6 +8,7 @@ query AssignmentByPk($id: uuid!) {
     id
     sections {
       items {
+        id
         content
         blocks
         type
