@@ -7,8 +7,7 @@
 }
 
 .examCard {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    @apply bg-white overflow-hidden rounded-lg my-8 border border-gray-100
+    @apply bg-white overflow-hidden rounded-lg my-8 border border-gray-300 shadow-sm
 }
 .card {
     display: table;

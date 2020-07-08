@@ -43,7 +43,7 @@ export default function ({choices, questionId}) {
                     {choices.map((choice, index) => <AnswerChoice index={index} selected={selected === choice.id}
                                                                   questionId={questionId}
                                                                   onClick={() => setSelected(choice.id)} key={choice.id}
-                                                                  text={choice.content} radioName={radioName}/>)}
+                                                                  text={JSON.stringify(choice.content)} radioName={radioName}/>)}
                 </fieldset>
             </form>
         </>

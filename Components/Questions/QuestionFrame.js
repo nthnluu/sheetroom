@@ -1,12 +1,12 @@
 import MultipleChoice from "./Controllers/MultipleChoice";
 import ShortAnswer from "./Controllers/ShortAnswer";
 
-function Controller({type, question}) {
+function Controller({type, item}) {
     //1: multiple choice
     //2: short answer
     switch (type) {
         case("MC"):
-            return <section aria-label="Answer Choices"><MultipleChoice choices={question.answers} questionId={question.id}/></section>;
+            return <section aria-label="Answer Choices"><MultipleChoice choices={item.answer_choices} itemId={item.id}/></section>;
             break;
         case("SA"):
             return <section aria-label="Response Text Field"><ShortAnswer/></section>;
@@ -20,13 +20,13 @@ function Controller({type, question}) {
 
 }
 
-export default function ({question, index}) {
+export default function ({item, index}) {
     return (
         <article>
             <h2 className="font-semibold text-gray-800 text-lg">Question {index+1}</h2>
-            <section className="text-gray-800 sm:text-lg mb-8 mt-1" aria-label="Question Text"><p>{question.content}</p>
+            <section className="text-gray-800 sm:text-lg mb-8 mt-1" aria-label="Question Text"><p>{JSON.stringify(item.content)}</p>
             </section>
-            <Controller type={question.type} question={question}/>
+            <Controller type={item.type} item={item}/>
         </article>)
 
 }

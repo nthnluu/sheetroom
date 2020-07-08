@@ -5,7 +5,18 @@ query AssignmentByPk($id: uuid!) {
   assignments_assignment_by_pk(id: $id)
   {
     title
-    description
+    id
+    sections {
+      items {
+        content
+        blocks
+        type
+        answer_choices {
+          id
+          content
+        }
+      }
+    }
   }
 }
 `;

@@ -56,7 +56,7 @@ const Assignment = () => {
                 <div className="max-w-4xl mx-auto px-4 lg:px-0">
                     {assignment.questions.map((question, index) => <article key={question.id} className="examCard mb-6"
                                                                             aria-label={'Question ' + (index + 1)}>
-                        <div className="p-6 sm:p-8">
+                        <div >
 
                             <QuestionFrame question={question} index={index}/>
                         </div>
