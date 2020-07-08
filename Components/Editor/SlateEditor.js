@@ -36,6 +36,7 @@ const RichTextField = ({active}) => {
                         spellCheck={false}
                         isSelected
                         onFocus={() => toggleToolbar(true)}
+                        onBlur={(event) => event.preventDefault()}
                         onKeyDown={event => {
                             for (const hotkey in HOTKEYS) {
                                 if (isHotkey(hotkey, event)) {
@@ -152,7 +153,7 @@ const Leaf = ({attributes, children, leaf}) => {
 }
 
 const BlockButton = ({format, icon}) => {
-    const editor = useSlate()
+    const editor = useSlate();
     return (
         <ToolbarButton active={isBlockActive(editor, format)} icon={icon} color="gray"
                        onMouseDown={() => toggleBlock(editor, format)}/>

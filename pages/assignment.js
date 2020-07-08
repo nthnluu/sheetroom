@@ -39,7 +39,7 @@ const PageContent = ({data}) => {
 
     return (
         <>
-            {data.assignments_assignment_by_pk.sections[0].items.map((item, index) => <article className="bg-white overflow-hidden rounded-lg my-8 border border-gray-300 shadow-sm">
+            {data.assignments_assignment_by_pk.sections[0].items.map((item, index) => <article key={item.id} className="bg-white overflow-hidden rounded-lg my-8 border border-gray-300 shadow-sm">
                 <div className="p-6 sm:p-8">
                     <QuestionFrame item={item} index={index}/>
                 </div>

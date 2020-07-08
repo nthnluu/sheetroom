@@ -1,4 +1,5 @@
 import React, {useRef, useState} from "react";
+import ReadOnlyEditor from "../../Editor/ReadOnlyEditor";
 
 function AnswerChoice({selected, onClick, text, radioName, questionId, index}) {
     const [focused, setFocus] = useState(false);
@@ -23,7 +24,7 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index}) {
             <label id={labelId} htmlFor={inputId} onClick={() => onClick()}
                    className={selected ? 'card selectedCard cursor-pointer' : 'card unselectedCard cursor-pointer ' + checkFocus()}>
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
-                <span className="table-cell pl-2 w-full">{text}</span>
+                <span className="table-cell pl-2 w-full"><ReadOnlyEditor content={text}/></span>
             </label>
         </>
     )
@@ -43,7 +44,7 @@ export default function ({choices, questionId}) {
                     {choices.map((choice, index) => <AnswerChoice index={index} selected={selected === choice.id}
                                                                   questionId={questionId}
                                                                   onClick={() => setSelected(choice.id)} key={choice.id}
-                                                                  text={JSON.stringify(choice.content)} radioName={radioName}/>)}
+                                                                  text={choice.content} radioName={radioName}/>)}
                 </fieldset>
             </form>
         </>

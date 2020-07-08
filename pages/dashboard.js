@@ -4,6 +4,7 @@ import AppLayout from "../Components/AppLayout";
 import QuizList from "../Components/Lists/QuizList";
 import CourseCards from "../Components/GridLists/CourseCards";
 
+
 const PageContent = ({userId}) => {
 
     return (

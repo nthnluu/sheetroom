@@ -5,7 +5,9 @@ import ApolloClient from "apollo-client";
 import {InMemoryCache} from "apollo-cache-inmemory";
 import {Provider} from 'next-auth/client'
 import {setContext} from "apollo-link-context";
-
+import 'react-quill/dist/quill.core.css'
+import 'react-quill/dist/quill.snow.css'
+import 'react-quill/dist/quill.bubble.css'
 
 const App = ({Component, pageProps}) => {
     const {session} = pageProps;
