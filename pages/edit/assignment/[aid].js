@@ -1,11 +1,13 @@
 import {useRouter} from 'next/router'
 import {ASSIGNMENT, QUIZ} from "../../../gql/quizzes";
-import {useQuery} from "@apollo/react-hooks";
+import {useMutation, useQuery} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
 import React, {useState} from "react";
+import {CREATE_ASSIGNMENT} from "../../new/course";
+import {UPDATE_ASSIGNMENT_TITLE} from "../../../gql/assignmentAutosave";
 
 const quizSampleData = {
     title: "Semester 2 Final",
@@ -170,7 +172,7 @@ const LoadingPlaceholder = () => {
         </div>
     )
 };
-const ThirdArea = ({data}) => {
+const ThirdArea = ({data, isSaving, saveFailed}) => {
     return (
         <>
             <header className="space-y-1 py-4 px-4 border-b border-gray-200 sm:px-6">
@@ -186,8 +188,17 @@ const ThirdArea = ({data}) => {
 
                     <button
                         className="py-3 px-4 w-full text-left rounded-md leading-5 font-medium text-gray-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline-blue active:bg-gray-200 transition duration-150 ease-in-out">
-                        <i className="fas fa-print mr-4"/>Generate Print Version
+                        <i className="fas fa-print mr-3"/>Generate Print Version
                     </button>
+                    {saveFailed ? <button
+                        className="py-3 px-4 w-full text-left rounded-md leading-5 font-medium text-red-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline-blue active:bg-gray-200 transition duration-150 ease-in-out">
+                        <i className="fas fa-times mr-3 text-red-600"/>Save Failed
+                    </button> : <button
+                        className="py-3 px-4 w-full text-left rounded-md leading-5 font-medium text-gray-600 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline-blue active:bg-gray-200 transition duration-150 ease-in-out">
+                        <i className={isSaving ? "fas fa-sync-alt mr-3 fa-spin" : "fas fa-check mr-3 text-green-500"}/>{isSaving ? "Saving" : "Saved"}
+                    </button>}
+
+
                 </div>
             </header>
             <div className="flex-1 flex flex-col justify-between">
@@ -288,22 +299,37 @@ const ThirdArea = ({data}) => {
     )
 };
 
+
 const QuizEditor = ({user}) => {
     const router = useRouter();
     const {aid} = router.query;
+    const [saveStatus, setSaveStatus] = useState(0);
+
+    //autosave mutations
+    const [updateTitle, {titleData}] = useMutation(UPDATE_ASSIGNMENT_TITLE);
 
     const {loading, error, data} = useQuery(ASSIGNMENT, {
         variables: {id: aid},
     });
     if (error) return `Error! ${error}`;
 
+
+
     return (
         <>
             <div className="min-h-screen bg-gray-50">
                 {loading ? <LoadingPlaceholder/> :
-                    <AppLayout onTitleBlur={(value) => console.log(value)} title={data.assignments_assignment_by_pk.title} content={<PageContent data={data}/>} questionMenu
+                    <AppLayout onTitleBlur={(value) => {
+                        if (value === data.assignments_assignment_by_pk.title) {
+                            return;
+                        } else {
+                            setSaveStatus(1);
+                            updateTitle({variables: {assignmentId: aid, title: value}})
+                                .then(() => setSaveStatus(0))
+                                .catch((error) => setSaveStatus(2));
+                        }}} title={data.assignments_assignment_by_pk.title} content={<PageContent data={data}/>} questionMenu
                                editableTitle
-                               thirdArea={<ThirdArea data={data}/>}
+                               thirdArea={<ThirdArea data={data} isSaving={saveStatus === 1} saveFailed={saveStatus===2}/>}
                                windowTitle={data.assignments_assignment_by_pk.title}/>}
             </div>
         </>
