@@ -2,6 +2,15 @@
 @tailwind base;
 @tailwind components;
 /* purgecss end ignore */
+
+blockquote {
+    @apply p-3 border rounded text-lg border-gray-200 my-4
+}
+
+code {
+    background-color: rgba(0,0,0,0.075);
+    @apply p-1 mr-1 rounded-lg
+}
 .stickyNav {
     box-shadow: 0 12px 10px -10px rgba(0, 0, 0, 0.12);
 }
