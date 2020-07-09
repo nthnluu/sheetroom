@@ -8,6 +8,7 @@ const reorder = (list, startIndex, endIndex) => {
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 
+    console.log(result);
     return result;
 };
 
@@ -60,7 +61,7 @@ const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setIte
         style={getListStyle(snapshot.isDraggingOver)}
     >
         {items.map((item, index) => (
-            <DnDCard setActive={() => setItem(item.id)} active={currentItem===item.id} item={item} index={index}/>
+            <DnDCard key={item.id} setActive={() => setItem(item.id)} active={currentItem===item.id} item={item} index={item.index}/>
         ))}
         {provided.placeholder}
     </div>)
@@ -101,7 +102,7 @@ class DnDList extends Component {
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <Droppable droppableId="droppable">
                     {(provided, snapshot) => (
-                        <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => this.props.setItem(id)} currentItem={this.props.currentItem} items={this.state.items}/>
+                        <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => this.props.setItem(id)} currentItem={this.props.currentItem} items={this.props.items}/>
                     )}
                 </Droppable>
             </DragDropContext>

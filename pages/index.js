@@ -1,7 +1,7 @@
 import Navbar from "../Components/Navbar/Navbar";
 import React from 'react';
 import {getSession} from 'next-auth/client';
-import RichTextField from "../Components/Editor/SlateEditor";
+import RichTextField, {RichTextEditor} from "../Components/Editor/SlateEditor";
 
 
 const Index = ({user, session}) => {
@@ -21,6 +21,7 @@ const Index = ({user, session}) => {
                         assignments that just work
                     </h1>
                     <RichTextField active/>
+                    <RichTextEditor active/>
                 </header>
             </div>
         </>
@@ -41,21 +42,6 @@ Index.getInitialProps = async ({res, ...context}) => {
         }
     }
 };
-
-// export async function getServerSideProps({req, res}) {
-//     if (typeof window === 'undefined') {
-//         const session = await getSession(req);
-//         if (!session || !session.user) {
-//             return {props: {user: 'not authenticated'}};
-//         } else {
-//             res.writeHead(302, {
-//                 Location: '/dashboard'
-//             });
-//             res.end();
-//             return;
-//         }
-//     }
-// };
 
 export default Index;
 

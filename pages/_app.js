@@ -4,32 +4,44 @@ import {createHttpLink} from "apollo-link-http";
 import ApolloClient from "apollo-client";
 import {InMemoryCache} from "apollo-cache-inmemory";
 import {Provider} from 'next-auth/client'
-import {setContext} from "apollo-link-context";
-import 'react-quill/dist/quill.core.css'
-import 'react-quill/dist/quill.snow.css'
-import 'react-quill/dist/quill.bubble.css'
+import {WebSocketLink} from 'apollo-link-ws';
+import {split} from "apollo-link";
+import {getMainDefinition} from "apollo-utilities";
 
 const App = ({Component, pageProps}) => {
     const {session} = pageProps;
+
+    const wsLink = process.browser ? new WebSocketLink({
+        uri: `ws://api.homework.gg/v1/graphql`,
+        options: {
+            reconnect: true,
+            connectionParams: {
+                headers: {
+                    'x-hasura-admin-secret': `Ik"*Aj=ho)P=Ekext"{P$+g@Ua0J'|`
+                }
+            },
+        }
+    }) : null;
 
     const httpLink = createHttpLink({
         uri: '/api/token',
     });
 
-    const authLink = setContext((_, {headers}) => {
-        // get the authentication token from local storage if it exists
-        const token = localStorage.getItem('token');
-        // return the headers to the context so httpLink can read them
-        return {
-            headers: {
-                ...headers,
-                authorization: token ? `Bearer ${token}` : "",
-            }
-        }
-    });
+    const link = process.browser ? split(
+        // split based on operation type
+        ({query}) => {
+            const definition = getMainDefinition(query);
+            return (
+                definition.kind === 'OperationDefinition' &&
+                definition.operation === 'subscription'
+            );
+        },
+        wsLink,
+        httpLink,
+    ) : httpLink;
 
     const client = new ApolloClient({
-        link: httpLink,
+        link: link,
         cache: new InMemoryCache()
     });
 

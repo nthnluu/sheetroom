@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router'
-import {ASSIGNMENT, QUIZ} from "../../../gql/quizzes";
-import {useMutation, useQuery} from "@apollo/react-hooks";
+import {ASSIGNMENT_WS, QUIZ} from "../../../gql/quizzes";
+import {useMutation, useQuery, useSubscription} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
@@ -46,10 +46,11 @@ const quizSampleData = {
         }
     ]
 };
-const PageContent = ({data}) => {
+const PageContent = ({data, aid}) => {
     const [currentItem, setCurrentItem] = useState(undefined);
     return (
-        <div>
+        <div key={aid}>
+            {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
             <DnDList currentItem={currentItem} setItem={setCurrentItem} items={data.assignments_assignment_by_pk.sections[0].items}/>
             <div className="pt-12 pb-32">
                 <div className="grid grid-cols-2 items-center sm:grid-cols-3 gap-6 max-w-sm mx-auto leading-tight">
@@ -308,18 +309,18 @@ const QuizEditor = ({user}) => {
     //autosave mutations
     const [updateTitle, {titleData}] = useMutation(UPDATE_ASSIGNMENT_TITLE);
 
-    const {loading, error, data} = useQuery(ASSIGNMENT, {
+    const {loading, error, data} = useSubscription(ASSIGNMENT_WS, {
         variables: {id: aid},
     });
-    if (error) return `Error! ${error}`;
+    if (error) return `Error! ${JSON.stringify(error)}`;
 
 
 
     return (
         <>
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen bg-gray-50" key={aid}>
                 {loading ? <LoadingPlaceholder/> :
-                    <AppLayout onTitleBlur={(value) => {
+                    <AppLayout pageId={aid} onTitleBlur={(value) => {
                         if (value === data.assignments_assignment_by_pk.title) {
                             return;
                         } else {
@@ -327,7 +328,9 @@ const QuizEditor = ({user}) => {
                             updateTitle({variables: {assignmentId: aid, title: value}})
                                 .then(() => setSaveStatus(0))
                                 .catch((error) => setSaveStatus(2));
-                        }}} title={data.assignments_assignment_by_pk.title} content={<PageContent data={data}/>} questionMenu
+                        }}} title={data.assignments_assignment_by_pk.title} content={
+                            <PageContent data={data} aid={aid}/>}
+                               questionMenu
                                editableTitle
                                thirdArea={<ThirdArea data={data} isSaving={saveStatus === 1} saveFailed={saveStatus===2}/>}
                                windowTitle={data.assignments_assignment_by_pk.title}/>}

@@ -206,8 +206,8 @@ const HeaderWithAction = ({title, newButton, editableTitle, questionMenu, onBlur
     return (
         <div className="flex items-center justify-between">
             <div className="flex-1 min-w-0">
-                {editableTitle ? <input onBlur={(event) => onBlurAction(event.target.value)} defaultValue={title} style={{textOverflow: "ellipsis"}} className="text-3xl w-full border-gray-100 font-bold leading-7 text-gray-900 sm:text-4xl sm:leading-9 sm:truncate border border-transparent hover:border-gray-400 rounded-lg p-2
-                 active:outline-none active:border-blue-400 focus:outline-none focus:border-blue-400 transition-border duration-100 -ml-2"/> :
+                {editableTitle ? <input onBlur={(event) => onBlurAction(event.target.value)} style={{textOverflow: "ellipsis"}} className="text-3xl w-full border-gray-100 font-bold leading-7 text-gray-900 sm:text-4xl sm:leading-9 sm:truncate border border-transparent hover:border-gray-400 rounded-lg p-2
+                 active:outline-none active:border-blue-400 focus:outline-none focus:border-blue-400 transition-border duration-100 -ml-2" defaultValue={title ? title : "Untitled Assignment"}/> :
                     <h2 className="text-3xl font-bold leading-7 text-gray-900 sm:text-4xl sm:leading-9 sm:truncate">
                         {title}
                     </h2>}

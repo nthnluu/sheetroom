@@ -15,7 +15,7 @@ const HOTKEYS = {
 }
 
 export const RichTextField = ({active, initialContent}) => {
-    const [value, setValue] = useState(initialContent);
+    const [value, setValue] = useState(initialContent != null ? initialContent : initialValue);
     const [toolbarOpen, toggleToolbar] = useState(false);
     const renderElement = useCallback(props => <Element {...props} />, []);
     const renderLeaf = useCallback(props => <Leaf {...props} />, []);
@@ -71,8 +71,10 @@ export const RichTextField = ({active, initialContent}) => {
                         <BlockButton format="block-quote" icon={<i className="fas fa-quote-right"/>}/>
                         <BlockButton format="numbered-list" icon={<i className="fas fa-list-ol"/>}/>
                         <BlockButton format="bulleted-list" icon={<i className="fas fa-list-ul"></i>}/>
-                        <ToolbarButton icon={<i className="fas fa-bug"/>} color="gray"
+                        <ToolbarButton icon={<i className="fas fa-bug"/>} color="red"
                                        onMouseDown={() => console.log(value)}/>
+                        <ToolbarButton icon={<i className="far fa-window-maximize"/>} color="red"
+                                       onMouseDown={() => alert(JSON.stringify(value))}/>
                     </div>
                 </Transition>
             </Slate>
@@ -80,8 +82,8 @@ export const RichTextField = ({active, initialContent}) => {
     )
 };
 
-export const RichTextEditor = ({active}) => {
-    const [value, setValue] = useState(initialValue);
+export const RichTextEditor = ({active, initialContent}) => {
+    const [value, setValue] = useState(initialContent != null ? initialContent : initialValue);
     const [toolbarOpen, toggleToolbar] = useState(false);
     const renderElement = useCallback(props => <Element {...props} />, []);
     const renderLeaf = useCallback(props => <Leaf {...props} />, []);
@@ -89,58 +91,50 @@ export const RichTextEditor = ({active}) => {
 
 
     return (
-        <div className="group py-8 -mt-8" onMouseOver={() => {
-            if (active) {
-                toggleToolbar(true)
-            } else {
-                return
-            }
-        }}
-             onMouseLeave={() => toggleToolbar(false)}>
+        <div className="group py-8 -mt-8">
             <Slate editor={editor} value={value} onChange={value => setValue(value)}>
                 <div
-                    className={active ? "border border-gray-100 group-hover:border-gray-300 active:border-blue-400 rounded-lg py-3 px-4 shadow-sm " : "rounded-lg py-3 px-4 border border-transparent"}>
-                    <Editable
-                        readOnly={!active}
-                        renderElement={renderElement}
-                        renderLeaf={renderLeaf}
-                        placeholder="Start typing…"
-                        spellCheck={false}
-                        isSelected
-                        onFocus={() => toggleToolbar(true)}
-                        onBlur={(event) => event.preventDefault()}
-                        onKeyDown={event => {
-                            for (const hotkey in HOTKEYS) {
-                                if (isHotkey(hotkey, event)) {
-                                    event.preventDefault()
-                                    const mark = HOTKEYS[hotkey]
-                                    toggleMark(editor, mark)
+                    className={active ? "border border-gray-100 group-hover:border-gray-300 active:border-blue-400 rounded-lg p-3 shadow-sm" : "rounded-lg py-3 px-4 border border-transparent"}>
+                    <div className="p-2" style={{minHeight: '8rem'}}>
+                        <Editable
+                            readOnly={!active}
+                            renderElement={renderElement}
+                            renderLeaf={renderLeaf}
+                            placeholder="Start typing…"
+                            spellCheck={false}
+                            onFocus={() => toggleToolbar(true)}
+                            onBlur={(event) => event.preventDefault()}
+                            onKeyDown={event => {
+                                for (const hotkey in HOTKEYS) {
+                                    if (isHotkey(hotkey, event)) {
+                                        event.preventDefault()
+                                        const mark = HOTKEYS[hotkey]
+                                        toggleMark(editor, mark)
+                                    }
                                 }
-                            }
-                        }}
-                    />
+                            }}
+                        />
+
+                    </div>
+                    <div
+                        className="flex justify-between mt-2 border-t w-full pt-2 border-gray-200 ">
+                        <div className="w-full sm:w-96 flex-wrap flex-shrink-0">
+                            <MarkButton format="bold" icon={<>B</>}/>
+                            <MarkButton format="italic" icon={<i>I</i>}/>
+                            <MarkButton format="underline" icon={<u>U</u>}/>
+                            <MarkButton format="code" icon={<i className="fas fa-code"/>}/>
+                            <BlockButton format="heading-one" icon={<span>H1</span>}/>
+                            <BlockButton format="heading-two" icon={<span>H2</span>}/>
+                            <BlockButton format="block-quote" icon={<i className="fas fa-quote-right"/>}/>
+                            <BlockButton format="numbered-list" icon={<i className="fas fa-list-ol"/>}/>
+                            <BlockButton format="bulleted-list" icon={<i className="fas fa-list-ul"></i>}/>
+                            <ToolbarButton icon={<i className="fas fa-bug"/>} color="gray"
+                                           onMouseDown={() => console.log(value)}/>
+                        </div>
+                    </div>
                 </div>
 
-                <Transition show={toolbarOpen} enter="transition ease-out duration-100"
-                            enterFrom="transform opacity-0 scale-95"
-                            enterTo="transform opacity-100 scale-100"
-                            leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100"
-                            leaveTo="transform opacity-0 scale-95">
-                    <div
-                        className="flex justify-between mt-2 border rounded-lg p-2 sm:p-1 shadow w-full sm:w-96 flex-wrap flex-shrink-0">
-                        <MarkButton format="bold" icon={<>B</>}/>
-                        <MarkButton format="italic" icon={<i>I</i>}/>
-                        <MarkButton format="underline" icon={<u>U</u>}/>
-                        <MarkButton format="code" icon={<i className="fas fa-code"/>}/>
-                        <BlockButton format="heading-one" icon={<span>H1</span>}/>
-                        <BlockButton format="heading-two" icon={<span>H2</span>}/>
-                        <BlockButton format="block-quote" icon={<i className="fas fa-quote-right"/>}/>
-                        <BlockButton format="numbered-list" icon={<i className="fas fa-list-ol"/>}/>
-                        <BlockButton format="bulleted-list" icon={<i className="fas fa-list-ul"></i>}/>
-                        <ToolbarButton icon={<i className="fas fa-bug"/>} color="gray"
-                                       onMouseDown={() => console.log(value)}/>
-                    </div>
-                </Transition>
+
             </Slate>
         </div>
     )
@@ -165,41 +159,6 @@ export const ReadOnlyEditor = ({active, content}) => {
     )
 };
 
-const initialValue = [
-    {
-        type: 'paragraph',
-        children: [
-            {text: 'This is editable '},
-            {text: 'rich', bold: true},
-            {text: ' text, '},
-            {text: 'much', italic: true},
-            {text: ' better than a '},
-            {text: '<textarea>', code: true},
-            {text: '!'},
-        ],
-    },
-    {
-        type: 'paragraph',
-        children: [
-            {
-                text:
-                    "Since it's rich text, you can do things like turn a selection of text ",
-            },
-            {text: 'bold', bold: true},
-            {
-                text:
-                    ', or add a semantically rendered block quote in the middle of the page, like this:',
-            },
-        ],
-    },
-    {
-        type: 'block-quote',
-        children: [{text: 'A wise quote.'}],
-    },
-    {
-        type: 'paragraph',
-        children: [{text: 'Try it out for yourself!'}],
-    },
-]
+const initialValue = [{"children":[{"text":""}],"type":"paragraph"}];
 
 export default RichTextField
