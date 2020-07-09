@@ -3,7 +3,7 @@ import React from "react";
 import HeaderWithAction from "./PageHeadings/HeaderWithActions";
 import Head from "next/head";
 
-export default function ({sidebar, thirdArea, title, content, newButton, editableTitle, questionMenu, windowTitle}) {
+export default function ({sidebar, thirdArea, title, content, newButton, editableTitle, questionMenu, windowTitle, onTitleBlur}) {
 
     const SidebarItem = ({sidebar, number, label, icon, link}) => {
         return (
@@ -67,7 +67,7 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
                         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none lg:px-6" tabIndex="0">
                             <div className="pt-0 pb-6 md:py-6">
                                 {title ? <div className="mx-auto px-4 sm:px-6 lg:px-2 my-8">
-                                    <HeaderWithAction title={title} newButton={newButton} questionMenu={questionMenu} editableTitle={editableTitle}/>
+                                    <HeaderWithAction onBlurAction={(value) => onTitleBlur(value)} title={title} newButton={newButton} questionMenu={questionMenu} editableTitle={editableTitle}/>
                                 </div> : null}
                                 <div className="mx-auto px-4 sm:px-6 lg:px-2">
                                     {/*// <!-- Replace with your content -->*/}

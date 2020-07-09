@@ -48,7 +48,6 @@ const PageContent = ({data}) => {
     const [currentItem, setCurrentItem] = useState(undefined);
     return (
         <div>
-            <p>{JSON.stringify(currentItem)}</p>
             <DnDList currentItem={currentItem} setItem={setCurrentItem} items={data.assignments_assignment_by_pk.sections[0].items}/>
             <div className="pt-12 pb-32">
                 <div className="grid grid-cols-2 items-center sm:grid-cols-3 gap-6 max-w-sm mx-auto leading-tight">
@@ -302,8 +301,9 @@ const QuizEditor = ({user}) => {
         <>
             <div className="min-h-screen bg-gray-50">
                 {loading ? <LoadingPlaceholder/> :
-                    <AppLayout title={data.assignments_assignment_by_pk.title} content={<PageContent data={data}/>} questionMenu
-                               editableTitle thirdArea={<ThirdArea data={data}/>}
+                    <AppLayout onTitleBlur={(value) => console.log(value)} title={data.assignments_assignment_by_pk.title} content={<PageContent data={data}/>} questionMenu
+                               editableTitle
+                               thirdArea={<ThirdArea data={data}/>}
                                windowTitle={data.assignments_assignment_by_pk.title}/>}
             </div>
         </>
