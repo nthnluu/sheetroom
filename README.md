@@ -1,4 +1,11 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[![FVCproductions](https://i.imgur.com/heOPVir.png)](http://fvcproductions.com)
+
+# Homework
+
+> A platform for designing beautiful assignments for 📱 mobile, 🖥 desktop, and 📝 paper.
+
+---
+
 
 ## Getting Started
 
