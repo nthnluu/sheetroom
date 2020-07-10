@@ -322,7 +322,7 @@ const QuizEditor = ({user}) => {
                 {loading ? <LoadingPlaceholder/> :
                     <AppLayout pageId={aid} onTitleBlur={(value) => {
                         if (value === data.assignments_assignment_by_pk.title) {
-                            return;
+
                         } else {
                             setSaveStatus(1);
                             updateTitle({variables: {assignmentId: aid, title: value}})

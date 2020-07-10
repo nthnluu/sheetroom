@@ -31,7 +31,7 @@ Dashboard.getInitialProps = async ({res, ...context}) => {
                 Location: '/api/auth/signin'
             });
             res.end();
-            return;
+
         } else {
             return {session: session, user: session.user}
         }

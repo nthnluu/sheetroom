@@ -12,7 +12,7 @@ const HOTKEYS = {
     'mod+i': 'italic',
     'mod+u': 'underline',
     'mod+`': 'code',
-}
+};
 
 export const RichTextField = ({active, initialContent, onBlurEvent, border}) => {
     const [value, setValue] = useState(initialContent ? initialContent : initialValue);
@@ -32,7 +32,7 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border}) => 
             if (active) {
                 toggleToolbar(true)
             } else {
-                return
+
             }
         }}
              onMouseLeave={() => toggleToolbar(false)}>
@@ -55,8 +55,8 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border}) => 
                         onKeyDown={event => {
                             for (const hotkey in HOTKEYS) {
                                 if (isHotkey(hotkey, event)) {
-                                    event.preventDefault()
-                                    const mark = HOTKEYS[hotkey]
+                                    event.preventDefault();
+                                    const mark = HOTKEYS[hotkey];
                                     toggleMark(editor, mark)
                                 }
                             }

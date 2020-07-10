@@ -81,7 +81,7 @@ const DnDCard = ({item, index, setActive, active, setSaveStatus}) => {
             </div>
         )}
     </Draggable>)
-}
+};
 
 const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setItem, setSaveStatus}) => {
     return (<div
@@ -95,7 +95,7 @@ const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setIte
         )) : null}
         {provided.placeholder}
     </div>)
-}
+};
 
 // class DnDList extends Component {
 //     constructor(props) {
@@ -185,6 +185,6 @@ export const DnDList = ({items, setItem, currentItem, setSaveStatus}) => {
         </DragDropContext>
     );
 
-}
+};
 
 export default DnDList

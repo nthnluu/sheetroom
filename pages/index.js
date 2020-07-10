@@ -34,7 +34,7 @@ Index.getInitialProps = async ({res, ...context}) => {
                 Location: '/dashboard'
             });
             res.end();
-            return;
+
         }
     }
 };

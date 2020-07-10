@@ -47,7 +47,7 @@ const PageContent = ({data}) => {
         </>
 
     )
-}
+};
 const Assignment = () => {
     const aid = "cd451222-0116-4e3b-b33a-0e21efa02837";
     const {loading, error, data} = useQuery(ASSIGNMENT, {
@@ -57,7 +57,7 @@ const Assignment = () => {
     if (error) return `Error! ${error}`;
 
     return (<AssignmentLayout title={data.assignments_assignment_by_pk.title} content={<PageContent data={data}/>}/>)
-}
+};
 
 Assignment.getInitialProps = async ({res, ...context}) => {
     if (typeof window === 'undefined') {
@@ -67,7 +67,7 @@ Assignment.getInitialProps = async ({res, ...context}) => {
                 Location: '/api/auth/signin'
             });
             res.end();
-            return;
+
         } else {
             return {session: session, user: session.user}
         }

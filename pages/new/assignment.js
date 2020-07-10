@@ -106,7 +106,7 @@ const PageContent = ({session}) => {
             </section>
         </main>
     </div>)
-}
+};
 
 const NewQuiz = ({user, session}) => {
     return (

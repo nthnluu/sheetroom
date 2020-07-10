@@ -17,7 +17,7 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
                 {label}
             </a>
         )
-    }
+    };
 
     return (
         <div className="min-h-screen bg-gray-100">

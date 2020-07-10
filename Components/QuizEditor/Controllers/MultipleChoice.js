@@ -11,7 +11,7 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
         if (focused) {
             return ' shadow-outline';
         } else {
-            return;
+
         }
     }
 
