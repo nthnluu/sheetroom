@@ -4,6 +4,7 @@ import RichTextField from "../Editor/SlateEditor";
 import {useMutation} from "@apollo/react-hooks";
 import {CREATE_ASSIGNMENT} from "../../pages/new/course";
 import {UPDATE_ITEM_CONTENT} from "../../gql/assignmentAutosave";
+import MultipleChoiceController from "./Controllers/MultipleChoice";
 
 
 const Calculator = () => {
@@ -348,7 +349,7 @@ const InactiveCard = () => {
     )
 };
 
-const CardFrame = ({itemData, active, setSaveStatus}) => {
+const CardFrame = ({itemData, active, setSaveStatus, index}) => {
     const [modalActive, toggleSelected] = useState(true);
     const [item, setItemData] = useState(itemData);
 
@@ -369,14 +370,18 @@ const CardFrame = ({itemData, active, setSaveStatus}) => {
     return (
         <div className="bg-white focus:shadow-outline w-full rounded-r-lg py-8 px-8 focus:outline-none">
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
-
                 <div className="w-full border-r border-transparent md:border-gray-200 md:pr-4 md:mr-4 pr-0 mr-0">
-                    <RichTextField active={active} initialContent={item.content} onBlurEvent={(value) => saveContent(value)} />
+                    <div className="mb-8">
+                        <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {index + 1}</h2>
+                        <RichTextField active={active} initialContent={item.content}
+                                       onBlurEvent={(value) => saveContent(value)}/>
+                    </div>
+                    <MultipleChoiceController/>
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
-                    <QuestionType/>
-                    <Calculator/>
+                    <h2 className="text-center text-gray-400">DEBUG MENU</h2>
                     <p>{JSON.stringify(active)}</p>
+                    <p>{JSON.stringify(item.type)}</p>
                 </div>
             </div>
         </div>

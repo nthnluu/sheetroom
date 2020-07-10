@@ -26,7 +26,7 @@ export const RichTextField = ({active, initialContent, onBlurEvent}) => {
     }, [initialContent]);
 
     return (
-        <div className="group py-8 -mt-8" onMouseOver={() => {
+        <div className="group py-8 -mt-8 relative" onMouseOver={() => {
             if (active) {
                 toggleToolbar(true)
             } else {
@@ -36,7 +36,7 @@ export const RichTextField = ({active, initialContent, onBlurEvent}) => {
              onMouseLeave={() => toggleToolbar(false)}>
             <Slate editor={editor} value={value} onChange={value => setValue(value)}>
                 <div
-                    className={active ? "border border-gray-100 group-hover:border-gray-300 active:border-blue-400 rounded-lg py-3 px-4 shadow-sm " : "rounded-lg py-3 px-4 border border-transparent"}>
+                    className={active ? "border border-gray-100 group-hover:border-gray-300 active:border-blue-400 rounded-lg py-3 px-4 shadow-sm " : "rounded-lg border border-transparent"}>
                     <Editable
                         readOnly={!active}
                         renderElement={renderElement}
@@ -45,7 +45,10 @@ export const RichTextField = ({active, initialContent, onBlurEvent}) => {
                         spellCheck={false}
                         isSelected
                         onFocus={() => toggleToolbar(true)}
-                        onBlur={(event) => {event.preventDefault(); onBlurEvent(value)}}
+                        onBlur={(event) => {
+                            event.preventDefault();
+                            onBlurEvent(value)
+                        }}
                         onKeyDown={event => {
                             for (const hotkey in HOTKEYS) {
                                 if (isHotkey(hotkey, event)) {
@@ -57,28 +60,30 @@ export const RichTextField = ({active, initialContent, onBlurEvent}) => {
                         }}
                     />
                 </div>
-
                 <Transition show={toolbarOpen} enter="transition ease-out duration-100"
                             enterFrom="transform opacity-0 scale-95"
                             enterTo="transform opacity-100 scale-100"
                             leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100"
                             leaveTo="transform opacity-0 scale-95">
-                    <div
-                        className="flex justify-between mt-2 border rounded-lg p-2 sm:p-1 shadow w-full sm:w-96 flex-wrap flex-shrink-0">
-                        <MarkButton format="bold" icon={<>B</>}/>
-                        <MarkButton format="italic" icon={<i>I</i>}/>
-                        <MarkButton format="underline" icon={<u>U</u>}/>
-                        <MarkButton format="code" icon={<i className="fas fa-code"/>}/>
-                        <BlockButton format="heading-one" icon={<span>H1</span>}/>
-                        <BlockButton format="heading-two" icon={<span>H2</span>}/>
-                        <BlockButton format="block-quote" icon={<i className="fas fa-quote-right"/>}/>
-                        <BlockButton format="numbered-list" icon={<i className="fas fa-list-ol"/>}/>
-                        <BlockButton format="bulleted-list" icon={<i className="fas fa-list-ul"></i>}/>
-                        <ToolbarButton icon={<i className="fas fa-bug"/>} color="red"
-                                       onMouseDown={() => console.log(value)}/>
-                        <ToolbarButton icon={<i className="far fa-window-maximize"/>} color="red"
-                                       onMouseDown={() => alert(JSON.stringify(value))}/>
+                    <div className="absolute">
+                        <div
+                            className="flex justify-between mt-2 border bg-white rounded-lg p-2 sm:p-1 shadow w-full sm:w-96 flex-wrap flex-shrink-0">
+                            <MarkButton format="bold" icon={<>B</>}/>
+                            <MarkButton format="italic" icon={<i>I</i>}/>
+                            <MarkButton format="underline" icon={<u>U</u>}/>
+                            <MarkButton format="code" icon={<i className="fas fa-code"/>}/>
+                            <BlockButton format="heading-one" icon={<span>H1</span>}/>
+                            <BlockButton format="heading-two" icon={<span>H2</span>}/>
+                            <BlockButton format="block-quote" icon={<i className="fas fa-quote-right"/>}/>
+                            <BlockButton format="numbered-list" icon={<i className="fas fa-list-ol"/>}/>
+                            <BlockButton format="bulleted-list" icon={<i className="fas fa-list-ul"></i>}/>
+                            <ToolbarButton icon={<i className="fas fa-bug"/>} color="red"
+                                           onMouseDown={() => console.log(value)}/>
+                            <ToolbarButton icon={<i className="far fa-window-maximize"/>} color="red"
+                                           onMouseDown={() => alert(JSON.stringify(value))}/>
+                        </div>
                     </div>
+
                 </Transition>
             </Slate>
         </div>
@@ -162,6 +167,6 @@ export const ReadOnlyEditor = ({active, content}) => {
     )
 };
 
-const initialValue = [{"children":[{"text":""}],"type":"paragraph"}];
+const initialValue = [{"children": [{"text": ""}], "type": "paragraph"}];
 
 export default RichTextField

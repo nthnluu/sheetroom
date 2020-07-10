@@ -77,7 +77,7 @@ const DnDCard = ({item, index, setActive, active, setSaveStatus}) => {
                         className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100">
                         <i className="far fa-trash-alt"/></button>
                 </div>
-                <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} active={active}/>
+                <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} index={index} active={active}/>
             </div>
         )}
     </Draggable>)
