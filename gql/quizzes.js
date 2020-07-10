@@ -12,7 +12,6 @@ subscription AssignmentByPk($id: uuid!) {
         content
         blocks
         type
-        index
         answer_choices {
           id
           content
@@ -45,3 +44,5 @@ query AssignmentByPk($id: uuid!) {
   }
 }
 `;
+
+

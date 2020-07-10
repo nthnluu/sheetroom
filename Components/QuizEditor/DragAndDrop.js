@@ -1,6 +1,6 @@
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import CardFrame from "./CardFrame";
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -8,7 +8,6 @@ const reorder = (list, startIndex, endIndex) => {
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 
-    console.log(result);
     return result;
 };
 
@@ -31,7 +30,6 @@ const getListStyle = isDraggingOver => ({
     padding: grid,
     width: '100%'
 });
-
 
 const DnDCard = ({item, index, setActive, active}) => {
     return (<Draggable key={item.id} draggableId={item.id} index={index}>
@@ -61,53 +59,82 @@ const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setIte
         style={getListStyle(snapshot.isDraggingOver)}
     >
         {items.map((item, index) => (
-            <DnDCard key={item.id} setActive={() => setItem(item.id)} active={currentItem===item.id} item={item} index={item.index}/>
+            <DnDCard key={item.id} setActive={() => setItem(item.id)} active={currentItem===item.id} item={item} index={index}/>
         ))}
         {provided.placeholder}
     </div>)
 }
 
+// class DnDList extends Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             items: props.items,
+//             currentItem: props.currentItem
+//         };
+//         this.onDragEnd = this.onDragEnd.bind(this);
+//     }
+//
+//     onDragEnd(result) {
+//         // dropped outside the list
+//         if (!result.destination) {
+//             return;
+//         }
+//
+//         const items = reorder(
+//             this.state.items,
+//             result.source.index,
+//             result.destination.index
+//         );
+//
+//         this.setState({
+//             items
+//         });
+//     }
+//
+//     // Normally you would want to split things out into separate components.
+//     // But in this example everything is just done in one place for simplicity
+//     render() {
+//         return (
+//             <DragDropContext onDragEnd={this.onDragEnd}>
+//                 <Droppable droppableId="droppable">
+//                     {(provided, snapshot) => (
+//                         <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => this.props.setItem(id)} currentItem={this.props.currentItem} items={this.props.items}/>
+//                     )}
+//                 </Droppable>
+//             </DragDropContext>
+//         );
+//     }
+// }
 
-class DnDList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: props.items,
-            currentItem: props.currentItem
-        };
-        this.onDragEnd = this.onDragEnd.bind(this);
-    }
+export const DnDList = ({items, setItem, currentItem, setSaveStatus}) => {
+    const [listData, setListData] = useState(items);
 
-    onDragEnd(result) {
+    const onDragEnd = (result) => {
         // dropped outside the list
         if (!result.destination) {
             return;
         }
-
-        const items = reorder(
-            this.state.items,
+        setSaveStatus(1);
+        const newItems = reorder(
+            listData,
             result.source.index,
             result.destination.index
         );
+        setListData(newItems);
+        setSaveStatus(2);
+    };
 
-        this.setState({
-            items
-        });
-    }
+    return (
+        <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="droppable">
+                {(provided, snapshot) => (
+                    <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => setItem(id)} currentItem={currentItem} items={listData}/>
+                )}
+            </Droppable>
+        </DragDropContext>
+    );
 
-    // Normally you would want to split things out into separate components.
-    // But in this example everything is just done in one place for simplicity
-    render() {
-        return (
-            <DragDropContext onDragEnd={this.onDragEnd}>
-                <Droppable droppableId="droppable">
-                    {(provided, snapshot) => (
-                        <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => this.props.setItem(id)} currentItem={this.props.currentItem} items={this.props.items}/>
-                    )}
-                </Droppable>
-            </DragDropContext>
-        );
-    }
 }
 
 export default DnDList
