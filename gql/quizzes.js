@@ -15,6 +15,7 @@ subscription AssignmentByPk($id: uuid!) {
         type
         answer_choices {
           id
+          is_correct
           content
         }
       }

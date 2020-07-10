@@ -59,8 +59,6 @@ const options = {
             //   the contents of the token from the provider.
 
             const isSignIn = oAuthProfile ? true : false
-            console.log('NextAuth.js JWT', token);
-            console.log('Provider profile', oAuthProfile);
 
             // Return the object you want to be stored in the token here
             // e.g. `token.auth0 = oAuthProfile`

@@ -15,14 +15,14 @@ const HOTKEYS = {
 }
 
 export const RichTextField = ({active, initialContent, onBlurEvent, border}) => {
-    const [value, setValue] = useState(initialContent > 0 ? initialContent : initialValue);
+    const [value, setValue] = useState(initialContent ? initialContent : initialValue);
     const [toolbarOpen, toggleToolbar] = useState(false);
     const renderElement = useCallback(props => <Element {...props} />, []);
     const renderLeaf = useCallback(props => <Leaf {...props} />, []);
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
     useEffect(() => {
-        if (initialContent >= 0) {
+        if (initialContent > 0) {
             setValue(initialContent);
         }
     }, [initialContent]);
@@ -45,7 +45,6 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border}) => 
                         renderLeaf={renderLeaf}
                         placeholder="Start typing…"
                         spellCheck={false}
-                        isSelected
                         onFocus={() => toggleToolbar(true)}
                         onBlur={(event) => {
                             event.preventDefault();
@@ -69,7 +68,7 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border}) => 
                             enterTo="transform opacity-100 scale-100"
                             leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100"
                             leaveTo="transform opacity-0 scale-95">
-                    <div className="absolute">
+                    <div className="absolute z-50">
                         <div
                             className="flex justify-between mt-2 border bg-white rounded-lg p-2 sm:p-1 shadow w-full sm:w-96 flex-wrap flex-shrink-0">
                             <MarkButton format="bold" icon={<>B</>}/>

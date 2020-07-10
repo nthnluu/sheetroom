@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {RichTextField} from "../../Editor/SlateEditor";
 
-function AnswerChoice({selected, onClick, text, radioName, questionId, index, active}) {
+function AnswerChoice({selected, onClick, text, radioName, questionId, index, active, content}) {
     const [focused, setFocus] = useState(false);
     const inputId = 'input-' + questionId + index;
     const labelId = 'label-' + questionId + index;
@@ -17,14 +17,14 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
 
     return (
         <>
-            <input id={inputId} aria-labelledby={labelId} aria-selected={selected} type="radio"
-                   defaultChecked={selected} name={radioName} value={text}
-                   className="absolute mt-6 ml-5 opacity-0" onFocus={() => setFocus(true)}
-                   onBlur={() => setFocus(false)}/>
+            {/*<input id={inputId} aria-labelledby={labelId} aria-selected={selected} type="radio"*/}
+            {/*       defaultChecked={selected} name={radioName} value={text} onClick={()=>console.log('hi')}*/}
+            {/*       className="absolute mt-6 ml-5 opacity-75" onFocus={() => setFocus(true)}*/}
+            {/*        onBlur={() => setFocus(false)}/>*/}
             <div id={labelId} htmlFor={inputId}
                    className={selected ? 'editor-card editor-selectedCard cursor-pointer ' : 'pointer-events-none editor-card editor-unselectedCard ' + checkFocus()}>
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
-                <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField active={active}/></span>
+                <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField active={active} initialContent={content}/></span>
             </div>
         </>
     )
@@ -53,13 +53,10 @@ function Grid({choices, questionId}) {
 
 }
 
-export const MultipleChoiceController = ({isSelected, active}) => {
+export const MultipleChoiceController = ({isSelected, active, choices}) => {
     return (
         <div className="spacing-y-4">
-            <AnswerChoice active={active}/>
-            <AnswerChoice active={active}/>
-            <AnswerChoice active={active}/>
-            <AnswerChoice active={active} selected/>
+            {choices.map(choice =>  <AnswerChoice active={active} key={choice.id} content={choice.content} selected={choice.is_correct}/>)}
         </div>
 
     )
