@@ -1,6 +1,6 @@
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import CardFrame from "./CardFrame";
-import React, {Component, useState} from "react";
+import React, {Component, useEffect, useState} from "react";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_INDEX} from "../../gql/assignmentAutosave";
 import gql from "graphql-tag";
@@ -143,6 +143,12 @@ export const DnDList = ({items, setItem, currentItem, setSaveStatus}) => {
     const [listData, setListData] = useState(items);
     const [listItemIterator, setListItemIterator] = useState(0);
     const [updateItemIndex, {data}] = useMutation(UPDATE_ITEM_INDEX);
+
+    useEffect(() => {
+        if (items !== listData) {
+            setListData(items)
+        }
+    }, [items]);
 
     const onDragEnd = (result) => {
         // dropped outside the list

@@ -45,12 +45,12 @@ const quizSampleData = {
         }
     ]
 };
-const PageContent = ({data, aid, setSaveStatus}) => {
+const PageContent = ({data, aid, setSaveStatus, refetchData}) => {
     const [currentItem, setCurrentItem] = useState(undefined);
     return (
         <div key={aid}>
             {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
-            <DnDList setSaveStatus={status => setSaveStatus(status)} currentItem={currentItem} setItem={setCurrentItem} items={data.assignments_assignment_by_pk.sections[0].items}/>
+            <DnDList refetchData={refetchData} setSaveStatus={status => setSaveStatus(status)} currentItem={currentItem} setItem={setCurrentItem} items={data.assignments_assignment_by_pk.sections[0].items}/>
             <div className="pt-12 pb-32">
                 <div className="grid grid-cols-2 items-center sm:grid-cols-3 gap-6 max-w-sm mx-auto leading-tight">
                     <button
@@ -304,12 +304,13 @@ const QuizEditor = ({user}) => {
     const router = useRouter();
     const {aid} = router.query;
     const [saveStatus, setSaveStatus] = useState(0);
+    const [refetchData, setRefetchData] = useState(false);
 
     //autosave mutations
     const [updateTitle, {titleData}] = useMutation(UPDATE_ASSIGNMENT_TITLE);
 
     const {loading, error, data} = useSubscription(ASSIGNMENT_WS, {
-        variables: {id: aid},
+        variables: {id: aid}
     });
     if (error) return `Error! ${JSON.stringify(error)}`;
 
@@ -328,7 +329,7 @@ const QuizEditor = ({user}) => {
                                 .then(() => setSaveStatus(0))
                                 .catch((error) => setSaveStatus(2));
                         }}} title={data.assignments_assignment_by_pk.title} content={
-                            <PageContent data={data} aid={aid} setSaveStatus={(status) => setSaveStatus(status)}/>}
+                            <PageContent refetchData={refetchData} data={data} aid={aid} setSaveStatus={(status) => setSaveStatus(status)}/>}
                                questionMenu
                                editableTitle
                                thirdArea={<ThirdArea data={data} isSaving={saveStatus === 1} saveFailed={saveStatus===2}/>}
