@@ -1,4 +1,4 @@
-[![FVCproductions](https://i.imgur.com/heOPVir.png)](http://fvcproductions.com)
+[![FVCproductions](https://picresize.com/popup.html?images/rsz_hw_logo.png)](http://fvcproductions.com)
 
 # Homework
 
