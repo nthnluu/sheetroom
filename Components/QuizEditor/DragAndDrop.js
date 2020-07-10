@@ -3,6 +3,28 @@ import CardFrame from "./CardFrame";
 import React, {Component, useState} from "react";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_INDEX} from "../../gql/assignmentAutosave";
+import gql from "graphql-tag";
+
+const mutationSaveNewListOrder = (items) => {
+    const mutations = items.map((item, index) => `item${index}: update_assignments_item_by_pk(pk_columns: {id: "${item.id}"}, _set: {index: ${index}}) {
+    index
+  }`);
+
+    console.log(mutations.join());
+    const newMutation = `mutation {
+     ${mutations.join("")}
+  }
+`;
+    return newMutation
+};
+
+
+const url = "/api/token";
+const opts = (items) => ({
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({query: mutationSaveNewListOrder(items)}),
+});
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -36,17 +58,24 @@ const getListStyle = isDraggingOver => ({
 const DnDCard = ({item, index, setActive, active}) => {
     return (<Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided, snapshot) => (
-            <div onClick={() => setActive()} className={snapshot.isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200 z-50":"flex border border-gray-200 justify-between rounded-lg mb-4 shadow-sm transition-shadow duration-200 z-50"}
-                ref={provided.innerRef}
-                {...provided.draggableProps}
+            <div onClick={() => setActive()}
+                 className={snapshot.isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200 z-50" : "flex border border-gray-200 justify-between rounded-lg mb-4 shadow-sm transition-shadow duration-200 z-50"}
+                 ref={provided.innerRef}
+                 {...provided.draggableProps}
             >
-                <div className={active ? "p-2 text-gray-400 rounded-l-lg bg-white h-96" : "p-2 text-gray-400 rounded-l-lg bg-white"}>
+                <div
+                    className={active ? "p-2 text-gray-400 rounded-l-lg bg-white h-96" : "p-2 text-gray-400 rounded-l-lg bg-white"}>
                     <div className="py-1">
-                        <button className="w-full active:text-blue-500 transition-all duration-100"><i className="fas fa-chevron-up"/></button>
-                        <i {...provided.dragHandleProps}  className="fas fa-grip-lines w-full text-center active:text-blue-500 transition-all duration-100"></i>
-                        <button className="w-full active:text-blue-500 transition-all duration-100"><i className="fas fa-chevron-down"/></button>
+                        <button className="w-full active:text-blue-500 transition-all duration-100"><i
+                            className="fas fa-chevron-up"/></button>
+                        <i {...provided.dragHandleProps}
+                           className="fas fa-grip-lines w-full text-center active:text-blue-500 transition-all duration-100"></i>
+                        <button className="w-full active:text-blue-500 transition-all duration-100"><i
+                            className="fas fa-chevron-down"/></button>
                     </div>
-                    <button className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100"><i className="far fa-trash-alt"/></button>
+                    <button
+                        className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100">
+                        <i className="far fa-trash-alt"/></button>
                 </div>
                 <CardFrame item={item} active={active}/>
             </div>
@@ -61,7 +90,8 @@ const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setIte
         style={getListStyle(snapshot.isDraggingOver)}
     >
         {items.map((item, index) => (
-            <DnDCard key={item.id} setActive={() => setItem(item.id)} active={currentItem===item.id} item={item} index={index}/>
+            <DnDCard key={item.id} setActive={() => setItem(item.id)} active={currentItem === item.id} item={item}
+                     index={index}/>
         ))}
         {provided.placeholder}
     </div>)
@@ -126,11 +156,11 @@ export const DnDList = ({items, setItem, currentItem, setSaveStatus}) => {
             result.destination.index
         );
         setListData(newItems);
-        setListItemIterator(0);
-        newItems.forEach((item, index) => updateItemIndex({variables: {pk: item.id, index: index}})
-            .then(() => setListItemIterator(listItemIterator + 1))
-            .catch((error) => {setSaveStatus(2);})
-        );
+        fetch(url, opts(newItems))
+            .then(res => res.json())
+            .then(() => setSaveStatus(0))
+            .catch(() => console.error)
+            .catch(() => setSaveStatus(2));
 
 
         if (listItemIterator === 1) {
@@ -142,7 +172,8 @@ export const DnDList = ({items, setItem, currentItem, setSaveStatus}) => {
         <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppable">
                 {(provided, snapshot) => (
-                    <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => setItem(id)} currentItem={currentItem} items={listData}/>
+                    <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => setItem(id)}
+                                  currentItem={currentItem} items={listData}/>
                 )}
             </Droppable>
         </DragDropContext>

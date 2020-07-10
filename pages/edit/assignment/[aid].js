@@ -6,7 +6,6 @@ import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
 import React, {useState} from "react";
-import {CREATE_ASSIGNMENT} from "../../new/course";
 import {UPDATE_ASSIGNMENT_TITLE} from "../../../gql/assignmentAutosave";
 
 const quizSampleData = {
