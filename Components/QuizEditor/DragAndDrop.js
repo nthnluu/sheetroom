@@ -1,6 +1,8 @@
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import CardFrame from "./CardFrame";
 import React, {Component, useState} from "react";
+import {useMutation} from "@apollo/react-hooks";
+import {UPDATE_ITEM_INDEX} from "../../gql/assignmentAutosave";
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -109,6 +111,8 @@ const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setIte
 
 export const DnDList = ({items, setItem, currentItem, setSaveStatus}) => {
     const [listData, setListData] = useState(items);
+    const [listItemIterator, setListItemIterator] = useState(0);
+    const [updateItemIndex, {data}] = useMutation(UPDATE_ITEM_INDEX);
 
     const onDragEnd = (result) => {
         // dropped outside the list
@@ -122,7 +126,16 @@ export const DnDList = ({items, setItem, currentItem, setSaveStatus}) => {
             result.destination.index
         );
         setListData(newItems);
-        setSaveStatus(2);
+        setListItemIterator(0);
+        newItems.forEach((item, index) => updateItemIndex({variables: {pk: item.id, index: index}})
+            .then(() => setListItemIterator(listItemIterator + 1))
+            .catch((error) => {setSaveStatus(2);})
+        );
+
+
+        if (listItemIterator === 1) {
+            setSaveStatus(0);
+        }
     };
 
     return (
