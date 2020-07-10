@@ -89,10 +89,10 @@ const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setIte
         ref={provided.innerRef}
         style={getListStyle(snapshot.isDraggingOver)}
     >
-        {items.map((item, index) => (
+        {items ? items.map((item, index) => (
             <DnDCard key={item.id} setActive={() => setItem(item.id)} active={currentItem === item.id} item={item}
                      index={index} setSaveStatus={status => setSaveStatus(status)}/>
-        ))}
+        )) : null}
         {provided.placeholder}
     </div>)
 }

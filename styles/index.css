@@ -18,6 +18,7 @@ code {
 .examCard {
     @apply bg-white overflow-hidden rounded-lg my-8 border border-gray-300 shadow-sm
 }
+
 .card {
     display: table;
     white-space: normal;
@@ -61,6 +62,34 @@ code {
 }
 .adminNavBarActive:focus {
     @apply outline-none border-blue-700
+}
+
+.editor-card {
+    display: table;
+    white-space: normal;
+    @apply rounded-lg border p-4 mb-3 transition-all duration-100 w-full text-left
+}
+.editor-card:active {
+    @apply shadow-outline outline-none
+}
+.editor-card:focus {
+    @apply shadow-outline outline-none
+}
+
+.editor-unselectedCard {
+    @apply border-gray-300
+
+}
+.editor-unselectedCard:hover {
+    @apply border-gray-500
+}
+
+.editor-selectedCard {
+    @apply text-white bg-blue-500 border-blue-600;
+
+}
+.editor-selectedCard:hover {
+    opacity: 0.95;
 }
 
 /*.multipleChoiceRadioButton {*/

@@ -50,7 +50,7 @@ const PageContent = ({data, aid, setSaveStatus, refetchData}) => {
     return (
         <div key={aid}>
             {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
-            <DnDList refetchData={refetchData} setSaveStatus={status => setSaveStatus(status)} currentItem={currentItem} setItem={setCurrentItem} items={data.assignments_assignment_by_pk.sections[0].items}/>
+            <DnDList refetchData={refetchData} setSaveStatus={status => setSaveStatus(status)} currentItem={currentItem} setItem={setCurrentItem} items={(data.assignments_assignment_by_pk.sections[0] != undefined) ? data.assignments_assignment_by_pk.sections[0].items : null}/>
             <div className="pt-12 pb-32">
                 <div className="grid grid-cols-2 items-center sm:grid-cols-3 gap-6 max-w-sm mx-auto leading-tight">
                     <button
