@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Transition from "../Transition";
 
 
@@ -174,15 +174,17 @@ const NewMenu = () => {
                         <ul className="py-1">
                             <li>
                                 <a href="/new/assignment" tabIndex="0"
-                                        className="group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                        role="menuitem">
-                                <svg
-                                    className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
-                                Assignment
-                            </a></li>
+                                   className="group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                   role="menuitem">
+                                    <svg
+                                        className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path
+                                            d="M9 5H7C5.89543 5 5 5.89543 5 7V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V7C19 5.89543 18.1046 5 17 5H15M9 5C9 6.10457 9.89543 7 11 7H13C14.1046 7 15 6.10457 15 5M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5M12 12H15M12 16H15M9 12H9.01M9 16H9.01"
+                                            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                    Assignment
+                                </a></li>
                             <li><a href="/new/course" tabIndex="0"
                                    className="group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                    role="menuitem">
@@ -202,12 +204,19 @@ const NewMenu = () => {
         </div>
     )
 };
-const HeaderWithAction = ({title, newButton, editableTitle, questionMenu, onBlurAction}) => {
+const HeaderWithAction = ({title, newButton, editableTitle, questionMenu, onBlurAction, uniqueId}) => {
+    const [inputValue, setInputValue] = useState(title);
+    useEffect(() => {
+        setInputValue(title)
+    }, [title]);
+
     return (
         <div className="flex items-center justify-between">
-            <div className="flex-1 min-w-0">
-                {editableTitle ? <input onBlur={(event) => onBlurAction(event.target.value)} style={{textOverflow: "ellipsis"}} className="text-3xl w-full border-gray-100 font-bold leading-7 text-gray-900 sm:text-4xl sm:leading-9 sm:truncate border border-transparent hover:border-gray-400 rounded-lg p-2
-                 active:outline-none active:border-blue-400 focus:outline-none focus:border-blue-400 transition-border duration-100 -ml-2" defaultValue={title ? title : "Untitled Assignment"}/> :
+            <div className="flex-1 min-w-0" key={uniqueId}>
+                {editableTitle ?
+                    <input onBlur={(event) => onBlurAction(inputValue)} style={{textOverflow: "ellipsis"}} className="text-3xl w-full border-gray-100 font-bold leading-7 text-gray-900 sm:text-4xl sm:leading-9 sm:truncate border border-transparent hover:border-gray-400 rounded-lg p-2
+                 active:outline-none active:border-blue-400 focus:outline-none focus:border-blue-400 transition-border duration-100 -ml-2"
+                           value={inputValue} onChange={event => setInputValue(event.target.value)}/> :
                     <h2 className="text-3xl font-bold leading-7 text-gray-900 sm:text-4xl sm:leading-9 sm:truncate">
                         {title}
                     </h2>}

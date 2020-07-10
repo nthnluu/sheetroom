@@ -67,7 +67,7 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
                         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none lg:px-6" tabIndex="0">
                             <div className="pt-0 pb-6 md:py-6">
                                 <div className="mx-auto px-4 sm:px-6 lg:px-2 my-8" key={pageId}>
-                                    <HeaderWithAction onBlurAction={(value) => onTitleBlur(value)} title={title} newButton={newButton} questionMenu={questionMenu} editableTitle={editableTitle}/>
+                                    <HeaderWithAction uniqueId={pageId} onBlurAction={(value) => onTitleBlur(value)} title={title} newButton={newButton} questionMenu={questionMenu} editableTitle={editableTitle}/>
                                 </div>
                                 <div className="mx-auto px-4 sm:px-6 lg:px-2">
                                     {/*// <!-- Replace with your content -->*/}
