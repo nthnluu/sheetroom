@@ -55,11 +55,11 @@ const getListStyle = isDraggingOver => ({
     width: '100%'
 });
 
-const DnDCard = ({item, index, setActive, active}) => {
+const DnDCard = ({item, index, setActive, active, setSaveStatus}) => {
     return (<Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided, snapshot) => (
             <div onClick={() => setActive()}
-                 className={snapshot.isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200 z-50" : "flex border border-gray-200 justify-between rounded-lg mb-4 shadow-sm transition-shadow duration-200 z-50"}
+                 className={snapshot.isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200 z-50" : ("flex border border-gray-200 justify-between rounded-lg mb-4 shadow-sm transition-shadow duration-200 z-50 " + (active ? "shadow-xl border-4 border-blue-400" : null))}
                  ref={provided.innerRef}
                  {...provided.draggableProps}
             >
@@ -77,13 +77,13 @@ const DnDCard = ({item, index, setActive, active}) => {
                         className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100">
                         <i className="far fa-trash-alt"/></button>
                 </div>
-                <CardFrame item={item} active={active}/>
+                <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} active={active}/>
             </div>
         )}
     </Draggable>)
 }
 
-const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setItem}) => {
+const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setItem, setSaveStatus}) => {
     return (<div
         {...provided.droppableProps}
         ref={provided.innerRef}
@@ -91,7 +91,7 @@ const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setIte
     >
         {items.map((item, index) => (
             <DnDCard key={item.id} setActive={() => setItem(item.id)} active={currentItem === item.id} item={item}
-                     index={index}/>
+                     index={index} setSaveStatus={status => setSaveStatus(status)}/>
         ))}
         {provided.placeholder}
     </div>)
@@ -179,7 +179,7 @@ export const DnDList = ({items, setItem, currentItem, setSaveStatus}) => {
             <Droppable droppableId="droppable">
                 {(provided, snapshot) => (
                     <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => setItem(id)}
-                                  currentItem={currentItem} items={listData}/>
+                                  currentItem={currentItem} items={listData} setSaveStatus={saveStatus => setSaveStatus(saveStatus)}/>
                 )}
             </Droppable>
         </DragDropContext>

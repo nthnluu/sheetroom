@@ -1,6 +1,9 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Transition from "../Transition";
 import RichTextField from "../Editor/SlateEditor";
+import {useMutation} from "@apollo/react-hooks";
+import {CREATE_ASSIGNMENT} from "../../pages/new/course";
+import {UPDATE_ITEM_CONTENT} from "../../gql/assignmentAutosave";
 
 
 const Calculator = () => {
@@ -345,14 +348,30 @@ const InactiveCard = () => {
     )
 };
 
-const CardFrame = ({item, active}) => {
+const CardFrame = ({itemData, active, setSaveStatus}) => {
     const [modalActive, toggleSelected] = useState(true);
+    const [item, setItemData] = useState(itemData);
+
+    //autosave logic
+    const [updateContent, {contentData}] = useMutation(UPDATE_ITEM_CONTENT);
+
+    const saveContent = (value) => {
+        setSaveStatus(1);
+        updateContent({variables: {pk: item.id, content: value}})
+            .then(() => setSaveStatus(0))
+            .catch(() => setSaveStatus(2));
+    };
+
+    useEffect(() => {
+        setItemData(itemData)
+    }, [itemData]);
+
     return (
         <div className="bg-white focus:shadow-outline w-full rounded-r-lg py-8 px-8 focus:outline-none">
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
 
                 <div className="w-full border-r border-transparent md:border-gray-200 md:pr-4 md:mr-4 pr-0 mr-0">
-                    {modalActive ? <RichTextField active={active} initialContent={item.content} /> : <InactiveCard/>}
+                    <RichTextField active={active} initialContent={item.content} onBlurEvent={(value) => saveContent(value)} />
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
                     <QuestionType/>

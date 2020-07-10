@@ -15,8 +15,7 @@ function Controller({type, item}) {
             break;
         default:
             return <div className="bg-red-100 p-3 rounded text-red-500">
-                <h3 className="font-bold text-sm uppercase"><i className="fas fa-exclamation-circle mr-2"/>Unsupported
-                    Question Type<span className="font-medium capitalize"> — Contact your instructor for help</span>
+                <h3 className="font-bold text-sm uppercase"><i className="fas fa-exclamation-circle mr-2"/>Incorrectly Configured Question<span className="font-medium normal-case"> — Contact your instructor for help.</span>
                 </h3>
             </div>;
 

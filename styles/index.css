@@ -8,8 +8,8 @@ blockquote {
 }
 
 code {
-    background-color: rgba(0,0,0,0.075);
-    @apply p-1 mr-1 rounded-lg
+    background-color: rgba(200,200,200,0.35);
+    @apply px-2 py-1 mr-1 rounded-lg
 }
 .stickyNav {
     box-shadow: 0 12px 10px -10px rgba(0, 0, 0, 0.12);

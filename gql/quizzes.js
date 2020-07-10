@@ -4,6 +4,7 @@ export const ASSIGNMENT_WS = gql`
 subscription AssignmentByPk($id: uuid!) {
   assignments_assignment_by_pk(id: $id)
   {
+  updated_at
     title
     id
     sections {

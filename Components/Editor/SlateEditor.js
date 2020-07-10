@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import isHotkey from 'is-hotkey'
 import {Editable, withReact, useSlate, Slate} from 'slate-react'
 import {Editor, Transforms, createEditor} from 'slate'
@@ -14,13 +14,16 @@ const HOTKEYS = {
     'mod+`': 'code',
 }
 
-export const RichTextField = ({active, initialContent}) => {
+export const RichTextField = ({active, initialContent, onBlurEvent}) => {
     const [value, setValue] = useState(initialContent != null ? initialContent : initialValue);
     const [toolbarOpen, toggleToolbar] = useState(false);
     const renderElement = useCallback(props => <Element {...props} />, []);
     const renderLeaf = useCallback(props => <Leaf {...props} />, []);
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
+    useEffect(() => {
+        setValue(initialContent)
+    }, [initialContent]);
 
     return (
         <div className="group py-8 -mt-8" onMouseOver={() => {
@@ -42,7 +45,7 @@ export const RichTextField = ({active, initialContent}) => {
                         spellCheck={false}
                         isSelected
                         onFocus={() => toggleToolbar(true)}
-                        onBlur={(event) => event.preventDefault()}
+                        onBlur={(event) => {event.preventDefault(); onBlurEvent(value)}}
                         onKeyDown={event => {
                             for (const hotkey in HOTKEYS) {
                                 if (isHotkey(hotkey, event)) {

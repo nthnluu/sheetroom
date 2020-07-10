@@ -16,3 +16,10 @@ export const UPDATE_ITEM_INDEX = gql`
   }
 `;
 
+export const UPDATE_ITEM_CONTENT = gql`
+ mutation UpdateItemContent($pk: uuid!, $content: json!) {
+  update_assignments_item_by_pk(pk_columns: {id: $pk}, _set: {content: $content}){
+    content
+  }
+}
+`;

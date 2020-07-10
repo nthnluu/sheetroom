@@ -172,7 +172,7 @@ const LoadingPlaceholder = () => {
         </div>
     )
 };
-const ThirdArea = ({data, isSaving, saveFailed}) => {
+const ThirdArea = ({data, isSaving, saveFailed, lastSaved}) => {
     return (
         <>
             <header className="space-y-1 py-4 px-4 border-b border-gray-200 sm:px-6">
@@ -332,7 +332,7 @@ const QuizEditor = ({user}) => {
                             <PageContent refetchData={refetchData} data={data} aid={aid} setSaveStatus={(status) => setSaveStatus(status)}/>}
                                questionMenu
                                editableTitle
-                               thirdArea={<ThirdArea data={data} isSaving={saveStatus === 1} saveFailed={saveStatus===2}/>}
+                               thirdArea={<ThirdArea data={data} isSaving={saveStatus === 1} lastSaved={data.assignments_assignment_by_pk.updated_at} saveFailed={saveStatus===2}/>}
                                windowTitle={data.assignments_assignment_by_pk.title}/>}
             </div>
         </>
