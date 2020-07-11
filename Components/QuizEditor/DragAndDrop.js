@@ -56,7 +56,9 @@ const getListStyle = isDraggingOver => ({
 });
 
 const InactiveCard = ({isDragging, active, provided, setSaveStatus, item, index, setActive}) => {
-    return (<button onClick={(e) => {setActive(item.id)}}
+    return (<div onClick={(e) => {
+        setActive(item.id)
+    }}
                     className={isDragging ? "flex justify-between rounded-lg w-full block shadow-outline border border-gray-200 z-50 text-left" : ("flex border border-gray-200 w-full block justify-between rounded-lg text-left mb-4 shadow-sm transition-shadow duration-200 z-50 " + (active ? "shadow-xl border-4 border-blue-400" : null))}
     >
         <div
@@ -73,13 +75,18 @@ const InactiveCard = ({isDragging, active, provided, setSaveStatus, item, index,
                 className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100">
                 <i className="far fa-trash-alt"/></button>
         </div>
-        <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} index={index}
-                   active={active}/>
-    </button>)
+        <button onClick={(e) => {
+            setActive(item.id)
+        }} className="text-left block w-full active:outline-none focus:shadow-outline focus:outline-none">
+            <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} index={index}
+                       active={active}/>
+        </button>
+    </div>)
 };
 
 const ActiveCard = ({isDragging, active, provided, setSaveStatus, item, index}) => {
-    return (<div className={isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200 z-50 text-left" : ("flex border border-gray-200 justify-between rounded-lg text-left mb-4 shadow-sm transition-shadow duration-200 z-50 " + (active ? "shadow-xl border-4 border-blue-400" : null))}>
+    return (<div
+        className={isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200 z-50 text-left" : ("flex border border-gray-200 justify-between rounded-lg text-left mb-4 shadow-sm transition-shadow duration-200 z-50 " + (active ? "shadow-xl border-4 border-blue-400" : null))}>
         <div
             className="p-2 text-gray-400 rounded-l-lg bg-white h-96">
             <div className="py-1">
@@ -100,13 +107,16 @@ const ActiveCard = ({isDragging, active, provided, setSaveStatus, item, index}) 
 };
 
 
-
 const DnDCard = ({item, index, setActive, active, setSaveStatus}) => {
     return (<Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided, snapshot) => (
             <div ref={provided.innerRef}
                  {...provided.draggableProps}>
-                {active ? <ActiveCard isDragging={snapshot.isDragging} active={active} provided={provided} setSaveStatus={status => setSaveStatus(status)} item={item} index={index}/>: <InactiveCard setActive={id => setActive(id)} isDragging={snapshot.isDragging} active={active} provided={provided} setSaveStatus={status => setSaveStatus(status)} item={item} index={index}/>}
+                {active ? <ActiveCard isDragging={snapshot.isDragging} active={active} provided={provided}
+                                      setSaveStatus={status => setSaveStatus(status)} item={item} index={index}/> :
+                    <InactiveCard setActive={id => setActive(id)} isDragging={snapshot.isDragging} active={active}
+                                  provided={provided} setSaveStatus={status => setSaveStatus(status)} item={item}
+                                  index={index}/>}
             </div>
 
         )}
