@@ -59,7 +59,7 @@ const InactiveCard = ({isDragging, active, provided, setSaveStatus, item, index,
     return (<div onClick={(e) => {
         setActive(item.id)
     }}
-                    className={isDragging ? "flex justify-between rounded-lg w-full block shadow-outline border border-gray-200 z-50 text-left" : ("flex border border-gray-200 w-full block justify-between rounded-lg text-left mb-4 shadow-sm transition-shadow duration-200 z-50 " + (active ? "shadow-xl border-4 border-blue-400" : null))}
+                    className={isDragging ? "flex justify-between rounded-lg w-full block shadow-outline border border-gray-200 z-50 text-left" : "flex border border-gray-200 w-full block justify-between rounded-lg text-left mb-4 shadow-sm transition-shadow duration-200 z-50 hover:border-gray-300 active:border-gray-400 "}
     >
         <div
             className={active ? "p-2 text-gray-400 rounded-l-lg bg-white h-96" : "p-2 text-gray-400 rounded-l-lg bg-white"}>

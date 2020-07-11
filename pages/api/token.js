@@ -36,7 +36,6 @@ export default async function graph(req, res) {
         // Decrypt using secret and return as string
         const decryptedBytes = CryptoJS.AES.decrypt(encryptedToken, process.env.SECRET);
         const decryptedToken = decryptedBytes.toString(CryptoJS.enc.Utf8);
-        console.log(decryptedToken);
         const apiRes = await callAPI('graphql', req.body, {
             Authorization: decryptedToken ? `Bearer ${decryptedToken}` : ""
         });

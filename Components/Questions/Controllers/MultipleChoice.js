@@ -41,10 +41,10 @@ export default function ({choices, questionId}) {
             <form>
                 <fieldset className="pt-2" role="radiogroup">
                     <legend className="font-semibold text-gray-800">Select one:</legend>
-                    {choices.map((choice, index) => <AnswerChoice index={index} selected={selected === choice.id}
+                    {choices.map((choice, index) => (choice.content != null && JSON.stringify(choice.content) !== `[{"children":[{"text":""}],"type":"paragraph"}]`) ? <AnswerChoice index={index} selected={selected === choice.id}
                                                                   questionId={questionId}
                                                                   onClick={() => setSelected(choice.id)} key={choice.id}
-                                                                  text={choice.content} radioName={radioName}/>)}
+                                                                  text={choice.content} radioName={radioName}/> : null)}
                 </fieldset>
             </form>
         </>
