@@ -86,19 +86,19 @@ export const Leaf = ({attributes, children, leaf}) => {
     return <span {...attributes}>{children}</span>
 };
 
-export const BlockButton = ({format, icon}) => {
+export const BlockButton = ({format, icon, uniqueId}) => {
     const editor = useSlate();
     return (
-        <ToolbarButton active={isBlockActive(editor, format)} icon={icon} color="gray"
+        <ToolbarButton uniqueId={uniqueId} active={isBlockActive(editor, format)} icon={icon} color="gray"
                        onMouseDown={() => toggleBlock(editor, format)}/>
     )
 };
 
-export const MarkButton = ({format, icon}) => {
+export const MarkButton = ({format, icon, uniqueId}) => {
     const editor = useSlate();
     return (
         <>
-            <ToolbarButton active={isMarkActive(editor, format)} onMouseDown={() => toggleMark(editor, format)}
+            <ToolbarButton uniqueId={uniqueId} active={isMarkActive(editor, format)} onMouseDown={() => toggleMark(editor, format)}
                            icon={icon} color="gray"/>
         </>
     )

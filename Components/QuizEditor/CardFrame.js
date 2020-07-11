@@ -374,7 +374,7 @@ const CardFrame = ({itemData, active, setSaveStatus, index}) => {
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {index + 1}</h2>
                         <RichTextField border active={active} initialContent={item.content}
-                                       onBlurEvent={(value) => saveContent(value)}/>
+                                       onBlurEvent={(value) => saveContent(value)} uniqueId={item.id}/>
                     </div>
                     <MultipleChoiceController itemId={item.id} setSaveStatus={status => setSaveStatus(status)} active={active} choices={item.answer_choices}/>
                 </div>

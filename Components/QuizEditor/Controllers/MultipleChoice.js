@@ -38,9 +38,11 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
         <>
             <div id={labelId} htmlFor={inputId}
                  className={selected ? 'editor-card editor-selectedCard cursor-pointer flex-grow ' : 'flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
+            onFocus={() => console.log('focus')} onBlur={() => console.log('blur')}
             >
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
-                <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField active={active}
+                <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField uniqueId={choiceId}
+                    active={active}
                                                                                             initialContent={content}
                                                                                             onBlurEvent={(value) => {
                                                                                                 if (value != content) {
