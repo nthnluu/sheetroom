@@ -77,7 +77,7 @@ const InactiveCard = ({isDragging, active, provided, setSaveStatus, item, index,
         </div>
         <button onClick={(e) => {
             setActive(item.id)
-        }} className="text-left block w-full active:outline-none focus:shadow-outline focus:outline-none">
+        }} className="text-left block w-full active:outline-none focus:shadow-outline focus:outline-none rounded-r">
             <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} index={index}
                        active={active}/>
         </button>

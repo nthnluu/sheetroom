@@ -37,7 +37,7 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
     return (
         <>
             <div id={labelId} htmlFor={inputId}
-                 className={selected ? 'editor-card editor-selectedCard cursor-pointer flex-grow ' : 'pointer-events-none flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
+                 className={selected ? 'editor-card editor-selectedCard cursor-pointer flex-grow ' : 'flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
             >
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
                 <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField active={active}
