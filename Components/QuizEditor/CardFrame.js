@@ -376,7 +376,7 @@ const CardFrame = ({itemData, active, setSaveStatus, index}) => {
                         <RichTextField border active={active} initialContent={item.content}
                                        onBlurEvent={(value) => saveContent(value)}/>
                     </div>
-                    <MultipleChoiceController active={active} choices={item.answer_choices}/>
+                    <MultipleChoiceController setSaveStatus={status => setSaveStatus(status)} active={active} choices={item.answer_choices}/>
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
                     <h2 className="text-center text-gray-400">DEBUG MENU</h2>

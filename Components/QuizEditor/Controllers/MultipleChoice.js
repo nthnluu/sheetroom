@@ -1,10 +1,13 @@
 import React, {useState} from "react";
 import {RichTextField} from "../../Editor/SlateEditor";
+import {useMutation} from "@apollo/react-hooks";
+import {UPDATE_CHOICE_CONTENT} from "../../../gql/assignmentAutosave";
 
-function AnswerChoice({selected, onClick, text, radioName, questionId, index, active, content}) {
+function AnswerChoice({selected, onClick, text, radioName, questionId, index, active, content, choiceId, setSaveStatus}) {
     const [focused, setFocus] = useState(false);
     const inputId = 'input-' + questionId + index;
     const labelId = 'label-' + questionId + index;
+    const [updateItem, {choiceData}] = useMutation(UPDATE_CHOICE_CONTENT);
 
 
     function checkFocus() {
@@ -24,7 +27,13 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
             <div id={labelId} htmlFor={inputId}
                    className={selected ? 'editor-card editor-selectedCard cursor-pointer ' : 'pointer-events-none editor-card editor-unselectedCard ' + checkFocus()}>
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
-                <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField active={active} initialContent={content}/></span>
+                <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField active={active} initialContent={content} onBlurEvent={(value) => {
+                    if (value != content) {
+                        setSaveStatus(1);
+                        updateItem({variables: {pk: choiceId, content: value}})
+                            .then((result) =>setSaveStatus(0))
+                            .catch(error => setSaveStatus(2));
+                    }}}/></span>
             </div>
         </>
     )
@@ -43,6 +52,7 @@ function Grid({choices, questionId}) {
                     <legend className="font-semibold text-gray-800">Select one:</legend>
                     {choices.map((choice, index) => <AnswerChoice index={index} selected={selected === choice.id}
                                                                   questionId={questionId}
+                                                                  choideId={choice.id}
                                                                   onClick={() => setSelected(choice.id)} key={choice.id}
                                                                   text={choice.content} radioName={radioName}/>)}
                 </fieldset>
@@ -53,10 +63,10 @@ function Grid({choices, questionId}) {
 
 }
 
-export const MultipleChoiceController = ({isSelected, active, choices}) => {
+export const MultipleChoiceController = ({isSelected, active, choices, setSaveStatus}) => {
     return (
         <div className="spacing-y-4">
-            {choices.map(choice =>  <AnswerChoice active={active} key={choice.id} content={choice.content} selected={choice.is_correct}/>)}
+            {choices.map(choice =>  <AnswerChoice choiceId={choice.id} active={active} setSaveStatus={status => setSaveStatus(status)} key={choice.id} content={choice.content} selected={choice.is_correct}/>)}
         </div>
 
     )

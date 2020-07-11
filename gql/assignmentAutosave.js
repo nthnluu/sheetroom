@@ -26,7 +26,7 @@ export const UPDATE_ITEM_CONTENT = gql`
 
 export const UPDATE_CHOICE_CONTENT = gql`
  mutation UpdateItemContent($pk: uuid!, $content: json!) {
-  update_assignments_item_by_pk(pk_columns: {id: $pk}, _set: {content: $content}){
+  update_assignments_answer_choice_by_pk(pk_columns: {id: $pk}, _set: {content: $content}){
     content
   }
 }
