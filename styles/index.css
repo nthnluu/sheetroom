@@ -67,7 +67,7 @@ code {
 .editor-card {
     display: table;
     white-space: normal;
-    @apply rounded-lg border p-4 transition-all duration-100 w-full text-left
+    @apply rounded-lg border p-4 transition-colors duration-100 w-full text-left
 }
 .editor-card:active {
     @apply shadow-outline outline-none

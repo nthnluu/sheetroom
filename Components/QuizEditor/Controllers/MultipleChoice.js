@@ -19,7 +19,7 @@ const NEW_ANSWER_CHOICE = gql`
 }
 `;
 
-function AnswerChoice({selected, onClick, text, radioName, questionId, index, active, content, choiceId, setSaveStatus}) {
+function AnswerChoice({selected, onClick, text, radioName, questionId, index, active, content, choiceId, setSaveStatus, answerChoices, editable, dragHandler}) {
     const [focused, setFocus] = useState(false);
     const inputId = 'input-' + questionId + index;
     const labelId = 'label-' + questionId + index;
@@ -55,7 +55,9 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
                                                                                                         .catch(error => setSaveStatus(2));
                                                                                                 }
                                                                                             }}/></span>
+                {dragHandler}
             </div>
+
         </>
     )
 
@@ -126,37 +128,43 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
             {active ? <div>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="droppaasdble">
-                        {(provided, snapshot) => (
+                        {(dropProvided, dropSnapshot) => (
                             <div
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                                className="w-full "
+                                {...dropProvided.droppableProps}
+                                ref={dropProvided.innerRef}
+                                className="w-full"
                             >
                                 {answerChoices ? answerChoices.map((choice, index) => (
                                     <Draggable key={choice.id} draggableId={choice.id} index={index}>
                                         {(provided, snapshot) => (
-                                                <div {...provided.dragHandleProps} className="flex justify-between" ref={provided.innerRef}  {...provided.draggableProps}>
-                                                    <i
-                                                           className={(answerChoices.length > 1) ? "fas fa-grip-lines text-gray-300 text-center active:text-blue-500": "invisible"}/>
-                                                    <AnswerChoice choiceId={choice.id} active={active}
-                                                                  setSaveStatus={status => setSaveStatus(status)}
-                                                                  key={choice.id}
-                                                                  content={choice.content}
-                                                                  selected={choice.is_correct}/>
-                                                </div>
+                                            <div
+                                                 className={"flex justify-between mb-4 " + (snapshot.isDragging ? "my-0" : null)}
+                                                 ref={provided.innerRef}  {...provided.draggableProps}>
+                                                <AnswerChoice choiceId={choice.id} active={active}
+                                                              answerChoices={answerChoices}
+                                                              setSaveStatus={status => setSaveStatus(status)}
+                                                              key={choice.id}
+                                                              content={choice.content}
+                                                              selected={choice.is_correct}
+                                                              dragHandler={<i {...provided.dragHandleProps}
+                                                                  className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center" + (choice.is_correct ? " active:text-white text-blue-200" : " active:text-blue-400 text-gray-300" )) : "invisible"}/>}
+                                                />
+
+
+                                            </div>
 
                                         )}
                                     </Draggable>
                                 )) : null}
                                 <div className="w-10">
-                                    {provided.placeholder}
+                                    {dropProvided.placeholder}
                                 </div>
 
                             </div>
                         )}
                     </Droppable>
                 </DragDropContext>
-            </div>:<div>
+            </div> : <div className="space-y-4">
                 {answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
                                                                     setSaveStatus={status => setSaveStatus(status)}
                                                                     key={choice.id}
