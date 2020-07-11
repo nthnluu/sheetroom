@@ -50,7 +50,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     ...draggableStyle
 });
 
-const getListStyle = isDraggingOver => ({
+export const getListStyle = isDraggingOver => ({
     padding: grid,
     width: '100%'
 });
@@ -86,9 +86,9 @@ const InactiveCard = ({isDragging, active, provided, setSaveStatus, item, index,
 
 const ActiveCard = ({isDragging, active, provided, setSaveStatus, item, index}) => {
     return (<div
-        className={isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200 z-50 text-left" : ("flex border border-gray-200 justify-between rounded-lg text-left mb-4 shadow-sm transition-shadow duration-200 z-50 " + (active ? "shadow-xl border-4 border-blue-400" : null))}>
+        className={isDragging ? "flex justify-between rounded-lg shadow-outline flex-grow-0 border border-gray-200 z-50 text-left" : ("flex border border-gray-200 flex-grow-0 justify-between rounded-lg text-left mb-4 shadow-sm z-50 " + (active ? "shadow-xl border-4 border-gray-400" : null))}>
         <div
-            className="p-2 text-gray-400 rounded-l-lg bg-white h-96">
+            className="p-2 text-gray-400 rounded-l-lg bg-white">
             <div className="py-1">
                 <button className="w-full active:text-blue-500 transition-all duration-100"><i
                     className="fas fa-chevron-up"/></button>

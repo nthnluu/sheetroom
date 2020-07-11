@@ -5,6 +5,7 @@ import {UPDATE_CHOICE_CONTENT} from "../../../gql/assignmentAutosave";
 import gql from "graphql-tag";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import CardFrame from "../CardFrame";
+import {getListStyle} from "../DragAndDrop";
 
 const NEW_ANSWER_CHOICE = gql`
  mutation CreateNewAnswerChoice($itemId: uuid!, $isCorrect: Boolean!, $index: Int!, $content: json!) {
@@ -35,12 +36,9 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
 
     return (
         <>
-            {/*<input id={inputId} aria-labelledby={labelId} aria-selected={selected} type="radio"*/}
-            {/*       defaultChecked={selected} name={radioName} value={text} onClick={()=>console.log('hi')}*/}
-            {/*       className="absolute mt-6 ml-5 opacity-75" onFocus={() => setFocus(true)}*/}
-            {/*        onBlur={() => setFocus(false)}/>*/}
             <div id={labelId} htmlFor={inputId}
-                 className={selected ? 'editor-card editor-selectedCard cursor-pointer ' : 'pointer-events-none editor-card editor-unselectedCard ' + checkFocus()}>
+                 className={selected ? 'editor-card editor-selectedCard cursor-pointer flex-grow ' : 'pointer-events-none flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
+            >
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
                 <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField active={active}
                                                                                             initialContent={content}
@@ -61,78 +59,7 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
         </>
     )
 
-}
-
-function ProvisionalAnswerChoice({selected, onClick, text, radioName, questionId, index, active, content, itemId, setSaveStatus, choicesLength}) {
-    const [focused, setFocus] = useState(false);
-    const inputId = 'input-' + questionId + index;
-    const labelId = 'label-' + questionId + index;
-    const [createAnswerChoice, {choiceData}] = useMutation(NEW_ANSWER_CHOICE);
-
-
-    function checkFocus() {
-        if (focused) {
-            return ' shadow-outline';
-        } else {
-
-        }
-    }
-
-    return (
-        <>
-            {/*<input id={inputId} aria-labelledby={labelId} aria-selected={selected} type="radio"*/}
-            {/*       defaultChecked={selected} name={radioName} value={text} onClick={()=>console.log('hi')}*/}
-            {/*       className="absolute mt-6 ml-5 opacity-75" onFocus={() => setFocus(true)}*/}
-            {/*        onBlur={() => setFocus(false)}/>*/}
-            <div id={labelId} htmlFor={inputId}
-                 className={selected ? 'editor-card editor-selectedCard cursor-pointer ' : 'pointer-events-none editor-card editor-unselectedCard ' + checkFocus()}>
-                {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
-                <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField active={active}
-                                                                                            initialContent={content}
-                                                                                            onBlurEvent={(value) => {
-                                                                                                setSaveStatus(1);
-                                                                                                createAnswerChoice({
-                                                                                                    variables: {
-                                                                                                        itemId: itemId,
-                                                                                                        isCorrect: false,
-                                                                                                        index: choicesLength,
-                                                                                                        content: value
-                                                                                                    }
-                                                                                                })
-                                                                                                    .then(() => setSaveStatus(0))
-                                                                                                    .catch(error => {
-                                                                                                        console.log(error);
-                                                                                                        setSaveStatus(2)
-                                                                                                    })
-
-                                                                                            }}/></span>
-            </div>
-        </>
-    )
-
-}
-
-function Grid({choices, questionId}) {
-    const [selected, setSelected] = useState();
-    const radioName = questionId;
-
-    return (
-        <>
-            <form>
-                <fieldset className="pt-2" role="radiogroup">
-                    <legend className="font-semibold text-gray-800">Select one:</legend>
-                    {choices.map((choice, index) => <AnswerChoice index={index} selected={selected === choice.id}
-                                                                  questionId={questionId}
-                                                                  choideId={choice.id}
-                                                                  onClick={() => setSelected(choice.id)} key={choice.id}
-                                                                  text={choice.content} radioName={radioName}/>)}
-                </fieldset>
-            </form>
-        </>
-
-    )
-
-}
+};
 
 const AddNewQuestion = ({itemId, choicesLength, setSaveStatus, setProvisionalChoice}) => {
 
@@ -187,7 +114,7 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
             result.source.index,
             result.destination.index
         );
-        console.log(newItems);
+        setAnswerChoices(newItems);
     };
 
     useEffect(() => {
@@ -196,39 +123,48 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
 
     return (
         <>
-            <div>
+            {active ? <div>
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="droppaasdble">
                         {(provided, snapshot) => (
                             <div
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
+                                className="w-full "
                             >
                                 {answerChoices ? answerChoices.map((choice, index) => (
                                     <Draggable key={choice.id} draggableId={choice.id} index={index}>
                                         {(provided, snapshot) => (
-                                            <div ref={provided.innerRef}
-                                                 {...provided.draggableProps}>
-                                                <div className="flex justify-between">
-                                                    {(active && answerChoices.length > 1) ? <i {...provided.dragHandleProps}
-                                                                 className="fas fa-grip-lines absolute -ml-10 text-gray-300 w-12 text-center active:text-blue-500 transition-all duration-100"/> : null}
+                                                <div {...provided.dragHandleProps} className="flex justify-between" ref={provided.innerRef}  {...provided.draggableProps}>
+                                                    <i
+                                                           className={(answerChoices.length > 1) ? "fas fa-grip-lines text-gray-300 text-center active:text-blue-500": "invisible"}/>
                                                     <AnswerChoice choiceId={choice.id} active={active}
                                                                   setSaveStatus={status => setSaveStatus(status)}
                                                                   key={choice.id}
                                                                   content={choice.content}
                                                                   selected={choice.is_correct}/>
                                                 </div>
-                                            </div>
 
                                         )}
                                     </Draggable>
                                 )) : null}
-                                {provided.placeholder}
+                                <div className="w-10">
+                                    {provided.placeholder}
+                                </div>
+
                             </div>
                         )}
                     </Droppable>
                 </DragDropContext>
-            </div>
+            </div>:<div>
+                {answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
+                                                                    setSaveStatus={status => setSaveStatus(status)}
+                                                                    key={choice.id}
+                                                                    content={choice.content}
+                                                                    selected={choice.is_correct}/>)}
+            </div>}
+
+
             <div className="spacing-y-4">
                 {/*{answerChoices.map(choice => <AnswerChoice choiceId={choice.id} active={active}*/}
                 {/*                                           setSaveStatus={status => setSaveStatus(status)}*/}
