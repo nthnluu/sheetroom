@@ -71,9 +71,6 @@ const InactiveCard = ({isDragging, active, provided, setSaveStatus, item, index,
                 <button className="w-full active:text-blue-500 transition-all duration-100"><i
                     className="fas fa-chevron-down"/></button>
             </div>
-            <button
-                className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100">
-                <i className="far fa-trash-alt"/></button>
         </div>
         <button onClick={(e) => {
             setActive(item.id)
@@ -98,7 +95,7 @@ const ActiveCard = ({isDragging, active, provided, setSaveStatus, item, index}) 
                     className="fas fa-chevron-down"/></button>
             </div>
             <button
-                className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100">
+                className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 focus:outline-none active:outline-none rounded-full active:text-red-500 transition-all duration-100">
                 <i className="far fa-trash-alt"/></button>
         </div>
         <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} index={index}

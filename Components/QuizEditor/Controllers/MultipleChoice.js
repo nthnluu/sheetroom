@@ -86,12 +86,12 @@ const AddNewQuestion = ({itemId, choicesLength, setSaveStatus, setProvisionalCho
 
     return (
         <>
-            <div className="mt-4 w-full space-y-2 sm:space-y-0 sm:space-x-2 z-0">
-                <NewButton label="Text"/>
-                <NewButton label="Math"/>
-                <NewButton label="All of the above"/>
-                <NewButton label="None of the above"/>
-            </div>
+            {/*<div className="mt-4 w-full space-y-2 sm:space-y-0 sm:space-x-2 z-0">*/}
+            {/*    <NewButton label="Text"/>*/}
+            {/*    <NewButton label="Math"/>*/}
+            {/*    <NewButton label="All of the above"/>*/}
+            {/*    <NewButton label="None of the above"/>*/}
+            {/*</div>*/}
         </>)
 };
 
@@ -149,7 +149,7 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                                               content={choice.content}
                                                               selected={choice.is_correct}
                                                               dragHandler={<i {...provided.dragHandleProps}
-                                                                  className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center" + (choice.is_correct ? " active:text-white text-blue-200" : " active:text-blue-400 text-gray-300" )) : "invisible"}/>}
+                                                                  className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center py-4" + (choice.is_correct ? " active:text-white text-blue-200" : " active:text-blue-400 text-gray-300" )) : "invisible"}/>}
                                                 />
 
 

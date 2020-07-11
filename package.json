@@ -22,6 +22,7 @@
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
     "apollo-link-ws": "^1.0.20",
+    "apollo-utilities": "latest",
     "autoprefixer": "^9.8.1",
     "crypto-js": "latest",
     "graphql": "^15.2.0",
@@ -37,13 +38,13 @@
     "react": "16.13.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "16.13.1",
+    "react-select": "^3.1.0",
     "react-transition-group": "^4.4.1",
     "slate": "^0.58.3",
     "slate-history": "^0.58.3",
     "slate-react": "^0.58.3",
     "subscriptions-transport-ws": "^0.9.16",
-    "tailwindcss": "^1.4.6",
-    "apollo-utilities": "latest"
+    "tailwindcss": "^1.4.6"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.10.4",

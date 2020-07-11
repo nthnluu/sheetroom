@@ -8,6 +8,7 @@ import Head from 'next/head'
 import React, {useState} from "react";
 import {UPDATE_ASSIGNMENT_TITLE} from "../../../gql/assignmentAutosave";
 
+
 const quizSampleData = {
     title: "Semester 2 Final",
     description: "Lorem ipsum dolor sit anem.",
@@ -45,8 +46,11 @@ const quizSampleData = {
         }
     ]
 };
+
 const PageContent = ({data, aid, setSaveStatus, refetchData}) => {
     const [currentItem, setCurrentItem] = useState(undefined);
+
+
     return (
         <div key={aid}>
             {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}

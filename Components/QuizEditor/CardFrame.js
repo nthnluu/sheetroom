@@ -5,6 +5,7 @@ import {useMutation} from "@apollo/react-hooks";
 import {CREATE_ASSIGNMENT} from "../../pages/new/course";
 import {UPDATE_ITEM_CONTENT} from "../../gql/assignmentAutosave";
 import MultipleChoiceController from "./Controllers/MultipleChoice";
+import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 
 
 const Calculator = () => {
@@ -379,9 +380,7 @@ const CardFrame = ({itemData, active, setSaveStatus, index}) => {
                     <MultipleChoiceController itemId={item.id} setSaveStatus={status => setSaveStatus(status)} active={active} choices={item.answer_choices}/>
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
-                    <h2 className="text-center text-gray-400">DEBUG MENU</h2>
-                    <p>{JSON.stringify(active)}</p>
-                    <p>{JSON.stringify(item.type)}</p>
+                    <QuestionCardDropdown active={active}/>
                 </div>
             </div>
         </div>
