@@ -55,30 +55,60 @@ const getListStyle = isDraggingOver => ({
     width: '100%'
 });
 
+const InactiveCard = ({isDragging, active, provided, setSaveStatus, item, index, setActive}) => {
+    return (<button onClick={(e) => {setActive(item.id)}}
+                    className={isDragging ? "flex justify-between rounded-lg w-full block shadow-outline border border-gray-200 z-50 text-left" : ("flex border border-gray-200 w-full block justify-between rounded-lg text-left mb-4 shadow-sm transition-shadow duration-200 z-50 " + (active ? "shadow-xl border-4 border-blue-400" : null))}
+    >
+        <div
+            className={active ? "p-2 text-gray-400 rounded-l-lg bg-white h-96" : "p-2 text-gray-400 rounded-l-lg bg-white"}>
+            <div className="py-1">
+                <button className="w-full active:text-blue-500 transition-all duration-100"><i
+                    className="fas fa-chevron-up"/></button>
+                <i {...provided.dragHandleProps}
+                   className="fas fa-grip-lines w-full text-center active:text-blue-500 transition-all duration-100"></i>
+                <button className="w-full active:text-blue-500 transition-all duration-100"><i
+                    className="fas fa-chevron-down"/></button>
+            </div>
+            <button
+                className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100">
+                <i className="far fa-trash-alt"/></button>
+        </div>
+        <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} index={index}
+                   active={active}/>
+    </button>)
+};
+
+const ActiveCard = ({isDragging, active, provided, setSaveStatus, item, index}) => {
+    return (<div className={isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200 z-50 text-left" : ("flex border border-gray-200 justify-between rounded-lg text-left mb-4 shadow-sm transition-shadow duration-200 z-50 " + (active ? "shadow-xl border-4 border-blue-400" : null))}>
+        <div
+            className="p-2 text-gray-400 rounded-l-lg bg-white h-96">
+            <div className="py-1">
+                <button className="w-full active:text-blue-500 transition-all duration-100"><i
+                    className="fas fa-chevron-up"/></button>
+                <i {...provided.dragHandleProps}
+                   className="fas fa-grip-lines w-full text-center active:text-blue-500 transition-all duration-100"></i>
+                <button className="w-full active:text-blue-500 transition-all duration-100"><i
+                    className="fas fa-chevron-down"/></button>
+            </div>
+            <button
+                className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100">
+                <i className="far fa-trash-alt"/></button>
+        </div>
+        <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} index={index}
+                   active={true}/>
+    </div>)
+};
+
+
+
 const DnDCard = ({item, index, setActive, active, setSaveStatus}) => {
     return (<Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided, snapshot) => (
-            <div onClick={() => setActive()}
-                 className={snapshot.isDragging ? "flex justify-between rounded-lg shadow-outline border border-gray-200 z-50" : ("flex border border-gray-200 justify-between rounded-lg mb-4 shadow-sm transition-shadow duration-200 z-50 " + (active ? "shadow-xl border-4 border-blue-400" : null))}
-                 ref={provided.innerRef}
-                 {...provided.draggableProps}
-            >
-                <div
-                    className={active ? "p-2 text-gray-400 rounded-l-lg bg-white h-96" : "p-2 text-gray-400 rounded-l-lg bg-white"}>
-                    <div className="py-1">
-                        <button className="w-full active:text-blue-500 transition-all duration-100"><i
-                            className="fas fa-chevron-up"/></button>
-                        <i {...provided.dragHandleProps}
-                           className="fas fa-grip-lines w-full text-center active:text-blue-500 transition-all duration-100"></i>
-                        <button className="w-full active:text-blue-500 transition-all duration-100"><i
-                            className="fas fa-chevron-down"/></button>
-                    </div>
-                    <button
-                        className="w-full p-2 mt-2 hover:bg-gray-50 active:bg-gray-100 focus:bg-gray-50 rounded-full active:text-red-500 transition-all duration-100">
-                        <i className="far fa-trash-alt"/></button>
-                </div>
-                <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} index={index} active={active}/>
+            <div ref={provided.innerRef}
+                 {...provided.draggableProps}>
+                {active ? <ActiveCard isDragging={snapshot.isDragging} active={active} provided={provided} setSaveStatus={status => setSaveStatus(status)} item={item} index={index}/>: <InactiveCard setActive={id => setActive(id)} isDragging={snapshot.isDragging} active={active} provided={provided} setSaveStatus={status => setSaveStatus(status)} item={item} index={index}/>}
             </div>
+
         )}
     </Draggable>)
 };
@@ -179,7 +209,8 @@ export const DnDList = ({items, setItem, currentItem, setSaveStatus}) => {
             <Droppable droppableId="droppable">
                 {(provided, snapshot) => (
                     <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => setItem(id)}
-                                  currentItem={currentItem} items={listData} setSaveStatus={saveStatus => setSaveStatus(saveStatus)}/>
+                                  currentItem={currentItem} items={listData}
+                                  setSaveStatus={saveStatus => setSaveStatus(saveStatus)}/>
                 )}
             </Droppable>
         </DragDropContext>
