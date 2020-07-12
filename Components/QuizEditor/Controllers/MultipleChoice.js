@@ -17,6 +17,18 @@ const NEW_ANSWER_CHOICE = gql`
 }
 `;
 
+const mutationSaveChoices = (choices) => {
+    const mutations = choices.map((choice, index) => `choice${index}: update_assignments_answer_choice_by_pk(pk_columns: {id: "${choice.id}"}, _set: {index: ${index}}) {
+    index
+  }`);
+
+    const newMutation = `mutation {
+     ${mutations.join(" ")}
+  }
+`;
+    return newMutation
+};
+
 const mutationSaveNewChoicesOrder = (choices) => {
     const mutations = choices.map((choice, index) => `choice${index}: update_assignments_answer_choice_by_pk(pk_columns: {id: "${choice.id}"}, _set: {index: ${index}}) {
     index
@@ -35,12 +47,12 @@ const opts = (choices) => ({
     body: JSON.stringify({query: mutationSaveNewChoicesOrder(choices)}),
 });
 
-function AnswerChoice({selected, onClick, isNew, text, radioName, questionId, index, active, content, choiceId, setSaveStatus, answerChoices, editable, dragHandler}) {
+function AnswerChoice({selected, onBlurHandler, isNew, text, radioName, questionId, index, active, content, choiceId, setSaveStatus, editable, dragHandler}) {
     const [focused, setFocus] = useState(false);
     const inputId = 'input-' + questionId + index;
     const labelId = 'label-' + questionId + index;
     const [updateItem, {choiceData}] = useMutation(UPDATE_CHOICE_CONTENT);
-    const [createChoice, {createChoiceData}] = useMutation(CREATE_NEW_CHOICE);
+    const [isVisible, setIsVisible] = useState(true);
 
 
     function checkFocus() {
@@ -55,129 +67,18 @@ function AnswerChoice({selected, onClick, isNew, text, radioName, questionId, in
         <>
             <div id={labelId} htmlFor={inputId}
                  className={selected ? 'editor-card editor-selectedCard cursor-pointer flex-grow ' : 'flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
-                 onFocus={() => console.log('focus')} onBlur={() => console.log('blur')}
             >
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
-                <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField uniqueId={choiceId}
-                                                                                            active={active}
-                                                                                            initialContent={content}
-                                                                                            onBlurEvent={(value) => {
-                                                                                                if (isNew) {
-                                                                                                    if (value === null || JSON.stringify(value) === JSON.stringify([{
-                                                                                                        "children": [{"text": ""}],
-                                                                                                        "type": "paragraph"
-                                                                                                    }])) {
-                                                                                                        return
-                                                                                                    } else {
-                                                                                                        setSaveStatus(1);
-                                                                                                        createChoice({variables: {itemId: questionId, content: value, index: index}})
-                                                                                                            .then(() => setSaveStatus(0))
-                                                                                                            .catch(() => setSaveStatus(2));
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    if (value != content) {
-                                                                                                        if (value === null || JSON.stringify(value) === JSON.stringify([{
-                                                                                                            "children": [{"text": ""}],
-                                                                                                            "type": "paragraph"
-                                                                                                        }])) {
-                                                                                                            return
-                                                                                                        } else {
-                                                                                                            setSaveStatus(1);
-                                                                                                            updateItem({
-                                                                                                                variables: {
-                                                                                                                    pk: choiceId,
-                                                                                                                    content: value
-                                                                                                                }
-                                                                                                            })
-                                                                                                                .then((result) => setSaveStatus(0))
-                                                                                                                .catch(error => setSaveStatus(2));
-                                                                                                        }
-
-                                                                                                    }
-                                                                                                }
-                                                                                            }}/></span>
+                <span className="table-cell pl-2 w-full pointer-events-auto">
+                    <RichTextField uniqueId={choiceId} active={active} initialContent={content}
+                                   onBlurEvent={(value) => onBlurHandler(value)}/></span>
                 {dragHandler}
             </div>
-
         </>
     )
 
 };
 
-function NewAnswerChoice({selected, onClick, text, radioName, questionId, index, active, content, choiceId, setSaveStatus, answerChoices, editable, dragHandler}) {
-    const [focused, setFocus] = useState(false);
-    const inputId = 'input-' + questionId + index;
-    const labelId = 'label-' + questionId + index;
-    const [updateItem, {choiceData}] = useMutation(UPDATE_CHOICE_CONTENT);
-
-
-    function checkFocus() {
-        if (focused) {
-            return ' shadow-outline';
-        } else {
-
-        }
-    }
-
-    return (
-        <>
-            <div id={labelId} htmlFor={inputId}
-                 className={selected ? 'editor-card editor-selectedCard cursor-pointer flex-grow ' : 'flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
-                 onFocus={() => console.log('focus')} onBlur={() => console.log('blur')}
-            >
-                <i className="fas fa-plus table-cell text-gray-400"/>
-                <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField uniqueId={choiceId}
-                                                                                            active={active}
-                                                                                            onBlurEvent={(value) => {
-                                                                                                if (value != content) {
-                                                                                                    setSaveStatus(1);
-                                                                                                    updateItem({
-                                                                                                        variables: {
-                                                                                                            pk: choiceId,
-                                                                                                            content: value
-                                                                                                        }
-                                                                                                    })
-                                                                                                        .then((result) => setSaveStatus(0))
-                                                                                                        .catch(error => setSaveStatus(2));
-                                                                                                }
-                                                                                            }}/></span>
-                {dragHandler}
-            </div>
-
-        </>
-    )
-
-};
-
-
-const AddNewQuestion = ({itemId, choicesLength, setSaveStatus, setProvisionalChoice}) => {
-
-    const [createAnswerChoice, {choiceData}] = useMutation(NEW_ANSWER_CHOICE);
-    const NewButton = ({label}) => {
-        const [isLoading, toggleLoading] = useState(false);
-
-
-        return (<button type="button" onClick={() => {
-            setSaveStatus(1);
-
-            createAnswerChoice({variables: {itemId: itemId, isCorrect: false, index: choicesLength}})
-                .then(() => setSaveStatus(0))
-        }}
-                        className="inline-flex relative w-full sm:w-auto items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-            {label}
-        </button>)
-    }
-
-    return (
-        <>
-            {/*<div className="mt-4 w-full space-y-2 sm:space-y-0 sm:space-x-2 z-0">*/}
-            {/*    <NewButton label="Text"/>*/}
-            {/*    <NewButton label="Math"/>*/}
-            {/*    <NewButton label="All of the above"/>*/}
-            {/*    <NewButton label="None of the above"/>*/}
-            {/*</div>*/}
-        </>)
-};
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -187,14 +88,12 @@ const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
+const Display = ({text}) => {
+    return <p>{JSON.stringify(text)}</p>
+};
 
 export const MultipleChoiceController = ({isSelected, active, choices, setSaveStatus, itemId}) => {
     const [answerChoices, setAnswerChoices] = useState(choices);
-
-    useEffect(() => {
-        setAnswerChoices(choices);
-    }, [choices]);
-
     const onDragEnd = (result) => {
         // dropped outside the list
         if (!result.destination) {
@@ -207,19 +106,37 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
             result.destination.index
         );
         setAnswerChoices(newItems);
-        fetch(url, opts(newItems))
-            .then(res => console.log(res))
-            .then(() => setSaveStatus(0))
-            .catch(() => console.log(error))
-            .catch(() => setSaveStatus(2));
+        // fetch(url, opts(newItems))
+        //     .then(res => console.log(res))
+        //     .then(() => setSaveStatus(0))
+        //     .catch(() => console.log(error))
+        //     .catch(() => setSaveStatus(2));
+    };
+
+    useEffect(() => {
+        // Update the document title using the browser API
+        setAnswerChoices(choices)
+    }, [choices]);
+
+    const refreshState = (value, choice) => {
+        let newArray = answerChoices;
+        newArray.splice(choice.index, 1, {
+            "id": choice.id,
+            "is_correct": choice.is_correct,
+            "index": choice.index,
+            "content": value
+        });
+
+        setAnswerChoices(newArray);
     };
 
 
     return (
         <>
+            <p>{JSON.stringify(answerChoices)}</p>
             {active ? <div>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="droppaasdble">
+                    <Droppable droppableId={itemId + "_droppable"}>
                         {(dropProvided, dropSnapshot) => (
                             <div
                                 {...dropProvided.droppableProps}
@@ -227,24 +144,24 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                 className="w-full"
                             >
                                 {answerChoices ? answerChoices.map((choice, index) => (
-                                    <Draggable key={choice.id} draggableId={choice.id} index={choice.index}>
+                                    <Draggable key={choice.id} draggableId={choice.id}
+                                               index={index}>
                                         {(provided, snapshot) => (
                                             <div
                                                 className={"flex justify-between mb-4 " + (snapshot.isDragging ? "my-0" : null)}
                                                 ref={provided.innerRef}  {...provided.draggableProps}>
-                                                <AnswerChoice isNew={choice.is_new} choiceId={choice.id} active={active}
+                                                <AnswerChoice choiceId={choice.id} active={active}
                                                               answerChoices={answerChoices}
                                                               questionId={itemId}
+                                                              onBlurHandler={(value) => refreshState(value, choice)}
                                                               index={choice.index}
                                                               setSaveStatus={status => setSaveStatus(status)}
                                                               key={choice.id}
                                                               content={choice.content}
                                                               selected={choice.is_correct}
                                                               dragHandler={<i {...provided.dragHandleProps}
-                                                                              className={(answerChoices.length > 1 && !choice.is_new) ? ("fas fa-grip-lines text-center py-4" + (choice.is_correct ? " active:text-white text-blue-200" : " active:text-blue-400 text-gray-300")) : "invisible"}/>}
+                                                                              className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center py-4" + (choice.is_correct ? " active:text-white text-blue-200" : " active:text-blue-400 text-gray-300")) : "invisible"}/>}
                                                 />
-
-
                                             </div>
 
                                         )}
@@ -253,32 +170,10 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                 <div className="w-10">
                                     {dropProvided.placeholder}
                                 </div>
-
                             </div>
                         )}
                     </Droppable>
                 </DragDropContext>
-                {active ? <div className="space-x-2 mt-4">
-                    <button type="button" onClick={() => setAnswerChoices([...answerChoices, {
-                        "index": answerChoices.length,
-                        "is_new": true,
-                        "id": "dfsdfsdfsf",
-                        "is_correct": false,
-                        "content": [{"children": [{"text": ""}], "type": "paragraph"}],
-                        "__typename": "assignments_answer_choice"
-                    }])}
-                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-200 shadow-sm text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                        New Option
-                    </button>
-                    <button type="button"
-                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-200 shadow-sm text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                        All of the above
-                    </button>
-                    <button type="button"
-                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-200 shadow-sm text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                        None of the above
-                    </button>
-                </div> : null}
             </div> : <div className="space-y-4">
                 {answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
                                                                     setSaveStatus={status => setSaveStatus(status)}
@@ -286,17 +181,6 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                                                     content={choice.content}
                                                                     selected={choice.is_correct}/>)}
             </div>}
-
-
-            <div className="spacing-y-4">
-                {/*{answerChoices.map(choice => <AnswerChoice choiceId={choice.id} active={active}*/}
-                {/*                                           setSaveStatus={status => setSaveStatus(status)}*/}
-                {/*                                           key={choice.id}*/}
-                {/*                                           content={choice.content} selected={choice.is_correct}/>)}*/}
-            </div>
-            {active ? <AddNewQuestion setChoices={newValue => setAnswerChoices(value)} itemId={itemId}
-                                      setSaveStatus={status => setSaveStatus(status)}
-                                      choicesLength={choices.length}/> : null}
         </>
 
     )
