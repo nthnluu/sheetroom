@@ -32,6 +32,14 @@ export const UPDATE_CHOICE_CONTENT = gql`
 }
 `;
 
+export const CREATE_NEW_CHOICE = gql`
+ mutation CreateNewAnswerChoice($itemId: uuid!, $index: Int!, $content: json!) {
+  insert_assignments_answer_choice(objects: {content: $content, index: $index, is_correct: false, item: $itemId}) {
+    affected_rows
+  }
+}
+`;
+
 
 
 

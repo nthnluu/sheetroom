@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {RichTextField} from "../../Editor/SlateEditor";
 import {useMutation} from "@apollo/react-hooks";
-import {UPDATE_CHOICE_CONTENT} from "../../../gql/assignmentAutosave";
+import {CREATE_NEW_CHOICE, UPDATE_CHOICE_CONTENT} from "../../../gql/assignmentAutosave";
 import gql from "graphql-tag";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 
@@ -35,11 +35,12 @@ const opts = (choices) => ({
     body: JSON.stringify({query: mutationSaveNewChoicesOrder(choices)}),
 });
 
-function AnswerChoice({selected, onClick, text, radioName, questionId, index, active, content, choiceId, setSaveStatus, answerChoices, editable, dragHandler}) {
+function AnswerChoice({selected, onClick, isNew, text, radioName, questionId, index, active, content, choiceId, setSaveStatus, answerChoices, editable, dragHandler}) {
     const [focused, setFocus] = useState(false);
     const inputId = 'input-' + questionId + index;
     const labelId = 'label-' + questionId + index;
     const [updateItem, {choiceData}] = useMutation(UPDATE_CHOICE_CONTENT);
+    const [createChoice, {createChoiceData}] = useMutation(CREATE_NEW_CHOICE);
 
 
     function checkFocus() {
@@ -61,16 +62,38 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
                                                                                             active={active}
                                                                                             initialContent={content}
                                                                                             onBlurEvent={(value) => {
-                                                                                                if (value != content) {
-                                                                                                    setSaveStatus(1);
-                                                                                                    updateItem({
-                                                                                                        variables: {
-                                                                                                            pk: choiceId,
-                                                                                                            content: value
+                                                                                                if (isNew) {
+                                                                                                    if (value === null || JSON.stringify(value) === JSON.stringify([{
+                                                                                                        "children": [{"text": ""}],
+                                                                                                        "type": "paragraph"
+                                                                                                    }])) {
+                                                                                                        return
+                                                                                                    } else {
+                                                                                                        setSaveStatus(1);
+                                                                                                        createChoice({variables: {itemId: questionId, content: value, index: index}})
+                                                                                                            .then(() => setSaveStatus(0))
+                                                                                                            .catch(() => setSaveStatus(2));
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    if (value != content) {
+                                                                                                        if (value === null || JSON.stringify(value) === JSON.stringify([{
+                                                                                                            "children": [{"text": ""}],
+                                                                                                            "type": "paragraph"
+                                                                                                        }])) {
+                                                                                                            return
+                                                                                                        } else {
+                                                                                                            setSaveStatus(1);
+                                                                                                            updateItem({
+                                                                                                                variables: {
+                                                                                                                    pk: choiceId,
+                                                                                                                    content: value
+                                                                                                                }
+                                                                                                            })
+                                                                                                                .then((result) => setSaveStatus(0))
+                                                                                                                .catch(error => setSaveStatus(2));
                                                                                                         }
-                                                                                                    })
-                                                                                                        .then((result) => setSaveStatus(0))
-                                                                                                        .catch(error => setSaveStatus(2));
+
+                                                                                                    }
                                                                                                 }
                                                                                             }}/></span>
                 {dragHandler}
@@ -80,6 +103,7 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
     )
 
 };
+
 function NewAnswerChoice({selected, onClick, text, radioName, questionId, index, active, content, choiceId, setSaveStatus, answerChoices, editable, dragHandler}) {
     const [focused, setFocus] = useState(false);
     const inputId = 'input-' + questionId + index;
@@ -135,7 +159,6 @@ const AddNewQuestion = ({itemId, choicesLength, setSaveStatus, setProvisionalCho
 
         return (<button type="button" onClick={() => {
             setSaveStatus(1);
-            console.log(choiceData);
 
             createAnswerChoice({variables: {itemId: itemId, isCorrect: false, index: choicesLength}})
                 .then(() => setSaveStatus(0))
@@ -209,14 +232,16 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                             <div
                                                 className={"flex justify-between mb-4 " + (snapshot.isDragging ? "my-0" : null)}
                                                 ref={provided.innerRef}  {...provided.draggableProps}>
-                                                <AnswerChoice choiceId={choice.id} active={active}
+                                                <AnswerChoice isNew={choice.is_new} choiceId={choice.id} active={active}
                                                               answerChoices={answerChoices}
+                                                              questionId={itemId}
+                                                              index={choice.index}
                                                               setSaveStatus={status => setSaveStatus(status)}
                                                               key={choice.id}
                                                               content={choice.content}
                                                               selected={choice.is_correct}
                                                               dragHandler={<i {...provided.dragHandleProps}
-                                                                              className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center py-4" + (choice.is_correct ? " active:text-white text-blue-200" : " active:text-blue-400 text-gray-300")) : "invisible"}/>}
+                                                                              className={(answerChoices.length > 1 && !choice.is_new) ? ("fas fa-grip-lines text-center py-4" + (choice.is_correct ? " active:text-white text-blue-200" : " active:text-blue-400 text-gray-300")) : "invisible"}/>}
                                                 />
 
 
@@ -233,7 +258,27 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                         )}
                     </Droppable>
                 </DragDropContext>
-                <NewAnswerChoice active/>
+                {active ? <div className="space-x-2 mt-4">
+                    <button type="button" onClick={() => setAnswerChoices([...answerChoices, {
+                        "index": answerChoices.length,
+                        "is_new": true,
+                        "id": "dfsdfsdfsf",
+                        "is_correct": false,
+                        "content": [{"children": [{"text": ""}], "type": "paragraph"}],
+                        "__typename": "assignments_answer_choice"
+                    }])}
+                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-200 shadow-sm text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        New Option
+                    </button>
+                    <button type="button"
+                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-200 shadow-sm text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        All of the above
+                    </button>
+                    <button type="button"
+                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-200 shadow-sm text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        None of the above
+                    </button>
+                </div> : null}
             </div> : <div className="space-y-4">
                 {answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
                                                                     setSaveStatus={status => setSaveStatus(status)}

@@ -33,16 +33,6 @@ const CardFrame = ({itemData, active, setSaveStatus, index}) => {
                                        onBlurEvent={(value) => saveContent(value)} uniqueId={item.id}/>
                     </div>
                     <MultipleChoiceController itemId={item.id} setSaveStatus={status => setSaveStatus(status)} active={active} choices={item.answer_choices}/>
-                    {active ? <div className="space-x-2 mt-4">
-                        <button type="button"
-                                className="inline-flex items-center px-2.5 py-1.5 border border-gray-200 shadow-sm text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                            All of the above
-                        </button>
-                        <button type="button"
-                                className="inline-flex items-center px-2.5 py-1.5 border border-gray-200 shadow-sm text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                            None of the above
-                        </button>
-                    </div> : null}
 
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
