@@ -212,26 +212,26 @@ const HeaderWithAction = ({title, newButton, editableTitle, questionMenu, onBlur
 
     return (
         <div className="flex items-center justify-between">
-            <div className="flex-1 min-w-0" key={uniqueId}>
-                {editableTitle ?
-                    <input onBlur={(event) => onBlurAction(inputValue)} style={{textOverflow: "ellipsis"}} className="text-3xl w-full border-gray-100 font-bold leading-7 text-gray-900 sm:text-4xl sm:leading-9 sm:truncate border border-transparent hover:border-gray-400 rounded-lg p-2
-                 active:outline-none active:border-blue-400 focus:outline-none focus:border-blue-400 transition-border duration-100 -ml-2"
-                           value={inputValue} onChange={event => setInputValue(event.target.value)}/> :
-                    <h2 className="text-3xl font-bold leading-7 text-gray-900 sm:text-4xl sm:leading-9 sm:truncate">
-                        {title}
-                    </h2>}
-            </div>
-            {newButton ? <div className="flex mt-0 ml-4">
-                <span className="ml-3 shadow-sm rounded-md">
-                    <NewMenu/>
-                </span>
-            </div> : null}
+            {/*<div className="flex-1 min-w-0" key={uniqueId}>*/}
+            {/*    {editableTitle ?*/}
+            {/*        <input onBlur={(event) => onBlurAction(inputValue)} style={{textOverflow: "ellipsis"}} className="text-3xl w-full border-gray-100 font-bold leading-7 text-gray-900 sm:text-4xl sm:leading-9 sm:truncate border border-transparent hover:border-gray-400 rounded-lg p-2*/}
+            {/*     active:outline-none active:border-blue-400 focus:outline-none focus:border-blue-400 transition-border duration-100 -ml-2"*/}
+            {/*               value={inputValue} onChange={event => setInputValue(event.target.value)}/> :*/}
+            {/*        <h2 className="text-3xl font-bold leading-7 text-gray-900 sm:text-4xl sm:leading-9 sm:truncate">*/}
+            {/*            {title}*/}
+            {/*        </h2>}*/}
+            {/*</div>*/}
+            {/*{newButton ? <div className="flex mt-0 ml-4">*/}
+            {/*    <span className="ml-3 shadow-sm rounded-md">*/}
+            {/*        <NewMenu/>*/}
+            {/*    </span>*/}
+            {/*</div> : null}*/}
 
-            {questionMenu ? <div className="flex mt-0 ml-4">
-                <span className="ml-3 shadow-sm rounded-md">
-                    <NewQuestion/>
-                </span>
-            </div> : null}
+            {/*{questionMenu ? <div className="flex mt-0 ml-4">*/}
+            {/*    <span className="ml-3 shadow-sm rounded-md">*/}
+            {/*        <NewQuestion/>*/}
+            {/*    </span>*/}
+            {/*</div> : null}*/}
 
 
         </div>

@@ -3,7 +3,7 @@ import React from "react";
 import HeaderWithAction from "./PageHeadings/HeaderWithActions";
 import Head from "next/head";
 
-export default function ({sidebar, thirdArea, title, content, newButton, editableTitle, questionMenu, windowTitle, onTitleBlur, pageId}) {
+export default function ({sidebar, thirdArea, title, content, newButton, editableTitle, questionMenu, windowTitle, onTitleBlur, pageId, navbar}) {
 
     const SidebarItem = ({sidebar, number, label, icon, link}) => {
         return (
@@ -25,7 +25,7 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
                 <title>{windowTitle ? (windowTitle + " - Homework") : "Homework"}</title>
             </Head>
             <div className="h-screen overflow-hidden bg-white">
-                <AppNavbar/>
+                {navbar ? navbar : <AppNavbar/>}
                 <div className="h-full flex">
                     {/*// <!-- Static sidebar for desktop -->*/}
                     {sidebar ? <div className="hidden md:flex md:flex-shrink-0">
@@ -66,9 +66,9 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
                     <div className="flex flex-col w-0 flex-1 overflow-hidden mt-4 md:mt-0">
                         <main className="flex-1 relative z-0 overflow-y-auto focus:outline-none lg:px-6" tabIndex="0">
                             <div className="pt-0 pb-6 md:py-6">
-                                <div className="mx-auto px-4 sm:px-6 lg:px-2 my-8" key={pageId}>
-                                    <HeaderWithAction uniqueId={pageId} onBlurAction={(value) => onTitleBlur(value)} title={title} newButton={newButton} questionMenu={questionMenu} editableTitle={editableTitle}/>
-                                </div>
+                                {/*<div className="mx-auto px-4 sm:px-6 lg:px-2 my-8" key={pageId}>*/}
+                                {/*    <HeaderWithAction uniqueId={pageId} onBlurAction={(value) => onTitleBlur(value)} title={title} newButton={newButton} questionMenu={questionMenu} editableTitle={editableTitle}/>*/}
+                                {/*</div>*/}
                                 <div className="mx-auto px-4 sm:px-6 lg:px-2">
                                     {/*// <!-- Replace with your content -->*/}
                                     <div className="py-4">

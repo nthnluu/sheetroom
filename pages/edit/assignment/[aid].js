@@ -7,6 +7,7 @@ import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
 import React, {useState} from "react";
 import {UPDATE_ASSIGNMENT_TITLE} from "../../../gql/assignmentAutosave";
+import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 
 
 const quizSampleData = {
@@ -324,20 +325,23 @@ const QuizEditor = ({user}) => {
         <>
             <div className="min-h-screen bg-gray-50" key={aid}>
                 {loading ? <LoadingPlaceholder/> :
-                    <AppLayout pageId={aid} onTitleBlur={(value) => {
-                        if (value === data.assignments_assignment_by_pk.title) {
+                    <>
+                    <AppLayout pageId={aid}
+                               navbar={<EditorNavbar onTitleBlur={(value) => {
+                                   if (value === data.assignments_assignment_by_pk.title) {
 
-                        } else {
-                            setSaveStatus(1);
-                            updateTitle({variables: {assignmentId: aid, title: value}})
-                                .then(() => setSaveStatus(0))
-                                .catch((error) => setSaveStatus(2));
-                        }}} title={data.assignments_assignment_by_pk.title} content={
+                                   } else {
+                                       setSaveStatus(1);
+                                       updateTitle({variables: {assignmentId: aid, title: value}})
+                                           .then(() => setSaveStatus(0))
+                                           .catch((error) => setSaveStatus(2));
+                                   }}} title={data.assignments_assignment_by_pk.title}/>}
+                               content={
                             <PageContent refetchData={refetchData} data={data} aid={aid} setSaveStatus={(status) => setSaveStatus(status)}/>}
                                questionMenu
-                               editableTitle
+                               // editableTitle
                                thirdArea={<ThirdArea data={data} isSaving={saveStatus === 1} lastSaved={data.assignments_assignment_by_pk.updated_at} saveFailed={saveStatus===2}/>}
-                               windowTitle={data.assignments_assignment_by_pk.title}/>}
+                               windowTitle={data.assignments_assignment_by_pk.title}/></>}
             </div>
         </>
     )
