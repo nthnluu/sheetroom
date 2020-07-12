@@ -24,7 +24,7 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
             <Head>
                 <title>{windowTitle ? (windowTitle + " - Homework") : "Homework"}</title>
             </Head>
-            <div className="h-screen overflow-hidden bg-white">
+            <div className="h-screen overflow-hidden bg-gray-50">
                 {navbar ? navbar : <AppNavbar/>}
                 <div className="h-full flex">
                     {/*// <!-- Static sidebar for desktop -->*/}

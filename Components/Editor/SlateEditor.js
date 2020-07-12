@@ -32,7 +32,7 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border, uniq
         <div className="group relative">
             <Slate editor={editor} value={value} onChange={value => setValue(value)}>
                 <div
-                    className={active ? ("border-gray-100 group-hover:border-gray-300 active:border-blue-400 rounded-lg py-3 px-4 " + (border ? "border shadow-sm" : null)) : "rounded-lg border border-transparent"}>
+                    className={active ? ("border-gray-200 group-hover:border-gray-300 active:border-blue-400 rounded-lg py-3 px-4 " + (border ? "border shadow-sm" : null)) : "rounded-lg border border-transparent"}>
                     <Editable
                         readOnly={!active}
                         renderElement={renderElement}

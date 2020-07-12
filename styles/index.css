@@ -32,11 +32,11 @@ code {
 }
 
 .unselectedCard {
-    @apply border-gray-300
+    @apply border-gray-200 shadow-sm
 
 }
 .unselectedCard:hover {
-    @apply border-gray-500
+    @apply border-gray-300
 }
 
 .selectedCard {
@@ -77,11 +77,11 @@ code {
 }
 
 .editor-unselectedCard {
-    @apply border-gray-300
+    @apply border-gray-200 shadow-sm
 
 }
 .editor-unselectedCard:hover {
-    @apply border-gray-500
+    @apply border-gray-300
 }
 
 .editor-selectedCard {

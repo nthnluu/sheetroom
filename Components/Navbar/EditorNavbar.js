@@ -15,7 +15,7 @@ export default function ({onTitleBlur, title}) {
                 <div className="flex justify-between h-16">
                     <div className="flex px-2 lg:px-0">
                         <div className="flex justify-between items-center">
-                            <i className="fas fa-arrow-left text-gray-400 mr-2"/>
+                            <button onClick={() => window.location.href = '/'} className="active:outline-none active:text-gray-500 hover:text-gray-300 focus:text-gray-300"><i className="fas fa-arrow-left text-gray-400 mr-2"/></button>
                             <input onBlur={(event) => onTitleBlur(inputValue)} style={{textOverflow: "ellipsis"}}
                                    className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-gray-300 active:border-gray-400 h-auto"
                                    value={inputValue} onChange={event => setInputValue(event.target.value)}/>

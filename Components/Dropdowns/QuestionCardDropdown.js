@@ -9,6 +9,14 @@ const QuestionCardDropdown = ({active}) => {
             ...provided,
             padding: 12,
         }),
+        control: (provided, state) => {
+            return ({
+                ...provided,
+                backgroundColor: 'white',
+                border: '#e2e8f0 1px solid',
+            });
+
+        },
         valueContainer: (provided, state) => {
             const opacity = state.isDisabled ? 'white' : 'white';
             // none of react-select's styles are passed to <Control />
