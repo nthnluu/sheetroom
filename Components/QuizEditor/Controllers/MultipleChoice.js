@@ -4,8 +4,6 @@ import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_CHOICE_CONTENT} from "../../../gql/assignmentAutosave";
 import gql from "graphql-tag";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
-import CardFrame from "../CardFrame";
-import {getListStyle} from "../DragAndDrop";
 
 const NEW_ANSWER_CHOICE = gql`
  mutation CreateNewAnswerChoice($itemId: uuid!, $isCorrect: Boolean!, $index: Int!, $content: json!) {
@@ -18,6 +16,24 @@ const NEW_ANSWER_CHOICE = gql`
   }
 }
 `;
+
+const mutationSaveNewChoicesOrder = (choices) => {
+    const mutations = choices.map((choice, index) => `choice${index}: update_assignments_answer_choice_by_pk(pk_columns: {id: "${choice.id}"}, _set: {index: ${index}}) {
+    index
+  }`);
+    const newMutation = `mutation {
+     ${mutations.join(" ")}
+  }
+`;
+    return newMutation
+};
+
+const url = "/api/token";
+const opts = (choices) => ({
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({query: mutationSaveNewChoicesOrder(choices)}),
+});
 
 function AnswerChoice({selected, onClick, text, radioName, questionId, index, active, content, choiceId, setSaveStatus, answerChoices, editable, dragHandler}) {
     const [focused, setFocus] = useState(false);
@@ -38,11 +54,11 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
         <>
             <div id={labelId} htmlFor={inputId}
                  className={selected ? 'editor-card editor-selectedCard cursor-pointer flex-grow ' : 'flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
-            onFocus={() => console.log('focus')} onBlur={() => console.log('blur')}
+                 onFocus={() => console.log('focus')} onBlur={() => console.log('blur')}
             >
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
                 <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField uniqueId={choiceId}
-                    active={active}
+                                                                                            active={active}
                                                                                             initialContent={content}
                                                                                             onBlurEvent={(value) => {
                                                                                                 if (value != content) {
@@ -64,6 +80,7 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
     )
 
 };
+
 
 const AddNewQuestion = ({itemId, choicesLength, setSaveStatus, setProvisionalChoice}) => {
 
@@ -107,6 +124,10 @@ const reorder = (list, startIndex, endIndex) => {
 export const MultipleChoiceController = ({isSelected, active, choices, setSaveStatus, itemId}) => {
     const [answerChoices, setAnswerChoices] = useState(choices);
 
+    useEffect(() => {
+        setAnswerChoices(choices);
+    }, [choices]);
+
     const onDragEnd = (result) => {
         // dropped outside the list
         if (!result.destination) {
@@ -119,11 +140,13 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
             result.destination.index
         );
         setAnswerChoices(newItems);
+        fetch(url, opts(newItems))
+            .then(res => console.log(res))
+            .then(() => setSaveStatus(0))
+            .catch(() => console.log(error))
+            .catch(() => setSaveStatus(2));
     };
 
-    useEffect(() => {
-        setAnswerChoices(choices);
-    }, [choices]);
 
     return (
         <>
@@ -137,11 +160,11 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                 className="w-full"
                             >
                                 {answerChoices ? answerChoices.map((choice, index) => (
-                                    <Draggable key={choice.id} draggableId={choice.id} index={index}>
+                                    <Draggable key={choice.id} draggableId={choice.id} index={choice.index}>
                                         {(provided, snapshot) => (
                                             <div
-                                                 className={"flex justify-between mb-4 " + (snapshot.isDragging ? "my-0" : null)}
-                                                 ref={provided.innerRef}  {...provided.draggableProps}>
+                                                className={"flex justify-between mb-4 " + (snapshot.isDragging ? "my-0" : null)}
+                                                ref={provided.innerRef}  {...provided.draggableProps}>
                                                 <AnswerChoice choiceId={choice.id} active={active}
                                                               answerChoices={answerChoices}
                                                               setSaveStatus={status => setSaveStatus(status)}
@@ -149,7 +172,7 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                                               content={choice.content}
                                                               selected={choice.is_correct}
                                                               dragHandler={<i {...provided.dragHandleProps}
-                                                                  className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center py-4" + (choice.is_correct ? " active:text-white text-blue-200" : " active:text-blue-400 text-gray-300" )) : "invisible"}/>}
+                                                                              className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center py-4" + (choice.is_correct ? " active:text-white text-blue-200" : " active:text-blue-400 text-gray-300")) : "invisible"}/>}
                                                 />
 
 

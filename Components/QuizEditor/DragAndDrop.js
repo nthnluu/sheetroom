@@ -10,7 +10,6 @@ const mutationSaveNewListOrder = (items) => {
     index
   }`);
 
-    console.log(mutations.join());
     const newMutation = `mutation {
      ${mutations.join("")}
   }
@@ -134,47 +133,6 @@ const DnDContainer = ({provided, snapshot, items, setActive, currentItem, setIte
     </div>)
 };
 
-// class DnDList extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             items: props.items,
-//             currentItem: props.currentItem
-//         };
-//         this.onDragEnd = this.onDragEnd.bind(this);
-//     }
-//
-//     onDragEnd(result) {
-//         // dropped outside the list
-//         if (!result.destination) {
-//             return;
-//         }
-//
-//         const items = reorder(
-//             this.state.items,
-//             result.source.index,
-//             result.destination.index
-//         );
-//
-//         this.setState({
-//             items
-//         });
-//     }
-//
-//     // Normally you would want to split things out into separate components.
-//     // But in this example everything is just done in one place for simplicity
-//     render() {
-//         return (
-//             <DragDropContext onDragEnd={this.onDragEnd}>
-//                 <Droppable droppableId="droppable">
-//                     {(provided, snapshot) => (
-//                         <DnDContainer provided={provided} snapshot={snapshot} setItem={(id) => this.props.setItem(id)} currentItem={this.props.currentItem} items={this.props.items}/>
-//                     )}
-//                 </Droppable>
-//             </DragDropContext>
-//         );
-//     }
-// }
 
 export const DnDList = ({items, setItem, currentItem, setSaveStatus}) => {
     const [listData, setListData] = useState(items);

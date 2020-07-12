@@ -16,6 +16,7 @@ subscription AssignmentByPk($id: uuid!) {
         answer_choices(order_by: {index: asc}) {
           id
           is_correct
+          index
           content
         }
       }
