@@ -80,6 +80,50 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index, ac
     )
 
 };
+function NewAnswerChoice({selected, onClick, text, radioName, questionId, index, active, content, choiceId, setSaveStatus, answerChoices, editable, dragHandler}) {
+    const [focused, setFocus] = useState(false);
+    const inputId = 'input-' + questionId + index;
+    const labelId = 'label-' + questionId + index;
+    const [updateItem, {choiceData}] = useMutation(UPDATE_CHOICE_CONTENT);
+
+
+    function checkFocus() {
+        if (focused) {
+            return ' shadow-outline';
+        } else {
+
+        }
+    }
+
+    return (
+        <>
+            <div id={labelId} htmlFor={inputId}
+                 className={selected ? 'editor-card editor-selectedCard cursor-pointer flex-grow ' : 'flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
+                 onFocus={() => console.log('focus')} onBlur={() => console.log('blur')}
+            >
+                <i className="fas fa-plus table-cell text-gray-400"/>
+                <span className="table-cell pl-2 w-full pointer-events-auto"><RichTextField uniqueId={choiceId}
+                                                                                            active={active}
+                                                                                            onBlurEvent={(value) => {
+                                                                                                if (value != content) {
+                                                                                                    setSaveStatus(1);
+                                                                                                    updateItem({
+                                                                                                        variables: {
+                                                                                                            pk: choiceId,
+                                                                                                            content: value
+                                                                                                        }
+                                                                                                    })
+                                                                                                        .then((result) => setSaveStatus(0))
+                                                                                                        .catch(error => setSaveStatus(2));
+                                                                                                }
+                                                                                            }}/></span>
+                {dragHandler}
+            </div>
+
+        </>
+    )
+
+};
 
 
 const AddNewQuestion = ({itemId, choicesLength, setSaveStatus, setProvisionalChoice}) => {
@@ -189,6 +233,7 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                         )}
                     </Droppable>
                 </DragDropContext>
+                <NewAnswerChoice active/>
             </div> : <div className="space-y-4">
                 {answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
                                                                     setSaveStatus={status => setSaveStatus(status)}
