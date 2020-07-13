@@ -173,7 +173,7 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                                               content={choice.content}
                                                               selected={choice.is_correct}
                                                               dragHandler={<i {...provided.dragHandleProps}
-                                                                              className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center py-4" + (choice.is_correct ? " active:text-white text-blue-200" : " active:text-blue-400 text-gray-300")) : "invisible"}/>}
+                                                                              className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center py-4" + (choice.is_correct ? " active:text-blue-700 focus:text-blue-500 hover:text-blue-500 text-blue-600" : " active:text-blue-400 text-gray-300")) : "invisible"}/>}
                                                 />
                                             </div>
 

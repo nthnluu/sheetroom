@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {ReadOnlyEditor} from "../../Editor/SlateEditor";
 
 function AnswerChoice({selected, onClick, text, radioName, questionId, index}) {
@@ -32,19 +32,35 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index}) {
 }
 
 
+const ChoiceItems = ({shuffled, choices}) => {
+    const [items, setItems] = useState(choices);
+    useEffect(() => {
+        if (shuffled) {
+            setItems(shuffle(choices))
+        }
+    }, [choices, shuffled]);
+    return items
+};
+
 export default function ({choices, questionId}) {
     const [selected, setSelected] = useState();
     const radioName = questionId;
+
+    function shuffle(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
 
     return (
         <>
             <form>
                 <fieldset className="pt-2" role="radiogroup">
                     <legend className="font-semibold text-gray-800">Select one:</legend>
-                    {choices.map((choice, index) => (choice.content != null && JSON.stringify(choice.content) !== `[{"children":[{"text":""}],"type":"paragraph"}]`) ? <AnswerChoice index={index} selected={selected === choice.id}
-                                                                  questionId={questionId}
-                                                                  onClick={() => setSelected(choice.id)} key={choice.id}
-                                                                  text={choice.content} radioName={radioName}/> : null)}
+                    {choices.map((choice, index) => <AnswerChoice selected={selected === choice.id} onClick={() => setSelected(choice.id)}
+                                                                              text={choice.content} radioName={radioName} questionId={questionId} index={index}/>)}
                 </fieldset>
             </form>
         </>

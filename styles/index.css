@@ -85,13 +85,16 @@ code {
 }
 
 .editor-selectedCard {
-    @apply text-white bg-blue-500 border-blue-600;
+    @apply text-blue-600 border-blue-600 border font-medium shadow-sm;
 
 }
 .editor-selectedCard:hover {
     opacity: 0.95;
 }
-
+::selection {
+    background: #a9fce9; /* WebKit/Blink Browsers */
+    color: #323248;
+}
 /*.multipleChoiceRadioButton {*/
 /*    opacity: 0;*/
 /*}*/

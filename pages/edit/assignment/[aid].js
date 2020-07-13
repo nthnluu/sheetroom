@@ -53,7 +53,7 @@ const PageContent = ({data, aid, setSaveStatus, refetchData}) => {
 
 
     return (
-        <div key={aid}>
+        <div key={aid} className="max-w-7xl mx-auto">
             {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
             <DnDList refetchData={refetchData} setSaveStatus={status => setSaveStatus(status)} currentItem={currentItem} setItem={setCurrentItem} items={(data.assignments_assignment_by_pk.sections[0] != undefined) ? data.assignments_assignment_by_pk.sections[0].items : null}/>
             <div className="pt-12 pb-32">
@@ -327,7 +327,7 @@ const QuizEditor = ({user}) => {
                 {loading ? <LoadingPlaceholder/> :
                     <>
                     <AppLayout pageId={aid}
-                               navbar={<EditorNavbar onTitleBlur={(value) => {
+                               navbar={<EditorNavbar isSaving={saveStatus === 1} saveError={saveStatus==2} onTitleBlur={(value) => {
                                    if (value === data.assignments_assignment_by_pk.title) {
 
                                    } else {
@@ -340,7 +340,7 @@ const QuizEditor = ({user}) => {
                             <PageContent refetchData={refetchData} data={data} aid={aid} setSaveStatus={(status) => setSaveStatus(status)}/>}
                                questionMenu
                                // editableTitle
-                               thirdArea={<ThirdArea data={data} isSaving={saveStatus === 1} lastSaved={data.assignments_assignment_by_pk.updated_at} saveFailed={saveStatus===2}/>}
+                               // thirdArea={<ThirdArea data={data} isSaving={saveStatus === 1} lastSaved={data.assignments_assignment_by_pk.updated_at} saveFailed={saveStatus===2}/>}
                                windowTitle={data.assignments_assignment_by_pk.title}/></>}
             </div>
         </>
