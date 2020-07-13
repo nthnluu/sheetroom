@@ -97,7 +97,20 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
     const [updateChoice, {updatedChoiceData}] = useMutation(UPSERT_CHOICE_CONTENT);
     useEffect(() => {
         // Update the document title using the browser API
-        setAnswerChoices(choices);
+        // setAnswerChoices(choices);
+
+        const newAnswerChoices = answerChoices;
+        choices.forEach(choice => {
+            const found = answerChoices.findIndex(element => element.id === choice.id);
+            if (found === -1) {
+                //choice didnt previously exist, add it
+                newAnswerChoices.push(choice);
+            } else {
+                newAnswerChoices.splice(found, 1, choice);
+            }
+        });
+        setAnswerChoices(newAnswerChoices);
+
 
     }, [choices]);
 
