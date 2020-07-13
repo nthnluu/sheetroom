@@ -109,7 +109,7 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                 newAnswerChoices.splice(found, 1, choice);
             }
         });
-        setAnswerChoices(newAnswerChoices);
+        setAnswerChoices([...newAnswerChoices]);
 
 
     }, [choices]);
