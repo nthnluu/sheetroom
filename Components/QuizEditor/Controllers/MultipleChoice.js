@@ -17,17 +17,13 @@ const NEW_ANSWER_CHOICE = gql`
 }
 `;
 
-const mutationSaveChoices = (choices) => {
-    const mutations = choices.map((choice, index) => `choice${index}: update_assignments_answer_choice_by_pk(pk_columns: {id: "${choice.id}"}, _set: {index: ${index}}) {
-    index
-  }`);
-
-    const newMutation = `mutation {
-     ${mutations.join(" ")}
+const UPSERT_CHOICE_CONTENT = gql`
+mutation UpsertChoiceContent($itemId: uuid!, $content: json!, $choiceId: uuid!, $index: Int!, $isCorrect: Boolean!) {
+  insert_assignments_answer_choice(on_conflict: {constraint: answer_choice_pkey, update_columns: [content, index]}, objects: {item: $itemId, content: $content, id: $choiceId, index: $index, is_correct: $isCorrect}) {
+    affected_rows
   }
+}
 `;
-    return newMutation
-};
 
 const mutationSaveNewChoicesOrder = (choices) => {
     const mutations = choices.map((choice, index) => `choice${index}: update_assignments_answer_choice_by_pk(pk_columns: {id: "${choice.id}"}, _set: {index: ${index}}) {
@@ -42,6 +38,13 @@ const mutationSaveNewChoicesOrder = (choices) => {
 
 const url = "/api/token";
 const opts = (choices) => ({
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({query: mutationSaveNewChoicesOrder(choices)}),
+});
+
+
+const saveOpts = (choices) => ({
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({query: mutationSaveNewChoicesOrder(choices)}),
@@ -94,6 +97,13 @@ const Display = ({text}) => {
 
 export const MultipleChoiceController = ({isSelected, active, choices, setSaveStatus, itemId}) => {
     const [answerChoices, setAnswerChoices] = useState(choices);
+    const [updateChoice, {updatedChoiceData}] = useMutation(UPSERT_CHOICE_CONTENT);
+    useEffect(() => {
+        // Update the document title using the browser API
+        setAnswerChoices(choices);
+
+    }, [choices]);
+
     const onDragEnd = (result) => {
         // dropped outside the list
         if (!result.destination) {
@@ -106,37 +116,40 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
             result.destination.index
         );
         setAnswerChoices(newItems);
-        // fetch(url, opts(newItems))
-        //     .then(res => console.log(res))
-        //     .then(() => setSaveStatus(0))
-        //     .catch(() => console.log(error))
-        //     .catch(() => setSaveStatus(2));
+        fetch(url, saveOpts(newItems))
+            .then(res => console.log(res))
+            .then(() => setSaveStatus(0))
+            .catch(() => console.log(error))
+            .catch(() => setSaveStatus(2));
     };
 
-    useEffect(() => {
-        // Update the document title using the browser API
-        setAnswerChoices(choices)
-    }, [choices]);
-
-    const refreshState = (value, choice) => {
-        let newArray = answerChoices;
-        newArray.splice(choice.index, 1, {
-            "id": choice.id,
-            "is_correct": choice.is_correct,
-            "index": choice.index,
-            "content": value
-        });
-
-        setAnswerChoices(newArray);
+    const refreshState = (value, choice, index) => {
+        if (value === choice.content || value === null || JSON.stringify(value) === '[{"children":[{"text":""}],"type":"paragraph"}]') {
+            return;
+        } else {
+            setSaveStatus(1);
+            let newArray = answerChoices;
+            newArray.splice(choice.index, 1, {
+                "id": choice.id,
+                "is_correct": choice.is_correct,
+                "index": index,
+                "content": value,
+                "item": choice.item
+            });
+            setAnswerChoices([...newArray]);
+            updateChoice({variables: {itemId: choice.item, content: value, choiceId: choice.id, index: index, isCorrect: false}})
+                .then(() => setSaveStatus(0))
+                .catch(error => console.log(error))
+                .catch(() => setSaveStatus(2));
+        }
     };
 
 
     return (
         <>
-            <p>{JSON.stringify(answerChoices)}</p>
-            {active ? <div>
+            {active ? <div key={itemId}>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId={itemId + "_droppable"}>
+                    <Droppable droppableId={"edfweofweofinwef11"}>
                         {(dropProvided, dropSnapshot) => (
                             <div
                                 {...dropProvided.droppableProps}
@@ -148,12 +161,12 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                                index={index}>
                                         {(provided, snapshot) => (
                                             <div
-                                                className={"flex justify-between mb-4 " + (snapshot.isDragging ? "my-0" : null)}
+                                                className={"flex justify-between mb-4 " + (snapshot.isDragging ? "my-0 opacity-75" : null)}
                                                 ref={provided.innerRef}  {...provided.draggableProps}>
                                                 <AnswerChoice choiceId={choice.id} active={active}
                                                               answerChoices={answerChoices}
                                                               questionId={itemId}
-                                                              onBlurHandler={(value) => refreshState(value, choice)}
+                                                              onBlurHandler={(value) => refreshState(value, choice, index)}
                                                               index={choice.index}
                                                               setSaveStatus={status => setSaveStatus(status)}
                                                               key={choice.id}
