@@ -44,7 +44,8 @@
     "slate-history": "^0.58.3",
     "slate-react": "^0.58.3",
     "subscriptions-transport-ws": "^0.9.16",
-    "tailwindcss": "^1.4.6"
+    "tailwindcss": "^1.4.6",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.10.4",

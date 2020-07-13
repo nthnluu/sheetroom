@@ -39,7 +39,7 @@ query AssignmentByPk($id: uuid!) {
         blocks
         type
         index
-        answer_choices {
+        answer_choices(order_by: {index: asc}) {
           id
           content
         }

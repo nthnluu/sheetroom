@@ -4,6 +4,7 @@ import {useMutation} from "@apollo/react-hooks";
 import {CREATE_NEW_CHOICE, UPDATE_CHOICE_CONTENT} from "../../../gql/assignmentAutosave";
 import gql from "graphql-tag";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import { v4 as uuidv4 } from 'uuid';
 
 const NEW_ANSWER_CHOICE = gql`
  mutation CreateNewAnswerChoice($itemId: uuid!, $isCorrect: Boolean!, $index: Int!, $content: json!) {
@@ -161,7 +162,7 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                                index={index}>
                                         {(provided, snapshot) => (
                                             <div
-                                                className={"flex justify-between mb-4 " + (snapshot.isDragging ? "my-0 opacity-75" : null)}
+                                                className={"group mb-4 " + (snapshot.isDragging ? "my-0 opacity-75" : null)}
                                                 ref={provided.innerRef}  {...provided.draggableProps}>
                                                 <AnswerChoice choiceId={choice.id} active={active}
                                                               answerChoices={answerChoices}
@@ -173,7 +174,7 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                                               content={choice.content}
                                                               selected={choice.is_correct}
                                                               dragHandler={<i {...provided.dragHandleProps}
-                                                                              className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center py-4" + (choice.is_correct ? " active:text-blue-700 focus:text-blue-500 hover:text-blue-500 text-blue-600" : " active:text-blue-400 text-gray-300")) : "invisible"}/>}
+                                                                              className={(answerChoices.length > 1) ? ("fas fa-grip-lines text-center py-4 invisible group-hover:visible" + (choice.is_correct ? " active:text-blue-700 focus:text-blue-500 hover:text-blue-500 text-blue-600" : " active:text-blue-400 text-gray-300")) : "invisible"}/>}
                                                 />
                                             </div>
 
@@ -187,10 +188,28 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                         )}
                     </Droppable>
                 </DragDropContext>
+                <div className="space-x-2">
+                    <button type="button" onClick={() => {
+                        const newOption = {"id":uuidv4(),"item":itemId,"is_correct":false,"index":answerChoices.length,"content":[{"children":[{"text":"Brown University"}],"type":"paragraph"}],"__typename":"assignments_answer_choice"};
+                        setAnswerChoices([...answerChoices, newOption]);
+                    }}
+                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        Add option
+                    </button>
+                    <button type="button"
+                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        All of the above
+                    </button>
+                    <button type="button"
+                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        None of the above
+                    </button>
+
+                </div>
             </div> : <div className="space-y-4">
                 {answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
                                                                     setSaveStatus={status => setSaveStatus(status)}
-                                                                    key={choice.id}
+                                                                    key={choice.id + "_inactive"}
                                                                     content={choice.content}
                                                                     selected={choice.is_correct}/>)}
             </div>}

@@ -13,7 +13,9 @@ const QuestionCardDropdown = ({active}) => {
             return ({
                 ...provided,
                 backgroundColor: 'white',
-                border: '#e2e8f0 1px solid',
+                border: '#E4E7EB 1px solid',
+                borderRadius: '0.5rem',
+                boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
             });
 
         },
