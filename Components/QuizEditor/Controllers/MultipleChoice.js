@@ -92,10 +92,6 @@ const reorder = (list, startIndex, endIndex) => {
     return result;
 };
 
-const Display = ({text}) => {
-    return <p>{JSON.stringify(text)}</p>
-};
-
 export const MultipleChoiceController = ({isSelected, active, choices, setSaveStatus, itemId}) => {
     const [answerChoices, setAnswerChoices] = useState(choices);
     const [updateChoice, {updatedChoiceData}] = useMutation(UPSERT_CHOICE_CONTENT);
@@ -138,7 +134,7 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                 "item": choice.item
             });
             setAnswerChoices([...newArray]);
-            updateChoice({variables: {itemId: choice.item, content: value, choiceId: choice.id, index: index, isCorrect: false}})
+            updateChoice({variables: {itemId: choice.item, content: value, choiceId: choice.id, index: index, isCorrect: choice.is_correct}})
                 .then(() => setSaveStatus(0))
                 .catch(error => console.log(error))
                 .catch(() => setSaveStatus(2));
@@ -190,21 +186,12 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                 </DragDropContext>
                 <div className="space-x-2">
                     <button type="button" onClick={() => {
-                        const newOption = {"id":uuidv4(),"item":itemId,"is_correct":false,"index":answerChoices.length,"content":[{"children":[{"text":"Brown University"}],"type":"paragraph"}],"__typename":"assignments_answer_choice"};
+                        const newOption = {"id":uuidv4(),"item":itemId,"is_correct":(answerChoices.length <= 0),"index":answerChoices.length,"content":[{"children":[{"text":""}],"type":"paragraph"}],"__typename":"assignments_answer_choice"};
                         setAnswerChoices([...answerChoices, newOption]);
                     }}
                             className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         Add option
                     </button>
-                    <button type="button"
-                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                        All of the above
-                    </button>
-                    <button type="button"
-                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                        None of the above
-                    </button>
-
                 </div>
             </div> : <div className="space-y-4">
                 {answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
