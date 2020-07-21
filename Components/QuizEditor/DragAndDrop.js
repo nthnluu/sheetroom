@@ -36,10 +36,10 @@ const SortableItem = SortableElement(({value, active, setActive}) =>
 
         {active ? <div className="mb-2 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
             <div className="w-full text-center z-50"><DragHandle/></div>
-            <ActiveCard item={value}/>
+            <ActiveCard item={value} index={value.index}/>
         </div> : <div className="mb-2 group bg-white rounded-lg border border-gray-200">
             <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible"><DragHandle/></div>
-            <InactiveCard item={value} setActive={(id) => setActive(id)}/>
+            <InactiveCard item={value} setActive={(id) => setActive(id)} index={value.index}/>
         </div>}
     </>
 );
@@ -48,14 +48,14 @@ const SortableList = SortableContainer(({items, selectedItem, setActive}) => {
     return (
         <ul>
             {items.map((value, index) => (
-                <SortableItem key={`item-${value.id}`} index={index} value={value} active={selectedItem === value.id}
-                              setActive={() => setActive(value.id)}/>
+                <SortableItem key={`item-${value.id}`} value={value} active={selectedItem === value.id}
+                              setActive={() => setActive(value.id)} index={index}/>
             ))}
         </ul>
     );
 });
 
-const InactiveCard = ({isDragging, active, setSaveStatus, item, index, setActive, dragHandle}) => {
+const InactiveCard = ({active, setSaveStatus, item, index, setActive}) => {
     return (<div onClick={(e) => {
         setActive(item.id)
     }}
@@ -71,7 +71,7 @@ const InactiveCard = ({isDragging, active, setSaveStatus, item, index, setActive
     </div>)
 };
 
-const ActiveCard = ({isDragging, active, setSaveStatus, item, index, dragHandle}) => {
+const ActiveCard = ({setSaveStatus, item, index}) => {
     return (
         <div
             className="flex flex-grow-0 justify-between text-left z-40">

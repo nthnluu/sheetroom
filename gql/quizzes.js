@@ -13,6 +13,7 @@ subscription AssignmentByPk($id: uuid!) {
         content
         blocks
         type
+        index
         answer_choices(order_by: {index: asc}) {
           id
           item
