@@ -29,7 +29,7 @@ import arrayMove from 'array-move';
 // });
 
 
-const DragHandle = SortableHandle(() => <i className="fas fa-grip-lines text-center text-gray-400 inline-block z-50"/>);
+const DragHandle = SortableHandle(() => <i className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
 
 const SortableItem = SortableElement(({value, active, setActive}) =>
     <>
@@ -92,7 +92,7 @@ export const DnDList = ({items, setSaveStatus}) => {
 
     return (
         <>
-            <SortableList items={listItems} onSortEnd={onSortEnd} useDragHandle selectedItem={selectedItem}
+            <SortableList items={listItems} onSortEnd={onSortEnd} lockAxis="y" useDragHandle selectedItem={selectedItem}
                           setActive={(id) => setSelectedItem(id)}/>
         </>
     );
