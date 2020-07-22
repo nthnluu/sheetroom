@@ -3,22 +3,13 @@ import {RichTextField} from "../../../Editor/SlateEditor";
 import PropTypes from 'prop-types';
 
 const AnswerChoice = ({onBlurHandler, active, choice, dragHandler}) => {
-    const [focused, setFocus] = useState(false);
     const inputId = 'input-' + choice.id;
     const labelId = 'label-' + choice.id;
-
-    function checkFocus() {
-        if (focused) {
-            return ' shadow-outline';
-        } else {
-
-        }
-    }
 
     return (
         <>
             <div id={labelId} htmlFor={inputId}
-                 className={choice.is_correct ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
+                 className={choice.is_correct ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
             >
                 <div className={choice.is_correct ? "text-blue-500" : "text-gray-200 active:text-blue-400"}>
                     {dragHandler}
