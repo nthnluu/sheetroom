@@ -49,6 +49,7 @@ const QuestionCardDropdown = ({active}) => {
             options={options}
             styles={customStyles}
             isDisabled={!active}
+            isSearchable={false}
         />
     )
 };

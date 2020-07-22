@@ -59,7 +59,9 @@ const AnswerChoice = ({selected, onBlurHandler, questionId, index, active, conte
             <div id={labelId} htmlFor={inputId}
                  className={selected ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
             >
-                {dragHandler}
+                <div className={selected ? "text-blue-500" : "text-gray-200 active:text-blue-400"}>
+                    {dragHandler}
+                </div>
                 <span className="table-cell w-full pointer-events-auto">
                     <RichTextField uniqueId={choiceId} active={active} initialContent={content}
                                    onBlurEvent={(value) => onBlurHandler(value)}/></span>
@@ -71,11 +73,11 @@ const AnswerChoice = ({selected, onBlurHandler, questionId, index, active, conte
 };
 
 const DragHandle = SortableHandle(() => <i
-    className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
+    className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400" tabIndex="0"/>);
 
 const SortableItem = SortableElement(({value, active, setActive}) =>
     <div>
-        <div className="flex justify-between">
+        <div className="flex justify-between mb-4">
             <AnswerChoice content={value.content} active={active} selected={value.is_correct} dragHandler={active ? <DragHandle/> : null}/>
         </div>
     </div>
@@ -92,18 +94,16 @@ const SortableList = SortableContainer(({items, selectedItem, setActive, active}
 });
 
 
-export const MultipleChoiceController = ({isSelected, active, choices, setSaveStatus, itemId}) => {
+export const MultipleChoiceController = ({active, choices, setSaveStatus, itemId}) => {
     const [answerChoices, setAnswerChoices] = useState(choices);
-
 
     const onSortEnd = ({oldIndex, newIndex}) => {
         setAnswerChoices(arrayMove(answerChoices, oldIndex, newIndex));
     };
 
-
     return (
-        <>
-            {active ? <div key={itemId}>
+        <div key={itemId}>
+            {active ? <div>
                 <SortableList items={answerChoices} onSortEnd={onSortEnd} useDragHandle active={active} lockAxis="y"
                               lockToContainerEdges/>
                 <div className="space-x-2">
@@ -129,7 +129,7 @@ export const MultipleChoiceController = ({isSelected, active, choices, setSaveSt
                                                                     content={choice.content}
                                                                     selected={choice.is_correct}/>)}
             </div>}
-        </>
+        </div>
 
     )
 };

@@ -23,7 +23,7 @@ import arrayMove from 'array-move';
 // });
 
 
-const DragHandle = SortableHandle(() => <i className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
+const DragHandle = SortableHandle(() => <i tabIndex="0" className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
 
 const SortableItem = SortableElement(({value, active, setActive}) =>
     <>
