@@ -4,6 +4,7 @@ import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable
 import arrayMove from 'array-move';
 import AnswerChoice from "./MultipleChoice/AnswerChoice";
 import PropTypes from "prop-types";
+import JsonDebugBox from "../../JsonDebugBox";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400" tabIndex="0"/>);
@@ -36,6 +37,7 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
     return (
         <div key={itemId}>
             {active ? <div>
+                <JsonDebugBox content={answerChoices}/>
                 <SortableList items={answerChoices} onSortEnd={onSortEnd} useDragHandle active={active} lockAxis="y"
                               lockToContainerEdges/>
                 <div className="space-x-2">
