@@ -4,6 +4,7 @@ import {useMutation} from "@apollo/react-hooks";
 import {v4 as uuidv4} from 'uuid';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
+import AnswerChoice from "./MultipleChoice/AnswerChoice";
 
 // const NEW_ANSWER_CHOICE = gql`
 //  mutation CreateNewAnswerChoice($itemId: uuid!, $isCorrect: Boolean!, $index: Int!, $content: json!) {
@@ -40,45 +41,13 @@ import arrayMove from 'array-move';
 //     body: JSON.stringify({query: mutationSaveNewChoicesOrder(choices)}),
 // });
 
-const AnswerChoice = ({selected, onBlurHandler, questionId, index, active, content, choiceId, dragHandler}) => {
-    const [focused, setFocus] = useState(false);
-    const inputId = 'input-' + questionId + index;
-    const labelId = 'label-' + questionId + index;
-
-
-    function checkFocus() {
-        if (focused) {
-            return ' shadow-outline';
-        } else {
-
-        }
-    }
-
-    return (
-        <>
-            <div id={labelId} htmlFor={inputId}
-                 className={selected ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard ' + checkFocus()}
-            >
-                <div className={selected ? "text-blue-500" : "text-gray-200 active:text-blue-400"}>
-                    {dragHandler}
-                </div>
-                <span className="table-cell w-full pointer-events-auto">
-                    <RichTextField uniqueId={choiceId} active={active} initialContent={content}
-                                   onBlurEvent={(value) => onBlurHandler(value)}/></span>
-                {selected ? <i className="fas fa-check table-cell"/> : (active ? <i className="far fa-circle table-cell text-gray-300"/>: null)}
-            </div>
-        </>
-    )
-
-};
-
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400" tabIndex="0"/>);
 
 const SortableItem = SortableElement(({value, active, setActive}) =>
     <div>
         <div className="flex justify-between mb-4">
-            <AnswerChoice content={value.content} active={active} selected={value.is_correct} dragHandler={active ? <DragHandle/> : null}/>
+            <AnswerChoice choice={value} active={active} selected={value.is_correct} dragHandler={active ? <DragHandle/> : null}/>
         </div>
     </div>
 );
@@ -124,6 +93,7 @@ export const MultipleChoiceController = ({active, choices, setSaveStatus, itemId
                 </div>
             </div> : <div className="space-y-4">
                 {answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
+                                                                    choice={choice}
                                                                     setSaveStatus={status => setSaveStatus(status)}
                                                                     key={choice.id + "_inactive"}
                                                                     content={choice.content}
