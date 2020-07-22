@@ -1,11 +1,5 @@
-import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import CardFrame from "./CardFrame";
-import React, {Component, useEffect, useState} from "react";
-import {useMutation} from "@apollo/react-hooks";
-import {UPDATE_ITEM_INDEX} from "../../gql/assignmentAutosave";
-import gql from "graphql-tag";
-
-//new imports
+import React, {useState} from "react";
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 
