@@ -25,31 +25,30 @@ import arrayMove from 'array-move';
 
 const DragHandle = SortableHandle(() => <i tabIndex="0" className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
 
-const SortableItem = SortableElement(({value, active, setActive}) =>
+const SortableItem = SortableElement(({value, active, setActive, setItems}) =>
     <>
-
         {active ? <div className="mb-2 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
             <div className="w-full text-center z-50"><DragHandle/></div>
-            <ActiveCard item={value} index={value.index}/>
+            <ActiveCard item={value} index={value.index} setItems={newArray => setItems(newArray)}/>
         </div> : <div className="mb-2 group bg-white rounded-lg border border-gray-200">
             <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible"><DragHandle/></div>
-            <InactiveCard item={value} setActive={(id) => setActive(id)} index={value.index}/>
+            <InactiveCard item={value} setActive={(id) => setActive(id)} index={value.index} setItems={newArray => setItems(newArray)}/>
         </div>}
     </>
 );
 
-const SortableList = SortableContainer(({items, selectedItem, setActive}) => {
+const SortableList = SortableContainer(({items, selectedItem, setActive, setItems}) => {
     return (
         <ul>
             {items.map((value, index) => (
                 <SortableItem key={`item-${value.id}`} value={value} active={selectedItem === value.id}
-                              setActive={() => setActive(value.id)} index={index}/>
+                              setActive={() => setActive(value.id)} index={index} setItems={newArray => setItems([...items, ])}/>
             ))}
         </ul>
     );
 });
 
-const InactiveCard = ({active, setSaveStatus, item, index, setActive}) => {
+const InactiveCard = ({active, setSaveStatus, item, index, setActive, setItems}) => {
     return (<div onClick={(e) => {
         setActive(item.id)
     }}
@@ -60,17 +59,17 @@ const InactiveCard = ({active, setSaveStatus, item, index, setActive}) => {
         }}
                 className="text-left block w-full active:outline-none focus:shadow-outline focus:outline-none overflow-hidden">
             <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} index={index}
-                       active={active}/>
+                       active={active} setItems={newArray => setItems(newArray)}/>
         </button>
     </div>)
 };
 
-const ActiveCard = ({setSaveStatus, item, index}) => {
+const ActiveCard = ({setSaveStatus, item, index, setItems}) => {
     return (
         <div
             className="flex flex-grow-0 justify-between text-left z-40">
             <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} index={index}
-                       active={true}/>
+                       active={true} setItems={newArray => setItems(newArray)}/>
         </div>)
 };
 
@@ -86,7 +85,8 @@ export const DnDList = ({items, setSaveStatus}) => {
 
     return (
         <>
-            <SortableList items={listItems} onSortEnd={onSortEnd} lockAxis="y" useDragHandle selectedItem={selectedItem}
+            <p>{JSON.stringify(listItems)}</p>
+            <SortableList items={listItems} setItems={newItemArray => setItems(newItemArray)} onSortEnd={onSortEnd} lockAxis="y" useDragHandle selectedItem={selectedItem}
                           setActive={(id) => setSelectedItem(id)}/>
         </>
     );

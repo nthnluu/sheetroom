@@ -6,7 +6,9 @@ export default function ({onTitleBlur, title, isSaving, saveError}) {
     const [mobileMenu, toggleMobileMenu] = useState(false);
     const [inputValue, setInputValue] = useState(title);
     useEffect(() => {
-        setInputValue(title)
+        setInputValue(title);
+
+
     }, [title]);
 
     return (

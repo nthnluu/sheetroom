@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React from "react";
 import {RichTextField} from "../../../Editor/SlateEditor";
 import PropTypes from 'prop-types';
+
 
 const AnswerChoice = ({onBlurHandler, active, choice, dragHandler}) => {
     const inputId = 'input-' + choice.id;

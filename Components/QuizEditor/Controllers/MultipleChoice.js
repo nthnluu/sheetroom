@@ -1,50 +1,14 @@
-import React, {useEffect, useState} from "react";
-import {RichTextField} from "../../Editor/SlateEditor";
-import {useMutation} from "@apollo/react-hooks";
+import React, {useState} from "react";
 import {v4 as uuidv4} from 'uuid';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import AnswerChoice from "./MultipleChoice/AnswerChoice";
-
-// const NEW_ANSWER_CHOICE = gql`
-//  mutation CreateNewAnswerChoice($itemId: uuid!, $isCorrect: Boolean!, $index: Int!, $content: json!) {
-//   insert_assignments_answer_choice(objects: {item: $itemId, is_correct: $isCorrect, index: $index, content: $content}) {
-//     returning {
-//       id
-//       is_correct
-//       content
-//     }
-//   }
-// }
-// `;
-// const UPSERT_CHOICE_CONTENT = gql`
-// mutation UpsertChoiceContent($itemId: uuid!, $content: json!, $choiceId: uuid!, $index: Int!, $isCorrect: Boolean!) {
-//   insert_assignments_answer_choice(on_conflict: {constraint: answer_choice_pkey, update_columns: [content, index]}, objects: {item: $itemId, content: $content, id: $choiceId, index: $index, is_correct: $isCorrect}) {
-//     affected_rows
-//   }
-// }
-// `;
-// const mutationSaveNewChoicesOrder = (choices) => {
-//     const mutations = choices.map((choice, index) => `choice${index}: update_assignments_answer_choice_by_pk(pk_columns: {id: "${choice.id}"}, _set: {index: ${index}}) {
-//     index
-//   }`);
-//     const newMutation = `mutation {
-//      ${mutations.join(" ")}
-//   }
-// `;
-//     return newMutation
-// };
-// const url = "/api/token";
-// const opts = (choices) => ({
-//     method: "POST",
-//     headers: {"Content-Type": "application/json"},
-//     body: JSON.stringify({query: mutationSaveNewChoicesOrder(choices)}),
-// });
+import PropTypes from "prop-types";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400" tabIndex="0"/>);
 
-const SortableItem = SortableElement(({value, active, setActive}) =>
+const SortableItem = SortableElement(({value, active}) =>
     <div>
         <div className="flex justify-between mb-4">
             <AnswerChoice choice={value} active={active} selected={value.is_correct} dragHandler={active ? <DragHandle/> : null}/>
@@ -52,7 +16,7 @@ const SortableItem = SortableElement(({value, active, setActive}) =>
     </div>
 );
 
-const SortableList = SortableContainer(({items, selectedItem, setActive, active}) => {
+const SortableList = SortableContainer(({items, active}) => {
     return (
         <ul className="space-y-4 mb-4">
             {items.map((value, index) => (
@@ -63,11 +27,10 @@ const SortableList = SortableContainer(({items, selectedItem, setActive, active}
 });
 
 
-export const MultipleChoiceController = ({active, choices, setSaveStatus, itemId}) => {
-    const [answerChoices, setAnswerChoices] = useState(choices);
+export const MultipleChoiceController = ({active, answerChoices, setAnswerChoices, setSaveStatus, itemId, setItems}) => {
 
     const onSortEnd = ({oldIndex, newIndex}) => {
-        setAnswerChoices(arrayMove(answerChoices, oldIndex, newIndex));
+        setItems(arrayMove(answerChoices, oldIndex, newIndex));
     };
 
     return (
@@ -102,6 +65,25 @@ export const MultipleChoiceController = ({active, choices, setSaveStatus, itemId
         </div>
 
     )
+};
+
+// Prop Types
+SortableItem.propTypes = {
+    value: PropTypes.object.isRequired,
+    active: PropTypes.bool,
+};
+
+SortableList.propTypes = {
+    items: PropTypes.array,
+    active:  PropTypes.bool.isRequired,
+};
+
+MultipleChoiceController.propTypes = {
+    active: PropTypes.bool,
+    answerChoices: PropTypes.array,
+    setSaveStatus:  PropTypes.func.isRequired,
+    setAnswerChoices:  PropTypes.func.isRequired,
+    itemId:  PropTypes.string.isRequired,
 };
 
 export default MultipleChoiceController

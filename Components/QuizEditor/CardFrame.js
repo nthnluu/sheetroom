@@ -6,7 +6,7 @@ import MultipleChoiceController from "./Controllers/MultipleChoice";
 import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 
 
-const CardFrame = ({itemData, active, setSaveStatus, index}) => {
+const CardFrame = ({itemData, setItems, active, setSaveStatus, index}) => {
     const [item, setItemData] = useState(itemData);
 
     //autosave logic
@@ -32,7 +32,7 @@ const CardFrame = ({itemData, active, setSaveStatus, index}) => {
                         <RichTextField border active={active} initialContent={item.content}
                                        onBlurEvent={(value) => saveContent(value)} uniqueId={item.id}/>
                     </div>
-                    <MultipleChoiceController itemId={item.id} setSaveStatus={status => setSaveStatus(status)} active={active} choices={item.answer_choices}/>
+                    <MultipleChoiceController itemId={item.id} setSaveStatus={status => setSaveStatus(status)} active={active} setAnswerChoices={newArray => setItemData([...listItems, ])} answerChoices={item.answer_choices}/>
 
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">

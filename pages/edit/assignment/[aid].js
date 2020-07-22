@@ -5,7 +5,7 @@ import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {UPDATE_ASSIGNMENT_TITLE} from "../../../gql/assignmentAutosave";
 import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 
@@ -50,6 +50,7 @@ const quizSampleData = {
 
 const PageContent = ({data, aid, setSaveStatus, refetchData}) => {
     const [currentItem, setCurrentItem] = useState(undefined);
+
 
 
     return (
@@ -310,6 +311,23 @@ const QuizEditor = ({user}) => {
     const {aid} = router.query;
     const [saveStatus, setSaveStatus] = useState(0);
     const [refetchData, setRefetchData] = useState(false);
+
+    const handleWindowClose = (e) => {
+        if (saveStatus !== 0) {
+            e.preventDefault();
+            return e.returnValue = 'You have unsaved changes - are you sure you wish to close?';
+        }
+
+    };
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', handleWindowClose);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleWindowClose);
+        };
+
+    });
 
     //autosave mutations
     const [updateTitle, {titleData}] = useMutation(UPDATE_ASSIGNMENT_TITLE);
