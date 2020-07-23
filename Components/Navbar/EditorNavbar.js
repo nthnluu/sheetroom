@@ -1,15 +1,22 @@
 import Transition from "../Transition";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
+import QuizContext from "../QuizEditor/QuizContext";
 
-export default function ({onTitleBlur, title, isSaving, saveError}) {
+export default function ({isSaving, saveError}) {
+    const {quiz, dispatch} = useContext(QuizContext);
+
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
-    const [inputValue, setInputValue] = useState(title);
-    useEffect(() => {
-        setInputValue(title);
 
 
-    }, [title]);
+    const [inputValue, setInputValue] = useState(quiz.title);
+
+    // useEffect(() => {
+    //     setInputValue(title);
+    //
+    // }, [title]);
+
+
 
     return (
         <nav className="bg-white border-b border-gray-200">
@@ -18,7 +25,7 @@ export default function ({onTitleBlur, title, isSaving, saveError}) {
                     <div className="flex px-2 lg:px-0">
                         <div className="flex justify-between items-center">
                             <button onClick={() => window.location.href = '/'} className="active:outline-none active:text-gray-500 hover:text-gray-300 focus:text-gray-300"><i className="fas fa-arrow-left text-gray-400 mr-2"/></button>
-                            <input onBlur={(event) => onTitleBlur(inputValue)} style={{textOverflow: "ellipsis"}}
+                            <input onBlur={() => dispatch({type: 'UPDATE-QUIZ-TITLE', value: inputValue})} style={{textOverflow: "ellipsis"}}
                                    className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
                                    value={inputValue} onChange={event => setInputValue(event.target.value)}/>
                         </div>

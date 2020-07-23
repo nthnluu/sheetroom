@@ -56,7 +56,7 @@ const PageContent = ({data, aid}) => {
 
     const [currentItem, setCurrentItem] = useState(undefined);
     const [saveStatus, setSaveStatus] = useState(0);
-    const [quiz, dispatch] = useReducer(QuizReducer, data);
+    const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
 
 
     return (
@@ -78,11 +78,11 @@ const PageContent = ({data, aid}) => {
                                                              .then(() => setSaveStatus(0))
                                                              .catch((error) => setSaveStatus(2));
                                                      }
-                                                 }} title={data.assignments_assignment_by_pk.title}/>}
+                                                 }} title={data.title}/>}
                            content={
                                <div key={aid} className="max-w-7xl mx-auto">
                                    {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
-                                   <JsonDebugBox content={quiz.assignments_assignment_by_pk.sections[0].items}/>
+                                   <JsonDebugBox content={quiz}/>
                                    <DnDList currentItem={currentItem}
                                             setItem={setCurrentItem}/>
                                    <div className="pt-12 pb-32">
@@ -210,7 +210,7 @@ const PageContent = ({data, aid}) => {
                                    </div>
                                </div>}
                            questionMenu
-                           windowTitle={quiz.assignments_assignment_by_pk.title}/>
+                           windowTitle={quiz.title}/>
             </QuizContext.Provider>
         </>
     )
