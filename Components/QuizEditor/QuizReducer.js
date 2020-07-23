@@ -13,7 +13,7 @@ export default function quizReducer(state, action) {
             return [...state, action.value]
         }
         case 'UPDATE-ITEM-ARRAY': {
-            return {...state, sections: [action.payload]}
+            return {...state, sections: [{items: [...action.payload]}]}
         }
         case 'UPDATE-QUIZ-TITLE': {
             return {...state, title: action.value}
