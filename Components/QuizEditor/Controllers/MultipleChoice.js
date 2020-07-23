@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {v4 as uuidv4} from 'uuid';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import AnswerChoice from "./MultipleChoice/AnswerChoice";
 import PropTypes from "prop-types";
 import JsonDebugBox from "../../JsonDebugBox";
+import {QuizContext} from "../DragAndDrop";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400" tabIndex="0"/>);
@@ -18,6 +19,7 @@ const SortableItem = SortableElement(({value, active}) =>
 );
 
 const SortableList = SortableContainer(({items, active}) => {
+
     return (
         <ul className="space-y-4 mb-4">
             {items.map((value, index) => (
@@ -28,16 +30,16 @@ const SortableList = SortableContainer(({items, active}) => {
 });
 
 
-export const MultipleChoiceController = ({active, answerChoices, setAnswerChoices, setSaveStatus, itemId, setItems}) => {
+export const MultipleChoiceController = ({active, answerChoices, setAnswerChoices, setSaveStatus, itemId, setItems, itemIndex}) => {
+    const {quiz, dispatch} = useContext(QuizContext);
 
     const onSortEnd = ({oldIndex, newIndex}) => {
-        setItems(arrayMove(answerChoices, oldIndex, newIndex));
+        dispatch({type: 'UPDATE-ITEM-FIELD', index: itemIndex, fieldName: 'answer_choices', payload: arrayMove(answerChoices, oldIndex, newIndex)})
     };
 
     return (
         <div key={itemId}>
             {active ? <div>
-                <JsonDebugBox content={answerChoices}/>
                 <SortableList items={answerChoices} onSortEnd={onSortEnd} useDragHandle active={active} lockAxis="y"
                               lockToContainerEdges/>
                 <div className="space-x-2">

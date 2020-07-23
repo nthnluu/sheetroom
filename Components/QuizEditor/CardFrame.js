@@ -6,8 +6,7 @@ import MultipleChoiceController from "./Controllers/MultipleChoice";
 import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 
 
-const CardFrame = ({itemData, setItems, active, setSaveStatus, index}) => {
-    const [item, setItemData] = useState(itemData);
+const CardFrame = ({itemData, setItems, active, setSaveStatus, itemIndex, item}) => {
 
     //autosave logic
     const [updateContent, {contentData}] = useMutation(UPDATE_ITEM_CONTENT);
@@ -19,20 +18,17 @@ const CardFrame = ({itemData, setItems, active, setSaveStatus, index}) => {
             .catch(() => setSaveStatus(2));
     };
 
-    useEffect(() => {
-        setItemData(itemData)
-    }, [itemData]);
 
     return (
         <div className="bg-white focus:shadow-outline w-full pt-2 pb-8 px-8 focus:outline-none rounded-lg">
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-r border-transparent md:border-gray-200 md:pr-4 md:mr-4 pr-0 mr-0">
                     <div className="mb-8">
-                        <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {index + 1}</h2>
+                        <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
                         <RichTextField border active={active} initialContent={item.content}
                                        onBlurEvent={(value) => saveContent(value)} uniqueId={item.id}/>
                     </div>
-                    <MultipleChoiceController itemId={item.id} setSaveStatus={status => setSaveStatus(status)} active={active} setAnswerChoices={newArray => setItemData([...listItems, ])} answerChoices={item.answer_choices}/>
+                    <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} setAnswerChoices={newArray => setItemData([...listItems, ])} answerChoices={item.answer_choices}/>
 
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
