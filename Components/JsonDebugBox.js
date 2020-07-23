@@ -11,7 +11,7 @@ const JsonDebugBox = ({content}) => {
                 <span className="text-red-500"><i className="fas fa-exclamation-circle mr-1"/>Remove this component and its import before committing changes!</span>
             </div>
             <div className="rounded-lg p-4 shadow-sm" style={{color: '#61eaff', backgroundColor: '#00161a'}} key={JSON.stringify(content ? content.length : '420-69') + JSON.stringify(Date.now())}>
-                {content ? <textarea readOnly={isLocked} defaultValue={JSON.stringify(content, null, 2)} rows="8" className="w-full text-sm font-semibold focus:outline-none bg-transparent font-mono leading-tight inline-block" spellCheck="false"/> : <div className="flex justify-center item-center p-6">
+                {content ? <div style={{maxHeight: '32rem'}} className="w-full resize-y text-sm font-semibold overflow-scroll whitespace-pre-wrap focus:outline-none bg-transparent font-mono leading-tight inline-block">{JSON.stringify(content, null, 2)} </div> : <div className="flex justify-center item-center p-6">
                     <h4><i className="fas fa-exclamation-circle mr-2"/>Invalid object</h4>
                 </div>}
                 <div className="space-x-2 mt-2 pt-2" style={{borderTop: '1px solid #1c5e69'}}>

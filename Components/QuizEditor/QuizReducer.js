@@ -3,14 +3,17 @@ import {useReducer} from 'react';
 export default function quizReducer(state, action) {
     switch(action.type) {
         case 'UPDATE-ITEM-FIELD': {
-            //Updates the CONTENT of an ITEM
-            //requires an INDEX and the new CONTENT value
+            //Replaces a FIELD (fieldName) of an ITEM with PAYLOAD
+            //requires an INDEX, the FIELDNAME and the new PAYLOAD
             let newArray = [...state]
             newArray.splice(action.index, 1, {...state[action.index], [action.fieldName]: action.payload})
             return newArray;
         }
         case 'addItem': {
             return [...state, action.value]
+        }
+        case 'UPDATE-ITEM-ARRAY': {
+            return [...action.payload]
         }
     }
 }
