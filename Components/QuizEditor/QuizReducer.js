@@ -1,17 +1,17 @@
 import {useReducer} from 'react';
 
-function quizReducer(state, action) {
+export default function quizReducer(state, action) {
     switch(action.type) {
-        case 'saveTitle': {
-            return {}
-        }
-        case 'UPDATE-ITEM-CONTENT': {
-            //Updates the content of an item
-            //requires an index and the new content value
-            return state.splice(action.index, 1, {...state[action.index], content: value});
+        case 'UPDATE-ITEM-FIELD': {
+            //Updates the CONTENT of an ITEM
+            //requires an INDEX and the new CONTENT value
+            let newArray = [...state]
+            newArray.splice(action.index, 1, {...state[action.index], [action.fieldName]: action.payload})
+            return newArray;
         }
         case 'addItem': {
             return [...state, action.value]
         }
     }
 }
+
