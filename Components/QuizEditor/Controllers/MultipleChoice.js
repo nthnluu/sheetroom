@@ -5,7 +5,7 @@ import arrayMove from 'array-move';
 import AnswerChoice from "./MultipleChoice/AnswerChoice";
 import PropTypes from "prop-types";
 import JsonDebugBox from "../../JsonDebugBox";
-import {QuizContext} from "../DragAndDrop";
+import QuizContext from "../QuizContext";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400" tabIndex="0"/>);

@@ -1,12 +1,5 @@
-const QuizDispatch = React.createContext(null);
+import React from "react";
 
-function QuizApp() {
-    // Note: `dispatch` won't change between re-renders
-    const [todos, dispatch] = useReducer(todosReducer);
+const QuizContext = React.createContext(null);
 
-    return (
-        <TodosDispatch.Provider value={dispatch}>
-            <DeepTree todos={todos} />
-        </TodosDispatch.Provider>
-    );
-}
+export default QuizContext

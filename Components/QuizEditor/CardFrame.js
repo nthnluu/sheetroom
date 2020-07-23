@@ -1,22 +1,15 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import RichTextField from "../Editor/SlateEditor";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_CONTENT} from "../../gql/assignmentAutosave";
 import MultipleChoiceController from "./Controllers/MultipleChoice";
 import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
+import QuizContext from "./QuizContext";
+import arrayMove from "array-move";
+import QuizReducer from "./QuizReducer";
 
 
 const CardFrame = ({itemData, setItems, active, setSaveStatus, itemIndex, item}) => {
-
-    //autosave logic
-    const [updateContent, {contentData}] = useMutation(UPDATE_ITEM_CONTENT);
-
-    const saveContent = (value) => {
-        setSaveStatus(1);
-        updateContent({variables: {pk: item.id, content: value}})
-            .then(() => setSaveStatus(0))
-            .catch(() => setSaveStatus(2));
-    };
 
 
     return (
@@ -26,7 +19,7 @@ const CardFrame = ({itemData, setItems, active, setSaveStatus, itemIndex, item})
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
                         <RichTextField border active={active} initialContent={item.content}
-                                       onBlurEvent={(value) => saveContent(value)} uniqueId={item.id}/>
+                                       onBlurEvent={(value) => dispatch({type: 'UPDATE-ITEM-FIELD', index: itemIndex, fieldName: 'content', payload: value})} uniqueId={item.id}/>
                     </div>
                     <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} setAnswerChoices={newArray => setItemData([...listItems, ])} answerChoices={item.answer_choices}/>
 
