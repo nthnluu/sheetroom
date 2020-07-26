@@ -1,14 +1,34 @@
+diff --git a/node_modules/next-auth/dist/adapters/typeorm/models/user.js b/node_modules/next-auth/dist/adapters/typeorm/models/user.js
+index c24cd8c..b01c834 100644
+--- a/node_modules/next-auth/dist/adapters/typeorm/models/user.js
++++ b/node_modules/next-auth/dist/adapters/typeorm/models/user.js
+@@ -61,6 +61,14 @@ var UserSchema = {
+     updatedAt: {
+       type: 'timestamp',
+       updateDate: true
++    },
++    isDisabled: {
++      type: 'boolean',
++      default: false
++    },
++    tenant: {
++      type: 'uuid',
++      nullable: true
+     }
+   }
+ };
 diff --git a/node_modules/next-auth/dist/server/routes/session.js b/node_modules/next-auth/dist/server/routes/session.js
-index 73e5285..10bd998 100644
+index 73e5285..dd1f8b4 100644
 --- a/node_modules/next-auth/dist/server/routes/session.js
 +++ b/node_modules/next-auth/dist/server/routes/session.js
-@@ -102,7 +102,8 @@ var _default = function () {
+@@ -102,7 +102,9 @@ var _default = function () {
              user: {
                name: user.name,
                email: user.email,
 -              image: user.image
 +              image: user.image,
-+              id: user.id
++              id: user.id,
++              tenant: user.tenant
              },
              accessToken: session.accessToken,
              expires: session.expires

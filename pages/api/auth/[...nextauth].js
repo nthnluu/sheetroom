@@ -77,6 +77,8 @@ const options = {
             // The first object is the default session contents that is returned
             // The second object is the NextAuth.js JWT (aways passed if JWT enabled)
             session.userId = token.user.id;
+            session.isDisabled = token.user.isDisabled;
+            session.tenant = token.user.tenant;
             session.oAuthProfile = token.auth0;
 
             // As with the JWT, you can add properties to the 'session' object

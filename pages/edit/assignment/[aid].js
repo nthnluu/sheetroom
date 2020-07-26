@@ -354,7 +354,7 @@ const ThirdArea = ({data, isSaving, saveFailed, lastSaved}) => {
 };
 
 
-const QuizEditor = ({user}) => {
+const QuizEditor = ({user, session}) => {
 
 //get Quiz ID from URL
     const router = useRouter();
@@ -386,6 +386,7 @@ const QuizEditor = ({user}) => {
     return (
 
         <div className="min-h-screen bg-gray-50" key={aid}>
+            <JsonDebugBox content={session}/>
             {loading ? <LoadingPlaceholder/> : <PageContent data={data} aid={aid}/>
             }
         </div>
