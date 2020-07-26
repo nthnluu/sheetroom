@@ -11,10 +11,9 @@ subscription AssignmentByPk($id: uuid!) {
       items(order_by: {index: asc}) {
         id
         content
-        blocks
         type
         index
-        answer_choices(order_by: {index: asc}) {
+        answer_objects(order_by: {index: asc}) {
           id
           item
           is_correct
@@ -37,10 +36,9 @@ query AssignmentByPk($id: uuid!) {
       items(order_by: {index: asc}) {
         id
         content
-        blocks
         type
         index
-        answer_choices(order_by: {index: asc}) {
+        answer_objects(order_by: {index: asc}) {
           id
           content
         }

@@ -50,7 +50,7 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
                             "is_correct": (answerChoices.length <= 0),
                             "index": answerChoices.length,
                             "content": [{"children": [{"text": ""}], "type": "paragraph"}],
-                            "__typename": "assignments_answer_choice"
+                            "__typename": "assignments_answer_objects"
                         };
                         setAnswerChoices([...answerChoices, newOption]);
                     }}

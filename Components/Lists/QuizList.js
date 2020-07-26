@@ -1,13 +1,13 @@
 import {useQuery} from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import React from "react";
+import JsonDebugBox from "../JsonDebugBox";
 
 const ASSIGNMENTS = gql`
 query Assignments($userId: Int!){
   assignments_assignment(where: {created_by: {_eq: $userId}}) {
     id,
-    title,
-    description,
+    title
   }
   
 }
@@ -23,7 +23,7 @@ const LoadingPlaceholder = () => {
 const QuizList = ({userId}) => {
     const {loading, error, data} = useQuery(ASSIGNMENTS, {variables: {userId: userId}});
     if (loading) return <LoadingPlaceholder/>;
-    if (data === undefined) return null;
+    if (data === undefined) return <JsonDebugBox content={data}/>;
 
     return (
         <>

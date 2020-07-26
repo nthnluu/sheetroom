@@ -64,7 +64,7 @@ const options = {
             // e.g. `token.auth0 = oAuthProfile`
             token.auth0 = oAuthProfile;
             token.hasura = {
-                "x-hasura-default-role": "user",
+                "x-hasura-default-role": "admin",
                 "x-hasura-allowed-roles": ["user", "admin"],
                 "x-hasura-user-id": token.user.id.toString(),
             };

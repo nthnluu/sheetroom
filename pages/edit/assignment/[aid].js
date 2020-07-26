@@ -82,7 +82,7 @@ const PageContent = ({data, aid}) => {
                            content={
                                <div key={aid} className="max-w-7xl mx-auto">
                                    {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
-                                   <DnDList currentItem={currentItem}
+                                   <DnDList currentItem={currentItem} items={quiz.sections[0].items}
                                             setItem={setCurrentItem}/>
                                    <div className="pt-12 pb-32">
                                        <div

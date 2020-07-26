@@ -16,9 +16,8 @@ export default function quizReducer(state, action) {
             return {...state, sections: [{items: [...action.payload]}]}
         }
         case 'UPDATE-ANSWER-CHOICE-ARRAY': {
-
             let updatedItem = state.sections[0].items[action.index]
-            updatedItem.answer_choices = action.payload
+            updatedItem.answer_objects = action.payload
 
             let newItemArray = [...state.sections[0].items]
             newItemArray.splice(action.index, 1, updatedItem)

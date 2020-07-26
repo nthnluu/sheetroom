@@ -26,7 +26,7 @@ export const UPDATE_ITEM_CONTENT = gql`
 
 export const UPDATE_CHOICE_CONTENT = gql`
  mutation UpdateItemContent($pk: uuid!, $content: json!) {
-  update_assignments_answer_choice_by_pk(pk_columns: {id: $pk}, _set: {content: $content}){
+  update_assignments_answer_objects_by_pk(pk_columns: {id: $pk}, _set: {content: $content}){
     content
   }
 }
@@ -34,7 +34,7 @@ export const UPDATE_CHOICE_CONTENT = gql`
 
 export const CREATE_NEW_CHOICE = gql`
  mutation CreateNewAnswerChoice($itemId: uuid!, $index: Int!, $content: json!) {
-  insert_assignments_answer_choice(objects: {content: $content, index: $index, is_correct: false, item: $itemId}) {
+  insert_assignments_answer_objects(objects: {content: $content, index: $index, is_correct: false, item: $itemId}) {
     affected_rows
   }
 }

@@ -7,7 +7,7 @@ function Controller({type, item}) {
     //2: short answer
     switch (type) {
         case("MC"):
-            return <section aria-label="Answer Choices"><MultipleChoice choices={item.answer_choices} itemId={item.id}/>
+            return <section aria-label="Answer Choices"><MultipleChoice choices={item.answer_objectss} itemId={item.id}/>
             </section>;
             break;
         case("SA"):
