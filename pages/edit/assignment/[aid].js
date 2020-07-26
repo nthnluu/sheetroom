@@ -82,7 +82,6 @@ const PageContent = ({data, aid}) => {
                            content={
                                <div key={aid} className="max-w-7xl mx-auto">
                                    {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
-                                   <JsonDebugBox content={quiz}/>
                                    <DnDList currentItem={currentItem}
                                             setItem={setCurrentItem}/>
                                    <div className="pt-12 pb-32">

@@ -34,7 +34,7 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
     const {quiz, dispatch} = useContext(QuizContext);
 
     const onSortEnd = ({oldIndex, newIndex}) => {
-        dispatch({type: 'UPDATE-ITEM-FIELD', index: itemIndex, fieldName: 'answer_choices', payload: arrayMove(answerChoices, oldIndex, newIndex)})
+        dispatch({type: 'UPDATE-ANSWER-CHOICE-ARRAY', index: itemIndex, payload: arrayMove(answerChoices, oldIndex, newIndex)})
     };
 
     return (

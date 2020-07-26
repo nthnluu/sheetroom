@@ -71,7 +71,7 @@ code {
 }
 
 .editor-unselectedCard {
-    @apply border-gray-200 shadow-sm
+    @apply border-gray-200
 
 }
 .editor-unselectedCard:hover {
