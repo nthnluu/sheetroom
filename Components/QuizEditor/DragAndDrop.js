@@ -68,7 +68,6 @@ export const DnDList = ({items, setSaveStatus}) => {
 
     return (
         <DragDropContext onDragEnd={onSortEnd}>
-            <JsonDebugBox content={quiz}/>
             <Droppable droppableId={quiz.sections[0].id}>
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>

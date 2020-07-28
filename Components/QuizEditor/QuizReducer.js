@@ -13,8 +13,8 @@ export default function quizReducer(state, action) {
             return [...state, action.value]
         }
         case 'UPDATE-ITEM-ARRAY': {
-            let newSectionsArray = [...state.sections[0]]
-            newSectionsArray.items = action.payload
+            let newSectionsArray = [...state.sections]
+            newSectionsArray[0].items = action.payload
             return {...state, sections: newSectionsArray}
         }
         case 'UPDATE-ANSWER-CHOICE-ARRAY': {
