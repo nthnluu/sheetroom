@@ -10,20 +10,20 @@ import QuizContext from "../QuizContext";
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400" tabIndex="0"/>);
 
-const SortableItem = SortableElement(({value, active}) =>
+const SortableItem = SortableElement(({value, active, answerIndex, itemIndex}) =>
     <div>
         <div className="flex justify-between mb-4">
-            <AnswerChoice choice={value} active={active} selected={value.is_correct} dragHandler={active ? <DragHandle/> : null}/>
+            <AnswerChoice choice={value} active={active} selected={value.is_correct} answerIndex={answerIndex} itemIndex={itemIndex} dragHandler={active ? <DragHandle/> : null}/>
         </div>
     </div>
 );
 
-const SortableList = SortableContainer(({items, active}) => {
+const SortableList = SortableContainer(({items, active, itemIndex}) => {
 
     return (
         <ul className="space-y-4 mb-4">
             {items.map((value, index) => (
-                <SortableItem key={`item-${value.id}`} value={value} index={index} active={active}/>
+                <SortableItem key={`item-${value.id}`} value={value} answerIndex={index} itemIndex={itemIndex} index={index} active={active}/>
             ))}
         </ul>
     );
@@ -40,7 +40,7 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
     return (
         <div key={itemId}>
             {active ? <div>
-                <SortableList items={answerChoices} onSortEnd={onSortEnd} useDragHandle active={active} lockAxis="y"
+                <SortableList items={answerChoices} itemIndex={itemIndex} onSortEnd={onSortEnd} useDragHandle active={active} lockAxis="y"
                               lockToContainerEdges/>
                 <div className="space-x-2">
                     <button type="button" onClick={() => {

@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import {RichTextField} from "../../../Editor/SlateEditor";
 import PropTypes from 'prop-types';
+import QuizContext from "../../QuizContext";
 
 
-const AnswerChoice = ({onBlurHandler, active, choice, dragHandler}) => {
+const AnswerChoice = ({onBlurHandler, active, choice, dragHandler, answerIndex, itemIndex}) => {
     const inputId = 'input-' + choice.id;
     const labelId = 'label-' + choice.id;
+    const {quiz, dispatch} = useContext(QuizContext);
 
     return (
         <>
@@ -17,7 +19,7 @@ const AnswerChoice = ({onBlurHandler, active, choice, dragHandler}) => {
                 </div>
                 <span className="table-cell w-full pointer-events-auto">
                     <RichTextField uniqueId={choice.id} active={active} initialContent={choice.content}
-                                   onBlurEvent={(value) => onBlurHandler(value)}/></span>
+                                   onBlurEvent={(value) => dispatch({type: 'UPDATE-ANSWER-CHOICE-CONTENT', itemIndex: itemIndex, answerIndex: answerIndex, payload: value})}/></span>
                 {choice.is_correct ? <i className="fas fa-check table-cell"/> : (active ? <i className="far fa-circle table-cell text-gray-300"/>: null)}
             </div>
         </>

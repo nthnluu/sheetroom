@@ -386,9 +386,7 @@ const QuizEditor = ({user, session}) => {
     return (
 
         <div className="min-h-screen bg-gray-50" key={aid}>
-            <JsonDebugBox content={session}/>
-            {loading ? <LoadingPlaceholder/> : <PageContent data={data} aid={aid}/>
-            }
+            {loading ? <LoadingPlaceholder/> : <PageContent data={data} aid={aid}/>}
         </div>
 
 

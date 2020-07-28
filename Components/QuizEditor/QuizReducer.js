@@ -27,6 +27,36 @@ export default function quizReducer(state, action) {
 
             return {...state, sections: newArray}
         }
+        case 'UPDATE-ITEM-CONTENT': {
+            let newItem = state.sections[0].items[action.index]
+            newItem.content = action.payload
+
+            let newItemArray = [...state.sections[0].items]
+            newItemArray.splice(action.index, 1, newItem)
+
+            let newArray = [...state.sections]
+            newArray.splice(0, 1, {items: newItemArray})
+
+            return {...state, sections: newArray}
+        }
+        case 'UPDATE-ANSWER-CHOICE-CONTENT': {
+            let newAnswerObject = state.sections[0].items[action.itemIndex].answer_objects[action.answerIndex]
+            newAnswerObject.content = action.payload
+
+            let newAnswerObjectArray = [...state.sections[0].items[action.itemIndex].answer_objects]
+            newAnswerObjectArray.splice(action.answerIndex, 1, newAnswerObject)
+
+            let newItem = state.sections[0].items[action.itemIndex]
+            newItem.answer_object = newAnswerObjectArray
+
+            let newItemArray = [...state.sections[0].items]
+            newItemArray.splice(action.index, 1, newItem)
+
+            let newArray = [...state.sections]
+            newArray.splice(0, 1, {items: newItemArray})
+
+            return {...state, sections: newArray}
+        }
         case 'UPDATE-QUIZ-TITLE': {
             return {...state, title: action.value}
         }
