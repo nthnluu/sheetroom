@@ -8,6 +8,7 @@ subscription AssignmentByPk($id: uuid!) {
     title
     id
     sections {
+      id
       items(order_by: {index: asc}) {
         id
         content

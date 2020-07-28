@@ -1,7 +1,7 @@
 import {useReducer} from 'react';
 
 export default function quizReducer(state, action) {
-    switch(action.type) {
+    switch (action.type) {
         case 'UPDATE-ITEM-FIELD': {
             //Replaces a FIELD (fieldName) of an ITEM with PAYLOAD
             //requires an INDEX, the FIELDNAME and the new PAYLOAD
@@ -13,7 +13,9 @@ export default function quizReducer(state, action) {
             return [...state, action.value]
         }
         case 'UPDATE-ITEM-ARRAY': {
-            return {...state, sections: [{items: [...action.payload]}]}
+            let newSectionsArray = [...state.sections[0]]
+            newSectionsArray.items = action.payload
+            return {...state, sections: newSectionsArray}
         }
         case 'UPDATE-ANSWER-CHOICE-ARRAY': {
             let updatedItem = state.sections[0].items[action.index]
@@ -60,7 +62,9 @@ export default function quizReducer(state, action) {
         case 'SET-CORRECT-ANSWER-CHOICE': {
             let newAnswerObject = [...state.sections[0].items[action.itemIndex].answer_objects]
             const found = newAnswerObject.findIndex(element => element.is_correct)
-            newAnswerObject[found].is_correct = false;
+            if (found !== -1) {
+                newAnswerObject[found].is_correct = false;
+            }
             newAnswerObject[action.answerIndex].is_correct = true;
 
             let newItem = state.sections[0].items[action.itemIndex]

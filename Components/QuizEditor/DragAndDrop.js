@@ -4,56 +4,26 @@ import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable
 import arrayMove from 'array-move';
 import JsonDebugBox from "../JsonDebugBox";
 import QuizContext from "./QuizContext";
-
-// const mutationSaveNewListOrder = (items) => {
-//     const mutations = items.map((item, index) => `item${index}: update_assignments_item_by_pk(pk_columns: {id: "${item.id}"}, _set: {index: ${index}}) {
-//     index
-//   }`);
-//
-//     const newMutation = `mutation {
-//      ${mutations.join("")}
-//   }
-// `;
-//     return newMutation
-// };
-//
-// const url = "/api/token";
-// const opts = (items) => ({
-//     method: "POST",
-//     headers: {"Content-Type": "application/json"},
-//     body: JSON.stringify({query: mutationSaveNewListOrder(items)}),
-// });
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 
 
-const DragHandle = SortableHandle(() => <i tabIndex="0"
-                                           className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
-
-const SortableItem = SortableElement(({value, active, setActive, setItems, itemIndex}) =>
+const ItemCard = ({active, itemIndex, item, setActive, provided}) => (
     <>
         {active ? <div className="mb-2 bg-white rounded-lg border border-gray-200 shadow-sm">
-            <div className="w-full text-center z-50"><DragHandle/></div>
-            <ActiveCard item={value} itemIndex={itemIndex} setItems={newArray => setItems(newArray)}/>
+            <div className="w-full text-center z-50"><DragHandle provided={provided}/></div>
+            <ActiveCard item={item} itemIndex={itemIndex}/>
         </div> : <div className="mb-2 group bg-white rounded-lg border border-gray-200">
-            <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible"><DragHandle/></div>
-            <InactiveCard item={value} setActive={(id) => setActive(id)} itemIndex={itemIndex}
-                          setItems={newArray => setItems(newArray)}/>
+            <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible"><DragHandle
+                provided={provided}/></div>
+            <InactiveCard item={item} setActive={(id) => setActive(id)} itemIndex={itemIndex}/>
         </div>}
     </>
-);
+)
 
-const SortableList = SortableContainer(({items, selectedItem, setActive, setItems}) => {
-    return (
-        <ul>
-            {items.map((value, index) => (
-                <SortableItem key={`item-${value.id}`} value={value} active={selectedItem === value.id}
-                              setActive={() => setActive(value.id)} itemIndex={index}
-                              setItems={newArray => setItems([...items,])}/>
-            ))}
-        </ul>
-    );
-});
+const DragHandle = ({provided}) => (<i tabIndex="0" {...provided.dragHandleProps}
+                                       className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
 
-const InactiveCard = ({active, setSaveStatus, item, itemIndex, setActive, setItems}) => {
+const InactiveCard = ({active, setSaveStatus, item, itemIndex, setActive}) => {
     return (<div onClick={(e) => {
         setActive(item.id)
     }}
@@ -64,37 +34,60 @@ const InactiveCard = ({active, setSaveStatus, item, itemIndex, setActive, setIte
         }}
                 className="text-left block w-full active:outline-none focus:shadow-outline focus:outline-none overflow-hidden">
             <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} itemIndex={itemIndex}
-                       active={active} setItems={newArray => setItems(newArray)} item={item}/>
+                       active={active} item={item}/>
         </button>
     </div>)
 };
 
-const ActiveCard = ({setSaveStatus, item, itemIndex, setItems}) => {
+const ActiveCard = ({setSaveStatus, item, itemIndex}) => {
     return (
         <div
             className="flex flex-grow-0 justify-between text-left z-40">
             <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} itemIndex={itemIndex}
-                       active={true} setItems={newArray => setItems(newArray)} item={item}/>
+                       active={true} item={item}/>
         </div>)
 };
 
 
 export const DnDList = ({items, setSaveStatus}) => {
-    const [listItems, setItems] = useState(items);
     const [selectedItem, setSelectedItem] = useState('');
     const {quiz, dispatch} = useContext(QuizContext);
 
-    const onSortEnd = ({oldIndex, newIndex}) => {
-        setItems(arrayMove(listItems, oldIndex, newIndex));
+    const onSortEnd = (result) => {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
+
+        dispatch({
+            type: 'UPDATE-ITEM-ARRAY',
+            payload: arrayMove(quiz.sections[0].items, result.source.index, result.destination.index)
+        })
     };
 
 
     return (
-        <>
-            <SortableList items={quiz.sections[0].items} setItems={newItemArray => setItems(newItemArray)} onSortEnd={onSortEnd}
-                          lockAxis="y" useDragHandle selectedItem={selectedItem}
-                          setActive={(id) => setSelectedItem(id)}/>
-        </>
+        <DragDropContext onDragEnd={onSortEnd}>
+            <JsonDebugBox content={quiz}/>
+            <Droppable droppableId={quiz.sections[0].id}>
+                {(provided, snapshot) => (
+                    <div {...provided.droppableProps} ref={provided.innerRef}>
+                        {quiz.sections[0].items.map((item, index) => <Draggable key={item.id} draggableId={item.id}
+                                                                                index={index}>
+                            {(provided, snapshot) => <div ref={provided.innerRef}
+                                                          {...provided.draggableProps}>
+                                <ItemCard
+                                    provided={provided}
+                                    active={selectedItem === item.id}
+                                    itemIndex={index}
+                                    setActive={() => setSelectedItem(item.id)}
+                                    item={item}/></div>}
+                        </Draggable>)}
+                        {provided.placeholder}
+                    </div>
+                )}
+            </Droppable>
+        </DragDropContext>
     );
 
 };

@@ -4,7 +4,6 @@ import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable
 import arrayMove from 'array-move';
 import AnswerChoice from "./MultipleChoice/AnswerChoice";
 import PropTypes from "prop-types";
-import JsonDebugBox from "../../JsonDebugBox";
 import QuizContext from "../QuizContext";
 
 const DragHandle = SortableHandle(() => <i
