@@ -57,6 +57,23 @@ export default function quizReducer(state, action) {
 
             return {...state, sections: newArray}
         }
+        case 'SET-CORRECT-ANSWER-CHOICE': {
+            let newAnswerObject = [...state.sections[0].items[action.itemIndex].answer_objects]
+            const found = newAnswerObject.findIndex(element => element.is_correct)
+            newAnswerObject[found].is_correct = false;
+            newAnswerObject[action.answerIndex].is_correct = true;
+
+            let newItem = state.sections[0].items[action.itemIndex]
+            newItem.answer_object = newAnswerObject
+
+            let newItemArray = [...state.sections[0].items]
+            newItemArray.splice(action.index, 1, newItem)
+
+            let newArray = [...state.sections]
+            newArray.splice(0, 1, {items: newItemArray})
+
+            return {...state, sections: newArray}
+        }
         case 'UPDATE-QUIZ-TITLE': {
             return {...state, title: action.value}
         }

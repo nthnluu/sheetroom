@@ -5,7 +5,7 @@ import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useContext, useEffect, useReducer, useState} from "react";
 import {UPDATE_ASSIGNMENT_TITLE} from "../../../gql/assignmentAutosave";
 import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 import QuizContext from "../../../Components/QuizEditor/QuizContext";
@@ -50,6 +50,7 @@ const quizSampleData = {
         }
     ]
 };
+
 
 const PageContent = ({data, aid}) => {
 

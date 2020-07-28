@@ -20,7 +20,7 @@ const AnswerChoice = ({onBlurHandler, active, choice, dragHandler, answerIndex, 
                 <span className="table-cell w-full pointer-events-auto">
                     <RichTextField uniqueId={choice.id} active={active} initialContent={choice.content}
                                    onBlurEvent={(value) => dispatch({type: 'UPDATE-ANSWER-CHOICE-CONTENT', itemIndex: itemIndex, answerIndex: answerIndex, payload: value})}/></span>
-                {choice.is_correct ? <i className="fas fa-check table-cell"/> : (active ? <i className="far fa-circle table-cell text-gray-300"/>: null)}
+                {choice.is_correct ? <i className="fas fa-check table-cell"/> : (active ? <button onClick={() => dispatch({type: 'SET-CORRECT-ANSWER-CHOICE', itemIndex: itemIndex, answerIndex: answerIndex})}><i className="far fa-circle table-cell text-gray-300"/></button>: null)}
             </div>
         </>
     )

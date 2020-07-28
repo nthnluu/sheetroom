@@ -30,7 +30,7 @@ const DragHandle = SortableHandle(() => <i tabIndex="0"
 
 const SortableItem = SortableElement(({value, active, setActive, setItems, itemIndex}) =>
     <>
-        {active ? <div className="mb-2 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+        {active ? <div className="mb-2 bg-white rounded-lg border border-gray-200 shadow-sm">
             <div className="w-full text-center z-50"><DragHandle/></div>
             <ActiveCard item={value} itemIndex={itemIndex} setItems={newArray => setItems(newArray)}/>
         </div> : <div className="mb-2 group bg-white rounded-lg border border-gray-200">
