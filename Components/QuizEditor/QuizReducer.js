@@ -62,19 +62,17 @@ export default function quizReducer(state, action) {
         case 'SET-CORRECT-ANSWER-CHOICE': {
             let newAnswerObject = [...state.sections[0].items[action.itemIndex].answer_objects]
             const found = newAnswerObject.findIndex(element => element.is_correct)
-            if (found !== -1) {
-                newAnswerObject[found].is_correct = false;
-            }
+            newAnswerObject[found].is_correct = false;
             newAnswerObject[action.answerIndex].is_correct = true;
 
-            let newItem = state.sections[0].items[action.itemIndex]
-            newItem.answer_object = newAnswerObject
+            let newItem = {...state.sections[0].items[action.itemIndex]}
+            newItem.answer_objects = newAnswerObject
 
             let newItemArray = [...state.sections[0].items]
-            newItemArray.splice(action.index, 1, newItem)
+            newItemArray.splice(action.itemIndex, 1, newItem)
 
             let newArray = [...state.sections]
-            newArray.splice(0, 1, {items: newItemArray})
+            newArray.splice(0, 1, {id: state.sections[0].id, items: newItemArray})
 
             return {...state, sections: newArray}
         }
