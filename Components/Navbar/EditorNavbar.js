@@ -37,7 +37,7 @@ export default function ({saveStatus, setSaveStatus}) {
     }, [quiz]);
 
     function saveTitle() {
-        if (inputValue.length > 1) {
+        if (inputValue.length > 1 && inputValue !== quiz.title) {
             setSaveStatus(1)
             dispatch({type: 'UPDATE-QUIZ-TITLE', value: inputValue})
             updateTitle({variables: {title: inputValue, assignmentId: quiz.id}})

@@ -32,3 +32,12 @@ export const UPDATE_ITEM_CONTROLLER = gql`
 }
 `;
 
+export function debounce(func, waitTime) {
+    let timeout;
+
+    return function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(func, waitTime);
+    };
+};
+
