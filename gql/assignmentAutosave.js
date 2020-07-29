@@ -24,3 +24,11 @@ export const UPDATE_ITEM_TYPE = gql`
 }
 `;
 
+export const UPDATE_ITEM_CONTROLLER = gql`
+  mutation UpdateItemContent($itemId: uuid!, $controller: json!) {
+  update_assignments_item_by_pk(pk_columns: {id: $itemId}, _set: {answer_controller: $controller}){
+    __typename
+  }
+}
+`;
+

@@ -12,6 +12,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
     const labelId = 'label-' + choice.id;
     const {quiz, dispatch} = useContext(QuizContext);
 
+
     return (
         <>
             <div id={labelId} htmlFor={inputId}

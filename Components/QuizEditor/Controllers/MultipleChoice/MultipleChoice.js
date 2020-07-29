@@ -5,6 +5,8 @@ import arrayMove from 'array-move';
 import AnswerChoice from "./AnswerChoice";
 import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
+import {useMutation} from "@apollo/react-hooks";
+import {UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400" tabIndex="0"/>);
@@ -31,9 +33,15 @@ const SortableList = SortableContainer(({items, active, itemIndex}) => {
 
 export const MultipleChoiceController = ({active, answerChoices, setAnswerChoices, setSaveStatus, itemId, setItems, itemIndex}) => {
     const {quiz, dispatch} = useContext(QuizContext);
+    const [saveController] = useMutation(UPDATE_ITEM_CONTROLLER)
 
     const onSortEnd = ({oldIndex, newIndex}) => {
+        setSaveStatus(1)
         dispatch({type: 'UPDATE-ANSWER-CHOICE-ARRAY', index: itemIndex, payload: arrayMove(answerChoices, oldIndex, newIndex)})
+        saveController({variables: {itemId: itemId, controller: arrayMove(answerChoices, oldIndex, newIndex)}})
+            .then(() => setSaveStatus(0))
+            .catch(() => setSaveStatus(2));
+
     };
 
     return (
