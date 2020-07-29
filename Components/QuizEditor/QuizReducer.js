@@ -84,8 +84,8 @@ export default function quizReducer(state, action) {
             let newAnswerObject = {
                 "id": uuidv4(),
                 "item": action.itemId,
-                "is_correct": state.sections[0].items[action.itemIndex].answer_controller.length === 0,
-                "index": state.sections[0].items[action.itemIndex].answer_controller.length,
+                "is_correct": state.sections[0].items[action.itemIndex].answer_controller ? state.sections[0].items[action.itemIndex].answer_controller.length === 0 : true,
+                "index": state.sections[0].items[action.itemIndex].answer_controller ? state.sections[0].items[action.itemIndex].answer_controller.length : 0,
                 "content": [
                     {
                         "children": [

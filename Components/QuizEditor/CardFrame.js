@@ -16,8 +16,8 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
             case("MA"):
                 return <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} answerChoices={item.answer_controller}/>
             default:
-                return <p className="w-full p-3 bg-red-100 text-red-800 rounded-lg"><i
-                    className="fas fa-exclamation-circle mr-2"/><strong>Error: </strong>Something went wrong with this item.</p>
+                return <p className="w-full p-3 text-red-600 border border-red-600 rounded-lg"><i
+                    className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact support if this error persists.</p>
         }
     }
     return (

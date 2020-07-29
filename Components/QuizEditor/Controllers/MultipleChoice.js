@@ -21,9 +21,9 @@ const SortableList = SortableContainer(({items, active, itemIndex}) => {
 
     return (
         <ul className="space-y-4 mb-4">
-            {items.map((value, index) => (
+            {items ? items.map((value, index) => (
                 <SortableItem key={`item-${value.id}`} value={value} answerIndex={index} itemIndex={itemIndex} index={index} active={active}/>
-            ))}
+            )) : null}
         </ul>
     );
 });
@@ -50,12 +50,12 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
                     </button>
                 </div>
             </div> : <div className="space-y-4">
-                {answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
+                {answerChoices ? answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
                                                                     choice={choice}
                                                                     setSaveStatus={status => setSaveStatus(status)}
                                                                     key={choice.id + "_inactive"}
                                                                     content={choice.content}
-                                                                    selected={choice.is_correct}/>)}
+                                                                    selected={choice.is_correct}/>) : null}
             </div>}
         </div>
 

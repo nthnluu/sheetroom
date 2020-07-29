@@ -28,7 +28,7 @@ export default function ({sidebar, thirdArea, title, content, newButton, editabl
                 {navbar}
             </nav>
 
-            <main className="pt-12">
+            <main className="pt-14">
                 <div className="max-w-6xl mx-auto sm:px-6 lg:px-8">
                     <div className="px-4 py-8 sm:px-0">
                         {content}
