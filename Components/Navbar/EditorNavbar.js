@@ -3,9 +3,12 @@ import React, {useContext, useEffect, useState} from "react";
 import QuizContext from "../QuizEditor/QuizContext";
 import Tooltip from "@material-ui/core/Tooltip";
 import NewTooltip from "../Misc/Tooltip";
+import {useMutation} from "@apollo/react-hooks";
+import {UPDATE_ASSIGNMENT_TITLE} from "../../gql/assignmentAutosave";
 
-export default function ({isSaving, saveError}) {
+export default function ({saveStatus, setSaveStatus}) {
     const {quiz, dispatch} = useContext(QuizContext);
+    const [updateTitle, {data}] = useMutation(UPDATE_ASSIGNMENT_TITLE)
 
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
@@ -13,12 +16,20 @@ export default function ({isSaving, saveError}) {
 
     const [inputValue, setInputValue] = useState(quiz.title);
 
-    // useEffect(() => {
-    //     setInputValue(title);
-    //
-    // }, [title]);
+    useEffect(() => {
+        setInputValue(quiz.title);
 
+    }, [quiz]);
 
+    function saveTitle ()  {
+        if (inputValue.length > 1) {
+            setSaveStatus(1)
+            dispatch({type: 'UPDATE-QUIZ-TITLE', value: inputValue})
+            updateTitle({variables: {title: inputValue, assignmentId: quiz.id}})
+                .then(() => setSaveStatus(0))
+                .catch(() => {setSaveStatus(2); console.log('error')});
+        }
+    }
 
     return (
         <nav className="bg-white border-b border-gray-200">
@@ -29,7 +40,7 @@ export default function ({isSaving, saveError}) {
                             <NewTooltip title="Return to dashboard" placement="bottom" arrow enterDelay={500} enterNextDelay={500}><button onClick={() => window.location.href = '/'} className="active:text-gray-500 hover:text-gray-300 focus:text-gray-300"><i className="fas fa-arrow-left text-gray-400 mr-2"/></button></NewTooltip>
 
                             <NewTooltip title="Rename Assignment" placement="bottom" arrow enterDelay={500} enterNextDelay={500}>
-                            <input onBlur={() => dispatch({type: 'UPDATE-QUIZ-TITLE', value: inputValue})} style={{textOverflow: "ellipsis"}}
+                            <input onBlur={() => saveTitle()} style={{textOverflow: "ellipsis"}} placeholder="Untitled Assignment"
                                    className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
                                    value={inputValue} onChange={event => setInputValue(event.target.value)}/></NewTooltip>
                         </div>
@@ -65,7 +76,7 @@ export default function ({isSaving, saveError}) {
                         <div className="space-x-2">
                             <button type="button"
                                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
-                                {saveError ? <span className="text-red-500"><i className="fas fa-exclamation-circle mr-2"/>Error</span> : (isSaving ? <span><i className="fas fa-sync-alt mr-2 fa-spin text-gray-400"/>Saving</span> : <span><i className="fas fa-check mr-2 text-green-500"/>Saved</span>)}
+                                {saveStatus === 2 ? <span className="text-red-500"><i className="fas fa-exclamation-circle mr-2"/>Error</span> : (saveStatus === 1 ? <span><i className="fas fa-sync-alt mr-2 fa-spin text-gray-400"/>Saving</span> : <span><i className="fas fa-check mr-2 text-green-500"/>Saved</span>)}
                             </button>
                             <button type="button"
                                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">

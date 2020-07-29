@@ -1,16 +1,14 @@
 import {useRouter} from 'next/router'
 import {ASSIGNMENT_WS, QUIZ} from "../../../gql/quizzes";
-import {useMutation, useQuery, useSubscription} from "@apollo/react-hooks";
+import {useSubscription} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
 import React, {useContext, useEffect, useReducer, useState} from "react";
-import {UPDATE_ASSIGNMENT_TITLE} from "../../../gql/assignmentAutosave";
 import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 import QuizContext from "../../../Components/QuizEditor/QuizContext";
 import QuizReducer from "../../../Components/QuizEditor/QuizReducer";
-import JsonDebugBox from "../../../Components/JsonDebugBox";
 import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -33,12 +31,18 @@ const PageContent = ({data, aid}) => {
     const [saveStatus, setSaveStatus] = useState(0);
     const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
 
+    useEffect(() => {
+        dispatch({type: "REFRESH-QUIZ", quiz: data.assignments_assignment_by_pk});
+
+    }, [data]);
+
+
 
     return (
-
         <QuizContext.Provider value={{quiz, dispatch}}>
             <AppLayout pageId={aid}
-                       navbar={<EditorNavbar isSaving={saveStatus === 1} saveError={saveStatus == 2}
+                       navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
+                                             saveStatus={saveStatus}
                                              onTitleBlur={(value) => {
                                                  if (value === data.assignments_assignment_by_pk.title) {
 
@@ -53,7 +57,7 @@ const PageContent = ({data, aid}) => {
                                                          .then(() => setSaveStatus(0))
                                                          .catch((error) => setSaveStatus(2));
                                                  }
-                                             }} title={data.title}/>}
+                                             }} title={quiz.title}/>}
                        content={
                            <div key={aid} className="max-w-7xl mx-auto">
                                {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
@@ -186,7 +190,6 @@ const PageContent = ({data, aid}) => {
                        questionMenu
                        windowTitle={quiz.title}/>
         </QuizContext.Provider>
-
     )
 };
 

@@ -3,6 +3,12 @@ import {v4 as uuidv4} from 'uuid';
 
 export default function quizReducer(state, action) {
     switch (action.type) {
+        case 'REFRESH-QUIZ': {
+            //Replaces a FIELD (fieldName) of an ITEM with PAYLOAD
+            //requires an INDEX, the FIELDNAME and the new PAYLOAD
+            let newArray = action.quiz
+            return newArray;
+        }
         case 'UPDATE-ITEM-FIELD': {
             //Replaces a FIELD (fieldName) of an ITEM with PAYLOAD
             //requires an INDEX, the FIELDNAME and the new PAYLOAD
