@@ -29,7 +29,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
                     </NewTooltip>: null}
                     {active ? <NewTooltip title="Mark as correct" placement="bottom" enterDelay={500}  enterNextDelay={500}>
                         <button onClick={() => dispatch({type: 'SET-CORRECT-CHECK-ANSWER-CHOICE', itemIndex: itemIndex, answerIndex: answerIndex})}><i className={choice.is_correct ? "fas fa-check-square table-cell" : "far fa-square table-cell text-gray-300"}/></button>
-                    </NewTooltip>: null}
+                    </NewTooltip>: <i className={choice.is_correct ? "fas fa-check-square table-cell" : "hidden"}/>}
                 </div>
 
             </div>

@@ -12,7 +12,7 @@ subscription AssignmentByPk($id: uuid!) {
       items(order_by: {index: asc}) {
         id
         content
-        type
+        controller_type
         index
         answer_controller
       }

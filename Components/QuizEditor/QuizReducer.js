@@ -1,5 +1,5 @@
 import {useReducer} from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 
 export default function quizReducer(state, action) {
     switch (action.type) {
@@ -33,6 +33,56 @@ export default function quizReducer(state, action) {
         case 'UPDATE-ITEM-CONTENT': {
             let newItem = state.sections[0].items[action.index]
             newItem.content = action.payload
+
+            let newItemArray = [...state.sections[0].items]
+            newItemArray.splice(action.index, 1, newItem)
+
+            let newArray = [...state.sections]
+            newArray.splice(0, 1, {items: newItemArray})
+
+            return {...state, sections: newArray}
+        }
+        case 'UPDATE-ITEM-TYPE': {
+            let newItem = state.sections[0].items[action.index]
+
+            let newAnswerObject = [...state.sections[0].items[action.index].answer_controller]
+            const result = newAnswerObject.filter((element, index) => element.is_correct === true);
+            if (newAnswerObject.length === 0) {
+                let newAnsObject = {
+                    "id": uuidv4(),
+                    "item": action.itemId,
+                    "is_correct": true,
+                    "content": [
+                        {
+                            "children": [
+                                {
+                                    "text": "Answer Choice"
+                                }
+                            ],
+                            "type": "paragraph"
+                        }
+                    ],
+                    "__typename": "assignments_answer_object"
+                }
+                newAnswerObject = [...newAnswerObject, newAnsObject]
+            } else {
+                if (result.length > 1) {
+                    newAnswerObject.forEach((element, index) => {
+                        if (index === 0) {
+                            element.is_correct = true;
+                        } else {
+                            element.is_correct = false;
+                        }
+                    })
+                } else {
+                    if (result.length === 0) {
+                        newAnswerObject[0].is_correct = true;
+                    }
+                }
+            }
+
+            newItem.controller_type = action.controller_type
+            newItem.answer_controller = newAnswerObject
 
             let newItemArray = [...state.sections[0].items]
             newItemArray.splice(action.index, 1, newItem)
@@ -146,8 +196,8 @@ export default function quizReducer(state, action) {
 
             return {...state, sections: newArray}
         }
-    }
 
+    }
 
 
 }

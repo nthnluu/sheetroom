@@ -1,12 +1,14 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Select} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import Box from "@material-ui/core/Box";
 import {Divider} from "@material-ui/core";
+import QuizContext from "../QuizEditor/QuizContext";
 
-const QuestionCardDropdown = ({active, value}) => {
+const QuestionCardDropdown = ({active, value, itemIndex}) => {
     const [dropdownCurrentItem, setCurrentDropdown] = useState({value: 'MC', label: 'Multiple Choice'});
+    const {quiz, dispatch} = useContext(QuizContext);
 
     const customStyles = {
         option: (provided, state) => ({
@@ -42,7 +44,8 @@ const QuestionCardDropdown = ({active, value}) => {
     ];
 
     const handleChange = selectedOption => {
-        setCurrentDropdown(selectedOption);
+        console.log(selectedOption)
+        dispatch({type: 'UPDATE-ITEM-TYPE', index: itemIndex, controller_type: selectedOption.target.value});
     };
 
     const NewMenuItem = ({title, value}) => (<MenuItem value={value}><Box p={1}>

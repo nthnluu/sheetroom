@@ -11,7 +11,7 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     const {quiz, dispatch} = useContext(QuizContext);
 
     const Controller = ({item, itemIndex, setSaveStatus, active}) => {
-        switch (item.type) {
+        switch (item.controller_type) {
             case("MC"):
                 return <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} answerChoices={item.answer_controller}/>
             case("MA"):
@@ -33,7 +33,7 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                     <Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item} itemIndex={itemIndex}/>
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
-                    <QuestionCardDropdown active={active} value={item.type}/>
+                    <QuestionCardDropdown active={active} value={item.controller_type} itemIndex={itemIndex}/>
                 </div>
             </div>
         </div>
