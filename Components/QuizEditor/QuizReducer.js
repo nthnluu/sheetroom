@@ -1,4 +1,5 @@
 import {useReducer} from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function quizReducer(state, action) {
     switch (action.type) {
@@ -70,6 +71,38 @@ export default function quizReducer(state, action) {
 
             let newItem = {...state.sections[0].items[action.itemIndex]}
             newItem.answer_objects = newAnswerObject
+
+            let newItemArray = [...state.sections[0].items]
+            newItemArray.splice(action.itemIndex, 1, newItem)
+
+            let newArray = [...state.sections]
+            newArray.splice(0, 1, {id: state.sections[0].id, items: newItemArray})
+
+            return {...state, sections: newArray}
+        }
+        case 'CREATE-NEW-ANSWER-OBJECT': {
+            let newAnswerObject = {
+                "id": uuidv4(),
+                "item": action.itemId,
+                "is_correct": state.sections[0].items[action.itemIndex].answer_objects.length === 0,
+                "index": state.sections[0].items[action.itemIndex].answer_objects.length,
+                "content": [
+                    {
+                        "children": [
+                            {
+                                "text": "Answer Choice"
+                            }
+                        ],
+                        "type": "paragraph"
+                    }
+                ],
+                "__typename": "assignments_answer_object"
+            }
+
+            let newAnswerArray = [...state.sections[0].items[action.itemIndex].answer_objects, newAnswerObject]
+
+            let newItem = {...state.sections[0].items[action.itemIndex]}
+            newItem.answer_objects = newAnswerArray
 
             let newItemArray = [...state.sections[0].items]
             newItemArray.splice(action.itemIndex, 1, newItem)

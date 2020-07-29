@@ -1,6 +1,8 @@
 import Transition from "../Transition";
 import React, {useContext, useEffect, useState} from "react";
 import QuizContext from "../QuizEditor/QuizContext";
+import Tooltip from "@material-ui/core/Tooltip";
+import NewTooltip from "../Misc/Tooltip";
 
 export default function ({isSaving, saveError}) {
     const {quiz, dispatch} = useContext(QuizContext);
@@ -24,10 +26,12 @@ export default function ({isSaving, saveError}) {
                 <div className="flex justify-between h-16">
                     <div className="flex px-2 lg:px-0">
                         <div className="flex justify-between items-center">
-                            <button onClick={() => window.location.href = '/'} className="active:outline-none active:text-gray-500 hover:text-gray-300 focus:text-gray-300"><i className="fas fa-arrow-left text-gray-400 mr-2"/></button>
+                            <NewTooltip title="Return to dashboard" placement="bottom" arrow enterDelay={500} enterNextDelay={500}><button onClick={() => window.location.href = '/'} className="active:text-gray-500 hover:text-gray-300 focus:text-gray-300"><i className="fas fa-arrow-left text-gray-400 mr-2"/></button></NewTooltip>
+
+                            <NewTooltip title="Rename Assignment" placement="bottom" arrow enterDelay={500} enterNextDelay={500}>
                             <input onBlur={() => dispatch({type: 'UPDATE-QUIZ-TITLE', value: inputValue})} style={{textOverflow: "ellipsis"}}
                                    className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
-                                   value={inputValue} onChange={event => setInputValue(event.target.value)}/>
+                                   value={inputValue} onChange={event => setInputValue(event.target.value)}/></NewTooltip>
                         </div>
                     </div>
                     <div className="flex items-center lg:hidden">

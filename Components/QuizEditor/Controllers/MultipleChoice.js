@@ -43,15 +43,7 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
                               lockToContainerEdges/>
                 <div className="space-x-2">
                     <button type="button" onClick={() => {
-                        const newOption = {
-                            "id": uuidv4(),
-                            "item": itemId,
-                            "is_correct": (answerChoices.length <= 0),
-                            "index": answerChoices.length,
-                            "content": [{"children": [{"text": ""}], "type": "paragraph"}],
-                            "__typename": "assignments_answer_objects"
-                        };
-                        setAnswerChoices([...answerChoices, newOption]);
+                        dispatch({type: 'CREATE-NEW-ANSWER-OBJECT', itemId: itemId, itemIndex: itemIndex})
                     }}
                             className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         Add option
