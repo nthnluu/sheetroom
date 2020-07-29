@@ -5,10 +5,13 @@ import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 import QuizContext from "./QuizContext";
 import JsonDebugBox from "../JsonDebugBox";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
+import {useMutation} from "@apollo/react-hooks";
+import {UPDATE_ITEM_CONTENT} from "../../gql/assignmentAutosave";
 
 
 const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     const {quiz, dispatch} = useContext(QuizContext);
+    const [mutateItemContent, {data}] = useMutation(UPDATE_ITEM_CONTENT)
 
     const Controller = ({item, itemIndex, setSaveStatus, active}) => {
         switch (item.controller_type) {
@@ -21,6 +24,14 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                     className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact support if this error persists.</p>
         }
     }
+
+    const saveItemContent = (value) => {
+        setSaveStatus(1)
+        dispatch({type: 'UPDATE-ITEM-CONTENT', index: itemIndex, payload: value})
+        mutateItemContent({variables: {itemId: item.id, content: value}})
+            .then(() => setSaveStatus(0))
+            .catch(() => setSaveStatus(2));
+    }
     return (
         <div className="bg-white focus:shadow-outline w-full pt-2 pb-8 px-8 focus:outline-none rounded-lg">
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
@@ -28,7 +39,7 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
                         <RichTextField border active={active} initialContent={item.content} autofocus
-                                       onBlurEvent={(value) => dispatch({type: 'UPDATE-ITEM-CONTENT', index: itemIndex, payload: value})} uniqueId={item.id}/>
+                                       onBlurEvent={(value) => saveItemContent(value)} uniqueId={item.id}/>
                     </div>
                     <Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item} itemIndex={itemIndex}/>
                 </div>

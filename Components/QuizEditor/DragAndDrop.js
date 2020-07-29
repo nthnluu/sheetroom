@@ -7,16 +7,18 @@ import QuizContext from "./QuizContext";
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 
 
-const ItemCard = ({active, itemIndex, item, setActive, provided}) => (
+
+const ItemCard = ({active, itemIndex, item, setActive, provided, setSaveStatus}) => (
     <>
-        {active ? <div className="mb-4 bg-white rounded-lg border border-gray-300 shadow-xl">
-            <div className="w-full text-center z-50"><DragHandle provided={provided}/></div>
-            <ActiveCard item={item} itemIndex={itemIndex}/>
-        </div> : <div className="mb-4 group bg-white rounded-lg border border-gray-200">
-            <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible"><DragHandle
-                provided={provided}/></div>
-            <InactiveCard item={item} setActive={(id) => setActive(id)} itemIndex={itemIndex}/>
-        </div>}
+
+            {active ? <div className="mb-4 bg-white rounded-lg border border-gray-300 shadow-xl">
+                <div className="w-full text-center z-50"><DragHandle provided={provided}/></div>
+                <ActiveCard item={item} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)}/>
+            </div> : <div className="mb-4 group bg-white rounded-lg border border-gray-200">
+                <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible"><DragHandle
+                    provided={provided}/></div>
+                <InactiveCard item={item} setActive={(id) => setActive(id)} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)}/>
+            </div>}
     </>
 )
 
@@ -41,11 +43,13 @@ const InactiveCard = ({active, setSaveStatus, item, itemIndex, setActive}) => {
 
 const ActiveCard = ({setSaveStatus, item, itemIndex}) => {
     return (
+
         <div
             className="flex flex-grow-0 justify-between text-left z-40">
             <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemData={item} itemIndex={itemIndex}
                        active={true} item={item}/>
-        </div>)
+        </div>
+    )
 };
 
 
@@ -76,6 +80,7 @@ export const DnDList = ({items, setSaveStatus}) => {
                             {(provided, snapshot) => <div ref={provided.innerRef}
                                                           {...provided.draggableProps}>
                                 <ItemCard
+                                    setSaveStatus={status => setSaveStatus(status)}
                                     provided={provided}
                                     active={selectedItem === item.id}
                                     itemIndex={index}

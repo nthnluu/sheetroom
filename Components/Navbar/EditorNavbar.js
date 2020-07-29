@@ -5,6 +5,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import NewTooltip from "../Misc/Tooltip";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ASSIGNMENT_TITLE} from "../../gql/assignmentAutosave";
+import Popper from '@material-ui/core/Popper';
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 export default function ({saveStatus, setSaveStatus}) {
     const {quiz, dispatch} = useContext(QuizContext);
@@ -16,18 +18,34 @@ export default function ({saveStatus, setSaveStatus}) {
 
     const [inputValue, setInputValue] = useState(quiz.title);
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
+
+    const handleClickAway = (event) => {
+        setAnchorEl(!anchorEl ? null : event.currentTarget);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popper' : undefined;
+
     useEffect(() => {
         setInputValue(quiz.title);
 
     }, [quiz]);
 
-    function saveTitle ()  {
+    function saveTitle() {
         if (inputValue.length > 1) {
             setSaveStatus(1)
             dispatch({type: 'UPDATE-QUIZ-TITLE', value: inputValue})
             updateTitle({variables: {title: inputValue, assignmentId: quiz.id}})
                 .then(() => setSaveStatus(0))
-                .catch(() => {setSaveStatus(2); console.log('error')});
+                .catch(() => {
+                    setSaveStatus(2);
+                    console.log('error')
+                });
         }
     }
 
@@ -37,12 +55,20 @@ export default function ({saveStatus, setSaveStatus}) {
                 <div className="flex justify-between h-16">
                     <div className="flex px-2 lg:px-0">
                         <div className="flex justify-between items-center">
-                            <NewTooltip title="Return to dashboard" placement="bottom" arrow enterDelay={500} enterNextDelay={500}><button onClick={() => window.location.href = '/'} className="active:text-gray-500 hover:text-gray-300 focus:text-gray-300"><i className="fas fa-arrow-left text-gray-400 mr-2"/></button></NewTooltip>
+                            <NewTooltip title="Return to dashboard" placement="bottom" arrow enterDelay={500}
+                                        enterNextDelay={500}>
+                                <button onClick={() => window.location.href = '/'}
+                                        className="active:text-gray-500 hover:text-gray-300 focus:text-gray-300"><i
+                                    className="fas fa-arrow-left text-gray-400 mr-2"/></button>
+                            </NewTooltip>
 
-                            <NewTooltip title="Rename Assignment" placement="bottom" arrow enterDelay={500} enterNextDelay={500}>
-                            <input onBlur={() => saveTitle()} style={{textOverflow: "ellipsis"}} placeholder="Untitled Assignment"
-                                   className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
-                                   value={inputValue} onChange={event => setInputValue(event.target.value)}/></NewTooltip>
+                            <NewTooltip title="Rename Assignment" placement="bottom" arrow enterDelay={500}
+                                        enterNextDelay={500}>
+                                <input onBlur={() => saveTitle()} style={{textOverflow: "ellipsis"}}
+                                       placeholder="Untitled Assignment"
+                                       className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
+                                       value={inputValue}
+                                       onChange={event => setInputValue(event.target.value)}/></NewTooltip>
                         </div>
                     </div>
                     <div className="flex items-center lg:hidden">
@@ -74,10 +100,22 @@ export default function ({saveStatus, setSaveStatus}) {
 
                         {/*// <!-- Profile dropdown -->*/}
                         <div className="space-x-2">
-                            <button type="button"
+                            <button type="button" aria-describedby={id} onClick={handleClick}
                                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
-                                {saveStatus === 2 ? <span className="text-red-500"><i className="fas fa-exclamation-circle mr-2"/>Error</span> : (saveStatus === 1 ? <span><i className="fas fa-sync-alt mr-2 fa-spin text-gray-400"/>Saving</span> : <span><i className="fas fa-check mr-2 text-green-500"/>Saved</span>)}
+                                {saveStatus === 2 ?
+                                    <span className="text-red-500"><i className="fas fa-exclamation-circle mr-2"/>Error</span> : (saveStatus === 1 ?
+                                        <span><i className="fas fa-sync-alt mr-2 fa-spin text-gray-400"/>Saving</span> :
+                                        <span><i className="fas fa-check mr-2 text-green-500"/>Saved</span>)}
                             </button>
+                            <Popper id={id} open={open} anchorEl={anchorEl}>
+                                <div className="z-50 mt-4 bg-white rounded-lg shadow-lg max-w-sm">
+                                    <div className="p-4 rounded-t-lg text-blue-600 text-center"><i
+                                        className="fas fa-cloud mr-2"/>All changes automatically saved to the
+                                        Homework Cloud.
+                                    </div>
+                                </div>
+                            </Popper>
+
                             <button type="button"
                                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                                 <i className="fas fa-users mr-2"/>Share

@@ -33,8 +33,21 @@ const PageContent = ({data, aid}) => {
 
     useEffect(() => {
         dispatch({type: "REFRESH-QUIZ", quiz: data.assignments_assignment_by_pk});
+        window.addEventListener('beforeunload', handleWindowClose);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleWindowClose);
+        };
 
     }, [data]);
+
+    const handleWindowClose = (e) => {
+        if (saveStatus !== 0) {
+            e.preventDefault();
+            return e.returnValue = 'You have unsaved changes - are you sure you wish to close?';
+        }
+
+    };
 
 
 
@@ -62,6 +75,7 @@ const PageContent = ({data, aid}) => {
                            <div key={aid} className="max-w-7xl mx-auto">
                                {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
                                <DnDList currentItem={currentItem} items={quiz.sections[0].items}
+                                        setSaveStatus={status => setSaveStatus(status)}
                                         setItem={setCurrentItem}/>
                                <div className="pt-12 pb-32">
                                    <div
@@ -215,22 +229,7 @@ const QuizEditor = ({user, session}) => {
     const router = useRouter();
     const {aid} = router.query;
 
-    const handleWindowClose = (e) => {
-        if (saveStatus !== 0) {
-            e.preventDefault();
-            return e.returnValue = 'You have unsaved changes - are you sure you wish to close?';
-        }
 
-    };
-
-    useEffect(() => {
-        window.addEventListener('beforeunload', handleWindowClose);
-
-        return () => {
-            window.removeEventListener('beforeunload', handleWindowClose);
-        };
-
-    });
 
     const {loading, error, data} = useSubscription(ASSIGNMENT_WS, {
         variables: {id: aid}
