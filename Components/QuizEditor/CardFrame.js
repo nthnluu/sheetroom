@@ -15,6 +15,9 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                 return <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} answerChoices={item.answer_controller}/>
             case("MA"):
                 return <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} answerChoices={item.answer_controller}/>
+            default:
+                return <p className="w-full p-3 bg-red-100 text-red-800 rounded-lg"><i
+                    className="fas fa-exclamation-circle mr-2"/><strong>Error: </strong>Something went wrong with this item.</p>
         }
     }
     return (
@@ -27,11 +30,9 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                                        onBlurEvent={(value) => dispatch({type: 'UPDATE-ITEM-CONTENT', index: itemIndex, payload: value})} uniqueId={item.id}/>
                     </div>
                     <Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item} itemIndex={itemIndex}/>
-
-
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
-                    <QuestionCardDropdown active={active}/>
+                    <QuestionCardDropdown active={active} value={item.type}/>
                 </div>
             </div>
         </div>

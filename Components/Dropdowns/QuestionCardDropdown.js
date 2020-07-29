@@ -5,7 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Box from "@material-ui/core/Box";
 import {Divider} from "@material-ui/core";
 
-const QuestionCardDropdown = ({active}) => {
+const QuestionCardDropdown = ({active, value}) => {
     const [dropdownCurrentItem, setCurrentDropdown] = useState({value: 'MC', label: 'Multiple Choice'});
 
     const customStyles = {
@@ -54,7 +54,7 @@ const QuestionCardDropdown = ({active}) => {
         <FormControl variant="outlined" fullWidth disabled={!active}>
             <Select
                 IconComponent="null"
-                value={"MC"}
+                value={value}
                 onChange={handleChange}
             >
                 <MenuItem disableRipple value="MC"><Box p={0}>
