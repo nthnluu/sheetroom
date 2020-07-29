@@ -6,12 +6,13 @@ import QuizContext from "./QuizContext";
 import JsonDebugBox from "../JsonDebugBox";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 import {useMutation} from "@apollo/react-hooks";
-import {UPDATE_ITEM_CONTENT} from "../../gql/assignmentAutosave";
+import {UPDATE_ITEM_CONTENT, UPDATE_ITEM_TYPE} from "../../gql/assignmentAutosave";
 
 
 const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     const {quiz, dispatch} = useContext(QuizContext);
-    const [mutateItemContent, {data}] = useMutation(UPDATE_ITEM_CONTENT)
+    const [mutateItemContent] = useMutation(UPDATE_ITEM_CONTENT)
+    const [mutateItemType] = useMutation(UPDATE_ITEM_TYPE)
 
     const Controller = ({item, itemIndex, setSaveStatus, active}) => {
         switch (item.controller_type) {
@@ -32,6 +33,13 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
             .then(() => setSaveStatus(0))
             .catch(() => setSaveStatus(2));
     }
+
+    const saveItemType = (value) => {
+        setSaveStatus(1)
+        mutateItemType({variables: {itemId: item.id, type: value}})
+            .then(() => setSaveStatus(0))
+            .catch(() => setSaveStatus(2));
+    }
     return (
         <div className="bg-white focus:shadow-outline w-full pt-2 pb-8 px-8 focus:outline-none rounded-lg">
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
@@ -44,7 +52,7 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                     <Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item} itemIndex={itemIndex}/>
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
-                    <QuestionCardDropdown active={active} value={item.controller_type} itemIndex={itemIndex}/>
+                    <QuestionCardDropdown active={active} value={item.controller_type} saveType={value => saveItemType(value)} itemIndex={itemIndex}/>
                 </div>
             </div>
         </div>

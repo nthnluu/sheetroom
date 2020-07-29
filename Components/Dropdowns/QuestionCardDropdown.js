@@ -6,7 +6,7 @@ import Box from "@material-ui/core/Box";
 import {Divider} from "@material-ui/core";
 import QuizContext from "../QuizEditor/QuizContext";
 
-const QuestionCardDropdown = ({active, value, itemIndex}) => {
+const QuestionCardDropdown = ({active, value, itemIndex, saveType}) => {
     const [dropdownCurrentItem, setCurrentDropdown] = useState({value: 'MC', label: 'Multiple Choice'});
     const {quiz, dispatch} = useContext(QuizContext);
 
@@ -44,6 +44,7 @@ const QuestionCardDropdown = ({active, value, itemIndex}) => {
     ];
 
     const handleChange = selectedOption => {
+        saveType(selectedOption.target.value);
         console.log(selectedOption)
         dispatch({type: 'UPDATE-ITEM-TYPE', index: itemIndex, controller_type: selectedOption.target.value});
     };

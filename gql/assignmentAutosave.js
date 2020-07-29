@@ -16,4 +16,11 @@ export const UPDATE_ITEM_CONTENT = gql`
 }
 `;
 
+export const UPDATE_ITEM_TYPE = gql`
+  mutation UpdateItemContent($itemId: uuid!, $type: String!) {
+  update_assignments_item_by_pk(pk_columns: {id: $itemId}, _set: {controller_type: $type}){
+    __typename
+  }
+}
+`;
 
