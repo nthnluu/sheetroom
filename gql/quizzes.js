@@ -15,13 +15,6 @@ subscription AssignmentByPk($id: uuid!) {
         type
         index
         answer_controller
-        answer_objects(order_by: {index: asc}) {
-          id
-          item
-          is_correct
-          index
-          content
-        }
       }
     }
   }

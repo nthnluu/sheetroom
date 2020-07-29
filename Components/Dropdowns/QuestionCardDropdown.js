@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import Select from "@material-ui/core/select";
+import {Select} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import Box from "@material-ui/core/Box";

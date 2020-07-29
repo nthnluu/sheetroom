@@ -112,6 +112,22 @@ export default function quizReducer(state, action) {
 
             return {...state, sections: newArray}
         }
+        case 'DELETE-ANSWER-OBJECT': {
+
+            let newAnswerArray = [...state.sections[0].items[action.itemIndex].answer_controller]
+            newAnswerArray.splice(action.answerIndex, 1)
+
+            let newItem = {...state.sections[0].items[action.itemIndex]}
+            newItem.answer_controller = newAnswerArray
+
+            let newItemArray = [...state.sections[0].items]
+            newItemArray.splice(action.itemIndex, 1, newItem)
+
+            let newArray = [...state.sections]
+            newArray.splice(0, 1, {id: state.sections[0].id, items: newItemArray})
+
+            return {...state, sections: newArray}
+        }
         case 'UPDATE-QUIZ-TITLE': {
             return {...state, title: action.value}
         }
