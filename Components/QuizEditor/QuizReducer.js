@@ -48,14 +48,17 @@ export default function quizReducer(state, action) {
             let newAnswerObjectArray = [...state.sections[0].items[action.itemIndex].answer_objects]
             newAnswerObjectArray.splice(action.answerIndex, 1, newAnswerObject)
 
-            let newItem = state.sections[0].items[action.itemIndex]
-            newItem.answer_object = newAnswerObjectArray
+            let newItem = {...state.sections[0].items[action.itemIndex]}
+            newItem.answer_objects = newAnswerObjectArray
 
             let newItemArray = [...state.sections[0].items]
-            newItemArray.splice(action.index, 1, newItem)
+            newItemArray.splice(action.itemIndex, 1, newItem)
+
+            let newSection = {...state.sections[0]}
+            newSection.items = newItemArray
 
             let newArray = [...state.sections]
-            newArray.splice(0, 1, {items: newItemArray})
+            newArray.splice(0, 1, newSection)
 
             return {...state, sections: newArray}
         }

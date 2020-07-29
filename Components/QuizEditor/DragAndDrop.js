@@ -68,7 +68,7 @@ export const DnDList = ({items, setSaveStatus}) => {
 
     return (
         <DragDropContext onDragEnd={onSortEnd}>
-            <Droppable droppableId={quiz.sections[0].id}>
+            <Droppable droppableId={'droppable'}>
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
                         {quiz.sections[0].items.map((item, index) => <Draggable key={item.id} draggableId={item.id}
