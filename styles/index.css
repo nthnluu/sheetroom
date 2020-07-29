@@ -90,6 +90,11 @@ code {
     color: #323248;
 }
 
+.MuiInputBase-root {
+    border-radius: 0.5rem !important;
+
+}
+
 /*.multipleChoiceRadioButton {*/
 /*    opacity: 0;*/
 /*}*/

@@ -20,7 +20,7 @@ export default function quizReducer(state, action) {
         }
         case 'UPDATE-ANSWER-CHOICE-ARRAY': {
             let updatedItem = state.sections[0].items[action.index]
-            updatedItem.answer_objects = action.payload
+            updatedItem.answer_controller = action.payload
 
             let newItemArray = [...state.sections[0].items]
             newItemArray.splice(action.index, 1, updatedItem)
@@ -43,14 +43,14 @@ export default function quizReducer(state, action) {
             return {...state, sections: newArray}
         }
         case 'UPDATE-ANSWER-CHOICE-CONTENT': {
-            let newAnswerObject = state.sections[0].items[action.itemIndex].answer_objects[action.answerIndex]
+            let newAnswerObject = state.sections[0].items[action.itemIndex].answer_controller[action.answerIndex]
             newAnswerObject.content = action.payload
 
-            let newAnswerObjectArray = [...state.sections[0].items[action.itemIndex].answer_objects]
+            let newAnswerObjectArray = [...state.sections[0].items[action.itemIndex].answer_controller]
             newAnswerObjectArray.splice(action.answerIndex, 1, newAnswerObject)
 
             let newItem = {...state.sections[0].items[action.itemIndex]}
-            newItem.answer_objects = newAnswerObjectArray
+            newItem.answer_controller = newAnswerObjectArray
 
             let newItemArray = [...state.sections[0].items]
             newItemArray.splice(action.itemIndex, 1, newItem)
@@ -64,13 +64,13 @@ export default function quizReducer(state, action) {
             return {...state, sections: newArray}
         }
         case 'SET-CORRECT-ANSWER-CHOICE': {
-            let newAnswerObject = [...state.sections[0].items[action.itemIndex].answer_objects]
+            let newAnswerObject = [...state.sections[0].items[action.itemIndex].answer_controller]
             const found = newAnswerObject.findIndex(element => element.is_correct)
             newAnswerObject[found].is_correct = false;
             newAnswerObject[action.answerIndex].is_correct = true;
 
             let newItem = {...state.sections[0].items[action.itemIndex]}
-            newItem.answer_objects = newAnswerObject
+            newItem.answer_controller = newAnswerObject
 
             let newItemArray = [...state.sections[0].items]
             newItemArray.splice(action.itemIndex, 1, newItem)
@@ -84,8 +84,8 @@ export default function quizReducer(state, action) {
             let newAnswerObject = {
                 "id": uuidv4(),
                 "item": action.itemId,
-                "is_correct": state.sections[0].items[action.itemIndex].answer_objects.length === 0,
-                "index": state.sections[0].items[action.itemIndex].answer_objects.length,
+                "is_correct": state.sections[0].items[action.itemIndex].answer_controller.length === 0,
+                "index": state.sections[0].items[action.itemIndex].answer_controller.length,
                 "content": [
                     {
                         "children": [
@@ -99,10 +99,10 @@ export default function quizReducer(state, action) {
                 "__typename": "assignments_answer_object"
             }
 
-            let newAnswerArray = [...state.sections[0].items[action.itemIndex].answer_objects, newAnswerObject]
+            let newAnswerArray = [...state.sections[0].items[action.itemIndex].answer_controller, newAnswerObject]
 
             let newItem = {...state.sections[0].items[action.itemIndex]}
-            newItem.answer_objects = newAnswerArray
+            newItem.answer_controller = newAnswerArray
 
             let newItemArray = [...state.sections[0].items]
             newItemArray.splice(action.itemIndex, 1, newItem)

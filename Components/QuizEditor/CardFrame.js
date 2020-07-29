@@ -8,6 +8,15 @@ import JsonDebugBox from "../JsonDebugBox";
 
 const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     const {quiz, dispatch} = useContext(QuizContext);
+
+    const Controller = ({item, itemIndex, setSaveStatus, active}) => {
+        switch (item.type) {
+            case("MC"):
+                return <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} answerChoices={item.answer_controller}/>
+            case("MA"):
+                return <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} answerChoices={item.answer_controller}/>
+        }
+    }
     return (
         <div className="bg-white focus:shadow-outline w-full pt-2 pb-8 px-8 focus:outline-none rounded-lg">
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
@@ -17,7 +26,8 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                         <RichTextField border active={active} initialContent={item.content} autofocus
                                        onBlurEvent={(value) => dispatch({type: 'UPDATE-ITEM-CONTENT', index: itemIndex, payload: value})} uniqueId={item.id}/>
                     </div>
-                    <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} setAnswerChoices={newArray => setItemData([...listItems, ])} answerChoices={item.answer_objects}/>
+                    <Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item} itemIndex={itemIndex}/>
+
 
                 </div>
                 <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">

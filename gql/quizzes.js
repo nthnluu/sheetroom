@@ -14,6 +14,7 @@ subscription AssignmentByPk($id: uuid!) {
         content
         type
         index
+        answer_controller
         answer_objects(order_by: {index: asc}) {
           id
           item

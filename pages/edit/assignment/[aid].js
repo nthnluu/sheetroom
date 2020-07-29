@@ -11,45 +11,15 @@ import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 import QuizContext from "../../../Components/QuizEditor/QuizContext";
 import QuizReducer from "../../../Components/QuizEditor/QuizReducer";
 import JsonDebugBox from "../../../Components/JsonDebugBox";
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 
-
-const quizSampleData = {
-    title: "Semester 2 Final",
-    description: "Lorem ipsum dolor sit anem.",
-    items: [
-        {
-            id: '11111111', type: "MC", question: "How many days are in a week?", choices: [
-                {id: "11111a", text: "365 days", isCorrect: true},
-                {id: "11111b", text: "366 days", isCorrect: false},
-                {id: "11111c", text: "367 days", isCorrect: false},
-                {id: "11111d", text: "368 days", isCorrect: false}
-            ]
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#1B65F1',
         },
-        {
-            id: '22222222', type: "MC", question: "How many days are in a month?", choices: [
-                {id: "22222a", text: "30 days", isCorrect: true},
-                {id: "22222b", text: "33 days", isCorrect: false},
-                {id: "22222c", text: "35 days", isCorrect: false},
-                {id: "22222d", text: "37 days", isCorrect: false}
-            ]
-        }, {
-            id: '333333333', type: "MC", question: "How many days are in a month?", choices: [
-                {id: "333333333a", text: "30 days", isCorrect: true},
-                {id: "333333333b", text: "33 days", isCorrect: false},
-                {id: "333333333c", text: "35 days", isCorrect: false},
-                {id: "333333333d", text: "37 days", isCorrect: false}
-            ]
-        },
-        {
-            id: '4444444', type: "MC", question: "How many days are in a month?", choices: [
-                {id: "344444443333a", text: "30 days", isCorrect: true},
-                {id: "3333444444433333b", text: "33 days", isCorrect: false},
-                {id: "3333444444433333c", text: "35 days", isCorrect: false},
-                {id: "3333444444433333d", text: "37 days", isCorrect: false}
-            ]
-        }
-    ]
-};
+    },
+});
 
 
 const PageContent = ({data, aid}) => {
@@ -61,7 +31,7 @@ const PageContent = ({data, aid}) => {
 
 
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <QuizContext.Provider value={{quiz, dispatch}}>
                 <AppLayout pageId={aid}
                            navbar={<EditorNavbar isSaving={saveStatus === 1} saveError={saveStatus == 2}
@@ -212,7 +182,7 @@ const PageContent = ({data, aid}) => {
                            questionMenu
                            windowTitle={quiz.title}/>
             </QuizContext.Provider>
-        </>
+        </ThemeProvider>
     )
 };
 

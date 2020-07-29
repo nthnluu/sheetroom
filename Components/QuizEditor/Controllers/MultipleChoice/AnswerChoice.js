@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import QuizContext from "../../QuizContext";
 import Tooltip from "@material-ui/core/Tooltip";
 import NewTooltip from "../../../Misc/Tooltip";
+import JsonDebugBox from "../../../JsonDebugBox";
 
 
 const AnswerChoice = ({onBlurHandler, active, choice, dragHandler, answerIndex, itemIndex}) => {

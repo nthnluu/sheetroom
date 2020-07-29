@@ -1,5 +1,9 @@
 import React, {useState} from "react";
-import Select from "react-select";
+import Select from "@material-ui/core/select";
+import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
+import Box from "@material-ui/core/Box";
+import {Divider} from "@material-ui/core";
 
 const QuestionCardDropdown = ({active}) => {
     const [dropdownCurrentItem, setCurrentDropdown] = useState({value: 'MC', label: 'Multiple Choice'});
@@ -41,16 +45,48 @@ const QuestionCardDropdown = ({active}) => {
         setCurrentDropdown(selectedOption);
     };
 
+    const NewMenuItem = ({title, value}) => (<MenuItem value={value}><Box p={1}>
+        {title}
+    </Box></MenuItem>)
+
 
     return (
-        <Select
-            value={dropdownCurrentItem}
-            onChange={handleChange}
-            options={options}
-            styles={customStyles}
-            isDisabled={!active}
-            isSearchable={false}
-        />
+        <FormControl variant="outlined" fullWidth disabled={!active}>
+            <Select
+                IconComponent="null"
+                value={"MC"}
+                onChange={handleChange}
+            >
+                <MenuItem disableRipple value="MC"><Box p={0}>
+                    Multiple Choice
+                </Box></MenuItem>
+
+                <MenuItem disableRipple value="MA"><Box p={0}>
+                    Multiple Answers
+                </Box></MenuItem>
+
+                <MenuItem disableRipple value="DD"><Box p={0}>
+                    Dropdown
+                </Box></MenuItem>
+                <Divider />
+                <MenuItem disableRipple value="MF"><Box p={0}>
+                    Math Field
+                </Box></MenuItem>
+
+                <MenuItem disableRipple value="SA"><Box p={0}>
+                    Short Answer
+                </Box></MenuItem>
+
+                <MenuItem disableRipple value="PG"><Box p={0}>
+                    Paragraph
+                </Box></MenuItem>
+                <Divider />
+                <MenuItem disableRipple value="GR"><Box p={0}>
+                    Graph
+                </Box></MenuItem>
+
+            </Select>
+        </FormControl>
     )
 };
 export default QuestionCardDropdown
