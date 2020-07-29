@@ -1,9 +1,10 @@
 import {useContext, useEffect, useState} from "react";
 import RichTextField from "../Editor/SlateEditor";
-import MultipleChoiceController from "./Controllers/MultipleChoice";
+import MultipleChoiceController from "./Controllers/MultipleChoice/MultipleChoice";
 import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 import QuizContext from "./QuizContext";
 import JsonDebugBox from "../JsonDebugBox";
+import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 
 
 const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
@@ -14,7 +15,7 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
             case("MC"):
                 return <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} answerChoices={item.answer_controller}/>
             case("MA"):
-                return <MultipleChoiceController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} answerChoices={item.answer_controller}/>
+                return <MultipleAnswersController itemId={item.id} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)} active={active} answerChoices={item.answer_controller}/>
             default:
                 return <p className="w-full p-3 text-red-600 border border-red-600 rounded-lg"><i
                     className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact support if this error persists.</p>

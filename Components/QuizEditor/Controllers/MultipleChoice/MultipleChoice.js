@@ -2,9 +2,9 @@ import React, {useContext, useState} from "react";
 import {v4 as uuidv4} from 'uuid';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
-import AnswerChoice from "./MultipleChoice/AnswerChoice";
+import AnswerChoice from "./AnswerChoice";
 import PropTypes from "prop-types";
-import QuizContext from "../QuizContext";
+import QuizContext from "../../QuizContext";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400" tabIndex="0"/>);
