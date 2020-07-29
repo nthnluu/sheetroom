@@ -9,7 +9,7 @@ import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 
 const ItemCard = ({active, itemIndex, item, setActive, provided}) => (
     <>
-        {active ? <div className="mb-2 bg-white rounded-lg border border-gray-200 shadow-sm">
+        {active ? <div className="mb-2 bg-white rounded-lg border border-gray-300 shadow-xl">
             <div className="w-full text-center z-50"><DragHandle provided={provided}/></div>
             <ActiveCard item={item} itemIndex={itemIndex}/>
         </div> : <div className="mb-2 group bg-white rounded-lg border border-gray-200">
