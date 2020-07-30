@@ -1,25 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {getSession} from 'next-auth/client'
-import AppLayout from "../Components/AppLayout";
-import QuizList from "../Components/Lists/QuizList";
-import CourseCards from "../Components/GridLists/CourseCards";
 import PageLayout from "../Components/PageLayout";
 
-
-const PageContent = ({userId}) => {
-
-    return (
-        <>
-            <CourseCards header="My Classes" userId={userId}/>
-            <QuizList userId={userId}/>
-        </>
-    )
-};
 
 const Dashboard = ({session}) => {
     return (
         <>
-            <PageLayout/>
+            <PageLayout userId={session.userId}/>
         </>
     )
 };

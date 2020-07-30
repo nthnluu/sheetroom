@@ -1,4 +1,7 @@
-const PageLayout = () => {
+import QuizList from "./Lists/QuizList";
+import React from "react";
+
+const PageLayout = ({userId}) => {
     return (<div className="h-screen flex overflow-hidden bg-gray-100">
         {/*// <!-- Off-canvas menu for mobile -->*/}
         <div className="md:hidden">
@@ -272,7 +275,7 @@ const PageLayout = () => {
                     </div>
                     <div className="mx-auto px-4 sm:px-6 md:px-8" style={{maxWidth: '98.666667%'}}>
                         <div className="py-4">
-                            <div className="border-4 border-dashed border-gray-200 rounded-lg h-96"></div>
+                            <QuizList userId={userId}/>
                         </div>
 
                     </div>
