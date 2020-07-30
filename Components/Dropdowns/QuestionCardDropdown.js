@@ -9,46 +9,11 @@ import InputBase from "@material-ui/core/InputBase";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-const QuestionCardDropdown = ({active, value, itemIndex, saveType}) => {
-    const [dropdownCurrentItem, setCurrentDropdown] = useState({value: 'MC', label: 'Multiple Choice'});
-    const {quiz, dispatch, assignment} = useContext(QuizContext);
-
-    const customStyles = {
-        option: (provided, state) => ({
-            ...provided,
-            padding: 12,
-        }),
-        control: (provided, state) => {
-            return ({
-                ...provided,
-                backgroundColor: 'white',
-                border: '#E4E7EB 1px solid',
-                borderRadius: '0.5rem',
-                boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
-            });
-
-        },
-        valueContainer: (provided, state) => {
-            const opacity = state.isDisabled ? 'white' : 'white';
-            // none of react-select's styles are passed to <Control />
-            return ({
-                ...provided,
-                padding: 8,
-            });
-
-        },
-    };
-
-
-    const options = [
-        {value: 'MC', label: 'Multiple Choice'},
-        {value: 'MA', label: 'Multiple Answers'},
-        {value: 'SA', label: 'Short Answer'},
-    ];
+const QuestionCardDropdown = ({itemIndex, saveType}) => {
+    const {assignment} = useContext(QuizContext);
 
     const handleChange = selectedOption => {
         saveType(selectedOption.target.value);
-        dispatch({type: 'UPDATE-ITEM-TYPE', index: itemIndex, controller_type: selectedOption.target.value});
     };
 
     const BootstrapInput = withStyles((theme) => ({
