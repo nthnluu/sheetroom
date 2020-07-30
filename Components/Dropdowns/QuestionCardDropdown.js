@@ -90,6 +90,8 @@ const QuestionCardDropdown = ({active, value, itemIndex, saveType}) => {
     return (
         <FormControl>
             <Select
+
+                autoWidth
                 IconComponent="div"
                 labelId="demo-customized-select-label"
                 id="demo-customized-select"

@@ -10,6 +10,7 @@ import {UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
 import Automerge from "automerge";
 import {nanoid} from "nanoid";
 import {blankAnswerChoice} from "../../Templates";
+import Button from "@material-ui/core/Button";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400"
@@ -65,12 +66,9 @@ export const MultipleChoiceController = ({active, answerChoices, setSaveStatus, 
                               active={active} lockAxis="y"
                               lockToContainerEdges/>
                 <div className="space-x-2">
-                    <button type="button" onClick={() =>
+                    <Button color="secondary" className="focus:outline-none" disableRipple onClick={() =>
                         addAnswerChoice()
-                    }
-                            className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                        Add option
-                    </button>
+                    }>Add option</Button>
                 </div>
             </div> : <div className="space-y-4">
                 {answerChoices ? answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}

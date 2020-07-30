@@ -82,9 +82,9 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
 
     return (
         <div
-            className={"bg-white focus:shadow-outline w-full pt-2 px-8 focus:outline-none rounded-lg " + (!active ? ' pb-8' : 'pb-1')}>
+            className={"bg-white focus:shadow-outline w-full pt-2 px-8 focus:outline-none rounded-lg " + (!active ? ' pb-8' : null)}>
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
-                <div className="w-full border-transparent md:pr-4 md:mr-4 pr-0 mr-0 pb-6">
+                <div className="w-full border-transparent pb-6">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
                         <RichTextField border active={active} initialContent={item.question} autofocus
@@ -94,7 +94,7 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                                 itemIndex={itemIndex}/>
                 </div>
             </div>
-            {active ? <div className="flex justify-start border-t w-full border-gray-200 py-2">
+            {active ? <div className="flex justify-between border-t w-full border-gray-200 py-3">
                 <div className="max-w-2xl">
                     <QuestionCardDropdown active={active} value={item.controller_type}
                                           saveType={value => saveItemType(value)} itemIndex={itemIndex}/>
@@ -104,7 +104,7 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                             enterNextDelay={500}>
                     <IconButton aria-label="delete" disableRipple onClick={() => deleteItem()}
                                 className="focus:outline-none">
-                        <ClearIcon/>
+                        <ClearIcon fontSize="inherit"/>
                     </IconButton>
                 </NewTooltip>
             </div> : null}
