@@ -49,15 +49,12 @@ const QuestionCardDropdown = ({active, value, itemIndex, saveType}) => {
         dispatch({type: 'UPDATE-ITEM-TYPE', index: itemIndex, controller_type: selectedOption.target.value});
     };
 
-    const NewMenuItem = ({title, value}) => (<MenuItem value={value}><Box p={1}>
-        {title}
-    </Box></MenuItem>)
 
 
     return (
         <FormControl variant="outlined" fullWidth disabled={!active}>
             <Select
-                IconComponent="null"
+                IconComponent="div"
                 value={value}
                 onChange={handleChange}
             >

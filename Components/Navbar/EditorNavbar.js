@@ -29,7 +29,7 @@ export default function ({saveStatus, setSaveStatus}) {
 
     // Updates the title whenever it changes
     useEffect(() => {
-        setInputValue(data.title);
+        setInputValue(data.assignments_assignment_by_pk.title);
     }, [data]);
 
 
