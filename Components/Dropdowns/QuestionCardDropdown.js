@@ -5,10 +5,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Box from "@material-ui/core/Box";
 import {Divider} from "@material-ui/core";
 import QuizContext from "../QuizEditor/QuizContext";
+import InputBase from "@material-ui/core/InputBase";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import withStyles from "@material-ui/core/styles/withStyles";
 
 const QuestionCardDropdown = ({active, value, itemIndex, saveType}) => {
     const [dropdownCurrentItem, setCurrentDropdown] = useState({value: 'MC', label: 'Multiple Choice'});
-    const {quiz, dispatch} = useContext(QuizContext);
+    const {quiz, dispatch, assignment} = useContext(QuizContext);
 
     const customStyles = {
         option: (provided, state) => ({
@@ -48,40 +51,54 @@ const QuestionCardDropdown = ({active, value, itemIndex, saveType}) => {
         dispatch({type: 'UPDATE-ITEM-TYPE', index: itemIndex, controller_type: selectedOption.target.value});
     };
 
+    const BootstrapInput = withStyles((theme) => ({
+        root: {
+            'label + &': {
+                marginTop: theme.spacing(3),
+            },
+        },
+        input: {
+            borderRadius: 6,
+            position: 'relative',
+            backgroundColor: theme.palette.background.paper,
+            border: '1px solid #E4E7EB',
+            fontSize: 16,
+            padding: '10px 26px 10px 12px',
+            transition: theme.transitions.create(['border-color', 'box-shadow']),
+            // Use the system font instead of the default Roboto font.
+            fontFamily: [
+                '-apple-system',
+                'BlinkMacSystemFont',
+                '"Segoe UI"',
+                'Roboto',
+                '"Helvetica Neue"',
+                'Arial',
+                'sans-serif',
+                '"Apple Color Emoji"',
+                '"Segoe UI Emoji"',
+                '"Segoe UI Symbol"',
+            ].join(','),
+            '&:focus': {
+                borderRadius: 4,
+                borderColor: '#80bdff',
+                boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+            },
+        },
+    }))(InputBase);
 
 
     return (
-        <FormControl variant="outlined" fullWidth disabled={!active}>
+        <FormControl>
             <Select
                 IconComponent="div"
-                value={value}
+                labelId="demo-customized-select-label"
+                id="demo-customized-select"
+                value={assignment.sections[0].items[itemIndex].controller_type}
                 onChange={handleChange}
+                input={<BootstrapInput />}
             >
-                <MenuItem disableRipple value="MC"><Box p={0}>
-                    Multiple Choice
-                </Box></MenuItem>
-
-                <MenuItem disableRipple value="MA"><Box p={0}>
-                    Multiple Answers
-                </Box></MenuItem>
-
-                <Divider />
-                <MenuItem disableRipple value="MF"><Box p={0}>
-                    Math Field
-                </Box></MenuItem>
-
-                <MenuItem disableRipple value="SA"><Box p={0}>
-                    Short Answer
-                </Box></MenuItem>
-
-                <MenuItem disableRipple value="PG"><Box p={0}>
-                    Paragraph
-                </Box></MenuItem>
-                <Divider />
-                <MenuItem disableRipple value="GR"><Box p={0}>
-                    Graph
-                </Box></MenuItem>
-
+                <MenuItem value="MC">Multiple Choice</MenuItem>
+                <MenuItem value="MA">Multiple Answers</MenuItem>
             </Select>
         </FormControl>
     )

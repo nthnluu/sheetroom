@@ -9,7 +9,7 @@ import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_CONTENT, UPDATE_ITEM_TYPE} from "../../gql/assignmentAutosave";
 import Automerge from 'automerge'
 import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from '@material-ui/icons/DeleteOutlined';
+import ClearIcon from '@material-ui/icons/Clear';
 import NewTooltip from "../Misc/Tooltip";
 
 
@@ -82,9 +82,9 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
 
     return (
         <div
-            className={"bg-white focus:shadow-outline w-full pt-2 px-8 focus:outline-none rounded-lg " + (!active ? ' pb-8' : null)}>
+            className={"bg-white focus:shadow-outline w-full pt-2 px-8 focus:outline-none rounded-lg " + (!active ? ' pb-8' : 'pb-1')}>
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
-                <div className="w-full border-r border-transparent md:border-gray-200 md:pr-4 md:mr-4 pr-0 mr-0 pb-4">
+                <div className="w-full border-transparent md:pr-4 md:mr-4 pr-0 mr-0 pb-6">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
                         <RichTextField border active={active} initialContent={item.question} autofocus
@@ -93,17 +93,18 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                     <Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item}
                                 itemIndex={itemIndex}/>
                 </div>
-                <div className="w-full md:w-64 mx-auto mt-4 md:mt-0">
+            </div>
+            {active ? <div className="flex justify-start border-t w-full border-gray-200 py-2">
+                <div className="max-w-2xl">
                     <QuestionCardDropdown active={active} value={item.controller_type}
                                           saveType={value => saveItemType(value)} itemIndex={itemIndex}/>
                 </div>
-            </div>
-            {active ? <div className="flex justify-start border-t border-gray-200 pt-1 pb-2">
+
                 <NewTooltip title="Delete item" placement="bottom" arrow enterDelay={500}
                             enterNextDelay={500}>
                     <IconButton aria-label="delete" disableRipple onClick={() => deleteItem()}
                                 className="focus:outline-none">
-                        <DeleteIcon/>
+                        <ClearIcon/>
                     </IconButton>
                 </NewTooltip>
             </div> : null}
