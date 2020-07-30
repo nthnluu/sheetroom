@@ -15,7 +15,12 @@ import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
 import Automerge from 'automerge'
 import {v4 as uuidv4} from 'uuid';
 import {nanoid} from 'nanoid'
-import {blankAnswerChoice, blankMCItem, initialDocumentContent} from "../../../Components/QuizEditor/Templates";
+import {
+    blankAnswerChoice,
+    blankMAItem,
+    blankMCItem,
+    initialDocumentContent
+} from "../../../Components/QuizEditor/Templates";
 
 const theme = createMuiTheme({
     palette: {
@@ -60,17 +65,24 @@ const PageContent = ({data, aid}) => {
 
     };
 
-    const saveQuiz = () => {
-        console.log('save quiz')
-    }
 
     const addItem = (type) => {
         setSaveStatus(1)
         const newItemId = uuidv4()
         const newChoiceId = uuidv4()
-        const newDoc = Automerge.change(assignment, `Added ${type} Item`, doc => {
-            doc.sections[0].items.push(blankMCItem(newItemId, newChoiceId))
-        })
+        let newDoc
+        switch(type){
+            case('MC'):
+                newDoc = Automerge.change(assignment, `Added ${type} Item`, doc => {
+                    doc.sections[0].items.push(blankMCItem(newItemId, newChoiceId))
+                })
+                break
+            case('MA'):
+                newDoc = Automerge.change(assignment, `Added ${type} Item`, doc => {
+                    doc.sections[0].items.push(blankMAItem(newItemId, newChoiceId))
+                })
+                break
+        }
         setAssignment(newDoc)
         setCurrentItem(newItemId)
     }
@@ -133,6 +145,7 @@ const PageContent = ({data, aid}) => {
                                            Multiple Choice
                                        </button>
                                        <button
+                                           onClick={() => addItem('MA')}
                                            className="h-28 w-28 p-4 border mx-auto rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                                            <svg
                                                className="h-8 w-8 mb-2 mx-auto"

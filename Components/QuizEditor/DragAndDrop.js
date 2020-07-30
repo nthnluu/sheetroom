@@ -1,12 +1,9 @@
 import CardFrame from "./CardFrame";
-import React, {useContext, useState} from "react";
-import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
+import React, {useContext} from "react";
 import arrayMove from 'array-move';
-import JsonDebugBox from "../JsonDebugBox";
 import QuizContext from "./QuizContext";
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import Automerge from "automerge";
-import {assign} from "apollo-utilities";
 
 
 
@@ -55,8 +52,7 @@ const ActiveCard = ({setSaveStatus, item, itemIndex}) => {
 
 
 export const DnDList = ({items, setSaveStatus, currentItem, setCurrentItem}) => {
-    const [selectedItem, setSelectedItem] = useState('');
-    const {quiz, dispatch, doc, setAssignment, assignment} = useContext(QuizContext);
+    const {setAssignment, assignment} = useContext(QuizContext);
 
     const onSortEnd = (result) => {
         // dropped outside the list
