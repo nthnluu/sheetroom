@@ -65,7 +65,7 @@ export const DnDList = ({items, setSaveStatus}) => {
 
         dispatch({
             type: 'UPDATE-ITEM-ARRAY',
-            payload: arrayMove(quiz.sections[0].items, result.source.index, result.destination.index)
+            payload: arrayMove(quiz.content.sections[0].items, result.source.index, result.destination.index)
         })
     };
 
@@ -75,7 +75,7 @@ export const DnDList = ({items, setSaveStatus}) => {
             <Droppable droppableId={'droppable'}>
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                        {quiz.sections[0].items.map((item, index) => <Draggable key={item.id} draggableId={item.id}
+                        {quiz.content.sections[0].items.map((item, index) => <Draggable key={item.id} draggableId={item.id}
                                                                                 index={index}>
                             {(provided, snapshot) => <div ref={provided.innerRef}
                                                           {...provided.draggableProps}>

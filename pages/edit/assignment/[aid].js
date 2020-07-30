@@ -11,6 +11,7 @@ import QuizContext from "../../../Components/QuizEditor/QuizContext";
 import QuizReducer from "../../../Components/QuizEditor/QuizReducer";
 import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import CircularProgress from "@material-ui/core/CircularProgress";
+import JsonDebugBox from "../../../Components/JsonDebugBox";
 
 const theme = createMuiTheme({
     palette: {
@@ -32,7 +33,9 @@ const PageContent = ({data, aid}) => {
     const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
 
     useEffect(() => {
-        dispatch({type: "REFRESH-QUIZ", quiz: data.assignments_assignment_by_pk});
+        if (saveStatus !== 0) {
+            dispatch({type: "REFRESH-QUIZ", quiz: data.assignments_assignment_by_pk});
+        }
         window.addEventListener('beforeunload', handleWindowClose);
 
         return () => {
@@ -49,10 +52,15 @@ const PageContent = ({data, aid}) => {
 
     };
 
+    const saveQuiz = () => {
+        console.log('save quiz')
+    }
+
+
 
 
     return (
-        <QuizContext.Provider value={{quiz, dispatch}}>
+        <QuizContext.Provider value={{quiz, dispatch, saveQuiz}}>
             <AppLayout pageId={aid}
                        navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
                                              saveStatus={saveStatus}
@@ -74,7 +82,7 @@ const PageContent = ({data, aid}) => {
                        content={
                            <div key={aid} className="max-w-7xl mx-auto">
                                {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
-                               <DnDList currentItem={currentItem} items={quiz.sections[0].items}
+                               <DnDList currentItem={currentItem} items={quiz.content.sections[0].items}
                                         setSaveStatus={status => setSaveStatus(status)}
                                         setItem={setCurrentItem}/>
                                <div className="pt-12 pb-32">

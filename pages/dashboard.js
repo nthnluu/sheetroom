@@ -3,6 +3,7 @@ import {getSession} from 'next-auth/client'
 import AppLayout from "../Components/AppLayout";
 import QuizList from "../Components/Lists/QuizList";
 import CourseCards from "../Components/GridLists/CourseCards";
+import PageLayout from "../Components/PageLayout";
 
 
 const PageContent = ({userId}) => {
@@ -18,7 +19,7 @@ const PageContent = ({userId}) => {
 const Dashboard = ({session}) => {
     return (
         <>
-            <AppLayout sidebar={1} title="Dashboard" content={<PageContent userId={session.userId}/>} newButton windowTitle="Dashboard"/>
+            <PageLayout/>
         </>
     )
 };

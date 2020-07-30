@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import {v4 as uuidv4} from 'uuid';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
+import _ from 'lodash'
+import { debounce } from 'lodash';
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400"
@@ -39,24 +41,26 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
     const [saveController] = useMutation(UPDATE_ITEM_CONTROLLER)
 
     const onSortEnd = ({oldIndex, newIndex}) => {
-        setSaveStatus(1)
         dispatch({
             type: 'UPDATE-ANSWER-CHOICE-ARRAY',
             index: itemIndex,
             payload: arrayMove(answerChoices, oldIndex, newIndex)
         })
-        saveController({variables: {itemId: itemId, controller: arrayMove(answerChoices, oldIndex, newIndex)}})
-            .then(() => setSaveStatus(0))
-            .catch(() => setSaveStatus(2));
-
     };
 
-    const saveControllerArray = () => {
+
+
+    function saveControllerArray(newArray){
+        console.log('saving')
         setSaveStatus(1)
-        saveController({variables: {itemId: itemId, controller: answerChoices}})
+        saveController({variables: {itemId: itemId, controller: newArray}})
             .then(() => setSaveStatus(0))
             .catch(() => setSaveStatus(2));
     }
+
+    const delayedSave = useCallback(
+        debounce(newArray => saveControllerArray(newArray), 1000), []
+    );
 
     return (
         <div key={itemId}>
@@ -66,8 +70,7 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
                               lockToContainerEdges/>
                 <div className="space-x-2">
                     <button type="button" onClick={() => {
-                        dispatch({type: 'CREATE-NEW-ANSWER-OBJECT', itemId: itemId, itemIndex: itemIndex})
-                        saveControllerArray()
+                        dispatch({type: 'CREATE-NEW-ANSWER-OBJECT', itemIndex: itemIndex});
                     }}
                             className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         Add option

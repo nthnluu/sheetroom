@@ -7,16 +7,7 @@ subscription AssignmentByPk($id: uuid!) {
   updated_at
     title
     id
-    sections {
-      id
-      items(order_by: {index: asc}) {
-        id
-        content
-        controller_type
-        index
-        answer_controller
-      }
-    }
+    content
   }
 }
 `;
