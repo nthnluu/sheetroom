@@ -1,22 +1,22 @@
 import {nanoid} from "nanoid";
 
-export const blankMCItem = {
-    "id": nanoid(),
+export const blankMCItem = (newId, answerId) => ({
+    "id": newId,
     "answer_controller": [
         {
-            "id": nanoid(),
+            "id": answerId,
             "is_correct": true,
             "content": null
         }
     ],
     "controller_type": "MC",
     "question": null
-}
+})
 
-export const blankAnswerChoice = (isCorrect) => ({
+export const blankAnswerChoice = (isCorrect, newId) => ({
     is_correct: isCorrect,
     content: null,
-    id: nanoid()
+    id: newId
 })
 
 export const initialDocumentContent = {

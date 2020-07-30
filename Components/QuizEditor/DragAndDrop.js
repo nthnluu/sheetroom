@@ -11,17 +11,16 @@ import {assign} from "apollo-utilities";
 
 
 const ItemCard = ({active, itemIndex, item, setActive, provided, setSaveStatus}) => (
-    <>
-
-            {active ? <div className="mb-4 bg-white rounded-lg border border-gray-300 shadow-xl">
+    <div className="pb-4">
+            {active ? <div className="bg-white rounded-lg border border-gray-300 shadow-xl">
                 <div className="w-full text-center z-50"><DragHandle provided={provided}/></div>
                 <ActiveCard item={item} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)}/>
-            </div> : <div className="mb-4 group bg-white rounded-lg border border-gray-200">
+            </div> : <div className="group bg-white rounded-lg border border-gray-200">
                 <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible"><DragHandle
                     provided={provided}/></div>
                 <InactiveCard item={item} setActive={(id) => setActive(id)} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)}/>
             </div>}
-    </>
+    </div>
 )
 
 const DragHandle = ({provided}) => (<i tabIndex="0" {...provided.dragHandleProps}
@@ -55,7 +54,7 @@ const ActiveCard = ({setSaveStatus, item, itemIndex}) => {
 };
 
 
-export const DnDList = ({items, setSaveStatus}) => {
+export const DnDList = ({items, setSaveStatus, currentItem, setCurrentItem}) => {
     const [selectedItem, setSelectedItem] = useState('');
     const {quiz, dispatch, doc, setAssignment, assignment} = useContext(QuizContext);
 
@@ -87,9 +86,9 @@ export const DnDList = ({items, setSaveStatus}) => {
                                 <ItemCard
                                     setSaveStatus={status => setSaveStatus(status)}
                                     provided={provided}
-                                    active={selectedItem === item.id}
+                                    active={currentItem === item.id}
                                     itemIndex={index}
-                                    setActive={() => setSelectedItem(item.id)}
+                                    setActive={() => setCurrentItem(item.id)}
                                     item={item}/></div>}
                         </Draggable>)}
                         {provided.placeholder}

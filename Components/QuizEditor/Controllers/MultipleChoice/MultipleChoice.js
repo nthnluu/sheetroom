@@ -53,7 +53,7 @@ export const MultipleChoiceController = ({active, answerChoices, setSaveStatus, 
     const addAnswerChoice = () => {
         setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Add Answer  Choice', doc => {
-            doc.sections[0].items[itemIndex]['answer_controller'].push(blankAnswerChoice(doc.sections[0].items[itemIndex].answer_controller.length === 0))
+            doc.sections[0].items[itemIndex]['answer_controller'].push(blankAnswerChoice(doc.sections[0].items[itemIndex].answer_controller.length === 0, nanoid()))
         })
         setAssignment(newDoc)
     }

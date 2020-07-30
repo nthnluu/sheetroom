@@ -15,7 +15,7 @@ import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
 import Automerge from 'automerge'
 import {v4 as uuidv4} from 'uuid';
 import {nanoid} from 'nanoid'
-import {initialDocumentContent} from "../../../Components/QuizEditor/Templates";
+import {blankAnswerChoice, blankMCItem, initialDocumentContent} from "../../../Components/QuizEditor/Templates";
 
 const theme = createMuiTheme({
     palette: {
@@ -64,6 +64,17 @@ const PageContent = ({data, aid}) => {
         console.log('save quiz')
     }
 
+    const addItem = (type) => {
+        setSaveStatus(1)
+        const newItemId = uuidv4()
+        const newChoiceId = uuidv4()
+        const newDoc = Automerge.change(assignment, `Added ${type} Item`, doc => {
+            doc.sections[0].items.push(blankMCItem(newItemId, newChoiceId))
+        })
+        setAssignment(newDoc)
+        setCurrentItem(newItemId)
+    }
+
 
     return (
         <QuizContext.Provider value={{quiz, dispatch, assignment, setSaveStatus, setAssignment, doc1, data}}>
@@ -90,11 +101,12 @@ const PageContent = ({data, aid}) => {
                                {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
                                <DnDList currentItem={currentItem} items={assignment}
                                         setSaveStatus={status => setSaveStatus(status)}
-                                        setItem={setCurrentItem}/>
+                                        setCurrentItem={setCurrentItem}/>
                                <div className="pt-12 pb-32">
                                    <div
                                        className="grid grid-cols-2 items-center sm:grid-cols-3 gap-6 max-w-sm mx-auto leading-tight">
                                        <button
+                                           onClick={() => addItem('MC')}
                                            className="h-28 w-28 p-4 border mx-auto rounded-lg text-center text-gray-500 text-sm font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                                            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 800 800"
