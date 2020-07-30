@@ -22,11 +22,6 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border, uniq
     const renderLeaf = useCallback(props => <Leaf {...props} />, []);
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
-    useEffect(() => {
-        if (initialContent > 0) {
-            setValue(initialContent);
-        }
-    }, [initialContent]);
 
     return (
         <div className="group relative">

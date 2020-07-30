@@ -63,7 +63,7 @@ const PageContent = ({data, aid}) => {
                             }
                         ],
                         "controller_type": "MC",
-                        "content": [
+                        "question": [
                             {
                                 "children": [
                                     {
@@ -81,7 +81,7 @@ const PageContent = ({data, aid}) => {
                 "id": "c6d735b8-2fe0-42e2-8d3a-493e0b1ef3b9"
             }
         ]
-    }, {freeze: true})
+    })
     const [assignment, setAssignment] = useState(doc1);
 
 
@@ -94,14 +94,6 @@ const PageContent = ({data, aid}) => {
         };
     }, []);
 
-    useEffect(() => {
-        window.addEventListener('beforeunload', handleWindowClose);
-
-
-        return () => {
-            window.removeEventListener('beforeunload', handleWindowClose);
-        };
-    }, []);
 
 
     const handleWindowClose = (e) => {
@@ -118,7 +110,8 @@ const PageContent = ({data, aid}) => {
 
 
     return (
-        <QuizContext.Provider value={{quiz, dispatch, assignment, setSaveStatus, setAssignment }}>
+        <QuizContext.Provider value={{quiz, dispatch, assignment, setSaveStatus, setAssignment, doc1}}>
+            <JsonDebugBox content={assignment}/>
             <AppLayout pageId={aid}
                        navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
                                              saveStatus={saveStatus}

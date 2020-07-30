@@ -11,7 +11,7 @@ import Automerge from 'automerge'
 
 
 const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
-    const {quiz, dispatch, doc, assignment} = useContext(QuizContext);
+    const {quiz, dispatch, doc, assignment, setAssignment, doc1} = useContext(QuizContext);
     const [mutateItemContent] = useMutation(UPDATE_ITEM_CONTENT)
     const [mutateItemType] = useMutation(UPDATE_ITEM_TYPE)
 
@@ -28,18 +28,24 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     }
 
     // Logic for AUTOSAVING the ITEM CONTENT
-    const saveItemContent = (value) => {
+    const saveItemContent = (newValue) =>
+    {
+        const newQuestionValue = JSON.stringify(newValue)
         setSaveStatus(1)
-        Automerge.change(assignment, 'Update item content', doc => {
-            doc.sections[0].items[itemIndex].content = value
+        const newDoc = Automerge.change(doc1, 'Update Item Content', doc => {
+            doc.sections[0].items[itemIndex].question = JSON.parse(newQuestionValue);
         })
+        setAssignment(newDoc)
     }
 
     // Logic for AUTOSAVING the ITEM TYPE
     const saveItemType = (value) => {
         setSaveStatus(1)
         Automerge.change(assignment, 'Update item type', doc => {
-            doc.sections[0].items[itemIndex]['controller_type'] = value
+            console.log(value);
+            // const newDoc = [...doc.sections]
+            // newDoc[0].items[itemIndex].content = value
+            // doc = newDoc
         })
     }
 
@@ -49,8 +55,8 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                 <div className="w-full border-r border-transparent md:border-gray-200 md:pr-4 md:mr-4 pr-0 mr-0">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
-                        <RichTextField border active={active} initialContent={item.content} autofocus
-                                       onBlurEvent={(value) => saveItemContent(value)} uniqueId={item.id}/>
+                        <RichTextField border active={active} initialContent={item.question} autofocus
+                                       onBlurEvent={(newValue) => saveItemContent(newValue)} uniqueId={item.id}/>
                     </div>
                     <Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item} itemIndex={itemIndex}/>
                 </div>
