@@ -7,8 +7,7 @@ import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
 import {useMutation} from "@apollo/react-hooks";
 import {debounce, UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
-import AwesomeDebouncePromise from 'awesome-debounce-promise';
-import _ from "lodash";
+import Automerge from "automerge";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400"
@@ -37,27 +36,27 @@ const SortableList = SortableContainer(({items, active, itemIndex}) => {
 
 
 export const MultipleAnswersController = ({active, answerChoices, setAnswerChoices, setSaveStatus, itemId, setItems, itemIndex}) => {
-    const {quiz, dispatch} = useContext(QuizContext);
+    const {quiz, dispatch, setAssignment, assignment} = useContext(QuizContext);
     const [saveController] = useMutation(UPDATE_ITEM_CONTROLLER)
 
     const onSortEnd = ({oldIndex, newIndex}) => {
         setSaveStatus(1)
-        dispatch({
-            type: 'UPDATE-ANSWER-CHOICE-ARRAY',
-            index: itemIndex,
-            payload: arrayMove(answerChoices, oldIndex, newIndex)
+        const newArray = JSON.stringify(arrayMove(answerChoices, oldIndex, newIndex))
+        const newDoc = Automerge.change(assignment, 'Reorder Answer Choices', doc => {
+            doc.sections[0].items[itemIndex]['answer_controller'] = JSON.parse(newArray)
         })
-        saveController({variables: {itemId: itemId, controller: arrayMove(answerChoices, oldIndex, newIndex)}})
-            .then(() => setSaveStatus(0))
-            .catch(() => setSaveStatus(2));
-
-    };
-
-    const saveControllerArray = () => {
+        setAssignment(newDoc)
+    }
+    const addAnswerChoice = () => {
         setSaveStatus(1)
-        saveController({variables: {itemId: itemId, controller: answerChoices}})
-            .then(() => setSaveStatus(0))
-            .catch(() => setSaveStatus(2));
+        const newDoc = Automerge.change(assignment, 'Add Answer  Choice', doc => {
+            const newItem = {
+                is_correct: false,
+                content: null
+            }
+            doc.sections[0].items[itemIndex]['answer_controller'].push(newItem)
+        })
+        setAssignment(newDoc)
     }
 
     return (
@@ -67,13 +66,7 @@ export const MultipleAnswersController = ({active, answerChoices, setAnswerChoic
                               active={active} lockAxis="y"
                               lockToContainerEdges/>
                 <div className="space-x-2">
-                    <button type="button" onClick={() => {
-                        dispatch({type: 'CREATE-NEW-ANSWER-OBJECT', itemId: itemId, itemIndex: itemIndex})
-                        _.debounce(() => {
-                            saveControllerArray()
-                        }, 300);
-
-                    }}
+                    <button type="button" onClick={() => addAnswerChoice()}
                             className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         Add option
                     </button>

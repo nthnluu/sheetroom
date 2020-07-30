@@ -5,13 +5,39 @@ import QuizContext from "../../QuizContext";
 import Tooltip from "@material-ui/core/Tooltip";
 import NewTooltip from "../../../Misc/Tooltip";
 import JsonDebugBox from "../../../JsonDebugBox";
+import Automerge from "automerge";
 
 
 const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => {
     const inputId = 'input-' + choice.id;
     const labelId = 'label-' + choice.id;
-    const {quiz, dispatch} = useContext(QuizContext);
+    const {quiz, dispatch, setAssignment, assignment, setSaveStatus} = useContext(QuizContext);
 
+    const saveChoiceContent = (newValue) => {
+        const newQuestionValue = JSON.stringify(newValue)
+        setSaveStatus(1)
+
+        const newDoc = Automerge.change(assignment, 'Update Item Content', doc => {
+            doc.sections[0].items[itemIndex].answer_controller[answerIndex].content = JSON.parse(newQuestionValue);
+        })
+        setAssignment(newDoc)
+    }
+
+    const deleteAnswerChoice = () => {
+        setSaveStatus(1)
+        const newDoc = Automerge.change(assignment, 'Delete Answer  Choice', doc => {
+            doc.sections[0].items[itemIndex].answer_controller.deleteAt(answerIndex)
+        })
+        setAssignment(newDoc)
+    }
+
+    const markAsCorrect = () => {
+        setSaveStatus(1)
+        const newDoc = Automerge.change(assignment, 'Set Correct Answer Choice', doc => {
+            doc.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct = !doc.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct
+        })
+        setAssignment(newDoc)
+    }
 
     return (
         <>
@@ -26,10 +52,10 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
                                    onBlurEvent={(value) => dispatch({type: 'UPDATE-ANSWER-CHOICE-CONTENT', itemIndex: itemIndex, answerIndex: answerIndex, payload: value})}/></span>
                 <div className="flex justify-between space-x-3">
                     {(active) ? <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}  enterNextDelay={500}>
-                        <button onClick={() => dispatch({type: 'DELETE-ANSWER-OBJECT', itemIndex: itemIndex, answerIndex: answerIndex})}><i className={((choice.is_correct) ? "text-blue-600": "text-gray-300") + " far fa-trash-alt table-cell"}/></button>
+                        <button onClick={() => deleteAnswerChoice()}><i className={((choice.is_correct) ? "text-blue-600": "text-gray-300") + " far fa-trash-alt table-cell"}/></button>
                     </NewTooltip>: null}
                     {active ? <NewTooltip title="Mark as correct" placement="bottom" enterDelay={500}  enterNextDelay={500}>
-                        <button onClick={() => dispatch({type: 'SET-CORRECT-CHECK-ANSWER-CHOICE', itemIndex: itemIndex, answerIndex: answerIndex})}><i className={choice.is_correct ? "fas fa-check-square table-cell" : "far fa-square table-cell text-gray-300"}/></button>
+                        <button onClick={() => markAsCorrect()}><i className={choice.is_correct ? "fas fa-check-square table-cell" : "far fa-square table-cell text-gray-300"}/></button>
                     </NewTooltip>: <i className={choice.is_correct ? "fas fa-check-square table-cell" : "hidden"}/>}
                 </div>
 
