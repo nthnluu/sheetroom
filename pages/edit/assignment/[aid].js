@@ -1,22 +1,18 @@
 import {useRouter} from 'next/router'
-import {ASSIGNMENT_WS, QUIZ} from "../../../gql/quizzes";
+import {ASSIGNMENT_WS} from "../../../gql/quizzes";
 import {useMutation, useSubscription} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
-import React, {useCallback, useContext, useEffect, useReducer, useState} from "react";
+import React, {useEffect, useReducer, useState} from "react";
 import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 import QuizContext from "../../../Components/QuizEditor/QuizContext";
 import QuizReducer from "../../../Components/QuizEditor/QuizReducer";
 import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import CircularProgress from "@material-ui/core/CircularProgress";
-import JsonDebugBox from "../../../Components/JsonDebugBox";
-import {debounce} from "lodash";
-import {UPDATE_ASSIGNMENT_CONTENT, UPDATE_ITEM_CONTROLLER} from "../../../gql/assignmentAutosave";
-import moment from 'moment';
+import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
 import Automerge from 'automerge'
-
 
 const theme = createMuiTheme({
     palette: {
@@ -110,7 +106,7 @@ const PageContent = ({data, aid}) => {
 
 
     return (
-        <QuizContext.Provider value={{quiz, dispatch, assignment, setSaveStatus, setAssignment, doc1}}>
+        <QuizContext.Provider value={{quiz, dispatch, assignment, setSaveStatus, setAssignment, doc1, data}}>
             <AppLayout pageId={aid}
                        navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
                                              saveStatus={saveStatus}
@@ -128,7 +124,7 @@ const PageContent = ({data, aid}) => {
                                                          .then(() => setSaveStatus(0))
                                                          .catch((error) => setSaveStatus(2));
                                                  }
-                                             }} title={quiz.title}/>}
+                                             }} title={data.assignments_assignment_by_pk.title}/>}
                        content={
                            <div key={aid} className="max-w-7xl mx-auto">
                                {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}

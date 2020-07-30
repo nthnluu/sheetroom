@@ -1,51 +1,42 @@
 import Transition from "../Transition";
 import React, {useContext, useEffect, useState} from "react";
 import QuizContext from "../QuizEditor/QuizContext";
-import Tooltip from "@material-ui/core/Tooltip";
 import NewTooltip from "../Misc/Tooltip";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ASSIGNMENT_TITLE} from "../../gql/assignmentAutosave";
 import Popper from '@material-ui/core/Popper';
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Automerge from "automerge";
 
 export default function ({saveStatus, setSaveStatus}) {
-    const {quiz, dispatch} = useContext(QuizContext);
-    const [updateTitle, {data}] = useMutation(UPDATE_ASSIGNMENT_TITLE)
+    const {data} = useContext(QuizContext);
+    const [mutateTitle] = useMutation(UPDATE_ASSIGNMENT_TITLE)
 
+    // State for menus
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
 
 
-    const [inputValue, setInputValue] = useState(quiz.title);
+    // State for tracking the value of the title input field
+    const [inputValue, setInputValue] = useState(data.assignments_assignment_by_pk.title);
 
+    // Popper Shit
     const [anchorEl, setAnchorEl] = React.useState(null);
-
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
     };
-
-    const handleClickAway = (event) => {
-        setAnchorEl(!anchorEl ? null : event.currentTarget);
-    };
-
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
+    // Updates the title whenever it changes
     useEffect(() => {
-        setInputValue(quiz.title);
+        setInputValue(data.title);
+    }, [data]);
 
-    }, [quiz]);
 
     function saveTitle() {
-        if (inputValue.length > 1 && inputValue !== quiz.title) {
+        if (inputValue.length > 1 && inputValue !== data.assignments_assignment_by_pk.title) {
             setSaveStatus(1)
-            dispatch({type: 'UPDATE-QUIZ-TITLE', value: inputValue})
-            updateTitle({variables: {title: inputValue, assignmentId: quiz.id}})
-                .then(() => setSaveStatus(0))
-                .catch(() => {
-                    setSaveStatus(2);
-                    console.log('error')
-                });
+            alert('TO DO!!')
         }
     }
 

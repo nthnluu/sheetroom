@@ -42,13 +42,15 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
     const {quiz, dispatch, assignment, setAssignment} = useContext(QuizContext);
     const [saveController] = useMutation(UPDATE_ITEM_CONTROLLER)
 
+
     const onSortEnd = ({oldIndex, newIndex}) => {
-        dispatch({
-            type: 'UPDATE-ANSWER-CHOICE-ARRAY',
-            index: itemIndex,
-            payload: arrayMove(answerChoices, oldIndex, newIndex)
+        setSaveStatus(1)
+        const newArray = JSON.stringify(arrayMove(answerChoices, oldIndex, newIndex))
+        const newDoc = Automerge.change(assignment, 'Reorder Answer Choices', doc => {
+            doc.sections[0].items[itemIndex]['answer_controller'] = JSON.parse(newArray)
         })
-    };
+        setAssignment(newDoc)
+    }
 
 
     function saveControllerArray(newArray) {
