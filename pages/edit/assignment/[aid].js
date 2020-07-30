@@ -1,17 +1,21 @@
 import {useRouter} from 'next/router'
 import {ASSIGNMENT_WS, QUIZ} from "../../../gql/quizzes";
-import {useSubscription} from "@apollo/react-hooks";
+import {useMutation, useSubscription} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
-import React, {useContext, useEffect, useReducer, useState} from "react";
+import React, {useCallback, useContext, useEffect, useReducer, useState} from "react";
 import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 import QuizContext from "../../../Components/QuizEditor/QuizContext";
 import QuizReducer from "../../../Components/QuizEditor/QuizReducer";
 import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import JsonDebugBox from "../../../Components/JsonDebugBox";
+import {debounce} from "lodash";
+import {UPDATE_ASSIGNMENT_CONTENT, UPDATE_ITEM_CONTROLLER} from "../../../gql/assignmentAutosave";
+import moment from 'moment';
+
 
 const theme = createMuiTheme({
     palette: {
@@ -31,18 +35,35 @@ const PageContent = ({data, aid}) => {
     const [currentItem, setCurrentItem] = useState(undefined);
     const [saveStatus, setSaveStatus] = useState(0);
     const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
+    const [saveContent] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
+
+    function saveControllerArray(newContent){
+        console.log('saving')
+        setSaveStatus(1)
+        saveContent({variables: {id: aid, content: newContent}})
+            .then(() => {setSaveStatus(0);})
+            .catch(() => setSaveStatus(2));
+    }
+
+    const delayedSave = useCallback(
+        debounce(newContent => saveControllerArray(newContent), 500), []
+    );
 
     useEffect(() => {
-        if (saveStatus !== 0) {
-            dispatch({type: "REFRESH-QUIZ", quiz: data.assignments_assignment_by_pk});
-        }
+        console.log('refresh!')
+        delayedSave(quiz.content)
         window.addEventListener('beforeunload', handleWindowClose);
+
+        if (moment(data.assignments_assignment_by_pk).isAfter(quiz.updated_at)) {
+            dispatch({type: "REFRESH-QUIZ", quiz: data.assignments_assignment_by_pk})
+        }
 
         return () => {
             window.removeEventListener('beforeunload', handleWindowClose);
         };
 
-    }, [data]);
+
+    }, [quiz]);
 
     const handleWindowClose = (e) => {
         if (saveStatus !== 0) {
