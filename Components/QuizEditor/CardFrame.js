@@ -82,7 +82,7 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
 
     return (
         <div
-            className={"bg-white focus:shadow-outline w-full pt-2 px-8 focus:outline-none rounded-lg " + (!active ? ' pb-8' : null)}>
+            className={"bg-white focus:shadow-outline w-full pt-2 px-8 focus:outline-none rounded-lg " + (!active ? ' pb-2' : null)}>
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-transparent pb-6">
                     <div className="mb-8">
