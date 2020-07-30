@@ -11,8 +11,18 @@ import Automerge from "automerge";
 const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => {
     const inputId = 'input-' + choice.id;
     const labelId = 'label-' + choice.id;
-    const {assignment, setSaveStatus, setAssignment} = useContext(QuizContext);
+    const {assignment, setSaveStatus, setAssignment, doc1} = useContext(QuizContext);
 
+
+    const saveChoiceContent = (newValue) => {
+        const newQuestionValue = JSON.stringify(newValue)
+        setSaveStatus(1)
+
+        const newDoc = Automerge.change(assignment, 'Update Item Content', doc => {
+            doc.sections[0].items[itemIndex].answer_controller[answerIndex].content = JSON.parse(newQuestionValue);
+        })
+        setAssignment(newDoc)
+    }
 
     const deleteAnswerChoice = () => {
         setSaveStatus(1)
@@ -45,14 +55,21 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
                 </button>
                 <span className="table-cell w-full pointer-events-auto">
                     <RichTextField uniqueId={choice.id} active={active} initialContent={choice.content}
-                                   onBlurEvent={(value) => alert('TO DO: ' + value)}/></span>
+                                   onBlurEvent={(value) => saveChoiceContent(value)}/></span>
                 <div className="flex justify-between space-x-3">
-                    {(active && !choice.is_correct) ? <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}  enterNextDelay={500}>
-                        <button onClick={() => deleteAnswerChoice()}><i className={((choice.is_correct) ? "text-blue-600": "text-gray-300") + " far fa-trash-alt table-cell"}/></button>
-                    </NewTooltip>: null}
-                    {choice.is_correct ? <i className="fas fa-check table-cell"/> : (active ? <NewTooltip title="Set as correct answer" placement="bottom" enterDelay={500}  enterNextDelay={500}>
-                        <button onClick={() => markAsCorrect()}><i className="far fa-circle table-cell text-gray-300"/></button>
-                    </NewTooltip>: null)}
+                    {(active && !choice.is_correct) ?
+                        <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}
+                                    enterNextDelay={500}>
+                            <button onClick={() => deleteAnswerChoice()}><i
+                                className={((choice.is_correct) ? "text-blue-600" : "text-gray-300") + " far fa-trash-alt table-cell"}/>
+                            </button>
+                        </NewTooltip> : null}
+                    {choice.is_correct ? <i className="fas fa-check table-cell"/> : (active ?
+                        <NewTooltip title="Set as correct answer" placement="bottom" enterDelay={500}
+                                    enterNextDelay={500}>
+                            <button onClick={() => markAsCorrect()}><i
+                                className="far fa-circle table-cell text-gray-300"/></button>
+                        </NewTooltip> : null)}
                 </div>
 
             </div>
@@ -64,7 +81,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
 AnswerChoice.propTypes = {
     onBlurHandler: PropTypes.func.isRequired,
     active: PropTypes.bool,
-    choice:  PropTypes.object.isRequired,
+    choice: PropTypes.object.isRequired,
     dragHandler: PropTypes.element
 
 };

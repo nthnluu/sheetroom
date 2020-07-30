@@ -32,21 +32,19 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     {
         const newQuestionValue = JSON.stringify(newValue)
         setSaveStatus(1)
-        const newDoc = Automerge.change(doc1, 'Update Item Content', doc => {
+        const newDoc = Automerge.change(assignment, 'Update Item Content', doc => {
             doc.sections[0].items[itemIndex].question = JSON.parse(newQuestionValue);
         })
         setAssignment(newDoc)
     }
 
     // Logic for AUTOSAVING the ITEM TYPE
-    const saveItemType = (value) => {
+    const saveItemType = (newTypeValue) => {
         setSaveStatus(1)
-        Automerge.change(assignment, 'Update item type', doc => {
-            console.log(value);
-            // const newDoc = [...doc.sections]
-            // newDoc[0].items[itemIndex].content = value
-            // doc = newDoc
+        const newDoc = Automerge.change(assignment, 'Update item type', doc => {
+            doc.sections[0].items[itemIndex].controller_type = newTypeValue
         })
+        setAssignment(newDoc)
     }
 
     return (
