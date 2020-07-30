@@ -111,7 +111,6 @@ const PageContent = ({data, aid}) => {
 
     return (
         <QuizContext.Provider value={{quiz, dispatch, assignment, setSaveStatus, setAssignment, doc1}}>
-            <JsonDebugBox content={assignment}/>
             <AppLayout pageId={aid}
                        navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
                                              saveStatus={saveStatus}

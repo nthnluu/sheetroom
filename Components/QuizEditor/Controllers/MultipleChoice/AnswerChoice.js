@@ -22,6 +22,19 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
         setAssignment(newDoc)
     }
 
+    const markAsCorrect = () => {
+        setSaveStatus(1)
+        const newDoc = Automerge.change(assignment, 'Set Correct Answer Choice', doc => {
+            const found = doc.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct)
+            if (found !== -1) {
+                doc.sections[0].items[itemIndex].answer_controller[found].is_correct = false
+
+            }
+            doc.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct = true
+        })
+        setAssignment(newDoc)
+    }
+
     return (
         <>
             <div id={labelId} htmlFor={inputId}
@@ -38,7 +51,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
                         <button onClick={() => deleteAnswerChoice()}><i className={((choice.is_correct) ? "text-blue-600": "text-gray-300") + " far fa-trash-alt table-cell"}/></button>
                     </NewTooltip>: null}
                     {choice.is_correct ? <i className="fas fa-check table-cell"/> : (active ? <NewTooltip title="Set as correct answer" placement="bottom" enterDelay={500}  enterNextDelay={500}>
-                        <button onClick={() => deleteAnswerChoice()}><i className="far fa-circle table-cell text-gray-300"/></button>
+                        <button onClick={() => markAsCorrect()}><i className="far fa-circle table-cell text-gray-300"/></button>
                     </NewTooltip>: null)}
                 </div>
 
