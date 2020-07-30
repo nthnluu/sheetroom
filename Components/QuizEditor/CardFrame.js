@@ -7,10 +7,11 @@ import JsonDebugBox from "../JsonDebugBox";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_CONTENT, UPDATE_ITEM_TYPE} from "../../gql/assignmentAutosave";
+import Automerge from 'automerge'
 
 
 const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
-    const {quiz, dispatch} = useContext(QuizContext);
+    const {quiz, dispatch, doc} = useContext(QuizContext);
     const [mutateItemContent] = useMutation(UPDATE_ITEM_CONTENT)
     const [mutateItemType] = useMutation(UPDATE_ITEM_TYPE)
 
@@ -26,20 +27,22 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
         }
     }
 
+    // Logic for AUTOSAVING the ITEM CONTENT
     const saveItemContent = (value) => {
         setSaveStatus(1)
-        dispatch({type: 'UPDATE-ITEM-CONTENT', index: itemIndex, payload: value})
-        mutateItemContent({variables: {itemId: item.id, content: value}})
-            .then(() => setSaveStatus(0))
-            .catch(() => setSaveStatus(2));
+        const newDoc = Automerge.change(doc, 'Update item content', doc => {
+            doc.sections[0].items[itemIndex].content = value
+        })
     }
 
+    // Logic for AUTOSAVING the ITEM TYPE
     const saveItemType = (value) => {
         setSaveStatus(1)
-        mutateItemType({variables: {itemId: item.id, type: value}})
-            .then(() => setSaveStatus(0))
-            .catch(() => setSaveStatus(2));
+        const newDoc = Automerge.change(doc, 'Update item type', doc => {
+            doc.sections[0].items[itemIndex].controller_type = value
+        })
     }
+
     return (
         <div className="bg-white focus:shadow-outline w-full pt-2 pb-8 px-8 focus:outline-none rounded-lg">
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">

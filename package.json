@@ -26,6 +26,7 @@
     "apollo-link-ws": "^1.0.20",
     "apollo-utilities": "latest",
     "array-move": "^3.0.0",
+    "automerge": "^0.14.1",
     "autoprefixer": "^9.8.1",
     "awesome-debounce-promise": "^2.1.0",
     "crypto-js": "latest",

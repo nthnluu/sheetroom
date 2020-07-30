@@ -15,6 +15,7 @@ import JsonDebugBox from "../../../Components/JsonDebugBox";
 import {debounce} from "lodash";
 import {UPDATE_ASSIGNMENT_CONTENT, UPDATE_ITEM_CONTROLLER} from "../../../gql/assignmentAutosave";
 import moment from 'moment';
+import Automerge from 'automerge'
 
 
 const theme = createMuiTheme({
@@ -36,34 +37,61 @@ const PageContent = ({data, aid}) => {
     const [saveStatus, setSaveStatus] = useState(0);
     const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
     const [saveContent] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
+    const doc = Automerge.from({
+        "sections": [
+            {
+                "items": [
+                    {
+                        "answer_controller": [
+                            {
+                                "is_correct": false,
+                                "content": [
+                                    {
+                                        "children": [
+                                            {
+                                                "text": "Answer Choice"
+                                            }
+                                        ],
+                                        "type": "paragraph"
+                                    }
+                                ],
+                                "__typename": "assignments_answer_object",
+                                "item": "550979a3-1416-432c-aad5-e2a8a6f06cda",
+                                "id": "0594cf54-08ed-437a-b50a-8d6396cb1137",
+                                "index": 24
+                            }
+                        ],
+                        "controller_type": "MC",
+                        "content": [
+                            {
+                                "children": [
+                                    {
+                                        "text": "How many days are in sdca yeqsqwdqwd"
+                                    }
+                                ],
+                                "type": "paragraph"
+                            }
+                        ],
+                        "__typename": "assignments_item",
+                        "id": "550979a3-1416-432c-aad5-e2a8a6f06cda",
+                        "index": 1
+                    }
+                ],
+                "id": "c6d735b8-2fe0-42e2-8d3a-493e0b1ef3b9"
+            }
+        ]
+    })
 
-    function saveControllerArray(newContent){
-        console.log('saving')
-        setSaveStatus(1)
-        saveContent({variables: {id: aid, content: newContent}})
-            .then(() => {setSaveStatus(0);})
-            .catch(() => setSaveStatus(2));
-    }
-
-    const delayedSave = useCallback(
-        debounce(newContent => saveControllerArray(newContent), 500), []
-    );
 
     useEffect(() => {
-        console.log('refresh!')
-        delayedSave(quiz.content)
         window.addEventListener('beforeunload', handleWindowClose);
 
-        if (moment(data.assignments_assignment_by_pk).isAfter(quiz.updated_at)) {
-            dispatch({type: "REFRESH-QUIZ", quiz: data.assignments_assignment_by_pk})
-        }
 
         return () => {
             window.removeEventListener('beforeunload', handleWindowClose);
         };
+    }, []);
 
-
-    }, [quiz]);
 
     const handleWindowClose = (e) => {
         if (saveStatus !== 0) {
@@ -78,10 +106,8 @@ const PageContent = ({data, aid}) => {
     }
 
 
-
-
     return (
-        <QuizContext.Provider value={{quiz, dispatch, saveQuiz}}>
+        <QuizContext.Provider value={{quiz, dispatch, doc}}>
             <AppLayout pageId={aid}
                        navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
                                              saveStatus={saveStatus}
@@ -103,7 +129,7 @@ const PageContent = ({data, aid}) => {
                        content={
                            <div key={aid} className="max-w-7xl mx-auto">
                                {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
-                               <DnDList currentItem={currentItem} items={quiz.content.sections[0].items}
+                               <DnDList currentItem={currentItem} items={doc}
                                         setSaveStatus={status => setSaveStatus(status)}
                                         setItem={setCurrentItem}/>
                                <div className="pt-12 pb-32">
@@ -259,9 +285,8 @@ const QuizEditor = ({user, session}) => {
     const {aid} = router.query;
 
 
-
     const {loading, error, data} = useSubscription(ASSIGNMENT_WS, {
-        variables: {id: aid}
+        variables: {id: aid},
     });
     if (error) return `Error! ${JSON.stringify(error)}`;
 
