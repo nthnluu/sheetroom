@@ -65,9 +65,6 @@ const QuestionCardDropdown = ({active, value, itemIndex, saveType}) => {
                     Multiple Answers
                 </Box></MenuItem>
 
-                <MenuItem disableRipple value="DD"><Box p={0}>
-                    Dropdown
-                </Box></MenuItem>
                 <Divider />
                 <MenuItem disableRipple value="MF"><Box p={0}>
                     Math Field
