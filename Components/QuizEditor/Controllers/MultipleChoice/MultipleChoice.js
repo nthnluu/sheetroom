@@ -69,7 +69,7 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
         const newDoc = Automerge.change(assignment, 'Add Answer  Choice', doc => {
             const newItem = {
                 id: uuidv4(),
-                is_correct: false,
+                is_correct: doc.sections[0].items[itemIndex].answer_controller.length === 0,
                 content: [
                     {
                         children: [

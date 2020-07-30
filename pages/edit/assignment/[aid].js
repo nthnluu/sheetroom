@@ -45,7 +45,7 @@ const PageContent = ({data, aid}) => {
                     {
                         "answer_controller": [
                             {
-                                "is_correct": false,
+                                "is_correct": true,
                                 "content": [
                                     {
                                         "children": [
