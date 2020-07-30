@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
+import React, {useCallback, useContext} from "react";
 import {v4 as uuidv4} from 'uuid';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
@@ -7,10 +7,8 @@ import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
-import _ from 'lodash'
 import {debounce} from 'lodash';
 import Automerge from "automerge";
-import JsonDebugBox from "../../../JsonDebugBox";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400"
@@ -38,8 +36,8 @@ const SortableList = SortableContainer(({items, active, itemIndex}) => {
 });
 
 
-export const MultipleChoiceController = ({active, answerChoices, setAnswerChoices, setSaveStatus, itemId, setItems, itemIndex}) => {
-    const {quiz, dispatch, assignment, setAssignment} = useContext(QuizContext);
+export const MultipleChoiceController = ({active, answerChoices, setSaveStatus, itemId, itemIndex}) => {
+    const {assignment, setAssignment} = useContext(QuizContext);
     const [saveController] = useMutation(UPDATE_ITEM_CONTROLLER)
 
 
@@ -51,21 +49,6 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
         })
         setAssignment(newDoc)
     }
-
-
-    function saveControllerArray(newArray) {
-        console.log('saving')
-        setSaveStatus(1)
-        saveController({variables: {itemId: itemId, controller: newArray}})
-            .then(() => setSaveStatus(0))
-            .catch(() => setSaveStatus(2));
-    }
-
-    const delayedSave = useCallback(
-        debounce(newArray => saveControllerArray(newArray), 1000), []
-    );
-
-
     const addAnswerChoice = () => {
         setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Add Answer  Choice', doc => {
@@ -119,19 +102,22 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
 SortableItem.propTypes = {
     value: PropTypes.object.isRequired,
     active: PropTypes.bool,
+    answerIndex: PropTypes.number.isRequired,
+    itemIndex: PropTypes.number.isRequired
 };
 
 SortableList.propTypes = {
     items: PropTypes.array,
     active: PropTypes.bool.isRequired,
+    itemIndex: PropTypes.number.isRequired
 };
 
 MultipleChoiceController.propTypes = {
     active: PropTypes.bool,
     answerChoices: PropTypes.array,
     setSaveStatus: PropTypes.func.isRequired,
-    setAnswerChoices: PropTypes.func.isRequired,
     itemId: PropTypes.string.isRequired,
+    itemIndex: PropTypes.number.isRequired,
 };
 
 export default MultipleChoiceController
