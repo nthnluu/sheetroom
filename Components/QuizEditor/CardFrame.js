@@ -37,11 +37,28 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
         })
         setAssignment(newDoc)
     }
+    function getAllIndexes(arr, val) {
+        let indexes = [], i = -1;
+        while ((i = arr.indexOf(val, i+1)) !== -1){
+            indexes.push(i);
+        }
+        return indexes;
+    }
 
     // Logic for AUTOSAVING the ITEM TYPE
     const saveItemType = (newTypeValue) => {
         setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Update item type', doc => {
+            const correctItemIndex = doc.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct);
+            doc.sections[0].items[itemIndex].answer_controller.forEach((element, index) => {
+                doc.sections[0].items[itemIndex].answer_controller[index].is_correct = false
+            })
+            if (correctItemIndex === -1) {
+                doc.sections[0].items[itemIndex].answer_controller[0].is_correct = true
+            } else {
+                doc.sections[0].items[itemIndex].answer_controller[correctItemIndex].is_correct = true
+            }
+
             doc.sections[0].items[itemIndex].controller_type = newTypeValue
         })
         setAssignment(newDoc)
