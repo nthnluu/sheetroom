@@ -8,7 +8,9 @@ import QuizContext from "../../QuizContext";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
 import _ from 'lodash'
-import { debounce } from 'lodash';
+import {debounce} from 'lodash';
+import Automerge from "automerge";
+import JsonDebugBox from "../../../JsonDebugBox";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400"
@@ -37,7 +39,7 @@ const SortableList = SortableContainer(({items, active, itemIndex}) => {
 
 
 export const MultipleChoiceController = ({active, answerChoices, setAnswerChoices, setSaveStatus, itemId, setItems, itemIndex}) => {
-    const {quiz, dispatch} = useContext(QuizContext);
+    const {quiz, dispatch, assignment, setAssignment} = useContext(QuizContext);
     const [saveController] = useMutation(UPDATE_ITEM_CONTROLLER)
 
     const onSortEnd = ({oldIndex, newIndex}) => {
@@ -49,8 +51,7 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
     };
 
 
-
-    function saveControllerArray(newArray){
+    function saveControllerArray(newArray) {
         console.log('saving')
         setSaveStatus(1)
         saveController({variables: {itemId: itemId, controller: newArray}})
@@ -62,6 +63,29 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
         debounce(newArray => saveControllerArray(newArray), 1000), []
     );
 
+
+    const addAnswerChoice = () => {
+        setSaveStatus(1)
+        const newDoc = Automerge.change(assignment, 'Add Answer  Choice', doc => {
+            const newItem = {
+                id: uuidv4(),
+                is_correct: false,
+                content: [
+                    {
+                        children: [
+                            {
+                                text: "Answer Choice"
+                            }
+                        ],
+                        type: "paragraph"
+                    }
+                ]
+            }
+            doc.sections[0].items[itemIndex]['answer_controller'].push(newItem)
+        })
+        setAssignment(newDoc)
+    }
+
     return (
         <div key={itemId}>
             {active ? <div>
@@ -69,9 +93,9 @@ export const MultipleChoiceController = ({active, answerChoices, setAnswerChoice
                               active={active} lockAxis="y"
                               lockToContainerEdges/>
                 <div className="space-x-2">
-                    <button type="button" onClick={() => {
-                        dispatch({type: 'CREATE-NEW-ANSWER-OBJECT', itemIndex: itemIndex});
-                    }}
+                    <button type="button" onClick={() =>
+                        addAnswerChoice()
+                    }
                             className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs leading-4 font-medium rounded text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
                         Add option
                     </button>

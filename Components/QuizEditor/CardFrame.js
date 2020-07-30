@@ -11,7 +11,7 @@ import Automerge from 'automerge'
 
 
 const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
-    const {quiz, dispatch, doc} = useContext(QuizContext);
+    const {quiz, dispatch, doc, assignment} = useContext(QuizContext);
     const [mutateItemContent] = useMutation(UPDATE_ITEM_CONTENT)
     const [mutateItemType] = useMutation(UPDATE_ITEM_TYPE)
 
@@ -30,7 +30,7 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     // Logic for AUTOSAVING the ITEM CONTENT
     const saveItemContent = (value) => {
         setSaveStatus(1)
-        const newDoc = Automerge.change(doc, 'Update item content', doc => {
+        Automerge.change(assignment, 'Update item content', doc => {
             doc.sections[0].items[itemIndex].content = value
         })
     }
@@ -38,8 +38,8 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     // Logic for AUTOSAVING the ITEM TYPE
     const saveItemType = (value) => {
         setSaveStatus(1)
-        const newDoc = Automerge.change(doc, 'Update item type', doc => {
-            doc.sections[0].items[itemIndex].controller_type = value
+        Automerge.change(assignment, 'Update item type', doc => {
+            doc.sections[0].items[itemIndex]['controller_type'] = value
         })
     }
 

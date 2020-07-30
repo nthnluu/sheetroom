@@ -55,7 +55,7 @@ const ActiveCard = ({setSaveStatus, item, itemIndex}) => {
 
 export const DnDList = ({items, setSaveStatus}) => {
     const [selectedItem, setSelectedItem] = useState('');
-    const {quiz, dispatch} = useContext(QuizContext);
+    const {quiz, dispatch, doc} = useContext(QuizContext);
 
     const onSortEnd = (result) => {
         // dropped outside the list
@@ -75,7 +75,7 @@ export const DnDList = ({items, setSaveStatus}) => {
             <Droppable droppableId={'droppable'}>
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                        {quiz.content.sections[0].items.map((item, index) => <Draggable key={item.id} draggableId={item.id}
+                        {items.sections[0].items.map((item, index) => <Draggable key={item.id} draggableId={item.id}
                                                                                 index={index}>
                             {(provided, snapshot) => <div ref={provided.innerRef}
                                                           {...provided.draggableProps}>

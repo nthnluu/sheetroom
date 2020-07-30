@@ -35,9 +35,10 @@ const PageContent = ({data, aid}) => {
 
     const [currentItem, setCurrentItem] = useState(undefined);
     const [saveStatus, setSaveStatus] = useState(0);
+
     const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
     const [saveContent] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
-    const doc = Automerge.from({
+    const doc1 = Automerge.from({
         "sections": [
             {
                 "items": [
@@ -80,8 +81,18 @@ const PageContent = ({data, aid}) => {
                 "id": "c6d735b8-2fe0-42e2-8d3a-493e0b1ef3b9"
             }
         ]
-    })
+    }, {freeze: true})
+    const [assignment, setAssignment] = useState(doc1);
 
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', handleWindowClose);
+
+
+        return () => {
+            window.removeEventListener('beforeunload', handleWindowClose);
+        };
+    }, []);
 
     useEffect(() => {
         window.addEventListener('beforeunload', handleWindowClose);
@@ -107,7 +118,7 @@ const PageContent = ({data, aid}) => {
 
 
     return (
-        <QuizContext.Provider value={{quiz, dispatch, doc}}>
+        <QuizContext.Provider value={{quiz, dispatch, assignment, setSaveStatus, setAssignment }}>
             <AppLayout pageId={aid}
                        navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
                                              saveStatus={saveStatus}
@@ -129,7 +140,7 @@ const PageContent = ({data, aid}) => {
                        content={
                            <div key={aid} className="max-w-7xl mx-auto">
                                {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
-                               <DnDList currentItem={currentItem} items={doc}
+                               <DnDList currentItem={currentItem} items={assignment}
                                         setSaveStatus={status => setSaveStatus(status)}
                                         setItem={setCurrentItem}/>
                                <div className="pt-12 pb-32">
