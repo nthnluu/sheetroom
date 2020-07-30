@@ -2,9 +2,7 @@ import React, {useContext} from "react";
 import {RichTextField} from "../../../Editor/SlateEditor";
 import PropTypes from 'prop-types';
 import QuizContext from "../../QuizContext";
-import Tooltip from "@material-ui/core/Tooltip";
 import NewTooltip from "../../../Misc/Tooltip";
-import JsonDebugBox from "../../../JsonDebugBox";
 import Automerge from "automerge";
 
 
@@ -79,10 +77,10 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
 };
 
 AnswerChoice.propTypes = {
-    onBlurHandler: PropTypes.func.isRequired,
     active: PropTypes.bool,
     choice: PropTypes.object.isRequired,
-    dragHandler: PropTypes.element
+    dragHandler: PropTypes.element,
+    itemIndex: PropTypes.number
 
 };
 

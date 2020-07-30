@@ -1,4 +1,4 @@
-import React, {useCallback, useContext} from "react";
+import React, {useContext} from "react";
 import {v4 as uuidv4} from 'uuid';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
-import {debounce} from 'lodash';
 import Automerge from "automerge";
 
 const DragHandle = SortableHandle(() => <i

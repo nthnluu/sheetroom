@@ -16,7 +16,6 @@ const HOTKEYS = {
 
 export const RichTextField = ({active, initialContent, onBlurEvent, border, uniqueId}) => {
     const [value, setValue] = useState(initialContent ? initialContent : initialValue);
-    const [divBlurEvent, setDivBlurEvent] = useState();
     const [toolbarOpen, toggleToolbar] = useState(false);
     const renderElement = useCallback(props => <Element {...props} />, []);
     const renderLeaf = useCallback(props => <Leaf {...props} />, []);
