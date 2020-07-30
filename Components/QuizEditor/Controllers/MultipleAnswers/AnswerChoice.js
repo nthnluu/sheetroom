@@ -49,7 +49,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
                 </button>
                 <span className="table-cell w-full pointer-events-auto">
                     <RichTextField uniqueId={choice.id} active={active} initialContent={choice.content}
-                                   onBlurEvent={(value) => dispatch({type: 'UPDATE-ANSWER-CHOICE-CONTENT', itemIndex: itemIndex, answerIndex: answerIndex, payload: value})}/></span>
+                                   onBlurEvent={(value) => saveChoiceContent(value)}/></span>
                 <div className="flex justify-between space-x-3">
                     {(active) ? <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}  enterNextDelay={500}>
                         <button onClick={() => deleteAnswerChoice()}><i className={((choice.is_correct) ? "text-blue-600": "text-gray-300") + " far fa-trash-alt table-cell"}/></button>
@@ -66,11 +66,11 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
 };
 
 AnswerChoice.propTypes = {
-    onBlurHandler: PropTypes.func.isRequired,
     active: PropTypes.bool,
     choice:  PropTypes.object.isRequired,
-    dragHandler: PropTypes.element
-
+    dragHandler: PropTypes.element,
+    answerIndex: PropTypes.number.isRequired,
+    itemIndex: PropTypes.number.isRequired
 };
 
 export default AnswerChoice;

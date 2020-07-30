@@ -5,6 +5,8 @@ import arrayMove from 'array-move';
 import JsonDebugBox from "../JsonDebugBox";
 import QuizContext from "./QuizContext";
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import Automerge from "automerge";
+import {assign} from "apollo-utilities";
 
 
 
@@ -55,7 +57,7 @@ const ActiveCard = ({setSaveStatus, item, itemIndex}) => {
 
 export const DnDList = ({items, setSaveStatus}) => {
     const [selectedItem, setSelectedItem] = useState('');
-    const {quiz, dispatch, doc} = useContext(QuizContext);
+    const {quiz, dispatch, doc, setAssignment, assignment} = useContext(QuizContext);
 
     const onSortEnd = (result) => {
         // dropped outside the list
@@ -63,11 +65,14 @@ export const DnDList = ({items, setSaveStatus}) => {
             return;
         }
 
-        dispatch({
-            type: 'UPDATE-ITEM-ARRAY',
-            payload: arrayMove(quiz.content.sections[0].items, result.source.index, result.destination.index)
+        const newQuestionValue = JSON.stringify(arrayMove(assignment.sections[0].items, result.source.index, result.destination.index))
+        setSaveStatus(1)
+
+        const newDoc = Automerge.change(assignment, 'Reorder Items', doc => {
+            doc.sections[0].items = JSON.parse(newQuestionValue);
         })
-    };
+        setAssignment(newDoc)
+    }
 
 
     return (

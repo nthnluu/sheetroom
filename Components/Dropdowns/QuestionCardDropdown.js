@@ -45,7 +45,6 @@ const QuestionCardDropdown = ({active, value, itemIndex, saveType}) => {
 
     const handleChange = selectedOption => {
         saveType(selectedOption.target.value);
-        console.log(selectedOption)
         dispatch({type: 'UPDATE-ITEM-TYPE', index: itemIndex, controller_type: selectedOption.target.value});
     };
 

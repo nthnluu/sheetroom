@@ -14,6 +14,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
 import Automerge from 'automerge'
 import {v4 as uuidv4} from 'uuid';
+import {nanoid} from 'nanoid'
+import {initialDocumentContent} from "../../../Components/QuizEditor/Templates";
 
 const theme = createMuiTheme({
     palette: {
@@ -36,25 +38,9 @@ const PageContent = ({data, aid}) => {
     const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
     const [saveContent] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
 
-    const initalDocumentContent = {
-        "sections": [
-            {
-                "items": [
-                    {
-                        "answer_controller": [
-                            {
-                                "is_correct": true,
-                                "content": null
-                            }
-                        ],
-                        "controller_type": "MC",
-                        "question": null
-                    }
-                ],
-            }
-        ]
-    }
-    const doc1 = Automerge.from(initalDocumentContent)
+
+
+    const doc1 = Automerge.from(initialDocumentContent)
     const [assignment, setAssignment] = useState(doc1);
 
 
@@ -66,8 +52,6 @@ const PageContent = ({data, aid}) => {
             window.removeEventListener('beforeunload', handleWindowClose);
         };
     }, []);
-
-
     const handleWindowClose = (e) => {
         if (saveStatus !== 0) {
             e.preventDefault();

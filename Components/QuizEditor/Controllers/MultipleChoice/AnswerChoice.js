@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import QuizContext from "../../QuizContext";
 import NewTooltip from "../../../Misc/Tooltip";
 import Automerge from "automerge";
+import { nanoid } from 'nanoid'
 
 
 const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => {

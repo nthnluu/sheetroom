@@ -1,13 +1,14 @@
-import React, {useContext, useState} from "react";
-import {v4 as uuidv4} from 'uuid';
+import React, {useContext} from "react";
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import AnswerChoice from "./AnswerChoice";
 import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
 import {useMutation} from "@apollo/react-hooks";
-import {debounce, UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
+import {UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
 import Automerge from "automerge";
+import {nanoid} from "nanoid";
+import {blankAnswerChoice} from "../../Templates";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400"
@@ -35,7 +36,7 @@ const SortableList = SortableContainer(({items, active, itemIndex}) => {
 });
 
 
-export const MultipleAnswersController = ({active, answerChoices, setAnswerChoices, setSaveStatus, itemId, setItems, itemIndex}) => {
+export const MultipleAnswersController = ({active, answerChoices, setSaveStatus, itemId, itemIndex}) => {
     const {quiz, dispatch, setAssignment, assignment} = useContext(QuizContext);
     const [saveController] = useMutation(UPDATE_ITEM_CONTROLLER)
 
@@ -50,11 +51,7 @@ export const MultipleAnswersController = ({active, answerChoices, setAnswerChoic
     const addAnswerChoice = () => {
         setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Add Answer  Choice', doc => {
-            const newItem = {
-                is_correct: false,
-                content: null
-            }
-            doc.sections[0].items[itemIndex]['answer_controller'].push(newItem)
+            doc.sections[0].items[itemIndex]['answer_controller'].push(blankAnswerChoice(doc.sections[0].items[itemIndex].answer_controller.length === 0))
         })
         setAssignment(newDoc)
     }
@@ -88,19 +85,22 @@ export const MultipleAnswersController = ({active, answerChoices, setAnswerChoic
 SortableItem.propTypes = {
     value: PropTypes.object.isRequired,
     active: PropTypes.bool,
+    answerIndex: PropTypes.number.isRequired,
+    itemIndex: PropTypes.number.isRequired
 };
 
 SortableList.propTypes = {
     items: PropTypes.array,
     active: PropTypes.bool.isRequired,
+    itemIndex: PropTypes.number.isRequired
 };
 
 MultipleAnswersController.propTypes = {
     active: PropTypes.bool,
     answerChoices: PropTypes.array,
     setSaveStatus: PropTypes.func.isRequired,
-    setAnswerChoices: PropTypes.func.isRequired,
     itemId: PropTypes.string.isRequired,
+    itemIndex: PropTypes.number.isRequired
 };
 
 export default MultipleAnswersController

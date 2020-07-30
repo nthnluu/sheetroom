@@ -8,6 +8,8 @@ import QuizContext from "../../QuizContext";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
 import Automerge from "automerge";
+import {nanoid} from "nanoid";
+import {blankAnswerChoice} from "../../Templates";
 
 const DragHandle = SortableHandle(() => <i
     className="fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400"
@@ -51,11 +53,7 @@ export const MultipleChoiceController = ({active, answerChoices, setSaveStatus, 
     const addAnswerChoice = () => {
         setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Add Answer  Choice', doc => {
-            const newItem = {
-                is_correct: doc.sections[0].items[itemIndex].answer_controller.length === 0,
-                content: null
-            }
-            doc.sections[0].items[itemIndex]['answer_controller'].push(newItem)
+            doc.sections[0].items[itemIndex]['answer_controller'].push(blankAnswerChoice(doc.sections[0].items[itemIndex].answer_controller.length === 0))
         })
         setAssignment(newDoc)
     }
