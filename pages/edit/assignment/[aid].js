@@ -13,6 +13,7 @@ import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/style
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
 import Automerge from 'automerge'
+import {v4 as uuidv4} from 'uuid';
 
 const theme = createMuiTheme({
     palette: {
@@ -34,7 +35,8 @@ const PageContent = ({data, aid}) => {
 
     const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
     const [saveContent] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
-    const doc1 = Automerge.from({
+
+    const initalDocumentContent = {
         "sections": [
             {
                 "items": [
@@ -42,42 +44,17 @@ const PageContent = ({data, aid}) => {
                         "answer_controller": [
                             {
                                 "is_correct": true,
-                                "content": [
-                                    {
-                                        "children": [
-                                            {
-                                                "text": "Answer Choice"
-                                            }
-                                        ],
-                                        "type": "paragraph"
-                                    }
-                                ],
-                                "__typename": "assignments_answer_object",
-                                "item": "550979a3-1416-432c-aad5-e2a8a6f06cda",
-                                "id": "0594cf54-08ed-437a-b50a-8d6396cb1137",
-                                "index": 24
+                                "content": null
                             }
                         ],
                         "controller_type": "MC",
-                        "question": [
-                            {
-                                "children": [
-                                    {
-                                        "text": "How many days are in sdca yeqsqwdqwd"
-                                    }
-                                ],
-                                "type": "paragraph"
-                            }
-                        ],
-                        "__typename": "assignments_item",
-                        "id": "550979a3-1416-432c-aad5-e2a8a6f06cda",
-                        "index": 1
+                        "question": null
                     }
                 ],
-                "id": "c6d735b8-2fe0-42e2-8d3a-493e0b1ef3b9"
             }
         ]
-    })
+    }
+    const doc1 = Automerge.from(initalDocumentContent)
     const [assignment, setAssignment] = useState(doc1);
 
 
@@ -89,7 +66,6 @@ const PageContent = ({data, aid}) => {
             window.removeEventListener('beforeunload', handleWindowClose);
         };
     }, []);
-
 
 
     const handleWindowClose = (e) => {
