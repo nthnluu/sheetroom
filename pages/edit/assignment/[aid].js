@@ -76,13 +76,18 @@ const PageContent = ({pageData, aid}) => {
 
     //Logic for saving the assignment
     const saveAssignment = (newAssignmentValue, newData) => {
-        setSaveStatus(1)
-        saveContent({variables: {id: aid, content: newAssignmentValue, clientId: clientId}})
-            .then(() => {
-                setSaveStatus(0);
-                setLastSavedState(newData)
-            })
-            .catch((error) => {setSaveStatus(2); console.log(error)})
+        if (invalidSession) {
+            setSaveStatus(2)
+        } else {
+            setSaveStatus(1)
+            saveContent({variables: {id: aid, content: newAssignmentValue, clientId: clientId}})
+                .then(() => {
+                    setSaveStatus(0);
+                    setLastSavedState(newData)
+                })
+                .catch((error) => {setSaveStatus(2); console.log(error)})
+        }
+
     }
 
     // If the document is saving, prevents the window from navigating away
@@ -103,7 +108,6 @@ const PageContent = ({pageData, aid}) => {
     //Triggered whenever the pageData is updated; if the last_edited_by clientID doesn't match the current clientId, invalidates the session
     useEffect(() => {
         if (data.assignments_assignment_by_pk.last_edited_by !== lastSavedState.assignments_assignment_by_pk.last_edited_by) {
-            setSaveStatus(2)
             setInvalidSession(true)
         } else {
             setData(pageData)
@@ -156,7 +160,7 @@ const PageContent = ({pageData, aid}) => {
                        content={
                            <div key={aid} className="max-w-7xl mx-auto">
                                <Dialog onClose={() => console.log('closwe')} aria-labelledby="simple-dialog-title"
-                                       open={invalidSession}>
+                                       open={invalidSession && saveStatus === 2}>
                                    <div className="p-2 pr-4">
                                        <DialogTitle id="simple-dialog-title">Someone has made changes to this
                                            assignment</DialogTitle>
