@@ -48,7 +48,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
                     {dragHandler}
                 </button>
                 <span className="table-cell w-full pointer-events-auto">
-                    <RichTextField uniqueId={choice.id} active={active} initialContent={choice.content}
+                    <RichTextField autoFocus={active} uniqueId={choice.id} active={active} initialContent={choice.content}
                                    onBlurEvent={(value) => saveChoiceContent(value)}/></span>
                 <div className="flex justify-between space-x-3">
                     {(active) ? <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}  enterNextDelay={500}>

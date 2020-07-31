@@ -14,7 +14,7 @@ const HOTKEYS = {
     'mod+`': 'code',
 };
 
-export const RichTextField = ({active, initialContent, onBlurEvent, border, uniqueId}) => {
+export const RichTextField = ({active, initialContent, onBlurEvent, border, uniqueId, autofocus}) => {
     const [value, setValue] = useState(initialContent ? initialContent : initialValue);
     const [toolbarOpen, toggleToolbar] = useState(false);
     const renderElement = useCallback(props => <Element {...props} />, []);
@@ -24,29 +24,30 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border, uniq
 
     return (
         <div className="group relative">
-            <Slate editor={editor} value={value} onChange={value => setValue(value)} >
+            <Slate editor={editor} value={value} onChange={value => setValue(value)}>
                 <div
                     className={active ? ("border-gray-200 group-hover:border-gray-300 active:border-blue-400 rounded-lg " + (border ? "border shadow-sm py-3 px-4" : "px-4")) : "rounded-lg border border-transparent"}>
                     <Editable
+                        autoFocus={autofocus}
                         readOnly={!active}
                         renderElement={renderElement}
                         renderLeaf={renderLeaf}
                         placeholder="Start typing…"
                         spellCheck={false}
-                        onFocus={() => toggleToolbar(true)}
-                        onBlur={(event) => {
-                            if (event.relatedTarget) {
-                                if (event.relatedTarget.id === uniqueId + "_toolbar") {
-                                    event.preventDefault();
-                                } else {
-                                    toggleToolbar(false);
-                                    onBlurEvent(value);
-                                }
-                            } else {
-                                toggleToolbar(false);
-                                onBlurEvent(value);
-                            }
-                        }}
+                        // onFocus={() => toggleToolbar(true)}
+                        // onBlur={(event) => {
+                        //     if (event.relatedTarget) {
+                        //         if (event.relatedTarget.id === uniqueId + "_toolbar") {
+                        //             event.preventDefault();
+                        //         } else {
+                        //             toggleToolbar(false);
+                        //             onBlurEvent(value);
+                        //         }
+                        //     } else {
+                        //         toggleToolbar(false);
+                        //         onBlurEvent(value);
+                        //     }
+                        // }}
                         onKeyDown={event => {
                             for (const hotkey in HOTKEYS) {
                                 if (isHotkey(hotkey, event)) {

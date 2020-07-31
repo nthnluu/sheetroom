@@ -87,7 +87,7 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                 <div className="w-full border-transparent pb-6">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
-                        <RichTextField border active={active} initialContent={item.question} autofocus
+                        <RichTextField border active={active} initialContent={item.question} autofocus={active}
                                        onBlurEvent={(newValue) => saveItemContent(newValue)} uniqueId={item.id}/>
                     </div>
                     <Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item}

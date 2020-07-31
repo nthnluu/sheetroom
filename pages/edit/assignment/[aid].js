@@ -52,8 +52,6 @@ const theme = createMuiTheme({
 
 const PageContent = ({data, aid}) => {
 
-
-    const [currentItem, setCurrentItem] = useState(undefined);
     const [saveStatus, setSaveStatus] = useState(0);
 
     const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
@@ -63,6 +61,7 @@ const PageContent = ({data, aid}) => {
 
     const doc1 = Automerge.from(initialDocumentContent)
     const [assignment, setAssignment] = useState(doc1);
+    const [currentItem, setCurrentItem] = useState(assignment.sections[0].items ? assignment.sections[0].items[0].id : undefined);
 
 
     useEffect(() => {

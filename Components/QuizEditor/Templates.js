@@ -6,7 +6,7 @@ export const blankMCItem = (newId, answerId) => ({
         {
             "id": answerId,
             "is_correct": true,
-            "content": null
+            "content": [{"children":[{"text":"Option 1"}],"type":"paragraph"}]
         }
     ],
     "controller_type": "MC",
@@ -42,11 +42,11 @@ export const initialDocumentContent = {
                         {
                             "id": nanoid(),
                             "is_correct": true,
-                            "content": null
+                            "content": [{"children":[{"text":"Option 1"}],"type":"paragraph"}]
                         }
                     ],
                     "controller_type": "MC",
-                    "question": null
+                    "question": [{"children":[{"text":"Question"}],"type":"paragraph"}]
                 }
             ],
         }
