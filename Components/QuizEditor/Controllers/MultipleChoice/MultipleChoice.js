@@ -1,5 +1,4 @@
 import React, {useContext} from "react";
-import {v4 as uuidv4} from 'uuid';
 import {SortableContainer, SortableElement, SortableHandle} from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import AnswerChoice from "./AnswerChoice";
@@ -7,7 +6,6 @@ import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
-import Automerge from "automerge";
 import {nanoid} from "nanoid";
 import {blankAnswerChoice} from "../../Templates";
 import Button from "@material-ui/core/Button";
@@ -44,17 +42,14 @@ export const MultipleChoiceController = ({active, answerChoices, setSaveStatus, 
 
 
     const onSortEnd = ({oldIndex, newIndex}) => {
-        const newArray = JSON.stringify(arrayMove(answerChoices, oldIndex, newIndex))
-        const newDoc = Automerge.change(assignment, 'Reorder Answer Choices', doc => {
-            doc.sections[0].items[itemIndex]['answer_controller'] = JSON.parse(newArray)
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        newDocument.sections[0].items[itemIndex].answer_controller = arrayMove(answerChoices, oldIndex, newIndex)
+        setAssignment(newDocument);
     }
     const addAnswerChoice = () => {
-        const newDoc = Automerge.change(assignment, 'Add Answer  Choice', doc => {
-            doc.sections[0].items[itemIndex]['answer_controller'].push(blankAnswerChoice(doc.sections[0].items[itemIndex].answer_controller.length === 0, nanoid()))
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        newDocument.sections[0].items[itemIndex].answer_controller.push(blankAnswerChoice(newDocument.sections[0].items[itemIndex].answer_controller.length === 0, nanoid()))
+        setAssignment(newDocument);
     }
 
     return (

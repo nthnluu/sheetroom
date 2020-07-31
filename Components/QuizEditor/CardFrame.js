@@ -37,11 +37,9 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
 
     // Logic for AUTOSAVING the ITEM CONTENT
     const saveItemContent = (newValue) => {
-        const newQuestionValue = JSON.stringify(newValue)
-        const newDoc = Automerge.change(assignment, 'Update Item Content', doc => {
-            doc.sections[0].items[itemIndex].question = JSON.parse(newQuestionValue);
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        newDocument.sections[0].items[itemIndex].question = newValue
+        setAssignment(newDocument)
     }
 
     function getAllIndexes(arr, val) {
@@ -53,28 +51,26 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     }
 
     const deleteItem = () => {
-        const newDoc = Automerge.change(assignment, 'Delete Item', doc => {
-            doc.sections[0].items.deleteAt(itemIndex)
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        newDocument.sections[0].items.splice(itemIndex, 1)
+        setAssignment(newDocument)
     }
 
     // Logic for AUTOSAVING the ITEM TYPE
     const saveItemType = (newTypeValue) => {
-        const newDoc = Automerge.change(assignment, 'Update item type', doc => {
-            const correctItemIndex = doc.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct);
-            doc.sections[0].items[itemIndex].answer_controller.forEach((element, index) => {
-                doc.sections[0].items[itemIndex].answer_controller[index].is_correct = false
-            })
-            if (correctItemIndex === -1) {
-                doc.sections[0].items[itemIndex].answer_controller[0].is_correct = true
-            } else {
-                doc.sections[0].items[itemIndex].answer_controller[correctItemIndex].is_correct = true
-            }
-
-            doc.sections[0].items[itemIndex].controller_type = newTypeValue
+        const newDocument = {...assignment}
+        const correctItemIndex = newDocument.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct);
+        newDocument.sections[0].items[itemIndex].answer_controller.forEach((element, index) => {
+            element.is_correct = false
         })
-        setAssignment(newDoc)
+        if (correctItemIndex === -1) {
+            newDocument.sections[0].items[itemIndex].answer_controller[0].is_correct = true
+        } else {
+            newDocument.sections[0].items[itemIndex].answer_controller[correctItemIndex].is_correct = true
+        }
+        newDocument.sections[0].items[itemIndex].controller_type = newTypeValue
+
+        setAssignment(newDocument)
     }
 
     return (

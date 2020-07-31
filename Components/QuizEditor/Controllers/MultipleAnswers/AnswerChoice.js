@@ -14,26 +14,21 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
     const {quiz, dispatch, setAssignment, assignment, setSaveStatus} = useContext(QuizContext);
 
     const saveChoiceContent = (newValue) => {
-        const newQuestionValue = JSON.stringify(newValue)
-
-        const newDoc = Automerge.change(assignment, 'Update Item Content', doc => {
-            doc.sections[0].items[itemIndex].answer_controller[answerIndex].content = JSON.parse(newQuestionValue);
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        newDocument.sections[0].items[itemIndex].answer_controller[answerIndex].content = newValue
+        setAssignment(newDocument)
     }
 
     const deleteAnswerChoice = () => {
-        const newDoc = Automerge.change(assignment, 'Delete Answer  Choice', doc => {
-            doc.sections[0].items[itemIndex].answer_controller.deleteAt(answerIndex)
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        newDocument.sections[0].items[itemIndex].answer_controller.splice(answerIndex, 1)
+        setAssignment(newDocument)
     }
 
     const markAsCorrect = () => {
-        const newDoc = Automerge.change(assignment, 'Set Correct Answer Choice', doc => {
-            doc.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct = !doc.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        newDocument.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct = !newDocument.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct
+        setAssignment(newDocument)
     }
 
     return (

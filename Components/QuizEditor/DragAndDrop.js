@@ -3,20 +3,19 @@ import React, {useContext} from "react";
 import arrayMove from 'array-move';
 import QuizContext from "./QuizContext";
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
-import Automerge from "automerge";
-
 
 
 const ItemCard = ({active, itemIndex, item, setActive, provided, setSaveStatus}) => (
     <div className="pb-4">
-            {active ? <div className="bg-white rounded-lg border border-gray-300 shadow-xl">
-                <div className="w-full text-center z-50"><DragHandle provided={provided}/></div>
-                <ActiveCard item={item} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)}/>
-            </div> : <div className="group bg-white rounded-lg border border-gray-200">
-                <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible"><DragHandle
-                    provided={provided}/></div>
-                <InactiveCard item={item} setActive={(id) => setActive(id)} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)}/>
-            </div>}
+        {active ? <div className="bg-white rounded-lg border border-gray-300 shadow-xl">
+            <div className="w-full text-center z-50"><DragHandle provided={provided}/></div>
+            <ActiveCard item={item} itemIndex={itemIndex} setSaveStatus={status => setSaveStatus(status)}/>
+        </div> : <div className="group bg-white rounded-lg border border-gray-200">
+            <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible"><DragHandle
+                provided={provided}/></div>
+            <InactiveCard item={item} setActive={(id) => setActive(id)} itemIndex={itemIndex}
+                          setSaveStatus={status => setSaveStatus(status)}/>
+        </div>}
     </div>
 )
 
@@ -60,12 +59,10 @@ export const DnDList = ({items, setSaveStatus, currentItem, setCurrentItem}) => 
             return;
         }
 
-        const newQuestionValue = JSON.stringify(arrayMove(assignment.sections[0].items, result.source.index, result.destination.index))
 
-        const newDoc = Automerge.change(assignment, 'Reorder Items', doc => {
-            doc.sections[0].items = JSON.parse(newQuestionValue);
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        newDocument.sections[0].items = arrayMove(assignment.sections[0].items, result.source.index, result.destination.index)
+        setAssignment(newDocument)
     }
 
 
@@ -75,7 +72,7 @@ export const DnDList = ({items, setSaveStatus, currentItem, setCurrentItem}) => 
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
                         {items.sections[0].items.map((item, index) => <Draggable key={item.id} draggableId={item.id}
-                                                                                index={index}>
+                                                                                 index={index}>
                             {(provided, snapshot) => <div ref={provided.innerRef}
                                                           {...provided.draggableProps}>
                                 <ItemCard

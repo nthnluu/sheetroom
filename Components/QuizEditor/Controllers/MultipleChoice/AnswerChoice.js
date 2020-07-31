@@ -14,30 +14,25 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
 
 
     const saveChoiceContent = (newValue) => {
-        const newQuestionValue = JSON.stringify(newValue)
-        const newDoc = Automerge.change(assignment, 'Update Item Content', doc => {
-            doc.sections[0].items[itemIndex].answer_controller[answerIndex].content = JSON.parse(newQuestionValue);
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        newDocument.sections[0].items[itemIndex].answer_controller[answerIndex].content = newValue
+        setAssignment(newDocument)
     }
 
     const deleteAnswerChoice = () => {
-        const newDoc = Automerge.change(assignment, 'Delete Answer  Choice', doc => {
-            doc.sections[0].items[itemIndex].answer_controller.deleteAt(answerIndex)
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        newDocument.sections[0].items[itemIndex].answer_controller.splice(answerIndex, 1)
+        setAssignment(newDocument)
     }
 
     const markAsCorrect = () => {
-        const newDoc = Automerge.change(assignment, 'Set Correct Answer Choice', doc => {
-            const found = doc.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct)
-            if (found !== -1) {
-                doc.sections[0].items[itemIndex].answer_controller[found].is_correct = false
-
-            }
-            doc.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct = true
-        })
-        setAssignment(newDoc)
+        const newDocument = {...assignment}
+        const found = newDocument.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct)
+        if (found !== -1) {
+            newDocument.sections[0].items[itemIndex].answer_controller[found].is_correct = false
+        }
+        newDocument.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct = true
+        setAssignment(newDocument)
     }
 
     return (

@@ -12,10 +12,8 @@ import QuizReducer from "../../../Components/QuizEditor/QuizReducer";
 import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
-import Automerge from 'automerge'
 import {v4 as uuidv4} from 'uuid';
-import { debounce } from 'lodash';
-import {nanoid} from 'nanoid'
+import {debounce} from 'lodash';
 import {
     blankAnswerChoice,
     blankMAItem,
@@ -51,47 +49,31 @@ const theme = createMuiTheme({
 });
 
 
-
 const PageContent = ({data, aid}) => {
 
     const [saveStatus, setSaveStatus] = useState(0);
     const [saveError, setSaveError] = useState();
+    const [sessionExpired, setSessionExpired] = useState(false);
 
     const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
     const [saveContent] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
 
-
-    const doc1 = Automerge.load(data.assignments_assignment_by_pk.content)
-    const [assignment, setAssignment] = useState(doc1);
+    const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
     const [currentItem, setCurrentItem] = useState(() => (assignment.sections[0].items ? assignment.sections[0].items[0].id : undefined));
 
     const saveAssignment = (newAssignmentValue) => {
         setSaveStatus(1)
-        let finalDoc = Automerge.save(newAssignmentValue)
-        saveContent({variables: {id: aid, content: finalDoc}})
-            .then(() => setSaveStatus(0))
-            .catch((error) => {setSaveStatus(2); setSaveError(error)})
+        setTimeout(() => setSaveStatus(0), 2000)
     }
+    const delayedMutateDoc = useCallback(debounce((newAssignmentValue) => saveAssignment(newAssignmentValue), 5000), []);
 
-    const delayedMutateDoc = useCallback(debounce((newAssignmentValue) => saveAssignment(newAssignmentValue), 500), []);
-
+    // If the document is saving, prevents the window from navigating away
     useEffect(() => {
         window.addEventListener('beforeunload', handleWindowClose);
         return () => {
             window.removeEventListener('beforeunload', handleWindowClose);
         };
     }, []);
-
-    useEffect(() => {
-        delayedMutateDoc(assignment)
-    }, [assignment]);
-
-    useEffect(() => {
-        const freshDoc = Automerge.load(data.assignments_assignment_by_pk.content)
-        const newDoc = Automerge.merge(assignment, freshDoc)
-        setAssignment(newDoc)
-    }, [data]);
-
     const handleWindowClose = (e) => {
         if (saveStatus !== 0) {
             e.preventDefault();
@@ -101,31 +83,32 @@ const PageContent = ({data, aid}) => {
     };
 
 
+    useEffect(() => {
+        delayedMutateDoc(assignment)
+    }, [assignment]);
+    useEffect(() => {
+        setSessionExpired(true);
+    }, [data]);
+
     const addItem = (type) => {
         const newItemId = uuidv4()
         const newChoiceId = uuidv4()
-        let newDoc
-        switch(type){
+        const newDocument = {...assignment}
+        switch(type) {
             case('MC'):
-                newDoc = Automerge.change(assignment, `Added ${type} Item`, doc => {
-                    doc.sections[0].items.push(blankMCItem(newItemId, newChoiceId))
-                })
-                setAssignment(newDoc)
+                newDocument.sections[0].items.push(blankMCItem(newItemId, newChoiceId))
                 break
             case('MA'):
-                newDoc = Automerge.change(assignment, `Added ${type} Item`, doc => {
-                    doc.sections[0].items.push(blankMAItem(newItemId, newChoiceId))
-                })
-                setAssignment(newDoc)
+                newDocument.sections[0].items.push(blankMAItem(newItemId, newChoiceId))
                 break
         }
-        setAssignment(newDoc)
-        setCurrentItem(newItemId)
+        setAssignment(newDocument)
+
     }
 
 
     return (
-        <QuizContext.Provider value={{quiz, dispatch, assignment, setSaveStatus, data, saveError, setAssignment, doc1}}>
+        <QuizContext.Provider value={{assignment, setSaveStatus, data, saveError, setAssignment}}>
             <AppLayout pageId={aid}
                        navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
                                              saveStatus={saveStatus}

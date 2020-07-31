@@ -27,7 +27,6 @@
     "apollo-link-ws": "^1.0.20",
     "apollo-utilities": "latest",
     "array-move": "^3.0.0",
-    "automerge": "^0.14.1",
     "autoprefixer": "^9.8.1",
     "awesome-debounce-promise": "^2.1.0",
     "crypto-js": "latest",
@@ -37,8 +36,6 @@
     "isomorphic-unfetch": "^3.0.0",
     "jsonwebtoken": "latest",
     "lodash": "^4.17.19",
-    "moment": "^2.27.0",
-    "nanoid": "^3.1.12",
     "next": "9.4.4",
     "next-auth": "^2.2.0",
     "pg": "^8.2.1",
@@ -46,7 +43,6 @@
     "react": "16.13.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "16.13.1",
-    "react-select": "^3.1.0",
     "react-sortable-hoc": "^1.11.0",
     "react-transition-group": "^4.4.1",
     "slate": "^0.58.3",
@@ -54,7 +50,6 @@
     "slate-react": "^0.58.3",
     "subscriptions-transport-ws": "^0.9.16",
     "tailwindcss": "^1.4.6",
-    "use-debounce": "^3.4.3",
     "uuid": "^8.2.0"
   },
   "devDependencies": {
