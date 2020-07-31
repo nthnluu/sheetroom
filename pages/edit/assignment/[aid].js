@@ -22,6 +22,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import {DialogContentText} from "@material-ui/core";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
+import JsonDebugBox from "../../../Components/JsonDebugBox";
 
 const theme = createMuiTheme({
     palette: {
@@ -133,7 +134,7 @@ const PageContent = ({pageData, aid}) => {
 
 
     return (
-        <QuizContext.Provider value={{assignment, setSaveStatus, data, setAssignment}}>
+        <QuizContext.Provider value={{assignment, setSaveStatus, data, setAssignment, clientId, setLastSavedState}}>
             <AppLayout pageId={aid}
                        navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
                                              saveStatus={saveStatus}
@@ -166,6 +167,18 @@ const PageContent = ({pageData, aid}) => {
                                                You’ll lose any changes you made in this current
                                                session.</DialogContentText>
                                        </DialogContent>
+                                       {/*<div className="grid grid-cols-2">*/}
+                                       {/*    <div>*/}
+                                       {/*        <h1>data</h1>*/}
+                                       {/*        <JsonDebugBox content={data}/>*/}
+                                       {/*    </div>*/}
+                                       {/*    <div>*/}
+                                       {/*        <h1>last saved</h1>*/}
+                                       {/*        <JsonDebugBox content={lastSavedState}/>*/}
+                                       {/*    </div>*/}
+
+                                       {/*</div>*/}
+
                                        <DialogActions>
                                            <button type="button" onClick={() => location.reload()}
                                                    className="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition ease-in-out duration-150">

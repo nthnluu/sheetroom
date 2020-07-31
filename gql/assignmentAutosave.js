@@ -1,18 +1,26 @@
 import gql from "graphql-tag";
 
 export const UPDATE_ASSIGNMENT_TITLE = gql`
-  mutation UpdateAssignmentTitle($title: String!, $assignmentId: uuid!) {
-    update_assignments_assignment_by_pk(pk_columns: {id: $assignmentId}, _set: {title: $title}){
-        __typename
-    }
+  mutation UpdateAssignmentTitle($title: String!, $assignmentId: uuid!, $clientId: uuid!) {
+    assignments_assignment_by_pk: update_assignments_assignment_by_pk(pk_columns: {id: $assignmentId}, _set: {title: $title, last_edited_by: $clientId}){
+ last_edited_by
+ updated_at
+    title
+    id
+    content
+  }
 }
 `;
 
 export const UPDATE_ASSIGNMENT_CONTENT = gql`
   mutation UpdateAssignmentContent($content: json!, $id: uuid!, $clientId: uuid!) {
     update_assignments_assignment_by_pk(pk_columns: {id: $id}, _set: {content: $content, last_edited_by: $clientId}){
-        __typename
-    }
+ last_edited_by
+ updated_at
+    title
+    id
+    content
+  }
 }
 `;
 

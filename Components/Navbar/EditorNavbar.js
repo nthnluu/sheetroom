@@ -5,10 +5,9 @@ import NewTooltip from "../Misc/Tooltip";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ASSIGNMENT_TITLE} from "../../gql/assignmentAutosave";
 import Popper from '@material-ui/core/Popper';
-import Automerge from "automerge";
 
 export default function ({saveStatus, setSaveStatus}) {
-    const {data, saveError} = useContext(QuizContext);
+    const {data, saveError, clientId, setLastSavedState} = useContext(QuizContext);
     const [mutateTitle] = useMutation(UPDATE_ASSIGNMENT_TITLE)
 
     // State for menus
@@ -27,16 +26,14 @@ export default function ({saveStatus, setSaveStatus}) {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popper' : undefined;
 
-    // Updates the title whenever it changes
-    useEffect(() => {
-        setInputValue(data.assignments_assignment_by_pk.title);
-    }, [data]);
 
 
     function saveTitle() {
         if (inputValue.length > 1 && inputValue !== data.assignments_assignment_by_pk.title) {
             setSaveStatus(1)
-            alert('TO DO!!')
+            mutateTitle({variables: {assignmentId: data.assignments_assignment_by_pk.id, title: inputValue, clientId: clientId}})
+                .then((result) => {setSaveStatus(0); setLastSavedState(result.data)})
+                .catch(() => setSaveStatus(2))
         }
     }
 
