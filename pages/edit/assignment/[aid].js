@@ -61,7 +61,7 @@ const PageContent = ({data, aid}) => {
 
     const doc1 = Automerge.from(initialDocumentContent)
     const [assignment, setAssignment] = useState(doc1);
-    const [currentItem, setCurrentItem] = useState(assignment.sections[0].items ? assignment.sections[0].items[0].id : undefined);
+    const [currentItem, setCurrentItem] = useState(() => (assignment.sections[0].items ? assignment.sections[0].items[0].id : undefined));
 
 
     useEffect(() => {
