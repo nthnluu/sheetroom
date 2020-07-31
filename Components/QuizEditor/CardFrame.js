@@ -1,16 +1,9 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from "react";
 import RichTextField from "../Editor/SlateEditor";
 import MultipleChoiceController from "./Controllers/MultipleChoice/MultipleChoice";
 import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 import QuizContext from "./QuizContext";
-import JsonDebugBox from "../JsonDebugBox";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
-import {useMutation} from "@apollo/react-hooks";
-import {UPDATE_ITEM_CONTENT, UPDATE_ITEM_TYPE} from "../../gql/assignmentAutosave";
-import Automerge from 'automerge'
-import IconButton from "@material-ui/core/IconButton";
-import ClearIcon from '@material-ui/icons/Clear';
-import NewTooltip from "../Misc/Tooltip";
 
 
 const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {

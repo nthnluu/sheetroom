@@ -61,13 +61,29 @@ export const MultipleChoiceController = ({active, answerChoices, setSaveStatus, 
 
                     </Droppable>
                 </DragDropContext>
-                <div className="space-x-2">
+                <div className="flex justify-start items-center mb-1">
                     <div>
                         <button type="button" onClick={() =>
                             addAnswerChoice()
                         }
-                                className="items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
-                            Add option
+                                className="items-center px-2 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
+                            New Option
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" onClick={() =>
+                            addAnswerChoice()
+                        }
+                                className="items-center px-2 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
+                            All of the above
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" onClick={() =>
+                            addAnswerChoice()
+                        }
+                                className="items-center px-2 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
+                            None of the above
                         </button>
                     </div>
                 </div>
