@@ -3,14 +3,10 @@ import {RichTextField} from "../../../Editor/SlateEditor";
 import PropTypes from 'prop-types';
 import QuizContext from "../../QuizContext";
 import NewTooltip from "../../../Misc/Tooltip";
-import Automerge from "automerge";
-import { nanoid } from 'nanoid'
 
 
 const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => {
-    const inputId = 'input-' + choice.id;
-    const labelId = 'label-' + choice.id;
-    const {assignment, setSaveStatus, setAssignment, doc1} = useContext(QuizContext);
+    const {assignment, setAssignment} = useContext(QuizContext);
 
 
     const saveChoiceContent = (newValue) => {
@@ -37,7 +33,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
 
     return (
         <>
-            <div id={labelId} htmlFor={inputId}
+            <div
                  className={choice.is_correct ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
             >
                 {active ? <span className={choice.is_correct ? "text-blue-500" : "text-gray-200 active:text-blue-400"}>
