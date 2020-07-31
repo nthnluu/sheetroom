@@ -13,23 +13,12 @@ subscription AssignmentByPk($id: uuid!) {
 `;
 
 export const ASSIGNMENT = gql`
-query AssignmentByPk($id: uuid!) {
-  assignments_assignment_by_pk(id: $id)
-  {
+query AssignmentByPk($assignmentId: uuid!) {
+ assignments_assignment_by_pk(id: $assignmentId){
+  updated_at
     title
     id
-    sections {
-      items(order_by: {index: asc}) {
-        id
-        content
-        type
-        index
-        answer_objects(order_by: {index: asc}) {
-          id
-          content
-        }
-      }
-    }
+    content
   }
 }
 `;

@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router'
 import {ASSIGNMENT_WS} from "../../../gql/quizzes";
-import {useMutation, useSubscription} from "@apollo/react-hooks";
+import {useMutation, useQuery, useSubscription} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
@@ -21,6 +21,7 @@ import {
     initialDocumentContent
 } from "../../../Components/QuizEditor/Templates";
 import JsonDebugBox from "../../../Components/JsonDebugBox";
+import {ASSIGNMENT} from "../../../gql/quizzes";
 
 const theme = createMuiTheme({
     palette: {
@@ -52,10 +53,7 @@ const theme = createMuiTheme({
 const PageContent = ({data, aid}) => {
 
     const [saveStatus, setSaveStatus] = useState(0);
-    const [saveError, setSaveError] = useState();
-    const [sessionExpired, setSessionExpired] = useState(false);
 
-    const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
     const [saveContent] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
 
     const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
@@ -63,9 +61,11 @@ const PageContent = ({data, aid}) => {
 
     const saveAssignment = (newAssignmentValue) => {
         setSaveStatus(1)
-        setTimeout(() => setSaveStatus(0), 2000)
+        saveContent({variables: {id: aid, content: newAssignmentValue}})
+            .then(() => setSaveStatus(0))
+            .catch(() => setSaveStatus(2))
     }
-    const delayedMutateDoc = useCallback(debounce((newAssignmentValue) => saveAssignment(newAssignmentValue), 5000), []);
+    const delayedMutateDoc = useCallback(debounce((newAssignmentValue) => saveAssignment(newAssignmentValue), 500), []);
 
     // If the document is saving, prevents the window from navigating away
     useEffect(() => {
@@ -86,9 +86,7 @@ const PageContent = ({data, aid}) => {
     useEffect(() => {
         delayedMutateDoc(assignment)
     }, [assignment]);
-    useEffect(() => {
-        setSessionExpired(true);
-    }, [data]);
+
 
     const addItem = (type) => {
         const newItemId = uuidv4()
@@ -108,7 +106,7 @@ const PageContent = ({data, aid}) => {
 
 
     return (
-        <QuizContext.Provider value={{assignment, setSaveStatus, data, saveError, setAssignment}}>
+        <QuizContext.Provider value={{assignment, setSaveStatus, data, setAssignment}}>
             <AppLayout pageId={aid}
                        navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
                                              saveStatus={saveStatus}
@@ -260,7 +258,7 @@ const PageContent = ({data, aid}) => {
                                </div>
                            </div>}
                        questionMenu
-                       windowTitle={quiz.title}/>
+                       windowTitle={data.assignments_assignment_by_pk.title}/>
         </QuizContext.Provider>
     )
 };
@@ -288,8 +286,9 @@ const QuizEditor = ({user, session}) => {
     const {aid} = router.query;
 
 
-    const {loading, error, data} = useSubscription(ASSIGNMENT_WS, {
-        variables: {id: aid},
+    const { loading, error, data } = useQuery(ASSIGNMENT, {
+        variables: {assignmentId: aid},
+        pollInterval: 500,
     });
     if (error) return `Error! ${JSON.stringify(error)}`;
 
