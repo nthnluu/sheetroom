@@ -40,9 +40,10 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
             <div id={labelId} htmlFor={inputId}
                  className={choice.is_correct ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
             >
-                <div tabIndex="0" className={choice.is_correct ? "text-blue-500" : "text-gray-200 active:text-blue-400"}>
+                {active ? <span className={choice.is_correct ? "text-blue-500" : "text-gray-200 active:text-blue-400"}>
                     {dragHandler}
-                </div>
+                </span> : null}
+
                 <span className="table-cell w-full pointer-events-auto">
                     <RichTextField uniqueId={choice.id} active={active} initialContent={choice.content}
                                    onBlurEvent={(value) => saveChoiceContent(value)}/></span>

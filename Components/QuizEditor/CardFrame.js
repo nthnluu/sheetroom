@@ -14,9 +14,7 @@ import NewTooltip from "../Misc/Tooltip";
 
 
 const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
-    const {quiz, dispatch, doc, assignment, setAssignment, doc1} = useContext(QuizContext);
-    const [mutateItemContent] = useMutation(UPDATE_ITEM_CONTENT)
-    const [mutateItemType] = useMutation(UPDATE_ITEM_TYPE)
+    const {assignment, setAssignment} = useContext(QuizContext);
 
     const Controller = ({item, itemIndex, setSaveStatus, active}) => {
         switch (item.controller_type) {
@@ -42,13 +40,6 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
         setAssignment(newDocument)
     }
 
-    function getAllIndexes(arr, val) {
-        let indexes = [], i = -1;
-        while ((i = arr.indexOf(val, i + 1)) !== -1) {
-            indexes.push(i);
-        }
-        return indexes;
-    }
 
     const deleteItem = () => {
         const newDocument = {...assignment}
@@ -93,13 +84,13 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                                           saveType={value => saveItemType(value)} itemIndex={itemIndex}/>
                 </div>
 
-                <NewTooltip title="Delete item" placement="bottom" arrow enterDelay={500}
-                            enterNextDelay={500}>
-                    <IconButton aria-label="delete" disableRipple onClick={() => deleteItem()}
-                                className="focus:outline-none">
-                        <ClearIcon fontSize="inherit"/>
-                    </IconButton>
-                </NewTooltip>
+                {/*<NewTooltip title="Delete item" placement="bottom" arrow enterDelay={500}*/}
+                {/*            enterNextDelay={500}>*/}
+                {/*    <IconButton aria-label="delete" disableRipple onClick={() => deleteItem()}*/}
+                {/*                className="focus:outline-none">*/}
+                {/*        <ClearIcon fontSize="inherit"/>*/}
+                {/*    </IconButton>*/}
+                {/*</NewTooltip>*/}
             </div> : null}
 
         </div>

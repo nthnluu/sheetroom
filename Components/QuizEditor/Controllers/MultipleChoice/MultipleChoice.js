@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
 import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ITEM_CONTROLLER} from "../../../../gql/assignmentAutosave";
-import {nanoid} from "nanoid";
+import {v4 as uuidv4} from 'uuid';
 import {blankAnswerChoice} from "../../Templates";
 import Button from "@material-ui/core/Button";
 
@@ -48,7 +48,7 @@ export const MultipleChoiceController = ({active, answerChoices, setSaveStatus, 
     }
     const addAnswerChoice = () => {
         const newDocument = {...assignment}
-        newDocument.sections[0].items[itemIndex].answer_controller.push(blankAnswerChoice(newDocument.sections[0].items[itemIndex].answer_controller.length === 0, nanoid()))
+        newDocument.sections[0].items[itemIndex].answer_controller.push(blankAnswerChoice(newDocument.sections[0].items[itemIndex].answer_controller.length === 0, uuidv4()))
         setAssignment(newDocument);
     }
 
@@ -64,7 +64,7 @@ export const MultipleChoiceController = ({active, answerChoices, setSaveStatus, 
                     }>Add option</Button>
                 </div>
             </div> : <div className="space-y-4">
-                {answerChoices ? answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
+                {answerChoices ? answerChoices.map((choice) => <AnswerChoice choiceId={choice.id} active={false}
                                                                                     choice={choice}
                                                                                     setSaveStatus={status => setSaveStatus(status)}
                                                                                     key={choice.id + "_inactive"}

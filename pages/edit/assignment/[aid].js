@@ -1,26 +1,22 @@
 import {useRouter} from 'next/router'
-import {ASSIGNMENT_WS} from "../../../gql/quizzes";
-import {useMutation, useQuery, useSubscription} from "@apollo/react-hooks";
+import {useMutation, useQuery} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
-import React, {useCallback, useEffect, useReducer, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 import QuizContext from "../../../Components/QuizEditor/QuizContext";
-import QuizReducer from "../../../Components/QuizEditor/QuizReducer";
-import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
+import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
 import {v4 as uuidv4} from 'uuid';
 import {debounce} from 'lodash';
 import {
-    blankAnswerChoice,
     blankMAItem,
     blankMCItem,
     initialDocumentContent
 } from "../../../Components/QuizEditor/Templates";
-import JsonDebugBox from "../../../Components/JsonDebugBox";
 import {ASSIGNMENT} from "../../../gql/quizzes";
 
 const theme = createMuiTheme({
@@ -65,7 +61,7 @@ const PageContent = ({data, aid}) => {
             .then(() => setSaveStatus(0))
             .catch(() => setSaveStatus(2))
     }
-    const delayedMutateDoc = useCallback(debounce((newAssignmentValue) => saveAssignment(newAssignmentValue), 500), []);
+    const delayedMutateDoc = useCallback(debounce((newAssignmentValue) => saveAssignment(newAssignmentValue), 5000), []);
 
     // If the document is saving, prevents the window from navigating away
     useEffect(() => {
@@ -101,6 +97,7 @@ const PageContent = ({data, aid}) => {
                 break
         }
         setAssignment(newDocument)
+        setCurrentItem(newItemId)
 
     }
 

@@ -19,7 +19,7 @@ const ItemCard = ({active, itemIndex, item, setActive, provided, setSaveStatus})
     </div>
 )
 
-const DragHandle = ({provided}) => (<i tabIndex="0" {...provided.dragHandleProps}
+const DragHandle = ({provided}) => (<div tabIndex="0" {...provided.dragHandleProps}
                                        className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
 
 const InactiveCard = ({active, setSaveStatus, item, itemIndex, setActive}) => {
@@ -68,7 +68,7 @@ export const DnDList = ({items, setSaveStatus, currentItem, setCurrentItem}) => 
 
     return (
         <DragDropContext onDragEnd={onSortEnd}>
-            <Droppable droppableId={'droppable'}>
+            <Droppable droppableId={assignment.id +'_droppable'}>
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
                         {items.sections[0].items.map((item, index) => <Draggable key={item.id} draggableId={item.id}

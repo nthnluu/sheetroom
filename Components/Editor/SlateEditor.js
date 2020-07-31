@@ -28,7 +28,7 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border, uniq
                 <div
                     className={active ? ("border-gray-200 group-hover:border-gray-300 active:border-blue-400 rounded-lg " + (border ? "border shadow-sm py-3 px-4" : "px-4")) : "rounded-lg border border-transparent"}>
                     <Editable
-                        autoFocus={autofocus}
+                        autoFocus={false}
                         readOnly={!active}
                         renderElement={renderElement}
                         renderLeaf={renderLeaf}

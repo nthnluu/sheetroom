@@ -64,8 +64,8 @@ const QuestionCardDropdown = ({itemIndex, saveType}) => {
                 onChange={handleChange}
                 input={<BootstrapInput />}
             >
-                <MenuItem value="MC">Multiple Choice</MenuItem>
-                <MenuItem value="MA">Multiple Answers</MenuItem>
+                <MenuItem value="MC" disableRipple>Multiple Choice</MenuItem>
+                <MenuItem value="MA" disableRipple>Multiple Answers</MenuItem>
             </Select>
         </FormControl>
     )
