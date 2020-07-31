@@ -9,8 +9,8 @@ export const UPDATE_ASSIGNMENT_TITLE = gql`
 `;
 
 export const UPDATE_ASSIGNMENT_CONTENT = gql`
-  mutation UpdateAssignmentContent($content: json!, $id: uuid!) {
-    update_assignments_assignment_by_pk(pk_columns: {id: $id}, _set: {content: $content}){
+  mutation UpdateAssignmentContent($content: json!, $id: uuid!, $clientId: uuid!) {
+    update_assignments_assignment_by_pk(pk_columns: {id: $id}, _set: {content: $content, last_edited_by: $clientId}){
         __typename
     }
 }

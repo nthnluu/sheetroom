@@ -4,20 +4,24 @@ import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 import QuizContext from "../../../Components/QuizEditor/QuizContext";
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
 import {v4 as uuidv4} from 'uuid';
-import {debounce} from 'lodash';
 import {
     blankMAItem,
     blankMCItem,
     initialDocumentContent
 } from "../../../Components/QuizEditor/Templates";
 import {ASSIGNMENT} from "../../../gql/quizzes";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import {DialogContentText} from "@material-ui/core";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
 
 const theme = createMuiTheme({
     palette: {
@@ -46,22 +50,39 @@ const theme = createMuiTheme({
 });
 
 
-const PageContent = ({data, aid}) => {
+const PageContent = ({pageData, aid}) => {
+    // A client ID to identify the current user working on the project
+    const [clientId] = useState(uuidv4())
 
+    //Stores the data, initially replaces last_edited_by with the current clientId in case previous clientId doesn't match
+    const [data, setData] = useState({assignments_assignment_by_pk: {last_edited_by: clientId, ...pageData.assignments_assignment_by_pk}})
+
+    //Stores the current state of the document
+    const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
+
+    //Tracks the save status -- 0: saved; 1: saving; 2: error
     const [saveStatus, setSaveStatus] = useState(0);
+    const [invalidSession, setInvalidSession] = useState(false);
 
+    //GraphQL Mutation for updating the content
     const [saveContent] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
 
-    const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
+    //Holds a copy of the state after the previous save
+    const [lastSavedState, setLastSavedState] = useState(data);
+
+    //Stores the state for the currently selected item
     const [currentItem, setCurrentItem] = useState(() => (assignment.sections[0].items ? assignment.sections[0].items[0].id : undefined));
 
-    const saveAssignment = (newAssignmentValue) => {
+    //Logic for saving the assignment
+    const saveAssignment = (newAssignmentValue, newData) => {
         setSaveStatus(1)
-        saveContent({variables: {id: aid, content: newAssignmentValue}})
-            .then(() => setSaveStatus(0))
-            .catch(() => setSaveStatus(2))
+        saveContent({variables: {id: aid, content: newAssignmentValue, clientId: clientId}})
+            .then(() => {
+                setSaveStatus(0);
+                setLastSavedState(newData)
+            })
+            .catch((error) => {setSaveStatus(2); console.log(error)})
     }
-    const delayedMutateDoc = useCallback(debounce((newAssignmentValue) => saveAssignment(newAssignmentValue), 5000), []);
 
     // If the document is saving, prevents the window from navigating away
     useEffect(() => {
@@ -78,9 +99,19 @@ const PageContent = ({data, aid}) => {
 
     };
 
-
+    //Triggered whenever the pageData is updated; if the last_edited_by clientID doesn't match the current clientId, invalidates the session
     useEffect(() => {
-        delayedMutateDoc(assignment)
+        if (data.assignments_assignment_by_pk.last_edited_by !== lastSavedState.assignments_assignment_by_pk.last_edited_by) {
+            setSaveStatus(2)
+            setInvalidSession(true)
+        } else {
+            setData(pageData)
+        }
+    }, [pageData]);
+
+    //Whenever the assignment changes, save it
+    useEffect(() => {
+        saveAssignment(assignment, data, lastSavedState)
     }, [assignment]);
 
 
@@ -88,7 +119,7 @@ const PageContent = ({data, aid}) => {
         const newItemId = uuidv4()
         const newChoiceId = uuidv4()
         const newDocument = {...assignment}
-        switch(type) {
+        switch (type) {
             case('MC'):
                 newDocument.sections[0].items.push(blankMCItem(newItemId, newChoiceId))
                 break
@@ -98,7 +129,6 @@ const PageContent = ({data, aid}) => {
         }
         setAssignment(newDocument)
         setCurrentItem(newItemId)
-
     }
 
 
@@ -124,6 +154,29 @@ const PageContent = ({data, aid}) => {
                                              }} title={data.assignments_assignment_by_pk.title}/>}
                        content={
                            <div key={aid} className="max-w-7xl mx-auto">
+                               <Dialog onClose={() => console.log('closwe')} aria-labelledby="simple-dialog-title"
+                                       open={invalidSession}>
+                                   <div className="p-2 pr-4">
+                                       <DialogTitle id="simple-dialog-title">Someone has made changes to this
+                                           assignment</DialogTitle>
+                                       <DialogContent>
+                                           <DialogContentText gutterBottom>Someone ― perhaps you ― has made changes to
+                                               this assignment that aren't shown here.</DialogContentText>
+                                           <DialogContentText>You need to refresh this page to get the latest changes.
+                                               You’ll lose any changes you made in this current
+                                               session.</DialogContentText>
+                                       </DialogContent>
+                                       <DialogActions>
+                                           <button type="button" onClick={() => location.reload()}
+                                                   className="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-red-600 hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition ease-in-out duration-150">
+                                               Update my assignment
+                                           </button>
+                                       </DialogActions>
+
+                                   </div>
+
+
+                               </Dialog>
                                {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
                                <DnDList currentItem={currentItem} items={assignment}
                                         setSaveStatus={status => setSaveStatus(status)}
@@ -283,9 +336,9 @@ const QuizEditor = ({user, session}) => {
     const {aid} = router.query;
 
 
-    const { loading, error, data } = useQuery(ASSIGNMENT, {
+    const {loading, error, data, refetch} = useQuery(ASSIGNMENT, {
         variables: {assignmentId: aid},
-        pollInterval: 500,
+        pollInterval: 200,
     });
     if (error) return `Error! ${JSON.stringify(error)}`;
 
@@ -293,7 +346,7 @@ const QuizEditor = ({user, session}) => {
     return (
         <ThemeProvider theme={theme}>
             <div className="min-h-screen bg-gray-50" key={aid}>
-                {loading ? <LoadingPlaceholder/> : <PageContent data={data} aid={aid}/>}
+                {loading ? <LoadingPlaceholder/> : <PageContent refetch={refetch} pageData={data} aid={aid}/>}
             </div>
         </ThemeProvider>
 
