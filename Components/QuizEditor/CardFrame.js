@@ -38,7 +38,6 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     // Logic for AUTOSAVING the ITEM CONTENT
     const saveItemContent = (newValue) => {
         const newQuestionValue = JSON.stringify(newValue)
-        setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Update Item Content', doc => {
             doc.sections[0].items[itemIndex].question = JSON.parse(newQuestionValue);
         })
@@ -54,7 +53,6 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
     }
 
     const deleteItem = () => {
-        setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Delete Item', doc => {
             doc.sections[0].items.deleteAt(itemIndex)
         })
@@ -63,7 +61,6 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
 
     // Logic for AUTOSAVING the ITEM TYPE
     const saveItemType = (newTypeValue) => {
-        setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Update item type', doc => {
             const correctItemIndex = doc.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct);
             doc.sections[0].items[itemIndex].answer_controller.forEach((element, index) => {

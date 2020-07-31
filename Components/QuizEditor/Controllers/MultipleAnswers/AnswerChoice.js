@@ -15,7 +15,6 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
 
     const saveChoiceContent = (newValue) => {
         const newQuestionValue = JSON.stringify(newValue)
-        setSaveStatus(1)
 
         const newDoc = Automerge.change(assignment, 'Update Item Content', doc => {
             doc.sections[0].items[itemIndex].answer_controller[answerIndex].content = JSON.parse(newQuestionValue);
@@ -24,7 +23,6 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
     }
 
     const deleteAnswerChoice = () => {
-        setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Delete Answer  Choice', doc => {
             doc.sections[0].items[itemIndex].answer_controller.deleteAt(answerIndex)
         })
@@ -32,7 +30,6 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, itemIndex}) => 
     }
 
     const markAsCorrect = () => {
-        setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Set Correct Answer Choice', doc => {
             doc.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct = !doc.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct
         })

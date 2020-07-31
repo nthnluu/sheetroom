@@ -8,7 +8,7 @@ import Popper from '@material-ui/core/Popper';
 import Automerge from "automerge";
 
 export default function ({saveStatus, setSaveStatus}) {
-    const {data} = useContext(QuizContext);
+    const {data, saveError} = useContext(QuizContext);
     const [mutateTitle] = useMutation(UPDATE_ASSIGNMENT_TITLE)
 
     // State for menus
@@ -100,10 +100,13 @@ export default function ({saveStatus, setSaveStatus}) {
                             </button>
                             <Popper id={id} open={open} anchorEl={anchorEl}>
                                 <div className="z-50 mt-4 bg-white rounded-lg shadow-lg max-w-sm">
-                                    <div className="p-4 rounded-t-lg text-blue-600 text-center"><i
+                                    {saveError ? <div className="p-4 rounded-t-lg text-red-600 text-center"><i
+                                        className="fas fa-exclamation-circle mr-2"/>There were issues saving this document.
+                                        <p>{JSON.stringify(saveError)}</p>
+                                    </div> : <div className="p-4 rounded-t-lg text-blue-600 text-center"><i
                                         className="fas fa-cloud mr-2"/>All changes automatically saved to the
                                         Homework Cloud.
-                                    </div>
+                                    </div>}
                                 </div>
                             </Popper>
 

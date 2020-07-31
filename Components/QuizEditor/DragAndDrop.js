@@ -61,7 +61,6 @@ export const DnDList = ({items, setSaveStatus, currentItem, setCurrentItem}) => 
         }
 
         const newQuestionValue = JSON.stringify(arrayMove(assignment.sections[0].items, result.source.index, result.destination.index))
-        setSaveStatus(1)
 
         const newDoc = Automerge.change(assignment, 'Reorder Items', doc => {
             doc.sections[0].items = JSON.parse(newQuestionValue);

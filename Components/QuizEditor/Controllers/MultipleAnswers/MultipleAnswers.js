@@ -39,10 +39,8 @@ const SortableList = SortableContainer(({items, active, itemIndex}) => {
 
 export const MultipleAnswersController = ({active, answerChoices, setSaveStatus, itemId, itemIndex}) => {
     const {quiz, dispatch, setAssignment, assignment} = useContext(QuizContext);
-    const [saveController] = useMutation(UPDATE_ITEM_CONTROLLER)
 
     const onSortEnd = ({oldIndex, newIndex}) => {
-        setSaveStatus(1)
         const newArray = JSON.stringify(arrayMove(answerChoices, oldIndex, newIndex))
         const newDoc = Automerge.change(assignment, 'Reorder Answer Choices', doc => {
             doc.sections[0].items[itemIndex]['answer_controller'] = JSON.parse(newArray)
@@ -51,7 +49,6 @@ export const MultipleAnswersController = ({active, answerChoices, setSaveStatus,
     }
     const addAnswerChoice = () => {
         const newId = nanoid()
-        setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Add Answer  Choice', doc => {
             doc.sections[0].items[itemIndex]['answer_controller'].push(blankAnswerChoice(doc.sections[0].items[itemIndex].answer_controller.length === 0, nanoid()))
         })

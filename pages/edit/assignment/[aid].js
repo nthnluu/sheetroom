@@ -5,7 +5,7 @@ import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useCallback, useEffect, useReducer, useState} from "react";
 import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 import QuizContext from "../../../Components/QuizEditor/QuizContext";
 import QuizReducer from "../../../Components/QuizEditor/QuizReducer";
@@ -14,6 +14,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
 import Automerge from 'automerge'
 import {v4 as uuidv4} from 'uuid';
+import { debounce } from 'lodash';
 import {nanoid} from 'nanoid'
 import {
     blankAnswerChoice,
@@ -21,6 +22,7 @@ import {
     blankMCItem,
     initialDocumentContent
 } from "../../../Components/QuizEditor/Templates";
+import JsonDebugBox from "../../../Components/JsonDebugBox";
 
 const theme = createMuiTheme({
     palette: {
@@ -53,25 +55,43 @@ const theme = createMuiTheme({
 const PageContent = ({data, aid}) => {
 
     const [saveStatus, setSaveStatus] = useState(0);
+    const [saveError, setSaveError] = useState();
 
     const [quiz, dispatch] = useReducer(QuizReducer, data.assignments_assignment_by_pk);
     const [saveContent] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
 
 
-
-    const doc1 = Automerge.from(initialDocumentContent)
+    const doc1 = Automerge.load(data.assignments_assignment_by_pk.content)
     const [assignment, setAssignment] = useState(doc1);
     const [currentItem, setCurrentItem] = useState(() => (assignment.sections[0].items ? assignment.sections[0].items[0].id : undefined));
 
+    const saveAssignment = (newAssignmentValue) => {
+        setSaveStatus(1)
+        let finalDoc = Automerge.save(newAssignmentValue)
+        saveContent({variables: {id: aid, content: finalDoc}})
+            .then(() => setSaveStatus(0))
+            .catch((error) => {setSaveStatus(2); setSaveError(error)})
+    }
+
+    const delayedMutateDoc = useCallback(debounce((newAssignmentValue) => saveAssignment(newAssignmentValue), 500), []);
 
     useEffect(() => {
         window.addEventListener('beforeunload', handleWindowClose);
-
-
         return () => {
             window.removeEventListener('beforeunload', handleWindowClose);
         };
     }, []);
+
+    useEffect(() => {
+        delayedMutateDoc(assignment)
+    }, [assignment]);
+
+    useEffect(() => {
+        const freshDoc = Automerge.load(data.assignments_assignment_by_pk.content)
+        const newDoc = Automerge.merge(assignment, freshDoc)
+        setAssignment(newDoc)
+    }, [data]);
+
     const handleWindowClose = (e) => {
         if (saveStatus !== 0) {
             e.preventDefault();
@@ -82,7 +102,6 @@ const PageContent = ({data, aid}) => {
 
 
     const addItem = (type) => {
-        setSaveStatus(1)
         const newItemId = uuidv4()
         const newChoiceId = uuidv4()
         let newDoc
@@ -91,11 +110,13 @@ const PageContent = ({data, aid}) => {
                 newDoc = Automerge.change(assignment, `Added ${type} Item`, doc => {
                     doc.sections[0].items.push(blankMCItem(newItemId, newChoiceId))
                 })
+                setAssignment(newDoc)
                 break
             case('MA'):
                 newDoc = Automerge.change(assignment, `Added ${type} Item`, doc => {
                     doc.sections[0].items.push(blankMAItem(newItemId, newChoiceId))
                 })
+                setAssignment(newDoc)
                 break
         }
         setAssignment(newDoc)
@@ -104,7 +125,7 @@ const PageContent = ({data, aid}) => {
 
 
     return (
-        <QuizContext.Provider value={{quiz, dispatch, assignment, setSaveStatus, setAssignment, doc1, data}}>
+        <QuizContext.Provider value={{quiz, dispatch, assignment, setSaveStatus, data, saveError, setAssignment, doc1}}>
             <AppLayout pageId={aid}
                        navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
                                              saveStatus={saveStatus}

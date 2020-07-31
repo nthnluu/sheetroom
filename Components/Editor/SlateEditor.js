@@ -35,19 +35,8 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border, uniq
                         placeholder="Start typing…"
                         spellCheck={false}
                         // onFocus={() => toggleToolbar(true)}
-                        // onBlur={(event) => {
-                        //     if (event.relatedTarget) {
-                        //         if (event.relatedTarget.id === uniqueId + "_toolbar") {
-                        //             event.preventDefault();
-                        //         } else {
-                        //             toggleToolbar(false);
-                        //             onBlurEvent(value);
-                        //         }
-                        //     } else {
-                        //         toggleToolbar(false);
-                        //         onBlurEvent(value);
-                        //     }
-                        // }}
+                        onBlur={(event) =>
+                            onBlurEvent(value)}
                         onKeyDown={event => {
                             for (const hotkey in HOTKEYS) {
                                 if (isHotkey(hotkey, event)) {

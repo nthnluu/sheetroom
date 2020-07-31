@@ -44,7 +44,6 @@ export const MultipleChoiceController = ({active, answerChoices, setSaveStatus, 
 
 
     const onSortEnd = ({oldIndex, newIndex}) => {
-        setSaveStatus(1)
         const newArray = JSON.stringify(arrayMove(answerChoices, oldIndex, newIndex))
         const newDoc = Automerge.change(assignment, 'Reorder Answer Choices', doc => {
             doc.sections[0].items[itemIndex]['answer_controller'] = JSON.parse(newArray)
@@ -52,7 +51,6 @@ export const MultipleChoiceController = ({active, answerChoices, setSaveStatus, 
         setAssignment(newDoc)
     }
     const addAnswerChoice = () => {
-        setSaveStatus(1)
         const newDoc = Automerge.change(assignment, 'Add Answer  Choice', doc => {
             doc.sections[0].items[itemIndex]['answer_controller'].push(blankAnswerChoice(doc.sections[0].items[itemIndex].answer_controller.length === 0, nanoid()))
         })
