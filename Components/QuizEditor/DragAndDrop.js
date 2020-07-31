@@ -68,7 +68,7 @@ export const DnDList = ({items, setSaveStatus, currentItem, setCurrentItem}) => 
 
     return (
         <DragDropContext onDragEnd={onSortEnd}>
-            <Droppable droppableId={assignment.id +'_droppable'}>
+            <Droppable droppableId={'_droppable'}>
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
                         {items.sections[0].items.map((item, index) => <Draggable key={item.id} draggableId={item.id}

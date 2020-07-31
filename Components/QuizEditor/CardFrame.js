@@ -66,9 +66,9 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
 
     return (
         <div
-            className={"bg-white focus:shadow-outline w-full pt-2 px-8 focus:outline-none rounded-lg " + (!active ? ' pb-2' : null)}>
+            className={"bg-white focus:shadow-outline w-full pt-2 px-8 focus:outline-none rounded-lg " + (!active ? ' pb-8' : null)}>
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
-                <div className="w-full border-transparent pb-6">
+                <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
                         <RichTextField border active={active} initialContent={item.question} autofocus={active}
@@ -78,19 +78,17 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                                 itemIndex={itemIndex}/>
                 </div>
             </div>
-            {active ? <div className="flex justify-between border-t w-full border-gray-200 py-3">
+            {active ? <div className="flex justify-between border-t items-center w-full border-gray-200 py-3">
                 <div className="max-w-2xl">
                     <QuestionCardDropdown active={active} value={item.controller_type}
                                           saveType={value => saveItemType(value)} itemIndex={itemIndex}/>
                 </div>
-
-                {/*<NewTooltip title="Delete item" placement="bottom" arrow enterDelay={500}*/}
-                {/*            enterNextDelay={500}>*/}
-                {/*    <IconButton aria-label="delete" disableRipple onClick={() => deleteItem()}*/}
-                {/*                className="focus:outline-none">*/}
-                {/*        <ClearIcon fontSize="inherit"/>*/}
-                {/*    </IconButton>*/}
-                {/*</NewTooltip>*/}
+                <button type="button" onClick={() => deleteItem()}
+                        className="inline-flex text-center items-center h-10 w-10 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
+                    <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 18L18 6M6 6L18 18" stroke-width="2" stroke-linecap="round" className="stroke-current" stroke-linejoin="round"/>
+                    </svg>
+                </button>
             </div> : null}
 
         </div>
