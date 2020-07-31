@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router'
-import {useMutation, useQuery} from "@apollo/react-hooks";
+import {useMutation, useQuery, useSubscription} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
@@ -16,7 +16,7 @@ import {
     blankMCItem,
     initialDocumentContent
 } from "../../../Components/QuizEditor/Templates";
-import {ASSIGNMENT} from "../../../gql/quizzes";
+import {ASSIGNMENT, ASSIGNMENT_WS} from "../../../gql/quizzes";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import {DialogContentText} from "@material-ui/core";
@@ -353,9 +353,8 @@ const QuizEditor = ({user, session}) => {
     const {aid} = router.query;
 
 
-    const {loading, error, data, refetch} = useQuery(ASSIGNMENT, {
+    const {loading, error, data} = useSubscription(ASSIGNMENT_WS, {
         variables: {assignmentId: aid},
-        pollInterval: 200,
     });
     if (error) return `Error! ${JSON.stringify(error)}`;
 
@@ -363,7 +362,7 @@ const QuizEditor = ({user, session}) => {
     return (
         <ThemeProvider theme={theme}>
             <div className="min-h-screen bg-gray-50" key={aid}>
-                {loading ? <LoadingPlaceholder/> : <PageContent refetch={refetch} pageData={data} aid={aid}/>}
+                {loading ? <LoadingPlaceholder/> : <PageContent pageData={data} aid={aid}/>}
             </div>
         </ThemeProvider>
 

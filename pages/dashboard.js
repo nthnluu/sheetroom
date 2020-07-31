@@ -1,6 +1,6 @@
 import React from 'react';
 import {getSession} from 'next-auth/client'
-import PageLayout from "../Components/PageLayout";
+import PageLayout from "../Components/Dashboard/PageLayout";
 
 
 const Dashboard = ({session}) => {
