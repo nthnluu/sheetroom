@@ -1,7 +1,4 @@
 [![FVCproductions](https://i.imgur.com/3v2sKAm.png)](http://fvcproductions.com)
-
-# Sheetroom
-
 > A platform for designing beautiful assignments for 📱 mobile, 🖥 desktop, and 📝 paper.
 
 ---
