@@ -17,3 +17,14 @@ export const ASSIGNMENT = gql`
   }
 }
 `;
+
+
+export const CREATE_ASSIGNMENT = gql`
+mutation CreateNewAssignment($title: String!, $content: json!, $userId: Int!) {
+  insert_assignments_assignment(objects: {title: $title, content: $content, created_by: $userId}) {
+    returning {
+      id
+    }
+  }
+}
+`;
