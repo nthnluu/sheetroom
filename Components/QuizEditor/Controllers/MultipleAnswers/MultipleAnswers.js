@@ -14,7 +14,7 @@ const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} t
                                          className={"fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
 
 export const MultipleAnswersController = ({active, answerChoices, setSaveStatus, itemId, itemIndex}) => {
-    const {setAssignment, assignment} = useContext(QuizContext);
+    const {setAssignment, assignment, items, answerObjects} = useContext(QuizContext);
 
     const addAnswerChoice = () => {
         const newStae = update(assignment, {$push: ['y']});

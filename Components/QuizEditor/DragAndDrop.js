@@ -40,7 +40,6 @@ const InactiveCard = ({active, setSaveStatus, item, setActive, itemIndex}) => {
 
 const ActiveCard = ({setSaveStatus, item, itemIndex}) => {
     return (
-
         <div
             className="flex flex-grow-0 justify-between text-left z-40">
             <CardFrame setSaveStatus={(status) => setSaveStatus(status)} itemIndex={itemIndex}
@@ -50,8 +49,9 @@ const ActiveCard = ({setSaveStatus, item, itemIndex}) => {
 };
 
 
-export const DnDList = ({items, setSaveStatus, currentItem, setCurrentItem}) => {
-    const {setAssignment, assignment} = useContext(QuizContext);
+export const DnDList = ({currentItem, setCurrentItem}) => {
+    const {setAssignment, assignment, items, setSections, document, sections} = useContext(QuizContext);
+    const sectionId = document.config.sections[0]
 
     const onSortEnd = (result) => {
         // dropped outside the list
@@ -59,10 +59,8 @@ export const DnDList = ({items, setSaveStatus, currentItem, setCurrentItem}) => 
             return;
         }
 
+        setSections(prevState => ({...prevState, [sectionId]: {items: arrayMove(items, result.source.index, result.destination.index)}}))
 
-        const newDocument = {...assignment}
-        newDocument.sections[0].items = arrayMove(assignment.sections[0].items, result.source.index, result.destination.index)
-        setAssignment(newDocument)
     }
 
 
@@ -71,7 +69,7 @@ export const DnDList = ({items, setSaveStatus, currentItem, setCurrentItem}) => 
             <Droppable droppableId={'_droppable'}>
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
-                        {items.sections['10'].items.map((itemId, index) => <Draggable key={itemId} draggableId={itemId}
+                        {sections[sectionId].items.map((itemId, index) => <Draggable key={itemId} draggableId={itemId}
                                                                                  index={index}>
                             {(provided, snapshot) => <div ref={provided.innerRef}
                                                           {...provided.draggableProps}>

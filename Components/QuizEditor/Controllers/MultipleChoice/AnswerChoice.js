@@ -6,57 +6,58 @@ import NewTooltip from "../../../Misc/Tooltip";
 import {cloneDeep} from "lodash";
 
 
-const AnswerChoice = ({active, choice, dragHandler}) => {
-    const {assignment, setAssignment} = useContext(QuizContext);
-
-    const answerObject = assignment.answer_objects[choice]
+const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect}) => {
+    const {answerObjects, setItems, setAnswerObjects, items} = useContext(QuizContext);
 
 
     const saveChoiceContent = (newValue) => {
-        // const newDocument = {...assignment}
-        // newDocument.sections[0].items[itemIndex].answer_controller[answerIndex].content = newValue
-        // setAssignment(newDocument)
+        setAnswerObjects(prevState => (
+            {...prevState, [choice]: {...prevState[choice], content: newValue}})
+        )
     }
 
     const deleteAnswerChoice = () => {
-        // const newDocument = {...assignment}
-        // newDocument.sections[0].items[itemIndex].answer_controller.splice(answerIndex, 1)
-        // setAssignment(newDocument)
+        setItems(prevState => {
+            let newArray = [...prevState[item].answer_objects]
+            newArray.splice(answerIndex, 1)
+            return ({...prevState, [item]: {...prevState[item], answer_objects: newArray}})
+        })
+
+        setAnswerObjects(prevState => {
+            const newObject = {...prevState}
+            delete newObject[choice]
+            return newObject
+        })
     }
 
     const markAsCorrect = () => {
-        // const newDocument = {...assignment}
-        // const found = newDocument.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct)
-        // if (found !== -1) {
-        //     newDocument.sections[0].items[itemIndex].answer_controller[found].is_correct = false
-        // }
-        // newDocument.sections[0].items[itemIndex].answer_controller[answerIndex].is_correct = true
-        // setAssignment(newDocument)
+        setItems(prevState => ({...prevState, [item]: {...prevState[item], correct_object: choice}}))
     }
 
     return (
         <>
             <div
-                className={answerObject.is_correct ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
+                className={isCorrect ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
             >
-                {active ? <span className={answerObject.is_correct ? "text-blue-500" : "text-gray-200 active:text-blue-400"}>
+                {active ? <span
+                    className={isCorrect ? "text-blue-500" : "text-gray-200 active:text-blue-400"}>
                     {dragHandler}
                 </span> : null}
 
                 <span className="table-cell w-full">
-                    <RichTextField uniqueId={choice} active={active} initialContent={answerObject.content}
-                                   autofocus={active} border
+                    <RichTextField uniqueId={choice} active={active} initialContent={answerObjects[choice].content}
+                                   autofocus={active}
                                    onBlurEvent={(value) => saveChoiceContent(value)}/>
                 </span>
                 <div className="flex justify-between space-x-3">
-                    {(active && !answerObject.is_correct) ?
+                    {(active && !isCorrect) ?
                         <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                             <button onClick={() => deleteAnswerChoice()}><i
-                                className={((answerObject.is_correct) ? "text-blue-600" : "text-gray-300") + " far fa-trash-alt table-cell"}/>
+                                className={((isCorrect) ? "text-blue-600" : "text-gray-300") + " far fa-trash-alt table-cell"}/>
                             </button>
                         </NewTooltip> : null}
-                    {answerObject.is_correct ? <i className="fas fa-check table-cell"/> : (active ?
+                    {isCorrect ? <i className="fas fa-check table-cell"/> : (active ?
                         <NewTooltip title="Set as correct answer" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                             <button onClick={() => markAsCorrect()}><i

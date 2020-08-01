@@ -61,7 +61,10 @@ const PageContent = ({pageData, aid}) => {
 
     //Stores the current state of the document
     // const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
-    const [assignment, setAssignment] = useState(newInitialDocumentContent);
+    const [document, setDocument] = useState(newInitialDocumentContent);
+    const [items, setItems] = useState(document.items);
+    const [answerObjects, setAnswerObjects] = useState(document.answer_objects);
+    const [sections, setSections] = useState(document.sections)
 
     //Tracks the save status -- 0: saved; 1: saving; 2: error
     const [saveStatus, setSaveStatus] = useState(0);
@@ -74,7 +77,7 @@ const PageContent = ({pageData, aid}) => {
     const [lastSavedState, setLastSavedState] = useState(data);
 
     // //Stores the state for the currently selected item
-    const [currentItem, setCurrentItem] = useState(() => (assignment.sections[10].items ? assignment.sections['10'].items : undefined));
+    const [currentItem, setCurrentItem] = useState(document.config.sections[0]);
 
     //Logic for saving the assignment
     const saveAssignment = (newAssignmentValue, newData) => {
@@ -120,31 +123,27 @@ const PageContent = ({pageData, aid}) => {
         }
     }, [pageData]);
 
-    //Whenever the assignment changes, save it
-    useEffect(() => {
-        delayedSaveAssignment(assignment, data)
-    }, [assignment]);
 
 
     const addItem = (type) => {
-        const newItemId = uuidv4()
-        const newChoiceId = uuidv4()
-        const newDocument = {...assignment}
-        switch (type) {
-            case('MC'):
-                newDocument.sections[0].items.push(blankMCItem(newItemId, newChoiceId))
-                break
-            case('MA'):
-                newDocument.sections[0].items.push(blankMAItem(newItemId, newChoiceId))
-                break
-        }
-        setAssignment(newDocument)
-        setCurrentItem(newItemId)
+        // const newItemId = uuidv4()
+        // const newChoiceId = uuidv4()
+        // const newDocument = {...assignment}
+        // switch (type) {
+        //     case('MC'):
+        //         newDocument.sections[0].items.push(blankMCItem(newItemId, newChoiceId))
+        //         break
+        //     case('MA'):
+        //         newDocument.sections[0].items.push(blankMAItem(newItemId, newChoiceId))
+        //         break
+        // }
+        // setAssignment(newDocument)
+        // setCurrentItem(newItemId)
     }
 
 
     return (
-        <QuizContext.Provider value={{assignment, setSaveStatus, data, setAssignment, clientId, setLastSavedState}}>
+        <QuizContext.Provider value={{document, setDocument, items, setItems, sections, setSections, answerObjects, setAnswerObjects, data, clientId}}>
             <AppLayout pageId={aid}
                        navbar={
                            <EditorNavbar setSaveStatus={status => setSaveStatus(status)}
@@ -175,10 +174,7 @@ const PageContent = ({pageData, aid}) => {
 
 
                                </Dialog>
-                               {/*{JSON.stringify(data.assignments_assignment_by_pk.sections[0].items)}*/}
-                               <DnDList currentItem={currentItem} items={assignment}
-                                        setSaveStatus={status => setSaveStatus(status)}
-                                        setCurrentItem={setCurrentItem}/>
+                               <DnDList currentItem={currentItem} setCurrentItem={setCurrentItem}/>
                                <div className="pt-12 pb-32">
                                    <div
                                        className="grid grid-cols-2 items-center sm:grid-cols-2 gap-6 max-w-sm mx-auto leading-tight">

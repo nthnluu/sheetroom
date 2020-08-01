@@ -56,9 +56,12 @@ export const initialDocumentContent = {
 export const newInitialDocumentContent = () => {
     const itemId = uuidv4()
     const answerObjectId = uuidv4()
-    const sectionId = '10'
+    const sectionId = uuidv4()
 
-    return {
+    return ({
+        config: {
+            sections: [sectionId]
+        },
         sections: {
             [sectionId]: {
                 "items": [itemId]
@@ -68,7 +71,8 @@ export const newInitialDocumentContent = () => {
             [itemId]: {
                 "answer_objects": [answerObjectId],
                 "controller_type": "MC",
-                "question": [{"children": [{"text": "Question"}], "type": "paragraph"}]
+                "question": [{"children": [{"text": "Question"}], "type": "paragraph"}],
+                "correct_object": answerObjectId
             }
         },
         answer_objects: {
@@ -77,7 +81,7 @@ export const newInitialDocumentContent = () => {
                 content: [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
             }
         }
-    }
+    })
 }
 
 

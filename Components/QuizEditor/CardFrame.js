@@ -6,27 +6,23 @@ import QuizContext from "./QuizContext";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 
 
-const CardFrame = ({active, setSaveStatus, item, itemIndex}) => {
-    const {assignment, setAssignment} = useContext(QuizContext);
+const CardFrame = ({active, item, itemIndex}) => {
+    const {assignment, setAssignment, setSaveStatus, items} = useContext(QuizContext);
 
-    let currentItem;
-    currentItem = assignment.items[item];
+    const currentItem = items[item];
 
-    // const Controller = ({item, itemIndex, setSaveStatus, active}) => {
-    //     switch (item.controller_type) {
-    //         case("MC"):
-    //             return <MultipleChoiceController item={item}
-    //                                              setSaveStatus={status => setSaveStatus(status)} active={active}/>
-    //         case("MA"):
-    //             return <MultipleAnswersController
-    //                                               setSaveStatus={status => setSaveStatus(status)} active={active}
-    //                                               item={item}/>
-    //         default:
-    //             return <p className="w-full p-3 text-red-600 border border-red-600 rounded-lg"><i
-    //                 className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact
-    //                 support if this error persists.</p>
-    //     }
-    // }
+    const Controller = () => {
+        switch (currentItem.controller_type) {
+            case("MC"):
+                return <MultipleChoiceController item={item} active={active}/>
+            case("MA"):
+                return <MultipleAnswersController active={active} item={item}/>
+            default:
+                return <p className="w-full p-3 text-red-600 border border-red-600 rounded-lg"><i
+                    className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact
+                    support if this error persists.</p>
+        }
+    }
 
     // Logic for AUTOSAVING the ITEM CONTENT
     const saveItemContent = (newValue) => {
@@ -69,8 +65,7 @@ const CardFrame = ({active, setSaveStatus, item, itemIndex}) => {
                         <RichTextField border active={active} initialContent={currentItem.question} autofocus={active}
                                        onBlurEvent={(newValue) => saveItemContent(newValue)} uniqueId={item}/>
                     </div>
-                    {/*<Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item}*/}
-                    {/*            itemIndex={itemIndex}/>*/}
+                    <Controller/>
                 </div>
             </div>
             {active ? <div className="flex justify-between border-t items-center w-full border-gray-200 py-3">

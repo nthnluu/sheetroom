@@ -1,19 +1,16 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import {Select} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import Box from "@material-ui/core/Box";
-import {Divider} from "@material-ui/core";
 import QuizContext from "../QuizEditor/QuizContext";
 import InputBase from "@material-ui/core/InputBase";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-const QuestionCardDropdown = ({item, saveType}) => {
-    const {assignment} = useContext(QuizContext);
+const QuestionCardDropdown = ({item}) => {
+    const {items, setItems} = useContext(QuizContext);
 
     const handleChange = selectedOption => {
-        saveType(selectedOption.target.value);
+        setItems(prevState => ({...prevState, [item]: {...prevState[item], controller_type: selectedOption}}));
     };
 
     const BootstrapInput = withStyles((theme) => ({
@@ -55,12 +52,11 @@ const QuestionCardDropdown = ({item, saveType}) => {
     return (
         <FormControl>
             <Select
-
                 autoWidth
                 IconComponent="div"
                 labelId="demo-customized-select-label"
                 id="demo-customized-select"
-                value={assignment.items[item].controller_type}
+                value={items[item].controller_type}
                 onChange={handleChange}
                 input={<BootstrapInput />}
             >
