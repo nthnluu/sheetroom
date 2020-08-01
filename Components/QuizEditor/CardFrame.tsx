@@ -1,16 +1,24 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import RichTextField from "../Editor/SlateEditor";
 import MultipleChoiceController from "./Controllers/MultipleChoice/MultipleChoice";
 import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 import QuizContext from "./QuizContext";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 import QuillEditor from "../Editor/QuillEditor";
+import JsonDebugBox from "../JsonDebugBox";
 
 
-const CardFrame = ({active, item, itemIndex}) => {
+interface Props {
+    active: boolean;
+    item: string;
+    itemIndex: number;
+}
+
+const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
     const {assignment, setAssignment, setSaveStatus, items} = useContext(QuizContext);
 
     const currentItem = items[item];
+    const [quillValue, setQuillValue] = useState();
 
     const Controller = () => {
         switch (currentItem.controller_type) {
@@ -65,7 +73,8 @@ const CardFrame = ({active, item, itemIndex}) => {
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
                         <RichTextField border active={active} value={currentItem.question} autofocus={active}
                                        onChangeEvent={(newValue) => saveItemContent(newValue)} uniqueId={item}/>
-                                       <QuillEditor/>
+                                       <JsonDebugBox content={quillValue} title="Quill Value"/>
+                                       <QuillEditor onChange={(value) => setQuillValue(value)} value={quillValue} active={true}/>
                     </div>
                     <Controller/>
                 </div>

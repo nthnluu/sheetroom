@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import PropTypes from "prop-types";
 
-const JsonDebugBox = ({content}) => {
+const JsonDebugBox = ({content, title}) => {
     const [isLocked, toggleLock] = useState(false);
     // checks if the build is production, component wont render if it is
     if (process.env.NODE_ENV === 'development') {
         return (<div className="my-6">
             <div className="flex justify-between">
-                <h3 className="font-semibold text-gray-800 mb-2">JSON Inspector</h3>
+                <h3 className="font-semibold text-gray-800 mb-2">{title ? title: "JSON Inspector"}</h3>
                 <span className="text-red-500"><i className="fas fa-exclamation-circle mr-1"/>Remove this component and its import before committing changes!</span>
             </div>
             <div className="rounded-lg p-4 shadow-sm" style={{color: '#61eaff', backgroundColor: '#00161a'}} key={JSON.stringify(content ? content.length : '420-69') + JSON.stringify(Date.now())}>
