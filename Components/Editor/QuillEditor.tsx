@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {FormControl, MenuItem, Select} from "@material-ui/core";
 import CustomizedSelects from "../Dropdowns/EditorDropdowns";
 const ReactQuill = typeof window === 'object' ? require('react-quill') : false;
@@ -12,9 +12,14 @@ interface Props {
 
 
 const QuillEditor: React.FC<Props> = ({active, value, onChange}) => {
+    const [isFocused, setIsFocused] = useState(false);
+
     return (<>
         <div className="p-1 border border-gray-200 rounded-lg font-sans">
-            <ReactQuill placeholder="Start typing" theme={null} value={value} onChange={(html) => {
+            <ReactQuill
+                onFocus={(() => setIsFocused(true))}
+                onBlur={(() => setIsFocused(false))}
+                placeholder="Start typing" theme={null} value={value} onChange={(html) => {
                 onChange(html)
             }} modules={{
                 toolbar: {
@@ -25,7 +30,7 @@ const QuillEditor: React.FC<Props> = ({active, value, onChange}) => {
                 }
             }}/>
         </div>
-        <div className="p-1 rounded-lg border border-gray-200 shadow mt-2 overflow-hidden flex justify-between"
+        <div className={"p-1 rounded-lg border border-gray-200 shadow mt-2 overflow-hidden flex justify-between " + (isFocused ? "visible" : "hidden")}
              style={{maxWidth: '12rem'}}
              id="toolbar">
             <button type="button"
