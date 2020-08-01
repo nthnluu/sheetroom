@@ -85,10 +85,7 @@ code {
 .editor-selectedCard:hover {
     opacity: 0.95;
 }
-::selection {
-    background: #a9fce9; /* WebKit/Blink Browsers */
-    color: #323248;
-}
+
 
 .MuiInputBase-root {
     border-radius: 0.5rem !important;
