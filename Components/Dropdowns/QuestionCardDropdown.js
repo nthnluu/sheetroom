@@ -9,7 +9,7 @@ import InputBase from "@material-ui/core/InputBase";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-const QuestionCardDropdown = ({itemIndex, saveType}) => {
+const QuestionCardDropdown = ({item, saveType}) => {
     const {assignment} = useContext(QuizContext);
 
     const handleChange = selectedOption => {
@@ -60,7 +60,7 @@ const QuestionCardDropdown = ({itemIndex, saveType}) => {
                 IconComponent="div"
                 labelId="demo-customized-select-label"
                 id="demo-customized-select"
-                value={assignment.sections[0].items[itemIndex].controller_type}
+                value={assignment.items[item].controller_type}
                 onChange={handleChange}
                 input={<BootstrapInput />}
             >

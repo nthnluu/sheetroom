@@ -6,7 +6,7 @@ export const blankMCItem = (newId, answerId) => ({
         {
             "id": answerId,
             "is_correct": true,
-            "content": [{"children":[{"text":"Option 1"}],"type":"paragraph"}]
+            "content": [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
         }
     ],
     "controller_type": "MC",
@@ -42,15 +42,42 @@ export const initialDocumentContent = {
                         {
                             "id": uuidv4(),
                             "is_correct": true,
-                            "content": [{"children":[{"text":"Option 1"}],"type":"paragraph"}]
+                            "content": [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
                         }
                     ],
                     "controller_type": "MC",
-                    "question": [{"children":[{"text":"Question"}],"type":"paragraph"}]
+                    "question": [{"children": [{"text": "Question"}], "type": "paragraph"}]
                 }
             ],
         }
     ]
+}
+
+export const newInitialDocumentContent = () => {
+    const itemId = uuidv4()
+    const answerObjectId = uuidv4()
+    const sectionId = '10'
+
+    return {
+        sections: {
+            [sectionId]: {
+                "items": [itemId]
+            }
+        },
+        items: {
+            [itemId]: {
+                "answer_objects": [answerObjectId],
+                "controller_type": "MC",
+                "question": [{"children": [{"text": "Question"}], "type": "paragraph"}]
+            }
+        },
+        answer_objects: {
+            [answerObjectId]: {
+                is_correct: true,
+                content: [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
+            }
+        }
+    }
 }
 
 

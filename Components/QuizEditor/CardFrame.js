@@ -6,55 +6,57 @@ import QuizContext from "./QuizContext";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 
 
-const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
+const CardFrame = ({active, setSaveStatus, item, itemIndex}) => {
     const {assignment, setAssignment} = useContext(QuizContext);
 
-    const Controller = ({item, itemIndex, setSaveStatus, active}) => {
-        switch (item.controller_type) {
-            case("MC"):
-                return <MultipleChoiceController itemId={item.id} itemIndex={itemIndex}
-                                                 setSaveStatus={status => setSaveStatus(status)} active={active}
-                                                 answerChoices={item.answer_controller}/>
-            case("MA"):
-                return <MultipleAnswersController itemId={item.id} itemIndex={itemIndex}
-                                                  setSaveStatus={status => setSaveStatus(status)} active={active}
-                                                  answerChoices={item.answer_controller}/>
-            default:
-                return <p className="w-full p-3 text-red-600 border border-red-600 rounded-lg"><i
-                    className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact
-                    support if this error persists.</p>
-        }
-    }
+    let currentItem;
+    currentItem = assignment.items[item];
+
+    // const Controller = ({item, itemIndex, setSaveStatus, active}) => {
+    //     switch (item.controller_type) {
+    //         case("MC"):
+    //             return <MultipleChoiceController item={item}
+    //                                              setSaveStatus={status => setSaveStatus(status)} active={active}/>
+    //         case("MA"):
+    //             return <MultipleAnswersController
+    //                                               setSaveStatus={status => setSaveStatus(status)} active={active}
+    //                                               item={item}/>
+    //         default:
+    //             return <p className="w-full p-3 text-red-600 border border-red-600 rounded-lg"><i
+    //                 className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact
+    //                 support if this error persists.</p>
+    //     }
+    // }
 
     // Logic for AUTOSAVING the ITEM CONTENT
     const saveItemContent = (newValue) => {
-        const newDocument = {...assignment}
-        newDocument.sections[0].items[itemIndex].question = newValue
-        setAssignment(newDocument)
+        // const newDocument = {...assignment}
+        // newDocument.sections[0].items[itemIndex].question = newValue
+        // setAssignment(newDocument)
     }
 
 
     const deleteItem = () => {
-        const newDocument = {...assignment}
-        newDocument.sections[0].items.splice(itemIndex, 1)
-        setAssignment(newDocument)
+        // const newDocument = {...assignment}
+        // newDocument.sections[0].items.splice(itemIndex, 1)
+        // setAssignment(newDocument)
     }
 
     // Logic for AUTOSAVING the ITEM TYPE
     const saveItemType = (newTypeValue) => {
-        const newDocument = {...assignment}
-        const correctItemIndex = newDocument.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct);
-        newDocument.sections[0].items[itemIndex].answer_controller.forEach((element, index) => {
-            element.is_correct = false
-        })
-        if (correctItemIndex === -1) {
-            newDocument.sections[0].items[itemIndex].answer_controller[0].is_correct = true
-        } else {
-            newDocument.sections[0].items[itemIndex].answer_controller[correctItemIndex].is_correct = true
-        }
-        newDocument.sections[0].items[itemIndex].controller_type = newTypeValue
-
-        setAssignment(newDocument)
+        // const newDocument = {...assignment}
+        // const correctItemIndex = newDocument.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct);
+        // newDocument.sections[0].items[itemIndex].answer_controller.forEach((element, index) => {
+        //     element.is_correct = false
+        // })
+        // if (correctItemIndex === -1) {
+        //     newDocument.sections[0].items[itemIndex].answer_controller[0].is_correct = true
+        // } else {
+        //     newDocument.sections[0].items[itemIndex].answer_controller[correctItemIndex].is_correct = true
+        // }
+        // newDocument.sections[0].items[itemIndex].controller_type = newTypeValue
+        //
+        // setAssignment(newDocument)
     }
 
     return (
@@ -64,17 +66,17 @@ const CardFrame = ({active, setSaveStatus, itemIndex, item}) => {
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
-                        <RichTextField border active={active} initialContent={item.question} autofocus={active}
-                                       onBlurEvent={(newValue) => saveItemContent(newValue)} uniqueId={item.id}/>
+                        <RichTextField border active={active} initialContent={currentItem.question} autofocus={active}
+                                       onBlurEvent={(newValue) => saveItemContent(newValue)} uniqueId={item}/>
                     </div>
-                    <Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item}
-                                itemIndex={itemIndex}/>
+                    {/*<Controller active={active} setSaveStatus={(status) => setSaveStatus(status)} item={item}*/}
+                    {/*            itemIndex={itemIndex}/>*/}
                 </div>
             </div>
             {active ? <div className="flex justify-between border-t items-center w-full border-gray-200 py-3">
                 <div className="max-w-2xl">
-                    <QuestionCardDropdown active={active} value={item.controller_type}
-                                          saveType={value => saveItemType(value)} itemIndex={itemIndex}/>
+                    <QuestionCardDropdown active={active} value={currentItem.controller_type}
+                                          saveType={value => saveItemType(value)} item={item}/>
                 </div>
                 <button type="button" onClick={() => deleteItem()}
                         className="inline-flex text-center items-center h-10 w-10 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">

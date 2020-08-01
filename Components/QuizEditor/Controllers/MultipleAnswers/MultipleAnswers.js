@@ -7,6 +7,7 @@ import {v4 as uuidv4} from 'uuid';
 import {blankAnswerChoice} from "../../Templates";
 import Button from "@material-ui/core/Button";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import update from 'immutability-helper';
 
 
 const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} tabIndex="1"
@@ -16,7 +17,10 @@ export const MultipleAnswersController = ({active, answerChoices, setSaveStatus,
     const {setAssignment, assignment} = useContext(QuizContext);
 
     const addAnswerChoice = () => {
-        const newDocument = {...assignment}
+        const newStae = update(assignment, {$push: ['y']});
+        const newDocument = {...assignment, sections: [
+            ...assignment.sections
+            ]}
         newDocument.sections[0].items[itemIndex].answer_controller.push(blankAnswerChoice(newDocument.sections[0].items[itemIndex].answer_controller.length === 0, uuidv4()))
         setAssignment(newDocument);
     }

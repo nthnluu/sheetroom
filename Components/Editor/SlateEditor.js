@@ -1,11 +1,10 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react'
-import isHotkey from 'is-hotkey'
-import {Editable, withReact, useSlate, Slate} from 'slate-react'
+import {Editable, withReact, useSlate, Slate, ReactEditor} from 'slate-react'
 import {Editor, Transforms, createEditor} from 'slate'
 import {withHistory} from 'slate-history'
 import ToolbarButton from "./Buttons";
 import Transition from "../Transition";
-import {toggleMark, Element, Leaf, BlockButton, MarkButton} from "./util";
+import {Element, Leaf, BlockButton, MarkButton} from "./util";
 
 const HOTKEYS = {
     'mod+b': 'bold',
@@ -14,17 +13,16 @@ const HOTKEYS = {
     'mod+`': 'code',
 };
 
-export const RichTextField = ({active, initialContent, onBlurEvent, border, uniqueId, autofocus}) => {
+export const RichTextField = ({active, initialContent, onBlurEvent, border, uniqueId}) => {
     const [value, setValue] = useState(initialContent ? initialContent : initialValue);
     const [toolbarOpen, toggleToolbar] = useState(false);
     const renderElement = useCallback(props => <Element {...props} />, []);
     const renderLeaf = useCallback(props => <Leaf {...props} />, []);
     const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
-
     return (
-        <div className="group relative">
-            <Slate editor={editor} value={value} onChange={value => setValue(value)}>
+        <div className="group relative" key={uniqueId}>
+            <Slate editor={editor} value={value} onChange={value1 => {setValue(value1)}}>
                 <div
                     className={active ? ("border-gray-200 group-hover:border-gray-300 active:border-blue-400 rounded-lg " + (border ? "border shadow-sm py-3 px-4" : "px-4")) : "rounded-lg border border-transparent"}>
                     <Editable
@@ -34,18 +32,8 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border, uniq
                         renderLeaf={renderLeaf}
                         placeholder="Start typing…"
                         spellCheck={false}
-                        // onFocus={() => toggleToolbar(true)}
-                        onBlur={(event) =>
-                            onBlurEvent(value)}
-                        onKeyDown={event => {
-                            for (const hotkey in HOTKEYS) {
-                                if (isHotkey(hotkey, event)) {
-                                    event.preventDefault();
-                                    const mark = HOTKEYS[hotkey];
-                                    toggleMark(editor, mark)
-                                }
-                            }
-                        }}
+                        // onBlur={(event) =>
+                        //     setTimeout(onBlurEvent(value), 0)}
                     />
                 </div>
                 <Transition show={toolbarOpen} enter="transition ease-out duration-100"

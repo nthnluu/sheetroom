@@ -4,7 +4,7 @@ import {getSession} from "next-auth/client";
 import DnDList from "../../../Components/QuizEditor/DragAndDrop";
 import AppLayout from "../../../Components/AppLayout";
 import Head from 'next/head'
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import EditorNavbar from "../../../Components/Navbar/EditorNavbar";
 import QuizContext from "../../../Components/QuizEditor/QuizContext";
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
@@ -14,7 +14,7 @@ import {v4 as uuidv4} from 'uuid';
 import {
     blankMAItem,
     blankMCItem,
-    initialDocumentContent
+    initialDocumentContent, newInitialDocumentContent
 } from "../../../Components/QuizEditor/Templates";
 import {ASSIGNMENT, ASSIGNMENT_WS} from "../../../gql/quizzes";
 import Dialog from "@material-ui/core/Dialog";
@@ -22,6 +22,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import {DialogContentText} from "@material-ui/core";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
+import {debounce} from 'lodash'
 import JsonDebugBox from "../../../Components/JsonDebugBox";
 
 const theme = createMuiTheme({
@@ -59,7 +60,8 @@ const PageContent = ({pageData, aid}) => {
     const [data, setData] = useState({assignments_assignment_by_pk: {last_edited_by: clientId, ...pageData.assignments_assignment_by_pk}})
 
     //Stores the current state of the document
-    const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
+    // const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
+    const [assignment, setAssignment] = useState(newInitialDocumentContent);
 
     //Tracks the save status -- 0: saved; 1: saving; 2: error
     const [saveStatus, setSaveStatus] = useState(0);
@@ -71,8 +73,8 @@ const PageContent = ({pageData, aid}) => {
     //Holds a copy of the state after the previous save
     const [lastSavedState, setLastSavedState] = useState(data);
 
-    //Stores the state for the currently selected item
-    const [currentItem, setCurrentItem] = useState(() => (assignment.sections[0].items ? assignment.sections[0].items[0].id : undefined));
+    // //Stores the state for the currently selected item
+    const [currentItem, setCurrentItem] = useState(() => (assignment.sections[10].items ? assignment.sections['10'].items : undefined));
 
     //Logic for saving the assignment
     const saveAssignment = (newAssignmentValue, newData) => {
@@ -85,10 +87,13 @@ const PageContent = ({pageData, aid}) => {
                     setSaveStatus(0);
                     setLastSavedState(newData)
                 })
-                .catch((error) => {setSaveStatus(2); console.log(error)})
+                .catch((error) => setSaveStatus(2))
         }
 
     }
+    const delayedSaveAssignment = useCallback(debounce((newAssignment, newData) => saveAssignment(newAssignment, newData), 500), []);
+
+
 
     // If the document is saving, prevents the window from navigating away
     useEffect(() => {
@@ -97,8 +102,9 @@ const PageContent = ({pageData, aid}) => {
             window.removeEventListener('beforeunload', handleWindowClose);
         };
     }, []);
+
     const handleWindowClose = (e) => {
-        if (saveStatus !== 0) {
+        if (saveStatus === 1 || 2) {
             e.preventDefault();
             return e.returnValue = 'You have unsaved changes - are you sure you wish to close?';
         }
@@ -116,7 +122,7 @@ const PageContent = ({pageData, aid}) => {
 
     //Whenever the assignment changes, save it
     useEffect(() => {
-        saveAssignment(assignment, data, lastSavedState)
+        delayedSaveAssignment(assignment, data)
     }, [assignment]);
 
 
@@ -140,26 +146,12 @@ const PageContent = ({pageData, aid}) => {
     return (
         <QuizContext.Provider value={{assignment, setSaveStatus, data, setAssignment, clientId, setLastSavedState}}>
             <AppLayout pageId={aid}
-                       navbar={<EditorNavbar setSaveStatus={status => setSaveStatus(status)}
-                                             saveStatus={saveStatus}
-                                             onTitleBlur={(value) => {
-                                                 if (value === data.assignments_assignment_by_pk.title) {
-
-                                                 } else {
-                                                     setSaveStatus(1);
-                                                     updateTitle({
-                                                         variables: {
-                                                             assignmentId: aid,
-                                                             title: value
-                                                         }
-                                                     })
-                                                         .then(() => setSaveStatus(0))
-                                                         .catch((error) => setSaveStatus(2));
-                                                 }
-                                             }} title={data.assignments_assignment_by_pk.title}/>}
+                       navbar={
+                           <EditorNavbar setSaveStatus={status => setSaveStatus(status)}
+                                             saveStatus={saveStatus} title={data.assignments_assignment_by_pk.title}/>}
                        content={
                            <div key={aid} className="max-w-7xl mx-auto">
-                               <Dialog onClose={() => console.log('closwe')} aria-labelledby="simple-dialog-title"
+                               <Dialog aria-labelledby="simple-dialog-title"
                                        open={invalidSession && saveStatus === 2}>
                                    <div className="p-2 pr-4">
                                        <DialogTitle id="simple-dialog-title">Someone has made changes to this
@@ -171,17 +163,6 @@ const PageContent = ({pageData, aid}) => {
                                                You’ll lose any changes you made in this current
                                                session.</DialogContentText>
                                        </DialogContent>
-                                       {/*<div className="grid grid-cols-2">*/}
-                                       {/*    <div>*/}
-                                       {/*        <h1>data</h1>*/}
-                                       {/*        <JsonDebugBox content={data}/>*/}
-                                       {/*    </div>*/}
-                                       {/*    <div>*/}
-                                       {/*        <h1>last saved</h1>*/}
-                                       {/*        <JsonDebugBox content={lastSavedState}/>*/}
-                                       {/*    </div>*/}
-
-                                       {/*</div>*/}
 
                                        <DialogActions>
                                            <button type="button" onClick={() => location.reload()}
