@@ -35,7 +35,7 @@ export default function () {
                                 }
                             }}
                                     className="text-gray-500 group inline-flex items-center space-x-2 text-base leading-6 font-medium hover:text-gray-900 focus:outline-none focus:text-gray-900 transition ease-in-out duration-150">
-                                <span>Solutions</span>
+                                <span>Our product</span>
                                 {/*// <!-- Item active: "text-gray-600", Item inactive: "text-gray-400" -->*/}
                                 <svg
                                     className="text-gray-400 h-5 w-5 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150"
