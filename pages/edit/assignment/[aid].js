@@ -66,6 +66,19 @@ const PageContent = ({pageData, aid}) => {
     const [answerObjects, setAnswerObjects] = useState(document.answer_objects);
     const [sections, setSections] = useState(document.sections)
 
+    useEffect(() => {
+        const newDoc = {
+            ...document,
+            sections,
+            items,
+            answerObjects
+        }
+
+        setDocument(newDoc)
+        setSaveStatus(1)
+        setTimeout(() => setSaveStatus(0), 500)
+    }, [items, answerObjects, sections]);
+
     //Tracks the save status -- 0: saved; 1: saving; 2: error
     const [saveStatus, setSaveStatus] = useState(0);
     const [invalidSession, setInvalidSession] = useState(false);
@@ -97,7 +110,6 @@ const PageContent = ({pageData, aid}) => {
     const delayedSaveAssignment = useCallback(debounce((newAssignment, newData) => saveAssignment(newAssignment, newData), 500), []);
 
 
-
     // If the document is saving, prevents the window from navigating away
     useEffect(() => {
         window.addEventListener('beforeunload', handleWindowClose);
@@ -106,8 +118,9 @@ const PageContent = ({pageData, aid}) => {
         };
     }, []);
 
+
     const handleWindowClose = (e) => {
-        if (saveStatus === 1 || 2) {
+        if (saveStatus !== 0) {
             e.preventDefault();
             return e.returnValue = 'You have unsaved changes - are you sure you wish to close?';
         }
@@ -122,7 +135,6 @@ const PageContent = ({pageData, aid}) => {
             setData(pageData)
         }
     }, [pageData]);
-
 
 
     const addItem = (type) => {
@@ -143,11 +155,22 @@ const PageContent = ({pageData, aid}) => {
 
 
     return (
-        <QuizContext.Provider value={{document, setDocument, items, setItems, sections, setSections, answerObjects, setAnswerObjects, data, clientId}}>
+        <QuizContext.Provider value={{
+            document,
+            setDocument,
+            items,
+            setItems,
+            sections,
+            setSections,
+            answerObjects,
+            setAnswerObjects,
+            data,
+            clientId
+        }}>
             <AppLayout pageId={aid}
                        navbar={
                            <EditorNavbar setSaveStatus={status => setSaveStatus(status)}
-                                             saveStatus={saveStatus} title={data.assignments_assignment_by_pk.title}/>}
+                                         saveStatus={saveStatus} title={data.assignments_assignment_by_pk.title}/>}
                        content={
                            <div key={aid} className="max-w-7xl mx-auto">
                                <Dialog aria-labelledby="simple-dialog-title"

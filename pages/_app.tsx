@@ -1,4 +1,5 @@
 import '../styles/index.css'
+import '../styles/quill.snow.css'
 import {ApolloProvider} from '@apollo/react-hooks';
 import {createHttpLink} from "apollo-link-http";
 import ApolloClient from "apollo-client";
@@ -7,8 +8,9 @@ import {Provider} from 'next-auth/client'
 import {WebSocketLink} from 'apollo-link-ws';
 import {split} from "apollo-link";
 import {getMainDefinition} from "apollo-utilities";
+import type { AppProps /*, AppContext */ } from 'next/app'
 
-const App = ({Component, pageProps}) => {
+const App = ({Component, pageProps}: AppProps) => {
     const {session} = pageProps;
 
     const wsLink = process.browser ? new WebSocketLink({

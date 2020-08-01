@@ -13,8 +13,8 @@ const HOTKEYS = {
     'mod+`': 'code',
 };
 
-export const RichTextField = ({active, initialContent, onBlurEvent, border, uniqueId}) => {
-    const [value, setValue] = useState(initialContent ? initialContent : initialValue);
+export const RichTextField = ({active, initialContent, onChangeEvent, border, uniqueId, value}) => {
+    // const [value, setValue] = useState(initialContent ? initialContent : initialValue);
     const [toolbarOpen, toggleToolbar] = useState(false);
     const renderElement = useCallback(props => <Element {...props} />, []);
     const renderLeaf = useCallback(props => <Leaf {...props} />, []);
@@ -22,7 +22,7 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border, uniq
 
     return (
         <div className="group relative" key={uniqueId}>
-            <Slate editor={editor} value={value} onChange={value1 => {setValue(value1)}}>
+            <Slate editor={editor} value={initialContent ? initialContent : initialValue} onChange={value1 => onChangeEvent(value1)}>
                 <div
                     className={active ? ("border-gray-200 group-hover:border-gray-300 active:border-blue-400 rounded-lg " + (border ? "border shadow-sm py-3 px-4" : "px-4")) : "rounded-lg border border-transparent"}>
                     <Editable
@@ -32,8 +32,6 @@ export const RichTextField = ({active, initialContent, onBlurEvent, border, uniq
                         renderLeaf={renderLeaf}
                         placeholder="Start typing…"
                         spellCheck={false}
-                        // onBlur={(event) =>
-                        //     setTimeout(onBlurEvent(value), 0)}
                     />
                 </div>
                 <Transition show={toolbarOpen} enter="transition ease-out duration-100"

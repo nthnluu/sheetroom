@@ -2,13 +2,13 @@ import React from "react";
 import Navbar from "./Navbar";
 import ActivityFeed from "./ActivityFeed";
 
-const PageLayout = ({userId, sidebar}) => {
 
+interface Props {
+    sidebar?: React.FC;
+}
 
-
-
+const PageLayout: React.FC<Props> = ({sidebar}) => {
     return (<div>
-
         {/* Background color split screen for large screens */}
         <div className="fixed top-0 left-0 w-1/2 h-full bg-white" />
         <div className="fixed top-0 right-0 w-1/2 h-full bg-gray-50" />

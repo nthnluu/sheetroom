@@ -31,7 +31,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
     }
 
     const markAsCorrect = () => {
-        setItems(prevState => ({...prevState, [item]: {...prevState[item], correct_object: choice}}))
+        setItems(prevState => ({...prevState, [item]: {...prevState[item], correct_objects: [choice]}}))
     }
 
     return (
@@ -45,9 +45,9 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                 </span> : null}
 
                 <span className="table-cell w-full">
-                    <RichTextField uniqueId={choice} active={active} initialContent={answerObjects[choice].content}
+                    <RichTextField uniqueId={choice} active={active} value={answerObjects[choice].content}
                                    autofocus={active}
-                                   onBlurEvent={(value) => saveChoiceContent(value)}/>
+                                   onChangeEvent={(value) => saveChoiceContent(value)}/>
                 </span>
                 <div className="flex justify-between space-x-3">
                     {(active && !isCorrect) ?

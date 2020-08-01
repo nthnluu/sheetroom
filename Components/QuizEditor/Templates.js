@@ -72,12 +72,11 @@ export const newInitialDocumentContent = () => {
                 "answer_objects": [answerObjectId],
                 "controller_type": "MC",
                 "question": [{"children": [{"text": "Question"}], "type": "paragraph"}],
-                "correct_object": answerObjectId
+                "correct_objects": [answerObjectId]
             }
         },
         answer_objects: {
             [answerObjectId]: {
-                is_correct: true,
                 content: [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
             }
         }

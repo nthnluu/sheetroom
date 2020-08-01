@@ -4,6 +4,7 @@ import MultipleChoiceController from "./Controllers/MultipleChoice/MultipleChoic
 import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 import QuizContext from "./QuizContext";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
+import QuillEditor from "../Editor/QuillEditor";
 
 
 const CardFrame = ({active, item, itemIndex}) => {
@@ -62,8 +63,9 @@ const CardFrame = ({active, item, itemIndex}) => {
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
-                        <RichTextField border active={active} initialContent={currentItem.question} autofocus={active}
-                                       onBlurEvent={(newValue) => saveItemContent(newValue)} uniqueId={item}/>
+                        <RichTextField border active={active} value={currentItem.question} autofocus={active}
+                                       onChangeEvent={(newValue) => saveItemContent(newValue)} uniqueId={item}/>
+                                       <QuillEditor/>
                     </div>
                     <Controller/>
                 </div>

@@ -1,16 +1,11 @@
 import Navbar from "../Components/Navbar/Navbar";
 import React from 'react';
 import {getSession} from 'next-auth/client';
+import {GetServerSideProps} from "next";
 
 
-const Index = ({user, session}) => {
-    const navBarItems = {
-        links: [{label: 'Features'}, {label: 'About us'}, {label: 'Pricing'}],
-        actionButtons: {
-            primary: {label: 'Sign up', href: '/api/login'},
-            secondary: {label: 'Log in', href: '/api/auth/signin'}
-        }
-    };
+
+const Index: React.FC = () => {
     return (
         <>
             <Navbar/>
@@ -24,17 +19,16 @@ const Index = ({user, session}) => {
     )
 };
 
-Index.getInitialProps = async ({res, ...context}) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     if (typeof window === 'undefined') {
         const session = await getSession(context);
         if (!session || !session.user) {
-            return {session: 'annonymous'}
+            return { props: {session: 'annonymous'} }
         } else {
-            res.writeHead(302, {
+            context.res.writeHead(302, {
                 Location: '/dashboard'
             });
-            res.end();
-
+            context.res.end();
         }
     }
 };

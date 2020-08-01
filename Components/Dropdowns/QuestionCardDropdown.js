@@ -10,7 +10,7 @@ const QuestionCardDropdown = ({item}) => {
     const {items, setItems} = useContext(QuizContext);
 
     const handleChange = selectedOption => {
-        setItems(prevState => ({...prevState, [item]: {...prevState[item], controller_type: selectedOption}}));
+        setItems(prevState => ({...prevState, [item]: {...prevState[item], controller_type: selectedOption.target.value, correct_objects: prevState[item].correct_objects[0]}}));
     };
 
     const BootstrapInput = withStyles((theme) => ({

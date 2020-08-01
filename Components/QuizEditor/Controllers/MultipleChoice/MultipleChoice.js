@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import arrayMove from 'array-move';
 import AnswerChoice from "./AnswerChoice";
 import PropTypes from "prop-types";
@@ -21,7 +21,10 @@ export const MultipleChoiceController = ({active, item}) => {
 
         setItems(previousState => ({
             ...previousState,
-            [item]: {...previousState[item], answer_objects: arrayMove(previousState[item].answer_objects, result.source.index, result.destination.index)},
+            [item]: {
+                ...previousState[item],
+                answer_objects: arrayMove(previousState[item].answer_objects, result.source.index, result.destination.index)
+            },
         }))
 
 
@@ -29,18 +32,22 @@ export const MultipleChoiceController = ({active, item}) => {
 
     const addAnswerChoice = () => {
         const newId = uuidv4()
-        setItems(prevState => ({...prevState, [item]: {...prevState[item], answer_objects: [...prevState[item].answer_objects, newId]}}))
-        setAnswerObjects(prevState => ({...prevState, [newId]: {
-                is_correct: (prevState.length <= 0),
+        setItems(prevState => ({
+            ...prevState,
+            [item]: {...prevState[item], answer_objects: [...prevState[item].answer_objects, newId]}
+        }))
+        setAnswerObjects(prevState => ({
+            ...prevState, [newId]: {
                 content: [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
-            }}));
+            }
+        }));
     }
 
     return (
         <div key={item}>
             {active ? <div>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId={item+ '_controller'}>
+                    <Droppable droppableId={item + '_controller'}>
                         {(provided, snapshot) => (
                             <ul {...provided.droppableProps} ref={provided.innerRef}>
                                 {items[item].answer_objects.map((answerId, index) => (
@@ -50,7 +57,7 @@ export const MultipleChoiceController = ({active, item}) => {
                                             <li className="pb-4" ref={provided.innerRef}
                                                 {...provided.draggableProps}>
                                                 <AnswerChoice choice={answerId} active={true}
-                                                              isCorrect={answerId === items[item].correct_object}
+                                                              isCorrect={items[item].correct_objects.includes(answerId)}
                                                               item={item}
                                                               answerIndex={index}
                                                               dragHandler={<DragHandle provided={provided}
@@ -91,7 +98,8 @@ export const MultipleChoiceController = ({active, item}) => {
                 </div>
             </div> : <div className="space-y-4">
                 {items[item].answer_objects.map(answerId => <AnswerChoice key={answerId} choice={answerId}
-                                                                                     active={false}/>)}
+                                                                          isCorrect={items[item].correct_objects.includes(answerId)}
+                                                                          active={false}/>)}
             </div>}
         </div>
 

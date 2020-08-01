@@ -8,22 +8,14 @@ import {blankAnswerChoice} from "../../Templates";
 import Button from "@material-ui/core/Button";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import update from 'immutability-helper';
+import JsonDebugBox from "../../../JsonDebugBox";
 
 
 const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} tabIndex="1"
                                          className={"fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
 
-export const MultipleAnswersController = ({active, answerChoices, setSaveStatus, itemId, itemIndex}) => {
-    const {setAssignment, assignment, items, answerObjects} = useContext(QuizContext);
-
-    const addAnswerChoice = () => {
-        const newStae = update(assignment, {$push: ['y']});
-        const newDocument = {...assignment, sections: [
-            ...assignment.sections
-            ]}
-        newDocument.sections[0].items[itemIndex].answer_controller.push(blankAnswerChoice(newDocument.sections[0].items[itemIndex].answer_controller.length === 0, uuidv4()))
-        setAssignment(newDocument);
-    }
+export const MultipleAnswersController = ({active, item, itemIndex}) => {
+    const {items, setAnswerObjects, setItems} = useContext(QuizContext);
 
     const onDragEnd = (result) => {
         // dropped outside the list
@@ -31,28 +23,49 @@ export const MultipleAnswersController = ({active, answerChoices, setSaveStatus,
             return;
         }
 
-        const newDocument = {...assignment}
-        newDocument.sections[0].items[itemIndex].answer_controller = arrayMove(answerChoices, result.source.index, result.destination.index)
-        setAssignment(newDocument)
+        setItems(previousState => ({
+            ...previousState,
+            [item]: {
+                ...previousState[item],
+                answer_objects: arrayMove(previousState[item].answer_objects, result.source.index, result.destination.index)
+            },
+        }))
+
 
     }
 
+    const addAnswerChoice = () => {
+        const newId = uuidv4()
+        setItems(prevState => ({
+            ...prevState,
+            [item]: {...prevState[item], answer_objects: [...prevState[item].answer_objects, newId]}
+        }))
+        setAnswerObjects(prevState => ({
+            ...prevState, [newId]: {
+                content: [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
+            }
+        }));
+    }
+
     return (
-        <div key={itemId}>
+        <div key={item}>
             {active ? <div>
                 <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId={assignment.sections[0].items[itemIndex].id + '_controller'}>
+                    <Droppable droppableId={item + '_controller'}>
                         {(provided, snapshot) => (
                             <ul {...provided.droppableProps} ref={provided.innerRef}>
-                                {answerChoices.map((value, index) => (
-                                    <Draggable key={value.id} draggableId={value.id}
+                                {items[item].answer_objects.map((answerId, index) => (
+                                    <Draggable key={answerId} draggableId={answerId}
                                                index={index}>
                                         {(provided, snapshot) =>
                                             <li className="pb-4" ref={provided.innerRef}
                                                  {...provided.draggableProps}>
-                                                <AnswerChoice choice={value} active={active} selected={value.is_correct}
+                                                <AnswerChoice choice={answerId} active={true}
+                                                              isCorrect={items[item].correct_objects.includes(answerId)}
+                                                              item={item}
                                                               answerIndex={index}
-                                                              itemIndex={itemIndex} dragHandler={<DragHandle provided={provided} active={active}/>}/>
+                                                              dragHandler={<DragHandle provided={provided}
+                                                                                       active={true}/>}/>
                                             </li>}
                                     </Draggable>))}
                                 {provided.placeholder}
@@ -88,12 +101,9 @@ export const MultipleAnswersController = ({active, answerChoices, setSaveStatus,
                     </div>
                 </div>
             </div> : <div className="space-y-4">
-                {answerChoices ? answerChoices.map((choice, index) => <AnswerChoice choiceId={choice.id} active={false}
-                                                                                    choice={choice}
-                                                                                    setSaveStatus={status => setSaveStatus(status)}
-                                                                                    key={choice.id + "_inactive"}
-                                                                                    content={choice.content}
-                                                                                    selected={choice.is_correct}/>) : null}
+                items[item].answer_objects.map(answerId => <AnswerChoice key={answerId} choice={answerId}
+                                                                         isCorrect={items[item].correct_objects.includes(answerId)}
+                                                                         active={false}/>)}
             </div>}
         </div>
 
