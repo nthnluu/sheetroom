@@ -8,10 +8,11 @@ interface Props {
     active: boolean;
     onChange: any;
     value: object;
+    placeholder?: string;
 }
 
 
-const QuillEditor: React.FC<Props> = ({active, value, onChange}) => {
+const QuillEditor: React.FC<Props> = ({active, value, onChange, placeholder}) => {
     const [isFocused, setIsFocused] = useState(false);
 
     return (<>
@@ -19,7 +20,7 @@ const QuillEditor: React.FC<Props> = ({active, value, onChange}) => {
             <ReactQuill
                 onFocus={(() => setIsFocused(true))}
                 onBlur={(() => setIsFocused(false))}
-                placeholder="Start typing" theme={null} value={value} onChange={(html) => {
+                placeholder={placeholder} theme={null} value={value} onChange={(html) => {
                 onChange(html)
             }} modules={{
                 toolbar: {
@@ -30,8 +31,7 @@ const QuillEditor: React.FC<Props> = ({active, value, onChange}) => {
                 }
             }}/>
         </div>
-        <div className={"p-1 rounded-lg border border-gray-200 shadow mt-2 overflow-hidden flex justify-between " + (isFocused ? "visible" : "hidden")}
-             style={{maxWidth: '12rem'}}
+        <div className={"p-1 rounded-lg border border-gray-200 space-x-1 absolute bg-white z-40 shadow-lg mt-1 overflow-hidden flex justify-between transition-all duration-300 " + (isFocused ? "visible" : "hidden")}
              id="toolbar">
             <button type="button"
                     className="ql-bold text-gray-500 items-center h-8 w-8 text-center border border-transparent leading-4 font-medium rounded bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">

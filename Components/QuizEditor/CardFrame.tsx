@@ -71,10 +71,10 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
-                        <RichTextField border active={active} value={currentItem.question} autofocus={active}
-                                       onChangeEvent={(newValue) => saveItemContent(newValue)} uniqueId={item}/>
-                                       <JsonDebugBox content={quillValue} title="Quill Value"/>
-                                       <QuillEditor onChange={(value) => setQuillValue(value)} value={quillValue} active={true}/>
+                        {/*<RichTextField border active={active} value={currentItem.question} autofocus={active}*/}
+                        {/*               onChangeEvent={(newValue) => saveItemContent(newValue)} uniqueId={item}/>*/}
+                        {/*               <JsonDebugBox content={quillValue} title="Quill Value"/>*/}
+                        <QuillEditor onChange={(value) => setQuillValue(value)} value={quillValue} active={true} placeholder="Question"/>
                     </div>
                     <Controller/>
                 </div>
