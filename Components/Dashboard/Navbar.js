@@ -5,7 +5,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 const Navbar = () => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     return <nav className="flex-shrink-0 fixed w-full z-50" style={{backgroundColor: '#030917'}}>
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+        <div className="mx-auto px-2 sm:px-4 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
                 {/* Logo section */}
                 <div className="flex items-center px-2 lg:px-0 xl:w-64">
@@ -20,7 +20,7 @@ const Navbar = () => {
                 <div className="related-focus:bg-gray"/>
                 {/* Search section */}
                 <div className="flex-1 flex justify-center lg:justify-end">
-                    <div className="w-full px-2 lg:px-6">
+                    <div className="w-full max-w-md px-2 lg:px-6">
                         <label htmlFor="search" className="sr-only">Search assignment</label>
                         <div className="relative text-gray-300 focus-within:text-gray-400">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
