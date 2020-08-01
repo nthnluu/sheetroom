@@ -11,8 +11,9 @@ import Transition from "../Components/Transition";
 import AssignmentList from "../Components/Lists/AssignmentList";
 import {initialDocumentContent} from "../Components/QuizEditor/Templates";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import {GetServerSideProps} from "next";
 
-const Sidebar = ({toggleCreateAssignmentDialog, userId}) => {
+const Sidebar: React.FC<{ toggleCreateAssignmentDialog, userId: number }> = ({toggleCreateAssignmentDialog, userId}) => {
     const [sortDropdown, toggleSortDropdown] = useState(false);
 
     return (<>{/* Account profile */}
@@ -112,7 +113,8 @@ const Sidebar = ({toggleCreateAssignmentDialog, userId}) => {
 
                       </span>
 
-                                <Transition show={sortDropdown} enter="transition ease-out duration-100"
+                                <Transition appear={sortDropdown} show={sortDropdown}
+                                            enter="transition ease-out duration-100"
                                             enterFrom="transform opacity-0 scale-95"
                                             enterTo="transform opacity-100 scale-100"
                                             leave="transition ease-in duration-75"
@@ -150,7 +152,7 @@ const Sidebar = ({toggleCreateAssignmentDialog, userId}) => {
     </>)
 }
 
-const Dashboard = ({session}) => {
+const Dashboard: React.FC<{ session }> = ({session}) => {
     const [createNewAssignment, {data}] = useMutation(CREATE_ASSIGNMENT)
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
 
@@ -165,7 +167,8 @@ const Dashboard = ({session}) => {
                         event.preventDefault()
                         createNewAssignment({
                             variables: {
-                                title: event.target.title.value,
+                                //@ts-ignore
+                                title: event.currentTarget.title.value,
                                 content: initialDocumentContent,
                                 userId: session.userId
                             }
@@ -185,17 +188,6 @@ const Dashboard = ({session}) => {
                                 </div>
                             </div>
                         </DialogContent>
-                        {/*<div className="grid grid-cols-2">*/}
-                        {/*    <div>*/}
-                        {/*        <h1>data</h1>*/}
-                        {/*        <JsonDebugBox content={data}/>*/}
-                        {/*    </div>*/}
-                        {/*    <div>*/}
-                        {/*        <h1>last saved</h1>*/}
-                        {/*        <JsonDebugBox content={lastSavedState}/>*/}
-                        {/*    </div>*/}
-
-                        {/*</div>*/}
 
                         <DialogActions>
                             <button type="button" onClick={() => toggleCreateAssignmentDialog(false)}
@@ -219,17 +211,17 @@ const Dashboard = ({session}) => {
     )
 };
 
-Dashboard.getInitialProps = async ({res, ...context}) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     if (typeof window === 'undefined') {
         const session = await getSession(context);
         if (!session || !session.user) {
-            res.writeHead(302, {
+            context.res.writeHead(302, {
                 Location: '/api/auth/signin'
             });
-            res.end();
+            context.res.end();
 
         } else {
-            return {session: session, user: session.user}
+            return {props: {session: session, user: session.user}}
         }
     }
 };

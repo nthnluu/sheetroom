@@ -4,7 +4,7 @@ import ActivityFeed from "./ActivityFeed";
 
 
 interface Props {
-    sidebar?: React.FC;
+    sidebar?: JSX.Element;
 }
 
 const PageLayout: React.FC<Props> = ({sidebar}) => {
