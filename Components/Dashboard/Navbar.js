@@ -20,7 +20,7 @@ const Navbar = () => {
                 <div className="related-focus:bg-gray"/>
                 {/* Search section */}
                 <div className="flex-1 flex justify-center lg:justify-end">
-                    <div className="w-full max-w-md px-2 lg:px-6">
+                    <div className="w-full max-w-3xl mx-auto px-2 lg:px-6">
                         <label htmlFor="search" className="sr-only">Search assignment</label>
                         <div className="relative text-gray-300 focus-within:text-gray-400">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
