@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Transition from "../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
-const Navbar = () => {
+const Navbar = ({session}) => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     return <nav className="flex-shrink-0 fixed w-full z-50" style={{backgroundColor: '#030917'}}>
         <div className="mx-auto px-2 sm:px-4 lg:px-8">
@@ -76,7 +76,7 @@ const Navbar = () => {
                                         className="flex text-sm rounded-full text-white focus:outline-none focus:shadow-solid transition duration-150 ease-in-out"
                                         id="user-menu" aria-label="User menu" aria-haspopup="true">
                                         <img className="h-8 w-8 rounded-full"
-                                             src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80"
+                                             src={session.user.image ? session.user.image : "https://lh3.googleusercontent.com/proxy/Ge8IjXjwr-9jS3f5_gnxcIyi1OFQ-IMWCvHtmpCze2EeQi2TqNgtMx1oVZoFhiHATpISTmeXCZ_uQfiiauO2R6uEBFFLwI86huh6RNZjXn2csWFM6GIhulXwJ50oXU2Jb3I"}
                                              alt=""/>
                                     </button>
                                 </div>
