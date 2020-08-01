@@ -12,7 +12,7 @@ export default function () {
                     className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
                     <div className="lg:w-0 lg:flex-1">
                         <a href="#" className="flex">
-                            <img className="h-8 w-auto sm:h-10" src="/hw_logo.svg" alt="Workflow"/>
+                            <img className="h-6 w-auto sm:h-8" src="/sheetroom_logo.svg" alt="Workflow"/>
                         </a>
                     </div>
                     <div className="-mr-2 -my-2 md:hidden">
@@ -365,7 +365,7 @@ export default function () {
                             <div className="pt-5 pb-6 px-5 space-y-6">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <img className="h-8 w-auto" src="/hw_symbol.svg" alt="Workflow"/>
+                                        <img className="h-8 w-auto" src="/sheetroom_symbol.svg" alt="Workflow"/>
                                     </div>
                                     <div className="-mr-2">
                                         <button type="button" onClick={() => toggleMobileMenu(false)}
