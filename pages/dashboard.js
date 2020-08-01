@@ -163,17 +163,16 @@ const Dashboard = ({session}) => {
                     <DialogTitle id="simple-dialog-title">New assignment</DialogTitle>
                     <form onSubmit={(event) => {
                         event.preventDefault()
-                        if (event.target.title.value > 0) {
-                            createNewAssignment({
-                                variables: {
-                                    title: event.target.title.value,
-                                    content: initialDocumentContent,
-                                    userId: session.userId
-                                }
-                            })
-                                .then((result) => window.location.href = '/edit/assignment/' + result.data.insert_assignments_assignment.returning[0].id)
-                                .catch((error) => console.log(error));
-                        }
+                        createNewAssignment({
+                            variables: {
+                                title: event.target.title.value,
+                                content: initialDocumentContent,
+                                userId: session.userId
+                            }
+                        })
+                            .then((result) => window.location.href = '/edit/assignment/' + result.data.insert_assignments_assignment.returning[0].id)
+                            .catch((error) => console.log(error));
+
 
                     }}>
                         <DialogContent>
