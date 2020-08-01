@@ -92,6 +92,11 @@ code {
 
 }
 
+.ql-editor {
+    font-family: 'Inter var' !important;
+    font-size: 1.1rem !important;
+}
+
 /*.multipleChoiceRadioButton {*/
 /*    opacity: 0;*/
 /*}*/

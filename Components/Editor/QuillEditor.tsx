@@ -10,9 +10,11 @@ interface Props {
 }
 
 const QuillEditor: React.FC<Props> = ({active, value, onChange}) => {
-    return <ReactQuill theme="snow" value={value} onChange={(html) => {
-        onChange(html)
-    }}/>
+    return <div className="p-1 border border-gray-200 rounded-lg font-sans">
+        <ReactQuill placeholder="Start typing" theme={null} value={value} onChange={(html) => {
+            onChange(html)
+        }}/>
+    </div>
 }
 
 export default QuillEditor
