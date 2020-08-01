@@ -3,13 +3,15 @@ import Transition from "../Transition";
 
 const Navbar = () => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
-    return <nav className="flex-shrink-0 bg-gray-900">
+    return <nav className="flex-shrink-0 fixed w-full z-50" style={{backgroundColor: '#030917'}}>
         <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
                 {/* Logo section */}
                 <div className="flex items-center px-2 lg:px-0 xl:w-64">
                     <div className="flex-shrink-0">
-                        <img className="h-8 w-auto" src="/sheetroom_symbol.svg"
+                        <img className="h-6 w-auto hidden md:block" src="/light_logo.svg"
+                             alt="Workflow logo"/>
+                        <img className="h-8 w-auto block md:hidden" src="/light_symbol.svg"
                              alt="Workflow logo"/>
                     </div>
                 </div>
@@ -57,9 +59,9 @@ const Navbar = () => {
                     <div className="flex items-center justify-end">
                         <div className="flex">
                             <a href="#"
-                               className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Documentation</a>
+                               className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Documentation</a>
                             <a href="#"
-                               className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Support</a>
+                               className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Support</a>
                         </div>
                         {/* Profile dropdown */}
 

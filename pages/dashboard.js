@@ -55,7 +55,7 @@ const Sidebar = ({toggleCreateAssignmentDialog, userId}) => {
                                 <span className="inline-flex rounded-md shadow-sm">
                             <button type="button"
                                     className="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                              Invite Team
+                              Assign to Class
                             </button>
                           </span>
                             </div>
@@ -148,24 +148,27 @@ const Dashboard = ({session}) => {
             <Dialog onClose={() => toggleCreateAssignmentDialog(false)} aria-labelledby="simple-dialog-title"
                     open={createAssignmentDialog}>
                 <div className="p-2 pr-4">
-                    <DialogTitle id="simple-dialog-title">Create new assignment</DialogTitle>
+                    <DialogTitle id="simple-dialog-title">New assignment</DialogTitle>
                     <form onSubmit={(event) => {
                         event.preventDefault()
-                        createNewAssignment({
-                            variables: {
-                                title: event.target.title.value,
-                                content: initialDocumentContent,
-                                userId: session.userId
-                            }
-                        })
-                            .then((result) => window.location.href = '/edit/assignment/'+result.data.insert_assignments_assignment.returning[0].id)
-                            .catch((error) => console.log(error));
+                        if (event.target.title.value > 0) {
+                            createNewAssignment({
+                                variables: {
+                                    title: event.target.title.value,
+                                    content: initialDocumentContent,
+                                    userId: session.userId
+                                }
+                            })
+                                .then((result) => window.location.href = '/edit/assignment/'+result.data.insert_assignments_assignment.returning[0].id)
+                                .catch((error) => console.log(error));
+                        }
+
                     }}>
                         <DialogContent>
-                            <div className="w-96">
+                            <div className="w-96 mb-2">
                                 <label htmlFor="title" className="sr-only">Title</label>
                                 <div className="relative rounded-md shadow-sm">
-                                    <input id="title" className="form-input block w-full sm:text-sm sm:leading-5"
+                                    <input id="title" className="form-input block w-full sm:leading-6"
                                            placeholder="Untitled Assignment" defaultValue="Untitled Assignment"
                                            autoFocus/>
                                 </div>

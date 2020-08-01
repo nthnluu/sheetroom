@@ -24,7 +24,7 @@ const PageLayout = ({userId, sidebar}) => {
             {/* Navbar */}
             <Navbar/>
             {/* 3 column wrapper */}
-            <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex">
+            <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex mt-16">
                 {/* Left sidebar & main wrapper */}
                 <div className="flex-1 min-w-0 bg-white xl:flex">
                     {sidebar}
