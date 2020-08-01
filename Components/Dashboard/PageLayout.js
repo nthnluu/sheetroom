@@ -1,14 +1,6 @@
-import QuizList from "../Lists/QuizList";
-import React, {useState} from "react";
-import AssignmentList from "../Lists/AssignmentList";
+import React from "react";
 import Navbar from "./Navbar";
 import ActivityFeed from "./ActivityFeed";
-import Transition from "../Transition";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import {DialogContentText} from "@material-ui/core";
-import DialogActions from "@material-ui/core/DialogActions";
-import Dialog from "@material-ui/core/Dialog";
 
 const PageLayout = ({userId, sidebar}) => {
 

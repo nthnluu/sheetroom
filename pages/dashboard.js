@@ -10,6 +10,7 @@ import Dialog from "@material-ui/core/Dialog";
 import Transition from "../Components/Transition";
 import AssignmentList from "../Components/Lists/AssignmentList";
 import {initialDocumentContent} from "../Components/QuizEditor/Templates";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 const Sidebar = ({toggleCreateAssignmentDialog, userId}) => {
     const [sortDropdown, toggleSortDropdown] = useState(false);
@@ -90,7 +91,10 @@ const Sidebar = ({toggleCreateAssignmentDialog, userId}) => {
                 <div className="flex items-center">
                     <h1 className="flex-1 text-lg leading-7 font-medium">Assignments</h1>
                     <div className="relative">
-                      <span className="rounded-md shadow-sm">
+                        <ClickAwayListener onClickAway={() => toggleSortDropdown(false)}>
+                            <div>
+                                <span className="rounded-md shadow-sm">
+
                         <button id="sort-menu" onClick={() => toggleSortDropdown(!sortDropdown)} type="button"
                                 className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition ease-in-out duration-150"
                                 aria-haspopup="true" aria-expanded="false">
@@ -105,32 +109,40 @@ const Sidebar = ({toggleCreateAssignmentDialog, userId}) => {
                                   clipRule="evenodd"/>
                           </svg>
                         </button>
+
                       </span>
 
-                        <Transition show={sortDropdown} enter="transition ease-out duration-100"
-                                    enterFrom="transform opacity-0 scale-95"
-                                    enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75"
-                                    leaveTo="transform opacity-0 scale-95"
-                                    leaveFrom="transform opacity-100 scale-100">
-                            <div className="origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg">
-                                <div className="rounded-md bg-white shadow-xs">
-                                    <div className="py-1" role="menu" aria-orientation="vertical"
-                                         aria-labelledby="sort-menu">
-                                        <a href="#"
-                                           className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                           role="menuitem">Name</a>
-                                        <a href="#"
-                                           className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                           role="menuitem">Date modified</a>
-                                        <a href="#"
-                                           className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                           role="menuitem">Date created</a>
+                                <Transition show={sortDropdown} enter="transition ease-out duration-100"
+                                            enterFrom="transform opacity-0 scale-95"
+                                            enterTo="transform opacity-100 scale-100"
+                                            leave="transition ease-in duration-75"
+                                            leaveTo="transform opacity-0 scale-95"
+                                            leaveFrom="transform opacity-100 scale-100">
+                                    <div
+                                        className="origin-top-right z-10 absolute right-0 mt-2 w-56 rounded-md shadow-lg">
+                                        <div className="rounded-md bg-white shadow-xs">
+                                            <div className="py-1" role="menu" aria-orientation="vertical"
+                                                 aria-labelledby="sort-menu">
+                                                <a href="#"
+                                                   className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                                   role="menuitem">Name</a>
+                                                <a href="#"
+                                                   className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                                   role="menuitem">Date modified</a>
+                                                <a href="#"
+                                                   className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                                   role="menuitem">Date created</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </Transition>
                             </div>
-                        </Transition>
+
+                        </ClickAwayListener>
+
 
                     </div>
+
                 </div>
             </div>
             <AssignmentList userId={userId}/>
@@ -159,7 +171,7 @@ const Dashboard = ({session}) => {
                                     userId: session.userId
                                 }
                             })
-                                .then((result) => window.location.href = '/edit/assignment/'+result.data.insert_assignments_assignment.returning[0].id)
+                                .then((result) => window.location.href = '/edit/assignment/' + result.data.insert_assignments_assignment.returning[0].id)
                                 .catch((error) => console.log(error));
                         }
 
