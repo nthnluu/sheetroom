@@ -1,9 +1,12 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import Transition from "../Transition";
 
-export default function () {
+const Navbar: React.FC = ()  => {
+
     const [currentFlyout, setFlyout] = useState(0);
     const [mobileMenu, toggleMobileMenu] = useState(false);
+    // @ts-ignore
+    // @ts-ignore
     return (
         // <!-- This example requires Tailwind CSS v1.4.0+ -->
         <div className="relative bg-white">
@@ -219,7 +222,7 @@ export default function () {
                             {/*//     From: "opacity-100 translate-y-0"*/}
                             {/*//     To: "opacity-0 translate-y-1"*/}
                             {/*// -->*/}
-                            <Transition show={currentFlyout === 2} enter="transition ease-out duration-200"
+                            <Transition appear={mobileMenu} show={currentFlyout === 2} enter="transition ease-out duration-200"
                                         enterFrom="opacity-0 translate-y-1" enterTo="opacity-100 translate-y-0"
                                         leave="transition ease-in duration-150" leaveFrom="opacity-100 translate-y-0"
                                         leaveTo="opacity-0 translate-y-1">
@@ -357,7 +360,7 @@ export default function () {
                 </div>
             </div>
 
-            <Transition show={mobileMenu} enter="duration-200 ease-out" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100"
+            <Transition appear={mobileMenu} show={mobileMenu} enter="duration-200 ease-out" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100"
                         leave="duration-100 ease-in" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
                 <div className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
                     <div className="rounded-lg shadow-lg">
@@ -496,3 +499,5 @@ export default function () {
     )
 
 }
+
+export default Navbar
