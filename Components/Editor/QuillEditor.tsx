@@ -1,22 +1,21 @@
 import React, {useState} from "react";
-import {FormControl, MenuItem, Select} from "@material-ui/core";
-import CustomizedSelects from "../Dropdowns/EditorDropdowns";
+
 const ReactQuill = typeof window === 'object' ? require('react-quill') : false;
-const {Quill, editor} = ReactQuill;
 
 interface Props {
     active: boolean;
     onChange: any;
     value: object;
     placeholder?: string;
+    border?: boolean;
 }
 
 
-const QuillEditor: React.FC<Props> = ({active, value, onChange, placeholder}) => {
+const QuillEditor: React.FC<Props> = ({active, value, onChange, placeholder,  border}) => {
     const [isFocused, setIsFocused] = useState(false);
 
     return (<>
-        <div className="p-1 border border-gray-200 rounded-lg font-sans">
+        <div className={"font-sans text-gray-700 " + (border ? "border border-gray-200 rounded-lg  p-1 " : null)}>
             <ReactQuill
                 onFocus={(() => setIsFocused(true))}
                 onBlur={(() => setIsFocused(false))}

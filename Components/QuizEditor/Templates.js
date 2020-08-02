@@ -71,7 +71,7 @@ export const newInitialDocumentContent = () => {
             [itemId]: {
                 "answer_objects": [answerObjectId],
                 "controller_type": "MC",
-                "question": [{"children": [{"text": "Question"}], "type": "paragraph"}],
+                "question": "<p>Cum!</p>",
                 "correct_objects": [answerObjectId]
             }
         },

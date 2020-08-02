@@ -1,10 +1,10 @@
 import Document, {Html, Head, Main, NextScript} from 'next/document'
 
 class MyDocument extends Document {
-    static async getInitialProps(ctx) {
-        const initialProps = await Document.getInitialProps(ctx);
-        return {...initialProps}
-    }
+    // static async getInitialProps(ctx) {
+    //     const initialProps = await Document.getInitialProps(ctx);
+    //     return {...initialProps}
+    // }
 
     render() {
         return (
@@ -14,7 +14,6 @@ class MyDocument extends Document {
                     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
                           integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q"
                           crossOrigin="anonymous"/>
-                    <link rel="stylesheet" href="//cdn.quilljs.com/1.2.6/quill.snow.css"/>
                     <script src="https://cdn.jsdelivr.net/npm/jdenticon@2.2.0" async></script>
                 </Head>
                 <body>

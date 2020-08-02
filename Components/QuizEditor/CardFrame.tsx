@@ -18,7 +18,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
     const {assignment, setAssignment, setSaveStatus, items} = useContext(QuizContext);
 
     const currentItem = items[item];
-    const [quillValue, setQuillValue] = useState();
+    const [quillValue, setQuillValue] = useState(currentItem.question);
 
     const Controller = () => {
         switch (currentItem.controller_type) {
@@ -74,7 +74,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
                         {/*<RichTextField border active={active} value={currentItem.question} autofocus={active}*/}
                         {/*               onChangeEvent={(newValue) => saveItemContent(newValue)} uniqueId={item}/>*/}
                         {/*               <JsonDebugBox content={quillValue} title="Quill Value"/>*/}
-                        <QuillEditor onChange={(value) => setQuillValue(value)} value={quillValue} active={true} placeholder="Question"/>
+                        <QuillEditor border onChange={(value) => setQuillValue(value)} value={quillValue} active={true} placeholder="Question"/>
                     </div>
                     <Controller/>
                 </div>

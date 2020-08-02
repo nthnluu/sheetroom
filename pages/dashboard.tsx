@@ -12,6 +12,7 @@ import AssignmentList from "../Components/Lists/AssignmentList";
 import {initialDocumentContent} from "../Components/QuizEditor/Templates";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import {GetServerSideProps} from "next";
+import QuillEditor from "../Components/Editor/QuillEditor";
 
 const Sidebar: React.FC<{ toggleCreateAssignmentDialog, session}> = ({toggleCreateAssignmentDialog, session}) => {
     const [sortDropdown, toggleSortDropdown] = useState(false);
@@ -30,6 +31,7 @@ const Sidebar: React.FC<{ toggleCreateAssignmentDialog, session}> = ({toggleCrea
                                          src={session.user.image ? session.user.image : "https://lh3.googleusercontent.com/proxy/Ge8IjXjwr-9jS3f5_gnxcIyi1OFQ-IMWCvHtmpCze2EeQi2TqNgtMx1oVZoFhiHATpISTmeXCZ_uQfiiauO2R6uEBFFLwI86huh6RNZjXn2csWFM6GIhulXwJ50oXU2Jb3I"}
                                          alt=""/>
                                 </div>
+
                                 <div className="space-y-1">
                                     <div className="text-sm leading-5 font-medium text-gray-900">Nathan Luu</div>
                                     <a href="#" className="group flex items-center space-x-2.5">
