@@ -1,11 +1,8 @@
 import React, {useContext} from "react";
-import {RichTextField} from "../../../Editor/SlateEditor";
 import QuizContext from "../../QuizContext";
 import NewTooltip from "../../../Misc/Tooltip";
 import update from "immutability-helper";
-import arrayMove from "array-move";
 import QuillEditor from "../../../Editor/QuillEditor";
-import JsonDebugBox from "../../../JsonDebugBox";
 
 
 const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect}) => {

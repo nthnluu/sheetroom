@@ -8,13 +8,6 @@ export const REFRESH_TOKEN = gql`
   }
 `;
 
-export const VERIFY_TOKEN = gql`
-  mutation VerifyToken($token: String!) {
-    verifyToken(token: $token) {
-    __typename
-  }
-  }
-`;
 
 export const ME = gql`
   query Me($token: String!) {

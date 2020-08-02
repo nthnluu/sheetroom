@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import {ReadOnlyEditor} from "../../Editor/SlateEditor";
+import React, {useEffect, useState} from "react";
+
 
 function AnswerChoice({selected, onClick, text, radioName, questionId, index}) {
     const [focused, setFocus] = useState(false);
@@ -24,7 +24,7 @@ function AnswerChoice({selected, onClick, text, radioName, questionId, index}) {
             <label id={labelId} htmlFor={inputId} onClick={() => onClick()}
                    className={selected ? 'card selectedCard cursor-pointer' : 'card unselectedCard cursor-pointer ' + checkFocus()}>
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
-                <span className="table-cell pl-2 w-full"><ReadOnlyEditor content={text}/></span>
+                <span className="table-cell pl-2 w-full"></span>
             </label>
         </>
     )

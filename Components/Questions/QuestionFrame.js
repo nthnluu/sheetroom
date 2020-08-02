@@ -1,6 +1,5 @@
 import MultipleChoice from "./Controllers/MultipleChoice";
 import ShortAnswer from "./Controllers/ShortAnswer";
-import {ReadOnlyEditor} from "../Editor/SlateEditor";
 
 function Controller({type, item}) {
     //1: multiple choice
@@ -28,7 +27,6 @@ export default function ({item, index}) {
         <article>
             <h2 className="font-semibold text-gray-800 text-lg">Question {index + 1}</h2>
             <section className="text-gray-800 sm:text-lg mb-8 mt-3" aria-label="Question Text">
-                <ReadOnlyEditor content={item.content}/>
             </section>
             <Controller type={item.type} item={item}/>
         </article>)
