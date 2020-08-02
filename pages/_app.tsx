@@ -4,11 +4,12 @@ import {ApolloProvider} from '@apollo/react-hooks';
 import {createHttpLink} from "apollo-link-http";
 import ApolloClient from "apollo-client";
 import {InMemoryCache} from "apollo-cache-inmemory";
-import {Provider} from 'next-auth/client'
+import {getSession, Provider} from 'next-auth/client'
 import {WebSocketLink} from 'apollo-link-ws';
 import {split} from "apollo-link";
 import {getMainDefinition} from "apollo-utilities";
 import type { AppProps /*, AppContext */ } from 'next/app'
+import {GetServerSideProps} from "next";
 
 const App = ({Component, pageProps}: AppProps) => {
     const {session} = pageProps;
@@ -47,11 +48,13 @@ const App = ({Component, pageProps}: AppProps) => {
         cache: new InMemoryCache()
     });
 
-    return <Provider options={{site: process.env.SITE, clientMaxAge: 86400}} session={session}><ApolloProvider
+    return <Provider options={{site: process.env.SITE, clientMaxAge: 86400}} session={session}>
+        <ApolloProvider
         client={client}>
         <Component {...pageProps} />
     </ApolloProvider></Provider>;
 };
+
 
 export default App;
 

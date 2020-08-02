@@ -14,7 +14,7 @@ query Assignments($userId: Int!){
 `;
 
 const LoadingPlaceholder = () => {
-    return (<div className="bg-white shadow-sm border border-gray-200 overflow-hidden rounded-md p-6">
+    return (<div className="p-6 border-b border-gray-200">
         <i className="fas fa-circle-notch fa-spin text-4xl text-gray-200 w-full text-center"></i>
     </div>)
 };

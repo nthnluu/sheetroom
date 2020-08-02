@@ -1,9 +1,14 @@
 import React, {useState} from "react";
-import Transition from "../Transition";
+import Transition from "../../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
-const Navbar = ({session}) => {
+interface Props {
+    session: object;
+}
+
+const Navbar: React.FC<Props> = ({session}) => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
+
     return <nav className="flex-shrink-0 fixed w-full z-50" style={{backgroundColor: '#030917'}}>
         <div className="mx-auto px-2 sm:px-4 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
@@ -71,17 +76,19 @@ const Navbar = ({session}) => {
                         <ClickAwayListener onClickAway={() => toggleProfileDropdown(false)}>
                             <div className="ml-4 relative flex-shrink-0">
                                 <div>
+
                                     <button
                                         onClick={() => toggleProfileDropdown(!profileDropdown)}
                                         className="flex text-sm rounded-full text-white focus:outline-none focus:shadow-solid transition duration-150 ease-in-out"
                                         id="user-menu" aria-label="User menu" aria-haspopup="true">
+                                        {/*// @ts-ignore*/}
                                         <img className="h-8 w-8 rounded-full"
                                              src={session.user.image ? session.user.image : "https://lh3.googleusercontent.com/proxy/Ge8IjXjwr-9jS3f5_gnxcIyi1OFQ-IMWCvHtmpCze2EeQi2TqNgtMx1oVZoFhiHATpISTmeXCZ_uQfiiauO2R6uEBFFLwI86huh6RNZjXn2csWFM6GIhulXwJ50oXU2Jb3I"}
                                              alt=""/>
                                     </button>
                                 </div>
 
-                                <Transition show={profileDropdown} enter="transition ease-out duration-100"
+                                <Transition appear={profileDropdown} show={profileDropdown} enter="transition ease-out duration-100"
                                             enterFrom="transform opacity-0 scale-95"
                                             enterTo="transform opacity-100 scale-100"
                                             leave="transition ease-in duration-75"
