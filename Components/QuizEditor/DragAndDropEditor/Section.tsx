@@ -50,7 +50,7 @@ const Section: React.FC<Props> = ({section, index}) => {
 
     return (
         <div className="mb-8">
-            <div className="bg-white border p-8 rounded-lg mb-2">
+            <div className="bg-white border px-8 py-6 text-gray-700 rounded-lg mb-2">
                 <h1 className="text-xl font-semibold">Section {index + 1}</h1>
             </div>
             <ItemDnd section={section}/>

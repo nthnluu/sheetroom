@@ -26,7 +26,8 @@ export const ItemDnd:React.FC<Props> = ({section}) => {
         setDocument(prevState => {
             const newData = update(prevState, {
                     sections: {
-                        [section]: {items: {$push: arrayMove(prevState.seamless[section].items, result.source.index, result.destination.index)}}
+                        [section]: {items:
+                                {$set: arrayMove(prevState.sections[section].items, result.source.index, result.destination.index)}}
                     }
                 }
             )

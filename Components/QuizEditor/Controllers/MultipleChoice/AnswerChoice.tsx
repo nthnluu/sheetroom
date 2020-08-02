@@ -52,13 +52,13 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                 className={isCorrect ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
             >
                 {active ? <span
-                    className={isCorrect ? "text-blue-500" : "text-gray-200 active:text-blue-400"}>
+                    className="text-gray-200 active:text-blue-400 mr-2">
                     {dragHandler}
                 </span> : null}
 
-                <span className="table-cell w-full pointer-events-auto ml-2">
+                <span className={"table-cell w-full pointer-events-auto " + (active ? "p-3" : "p-1")}>
 <QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
-             value={document.answer_objects[choice].content} active={true} placeholder="Option"/>
+             value={document.answer_objects[choice].content} active={active} placeholder="Option"/>
                 </span>
                 <div className="flex justify-between space-x-3">
                     {(active && !isCorrect) ?

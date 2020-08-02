@@ -67,7 +67,7 @@ code {
 .editor-card {
     display: table;
     white-space: normal;
-    @apply rounded-lg border py-2 px-4 w-full text-left
+    @apply rounded-lg border py-2 px-4 w-full text-left shadow-sm
 }
 
 .editor-unselectedCard {
@@ -78,10 +78,6 @@ code {
     @apply border-gray-300
 }
 
-.editor-selectedCard {
-    @apply text-blue-600 border-blue-600 border font-medium shadow-sm;
-
-}
 .editor-selectedCard:hover {
     opacity: 0.95;
 }
@@ -95,7 +91,7 @@ code {
 .ql-editor {
     font-family: 'Inter var' !important;
     font-size: 1.1rem !important;
-    padding: 0.5rem !important;
+    padding: 0rem !important;
 }
 
 .ql-active {
@@ -104,6 +100,16 @@ code {
     border: 1px solid #bbd3f5 !important;
 
 }
+
+.ql-editor.ql-blank::before{
+    font-size: 1.1rem !important;
+    color: #D2D6DB !important;
+    padding: 0rem !important;
+    display: block;
+    left: 0px !important;
+}
+
+
 
 /*.multipleChoiceRadioButton {*/
 /*    opacity: 0;*/
