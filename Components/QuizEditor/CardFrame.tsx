@@ -4,6 +4,9 @@ import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 import QuizContext from "./QuizContext";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 import QuillEditor from "../Editor/QuillEditor";
+import update from "immutability-helper";
+import arrayMove from "array-move";
+import JsonDebugBox from "../JsonDebugBox";
 
 
 interface Props {
@@ -13,10 +16,9 @@ interface Props {
 }
 
 const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
-    const {assignment, setAssignment, setSaveStatus, items, document} = useContext(QuizContext);
+    const {document, setDocument} = useContext(QuizContext);
 
     const currentItem = document.items[item];
-    const [quillValue, setQuillValue] = useState(currentItem.question);
 
     const Controller = () => {
         switch (currentItem.controller_type) {
@@ -33,33 +35,30 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
 
     // Logic for AUTOSAVING the ITEM CONTENT
     const saveItemContent = (newValue) => {
-        // const newDocument = {...assignment}
-        // newDocument.sections[0].items[itemIndex].question = newValue
-        // setAssignment(newDocument)
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                items: {
+                    [item]: {
+                        question: {$set: newValue}
+                    }
+                }
+            })
+
+            return newData
+        })
     }
 
 
     const deleteItem = () => {
-        // const newDocument = {...assignment}
-        // newDocument.sections[0].items.splice(itemIndex, 1)
-        // setAssignment(newDocument)
-    }
-
-    // Logic for AUTOSAVING the ITEM TYPE
-    const saveItemType = (newTypeValue) => {
-        // const newDocument = {...assignment}
-        // const correctItemIndex = newDocument.sections[0].items[itemIndex].answer_controller.findIndex(element => element.is_correct);
-        // newDocument.sections[0].items[itemIndex].answer_controller.forEach((element, index) => {
-        //     element.is_correct = false
-        // })
-        // if (correctItemIndex === -1) {
-        //     newDocument.sections[0].items[itemIndex].answer_controller[0].is_correct = true
-        // } else {
-        //     newDocument.sections[0].items[itemIndex].answer_controller[correctItemIndex].is_correct = true
-        // }
-        // newDocument.sections[0].items[itemIndex].controller_type = newTypeValue
+        // setDocument(prevState => {
+        //     const newData = update(prevState, {
+        //         items: {
+        //             $remove: [item]
+        //         }
+        //     })
         //
-        // setAssignment(newDocument)
+        //     return newData
+        // })
     }
 
     return (
@@ -69,7 +68,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
-                        <QuillEditor border onChange={(value) => setQuillValue(value)} value={quillValue} active={true} placeholder="Question"/>
+                        <QuillEditor border onChange={(value) => saveItemContent(value)} value={currentItem.question} active={true} placeholder="Question"/>
                     </div>
                     <Controller/>
                 </div>

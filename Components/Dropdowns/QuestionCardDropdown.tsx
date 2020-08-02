@@ -4,16 +4,28 @@ import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import QuizContext from "../QuizEditor/QuizContext";
 import StyledInput from "./StyledInput";
+import update from "immutability-helper";
 
 interface Props {
     item: string;
 }
 
 const QuestionCardDropdown: React.FC<Props> = ({item}) => {
-    const {items, setItems, document} = useContext(QuizContext);
+    const {document, setDocument} = useContext(QuizContext);
 
     const handleChange = selectedOption => {
-        setItems(prevState => ({...prevState, [item]: {...prevState[item], controller_type: selectedOption.target.value, correct_objects: prevState[item].correct_objects[0]}}));
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                items: {
+                    [item]: {
+                        controller_type: {
+                            $set: selectedOption.target.value}
+                    }
+                }
+            })
+
+            return newData
+        })
     };
 
 
