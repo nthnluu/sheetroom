@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router'
-import {useMutation, useQuery, useSubscription} from "@apollo/react-hooks";
+import {useMutation, useSubscription} from "@apollo/react-hooks";
 import {getSession} from "next-auth/client";
 import Head from 'next/head'
 import React, {useCallback, useEffect, useState} from "react";
@@ -7,12 +7,9 @@ import QuizContext from "../../../Components/QuizEditor/QuizContext";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
 import {v4 as uuidv4} from 'uuid';
-import {newInitialDocumentContent} from "../../../Components/QuizEditor/Templates";
-import {ASSIGNMENT, ASSIGNMENT_WS} from "../../../gql/quizzes";
+import {ASSIGNMENT_WS} from "../../../gql/quizzes";
 import {debounce} from 'lodash'
-import JsonDebugBox from "../../../Components/JsonDebugBox";
 import EditorLayout from "../../../Components/QuizEditor/EditorLayout";
-import useDeepCompareEffect from "use-deep-compare-effect";
 
 
 const PageContent = ({pageData, aid}) => {
