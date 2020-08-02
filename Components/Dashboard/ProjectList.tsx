@@ -2,11 +2,12 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import React, {useState} from "react";
 import Transition from "../Transition";
 import AssignmentList from "./AssignmentList";
-import JsonDebugBox from "../JsonDebugBox";
+
 
 interface Props {
-    session: object;
+    session: Session;
 }
+
 
 const ProjectList: React.FC<Props> = ({session}) => {
     const [sortDropdown, toggleSortDropdown] = useState(false);
@@ -72,9 +73,6 @@ const ProjectList: React.FC<Props> = ({session}) => {
                 </div>
             </div>
         </div>
-        {/*// @ts-ignore*/}
-        <JsonDebugBox content={session}/>
-        {/*// @ts-ignore*/}
         <AssignmentList userId={session.userId}/>
     </div>)
 }
