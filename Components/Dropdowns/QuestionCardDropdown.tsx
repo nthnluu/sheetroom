@@ -5,7 +5,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import QuizContext from "../QuizEditor/QuizContext";
 import StyledInput from "./StyledInput";
 
-const QuestionCardDropdown = ({item}) => {
+interface Props {
+    item: string;
+}
+
+const QuestionCardDropdown: React.FC<Props> = ({item}) => {
     const {items, setItems} = useContext(QuizContext);
 
     const handleChange = selectedOption => {

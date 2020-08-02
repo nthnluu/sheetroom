@@ -10,6 +10,35 @@ import {split} from "apollo-link";
 import {getMainDefinition} from "apollo-utilities";
 import type { AppProps /*, AppContext */ } from 'next/app'
 import {GetServerSideProps} from "next";
+import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
+import React from "react";
+
+
+const MuiTheme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#1B65F1',
+        },
+        secondary: {
+            main: '#ABABAB',
+        },
+    },
+    typography: {
+        fontFamily: [
+            'Inter var',
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+    },
+});
 
 const App = ({Component, pageProps}: AppProps) => {
     const {session} = pageProps;
@@ -48,11 +77,12 @@ const App = ({Component, pageProps}: AppProps) => {
         cache: new InMemoryCache()
     });
 
-    return <Provider options={{site: process.env.SITE, clientMaxAge: 86400}} session={session}>
+    return <ThemeProvider theme={MuiTheme}>
+    <Provider options={{site: process.env.SITE, clientMaxAge: 86400}} session={session}>
         <ApolloProvider
         client={client}>
         <Component {...pageProps} />
-    </ApolloProvider></Provider>;
+        </ApolloProvider></Provider></ThemeProvider>;
 };
 
 

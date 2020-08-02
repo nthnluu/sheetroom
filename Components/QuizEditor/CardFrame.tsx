@@ -1,11 +1,9 @@
 import React, {useContext, useState} from "react";
-import RichTextField from "../Editor/SlateEditor";
 import MultipleChoiceController from "./Controllers/MultipleChoice/MultipleChoice";
 import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 import QuizContext from "./QuizContext";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 import QuillEditor from "../Editor/QuillEditor";
-import JsonDebugBox from "../JsonDebugBox";
 
 
 interface Props {
@@ -71,9 +69,6 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
-                        {/*<RichTextField border active={active} value={currentItem.question} autofocus={active}*/}
-                        {/*               onChangeEvent={(newValue) => saveItemContent(newValue)} uniqueId={item}/>*/}
-                        {/*               <JsonDebugBox content={quillValue} title="Quill Value"/>*/}
                         <QuillEditor border onChange={(value) => setQuillValue(value)} value={quillValue} active={true} placeholder="Question"/>
                     </div>
                     <Controller/>
@@ -81,8 +76,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
             </div>
             {active ? <div className="flex justify-between border-t items-center w-full border-gray-200 py-3">
                 <div className="max-w-2xl">
-                    <QuestionCardDropdown active={active} value={currentItem.controller_type}
-                                          saveType={value => saveItemType(value)} item={item}/>
+                    <QuestionCardDropdown item={item}/>
                 </div>
                 <button type="button" onClick={() => deleteItem()}
                         className="inline-flex text-center items-center h-10 w-10 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">

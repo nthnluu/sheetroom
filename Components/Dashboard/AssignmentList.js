@@ -2,6 +2,7 @@ import {useQuery} from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import React from "react";
 import JsonDebugBox from "../JsonDebugBox";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ASSIGNMENTS = gql`
 query Assignments($userId: Int!){
@@ -15,7 +16,9 @@ query Assignments($userId: Int!){
 
 const LoadingPlaceholder = () => {
     return (<div className="p-6 border-b border-gray-200">
-        <i className="fas fa-circle-notch fa-spin text-4xl text-gray-200 w-full text-center"></i>
+        <div className="mx-auto">
+            <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>
+        </div>
     </div>)
 };
 
