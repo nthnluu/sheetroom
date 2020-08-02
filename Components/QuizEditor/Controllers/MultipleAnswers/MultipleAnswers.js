@@ -1,67 +1,93 @@
 import React, {useContext} from "react";
 import arrayMove from 'array-move';
 import AnswerChoice from "./AnswerChoice";
-import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
 import {v4 as uuidv4} from 'uuid';
-import {blankAnswerChoice} from "../../Templates";
-import Button from "@material-ui/core/Button";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
-import update from 'immutability-helper';
-import JsonDebugBox from "../../../JsonDebugBox";
-
+import update from "immutability-helper";
 
 const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} tabIndex="1"
-                                         className={"fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
+                                                 className={"fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
 
-export const MultipleAnswersController = ({active, item, itemIndex}) => {
-    const {items, setAnswerObjects, setItems} = useContext(QuizContext);
+
+export const MultipleChoiceController = ({active, item}) => {
+    const {setDocument, document} = useContext(QuizContext);
+
+    const answerObjects = document.items[item].answer_objects.map(objectId => document.answer_objects[objectId])
 
     const onDragEnd = (result) => {
         // dropped outside the list
         if (!result.destination) {
             return;
         }
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                items: {
+                    [item]: {
+                        answer_objects: {
+                            $set: arrayMove(prevState.items[item].answer_objects, result.source.index, result.destination.index)
+                        }
+                    }
+                }
+            })
 
-        setItems(previousState => ({
-            ...previousState,
-            [item]: {
-                ...previousState[item],
-                answer_objects: arrayMove(previousState[item].answer_objects, result.source.index, result.destination.index)
-            },
-        }))
-
+            return newData
+        })
 
     }
 
     const addAnswerChoice = () => {
         const newId = uuidv4()
-        setItems(prevState => ({
-            ...prevState,
-            [item]: {...prevState[item], answer_objects: [...prevState[item].answer_objects, newId]}
-        }))
-        setAnswerObjects(prevState => ({
-            ...prevState, [newId]: {
-                content: [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
-            }
-        }));
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                    items: {
+                        [item]: {answer_objects: {$push: [newId]}}
+                    }, answer_objects: {
+                        $merge: {
+                            [newId]: {
+                                content: "<p><br/></p>"
+                            }
+                        }
+                    }
+                }
+            )
+            return newData
+        })
+    }
+
+    const saveChoiceContent = (newValue, choiceId) => {
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                answer_objects: {
+                    [choiceId]: {
+                        content: {$set: newValue}
+                    }
+                }
+            })
+            return newData
+        })
     }
 
     return (
-        <div key={item}>
+        <div>
             {active ? <div>
+
+
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId={item + '_controller'}>
                         {(provided, snapshot) => (
                             <ul {...provided.droppableProps} ref={provided.innerRef}>
-                                {items[item].answer_objects.map((answerId, index) => (
-                                    <Draggable key={answerId} draggableId={answerId}
-                                               index={index}>
+                                {document.items[item].answer_objects.map((answerId, index) => (
+                                    <Draggable draggableId={answerId}
+                                               index={index} key={answerId+"pineappe"}>
                                         {(provided, snapshot) =>
-                                            <li className="pb-4" ref={provided.innerRef}
-                                                 {...provided.draggableProps}>
+                                            <li className="pb-4"  key={answerId+"pinee"} ref={provided.innerRef}
+                                                {...provided.draggableProps}>
+
+
                                                 <AnswerChoice choice={answerId} active={true}
-                                                              isCorrect={items[item].correct_objects.includes(answerId)}
+                                                              key={answerId+"pinedqwdappe"}
+                                                              isCorrect={document.items[item].correct_objects.includes(answerId)}
                                                               item={item}
                                                               answerIndex={index}
                                                               dragHandler={<DragHandle provided={provided}
@@ -101,9 +127,9 @@ export const MultipleAnswersController = ({active, item, itemIndex}) => {
                     </div>
                 </div>
             </div> : <div className="space-y-4">
-                items[item].answer_objects.map(answerId => <AnswerChoice key={answerId} choice={answerId}
-                                                                         isCorrect={items[item].correct_objects.includes(answerId)}
-                                                                         active={false}/>)}
+                {document.items[item].answer_objects.map(answerId => <AnswerChoice key={answerId+"inactivemc"} choice={answerId}
+                                                                                   isCorrect={document.items[item].correct_objects.includes(answerId)}
+                                                                                   active={false}/>)}
             </div>}
         </div>
 
@@ -111,12 +137,6 @@ export const MultipleAnswersController = ({active, item, itemIndex}) => {
 };
 
 // Prop Types
-MultipleAnswersController.propTypes = {
-    active: PropTypes.bool,
-    answerChoices: PropTypes.array,
-    setSaveStatus: PropTypes.func.isRequired,
-    itemId: PropTypes.string.isRequired,
-    itemIndex: PropTypes.number.isRequired
-};
 
-export default MultipleAnswersController
+
+export default MultipleChoiceController

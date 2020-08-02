@@ -19,7 +19,10 @@ const QuestionCardDropdown: React.FC<Props> = ({item}) => {
                 items: {
                     [item]: {
                         controller_type: {
-                            $set: selectedOption.target.value}
+                            $set: selectedOption.target.value},
+                        correct_objects: {
+                            $set: [prevState.items[item].correct_objects[0]]
+                        }
                     }
                 }
             })
