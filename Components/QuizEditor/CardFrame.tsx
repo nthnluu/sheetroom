@@ -7,6 +7,8 @@ import QuillEditor from "../Editor/QuillEditor";
 import update from "immutability-helper";
 import arrayMove from "array-move";
 import JsonDebugBox from "../JsonDebugBox";
+import AnswerChoice from "./Controllers/MultipleChoice/AnswerChoice";
+import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 
 
 interface Props {
@@ -14,24 +16,29 @@ interface Props {
     item: string;
     itemIndex: number;
 }
+const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} tabIndex="1"
+                                                 className={"fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
+
+
+const Controller = ({type, item, active}) => {
+    switch (type) {
+        case("MC"):
+            return <MultipleChoiceController item={item} active={active}/>
+        case("MA"):
+            return <MultipleAnswersController active={active} item={item}/>
+        default:
+            return <p className="w-full p-3 text-red-600 border border-red-600 rounded-lg"><i
+                className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact
+                support if this error persists.</p>
+    }
+}
 
 const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
     const {document, setDocument} = useContext(QuizContext);
 
     const currentItem = document.items[item];
 
-    const Controller = () => {
-        switch (currentItem.controller_type) {
-            case("MC"):
-                return <MultipleChoiceController item={item} active={active}/>
-            case("MA"):
-                return <MultipleAnswersController active={active} item={item}/>
-            default:
-                return <p className="w-full p-3 text-red-600 border border-red-600 rounded-lg"><i
-                    className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact
-                    support if this error persists.</p>
-        }
-    }
+
 
     // Logic for AUTOSAVING the ITEM CONTENT
     const saveItemContent = (newValue) => {
@@ -68,9 +75,9 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
                         <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
-                        <QuillEditor border onChange={(value) => saveItemContent(value)} value={currentItem.question} active={true} placeholder="Question"/>
+                        <QuillEditor uniqueKey={item} border onChange={(value) => saveItemContent(value)} value={currentItem.question} active={true} placeholder="Question"/>
                     </div>
-                    <Controller/>
+                    <Controller active={active} type={currentItem.controller_type} item={item}/>
                 </div>
             </div>
             {active ? <div className="flex justify-between border-t items-center w-full border-gray-200 py-3">

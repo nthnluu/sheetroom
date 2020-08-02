@@ -2,40 +2,43 @@ import React, {useContext} from "react";
 import {RichTextField} from "../../../Editor/SlateEditor";
 import QuizContext from "../../QuizContext";
 import NewTooltip from "../../../Misc/Tooltip";
+import update from "immutability-helper";
+import arrayMove from "array-move";
+import QuillEditor from "../../../Editor/QuillEditor";
+import JsonDebugBox from "../../../JsonDebugBox";
 
 
 const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect}) => {
-    const {answerObjects, setItems, setAnswerObjects, items, document} = useContext(QuizContext);
-
+    const {document, setDocument} = useContext(QuizContext);
+    const currentChoice = document.answer_objects[choice]
 
 
     const saveChoiceContent = (newValue) => {
-        setAnswerObjects(prevState => (
-            {...prevState, [choice]: {...prevState[choice], content: newValue}})
-        )
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                answer_objects: {
+                    [choice]: {
+                        content: {$set: newValue}
+                    }
+                }
+            })
+            return newData
+        })
     }
 
     const deleteAnswerChoice = () => {
-        setItems(prevState => {
-            let newArray = [...prevState[item].answer_objects]
-            newArray.splice(answerIndex, 1)
-            return ({...prevState, [item]: {...prevState[item], answer_objects: newArray}})
-        })
 
-        setAnswerObjects(prevState => {
-            const newObject = {...prevState}
-            delete newObject[choice]
-            return newObject
-        })
     }
 
     const markAsCorrect = () => {
-        setItems(prevState => ({...prevState, [item]: {...prevState[item], correct_objects: [choice]}}))
+
     }
+
 
     return (
         <>
             <div
+                key={"key1" + choice}
                 className={isCorrect ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
             >
                 {active ? <span
@@ -43,10 +46,9 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                     {dragHandler}
                 </span> : null}
 
-                <span className="table-cell w-full">
-                    <RichTextField uniqueId={choice} active={active} value={document.answer_objects[choice].content}
-                                   autofocus={active}
-                                   onChangeEvent={(value) => saveChoiceContent(value)}/>
+                <span className="table-cell w-full pointer-events-auto">
+<QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
+             value={document.answer_objects[choice].content} active={true} placeholder="Question"/>
                 </span>
                 <div className="flex justify-between space-x-3">
                     {(active && !isCorrect) ?

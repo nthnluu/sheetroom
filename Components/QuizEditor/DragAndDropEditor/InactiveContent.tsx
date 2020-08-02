@@ -13,12 +13,12 @@ const InactiveContent: React.FC<Props> = ({item, setActive, itemIndex}) => {
     }}
                  className="flex justify-between w-full block active:shadow-outline text-left z-40"
     >
-        <button onClick={() => {
+        <div onClick={() => {
             setActive(item)
         }}
                 className="text-left block w-full active:outline-none focus:shadow-outline focus:outline-none overflow-hidden">
             <CardFrame itemIndex={itemIndex} active={false} item={item}/>
-        </button>
+        </div>
     </div>)
 };
 

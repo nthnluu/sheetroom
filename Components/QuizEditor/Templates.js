@@ -77,7 +77,7 @@ export const newInitialDocumentContent = () => {
         },
         answer_objects: {
             [answerObjectId]: {
-                content: [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
+                content: "<p>Cum!</p>"
             }
         }
     })

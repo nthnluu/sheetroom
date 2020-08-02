@@ -6,6 +6,7 @@ import QuizContext from "../../QuizContext";
 import {v4 as uuidv4} from 'uuid';
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import update from "immutability-helper";
+import QuillEditor from "../../../Editor/QuillEditor";
 
 const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} tabIndex="1"
                                                  className={"fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
@@ -56,20 +57,38 @@ export const MultipleChoiceController = ({active, item}) => {
         })
     }
 
+    const saveChoiceContent = (newValue, choiceId) => {
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                answer_objects: {
+                    [choiceId]: {
+                        content: {$set: newValue}
+                    }
+                }
+            })
+            return newData
+        })
+    }
+
     return (
-        <div key={item}>
+        <div>
             {active ? <div>
+
+
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId={item + '_controller'}>
                         {(provided, snapshot) => (
                             <ul {...provided.droppableProps} ref={provided.innerRef}>
                                 {document.items[item].answer_objects.map((answerId, index) => (
-                                    <Draggable key={answerId} draggableId={answerId}
-                                               index={index}>
+                                    <Draggable draggableId={answerId}
+                                               index={index} key={answerId+"pineappe"}>
                                         {(provided, snapshot) =>
-                                            <li className="pb-4" ref={provided.innerRef}
+                                            <li className="pb-4"  key={answerId+"pinee"} ref={provided.innerRef}
                                                 {...provided.draggableProps}>
+
+
                                                 <AnswerChoice choice={answerId} active={true}
+                                                              key={answerId+"pinedqwdappe"}
                                                               isCorrect={document.items[item].correct_objects.includes(answerId)}
                                                               item={item}
                                                               answerIndex={index}
@@ -110,7 +129,7 @@ export const MultipleChoiceController = ({active, item}) => {
                     </div>
                 </div>
             </div> : <div className="space-y-4">
-                {document.items[item].answer_objects.map(answerId => <AnswerChoice key={answerId} choice={answerId}
+                {document.items[item].answer_objects.map(answerId => <AnswerChoice key={answerId+"inactivemc"} choice={answerId}
                                                                           isCorrect={document.items[item].correct_objects.includes(answerId)}
                                                                           active={false}/>)}
             </div>}
