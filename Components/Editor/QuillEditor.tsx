@@ -1,4 +1,5 @@
 import React, {useMemo, useState} from "react";
+import {v4 as uuidv4} from 'uuid';
 
 const ReactQuill = typeof window === 'object' ? require('react-quill') : false;
 
@@ -8,12 +9,13 @@ interface Props {
     value: object;
     placeholder?: string;
     border?: boolean;
-    uniqueKey: string
+    uniqueKey?: string
 }
 
 
-const QuillEditor: React.FC<Props> = ({active, value, onChange, placeholder,  border, uniqueKey}) => {
+const QuillEditor: React.FC<Props> = ({active, value, onChange, placeholder,  border}) => {
     const [isFocused, setIsFocused] = useState(false);
+    const uniqueKey = useMemo(() => uuidv4(), []);
 
 
     return (<>
