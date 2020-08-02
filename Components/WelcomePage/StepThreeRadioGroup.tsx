@@ -37,27 +37,9 @@ function AnswerChoice({title, desc, onClick, radioName, selected, value}) {
 }
 
 
-const ChoiceItems = ({shuffled, choices}) => {
-    const [items, setItems] = useState(choices);
-    useEffect(() => {
-        if (shuffled) {
-            setItems(shuffle(choices))
-        }
-    }, [choices, shuffled]);
-    return items
-};
 
-export default function StepThreeRadioGroup ({choices, questionId}) {
+export default function StepThreeRadioGroup () {
     const [selected, setSelected] = useState(null);
-    const radioName = questionId;
-
-    function shuffle(a) {
-        for (let i = a.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
-        }
-        return a;
-    }
 
     return (
         <>

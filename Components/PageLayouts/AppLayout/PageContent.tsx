@@ -1,8 +1,4 @@
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Transition from "../Transition";
-import AssignmentList from "../Lists/AssignmentList";
-import React, {useContext, useState} from "react";
-import AuthContext from "../AuthContext";
+import React from "react";
 
 interface Props {
     session: object;

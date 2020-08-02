@@ -1,5 +1,4 @@
 import React, {useEffect, useMemo, useRef, useState} from "react";
-import JsonDebugBox from "../JsonDebugBox";
 import {v4 as uuidv4} from 'uuid';
 
 function AnswerChoice({title, desc, onClick, radioName, selected, value}) {
@@ -37,19 +36,9 @@ function AnswerChoice({title, desc, onClick, radioName, selected, value}) {
 }
 
 
-const ChoiceItems = ({shuffled, choices}) => {
-    const [items, setItems] = useState(choices);
-    useEffect(() => {
-        if (shuffled) {
-            setItems(shuffle(choices))
-        }
-    }, [choices, shuffled]);
-    return items
-};
 
-export default function StepOneRadioGroup ({choices, questionId}) {
+export default function StepOneRadioGroup () {
     const [selected, setSelected] = useState(null);
-    const radioName = questionId;
 
     function shuffle(a) {
         for (let i = a.length - 1; i > 0; i--) {
