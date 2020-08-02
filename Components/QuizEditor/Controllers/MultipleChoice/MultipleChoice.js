@@ -11,7 +11,9 @@ const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} t
 
 
 export const MultipleChoiceController = ({active, item}) => {
-    const {items, setAnswerObjects, setItems} = useContext(QuizContext);
+    const {items, setAnswerObjects, setItems, document} = useContext(QuizContext);
+
+    const answerObjects = document.items[item].answer_objects.map(objectId => document.answer_objects[objectId])
 
     const onDragEnd = (result) => {
         // dropped outside the list
@@ -50,7 +52,7 @@ export const MultipleChoiceController = ({active, item}) => {
                     <Droppable droppableId={item + '_controller'}>
                         {(provided, snapshot) => (
                             <ul {...provided.droppableProps} ref={provided.innerRef}>
-                                {items[item].answer_objects.map((answerId, index) => (
+                                {document.items[item].answer_objects.map((answerId, index) => (
                                     <Draggable key={answerId} draggableId={answerId}
                                                index={index}>
                                         {(provided, snapshot) =>
@@ -97,8 +99,8 @@ export const MultipleChoiceController = ({active, item}) => {
                     </div>
                 </div>
             </div> : <div className="space-y-4">
-                {items[item].answer_objects.map(answerId => <AnswerChoice key={answerId} choice={answerId}
-                                                                          isCorrect={items[item].correct_objects.includes(answerId)}
+                {document.items[item].answer_objects.map(answerId => <AnswerChoice key={answerId} choice={answerId}
+                                                                          isCorrect={document.items[item].correct_objects.includes(answerId)}
                                                                           active={false}/>)}
             </div>}
         </div>

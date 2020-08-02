@@ -13,9 +13,9 @@ interface Props {
 }
 
 const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
-    const {assignment, setAssignment, setSaveStatus, items} = useContext(QuizContext);
+    const {assignment, setAssignment, setSaveStatus, items, document} = useContext(QuizContext);
 
-    const currentItem = items[item];
+    const currentItem = document.items[item];
     const [quillValue, setQuillValue] = useState(currentItem.question);
 
     const Controller = () => {

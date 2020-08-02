@@ -1,13 +1,12 @@
 import React, {useContext} from "react";
 import {RichTextField} from "../../../Editor/SlateEditor";
-import PropTypes from 'prop-types';
 import QuizContext from "../../QuizContext";
 import NewTooltip from "../../../Misc/Tooltip";
-import {cloneDeep} from "lodash";
 
 
 const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect}) => {
-    const {answerObjects, setItems, setAnswerObjects, items} = useContext(QuizContext);
+    const {answerObjects, setItems, setAnswerObjects, items, document} = useContext(QuizContext);
+
 
 
     const saveChoiceContent = (newValue) => {
@@ -45,7 +44,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                 </span> : null}
 
                 <span className="table-cell w-full">
-                    <RichTextField uniqueId={choice} active={active} value={answerObjects[choice].content}
+                    <RichTextField uniqueId={choice} active={active} value={document.answer_objects[choice].content}
                                    autofocus={active}
                                    onChangeEvent={(value) => saveChoiceContent(value)}/>
                 </span>
