@@ -5,13 +5,14 @@ import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
 import {v4 as uuidv4} from 'uuid';
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import update from "immutability-helper";
 
 const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} tabIndex="1"
                                                  className={"fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
 
 
 export const MultipleChoiceController = ({active, item}) => {
-    const {items, setAnswerObjects, setItems, document} = useContext(QuizContext);
+    const {setDocument, document} = useContext(QuizContext);
 
     const answerObjects = document.items[item].answer_objects.map(objectId => document.answer_objects[objectId])
 
@@ -20,29 +21,39 @@ export const MultipleChoiceController = ({active, item}) => {
         if (!result.destination) {
             return;
         }
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                    items: {
+                        [item]: {
+                            answer_objects: {
+                                $set: arrayMove(prevState.items[item].answer_objects, result.source.index, result.destination.index)
+                            }
+                        }
+                    }
+                })
 
-        setItems(previousState => ({
-            ...previousState,
-            [item]: {
-                ...previousState[item],
-                answer_objects: arrayMove(previousState[item].answer_objects, result.source.index, result.destination.index)
-            },
-        }))
-
+            return newData
+        })
 
     }
 
     const addAnswerChoice = () => {
         const newId = uuidv4()
-        setItems(prevState => ({
-            ...prevState,
-            [item]: {...prevState[item], answer_objects: [...prevState[item].answer_objects, newId]}
-        }))
-        setAnswerObjects(prevState => ({
-            ...prevState, [newId]: {
-                content: [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
-            }
-        }));
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                    items: {
+                        [item]: {answer_objects: {$push: [newId]}}
+                    }, answer_objects: {
+                        $merge: {
+                            [newId]: {
+                                content: "<p>New Question!</p>"
+                            }
+                        }
+                }
+                }
+            )
+            return newData
+        })
     }
 
     return (
@@ -59,7 +70,7 @@ export const MultipleChoiceController = ({active, item}) => {
                                             <li className="pb-4" ref={provided.innerRef}
                                                 {...provided.draggableProps}>
                                                 <AnswerChoice choice={answerId} active={true}
-                                                              isCorrect={items[item].correct_objects.includes(answerId)}
+                                                              isCorrect={document.items[item].correct_objects.includes(answerId)}
                                                               item={item}
                                                               answerIndex={index}
                                                               dragHandler={<DragHandle provided={provided}

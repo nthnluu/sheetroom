@@ -8,8 +8,6 @@ import update from "immutability-helper";
 
 
 
-
-
 interface Props {
     section: string;
 

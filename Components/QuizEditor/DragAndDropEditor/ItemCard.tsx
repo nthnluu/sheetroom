@@ -4,7 +4,6 @@ import ActiveContent from "./ActiveContent";
 import InactiveContent from "./InactiveContent";
 
 interface Props {
-    section: string;
     item: string;
     active: boolean;
     provided: object;
@@ -15,7 +14,7 @@ interface Props {
 const DragHandle = ({provided}) => (<div tabIndex="0" {...provided.dragHandleProps}
                                          className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
 
-const ItemCard: React.FC<Props> = ({section, setActive, item, active, provided, itemIndex}) => {
+const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex}) => {
     const {document, setDocument} = useContext(QuizContext)
 
     return (

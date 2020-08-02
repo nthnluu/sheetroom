@@ -10,7 +10,7 @@ interface Props {
 }
 
 const QuestionCardDropdown: React.FC<Props> = ({item}) => {
-    const {items, setItems} = useContext(QuizContext);
+    const {items, setItems, document} = useContext(QuizContext);
 
     const handleChange = selectedOption => {
         setItems(prevState => ({...prevState, [item]: {...prevState[item], controller_type: selectedOption.target.value, correct_objects: prevState[item].correct_objects[0]}}));
@@ -24,7 +24,7 @@ const QuestionCardDropdown: React.FC<Props> = ({item}) => {
                 IconComponent="div"
                 labelId="demo-customized-select-label"
                 id="demo-customized-select"
-                value={items[item].controller_type}
+                value={document.items[item].controller_type}
                 onChange={handleChange}
                 input={<StyledInput />}
             >
