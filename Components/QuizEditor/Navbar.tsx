@@ -5,8 +5,8 @@ import NewTooltip from "../Misc/Tooltip";
 import {useMutation} from "@apollo/react-hooks";
 import Popper from '@material-ui/core/Popper';
 
-export default function () {
-    const {saveError, clientId, saveStatus, setSaveStatus} = useContext(QuizContext);
+export default function ({onUndo}) {
+    const {saveError, clientId, saveStatus, setSaveStatus, undo} = useContext(QuizContext);
 
 
     // State for menus
@@ -78,6 +78,10 @@ export default function () {
 
                         {/*// <!-- Profile dropdown -->*/}
                         <div className="space-x-2">
+                            <button type="button" aria-describedby={id} onClick={() => undo()}
+                                    className="inline-flex items-center px-2 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                <span className="text-gray-500"><i className="fas fa-undo"/></span>
+                            </button>
                             <button type="button" aria-describedby={id} onClick={handleClick}
                                     className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
                                 {saveStatus === 2 ?

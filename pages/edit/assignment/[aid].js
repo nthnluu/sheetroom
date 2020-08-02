@@ -10,6 +10,9 @@ import {v4 as uuidv4} from 'uuid';
 import {ASSIGNMENT_WS} from "../../../gql/quizzes";
 import {debounce} from 'lodash'
 import EditorLayout from "../../../Components/QuizEditor/EditorLayout";
+import JsonDebugBox from "../../../Components/JsonDebugBox";
+import Navbar from "../../../Components/PageLayouts/AppLayout/Navbar";
+import {Snackbar} from "@material-ui/core";
 
 
 const PageContent = ({pageData, aid}) => {
@@ -19,6 +22,8 @@ const PageContent = ({pageData, aid}) => {
     //Stores the current state of the document
     // const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
     const [document, setDocument] = useState(pageData.assignments_assignment_by_pk.content);
+    const [documentHistory, setDocumentHistory] = useState([pageData.assignments_assignment_by_pk.content]);
+    const [undoIndex, setUndoIndex] = useState(0);
 
     //Tracks the save status -- 0: saved; 1: saving; 2: error
     const [saveStatus, setSaveStatus] = useState(0);
@@ -27,6 +32,7 @@ const PageContent = ({pageData, aid}) => {
     const [mutateAssignment] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
 
     const saveAssignment = (newDocument) => {
+        setDocumentHistory([document, ...documentHistory])
         setSaveStatus(1)
         mutateAssignment({variables: {clientId: clientId, id: aid, content: newDocument}})
             .then(() => setSaveStatus(0))
@@ -57,6 +63,10 @@ const PageContent = ({pageData, aid}) => {
 
     };
 
+    const undo = () => {
+        setDocument(documentHistory[undoIndex])
+        setUndoIndex(undoIndex+1)
+    }
 
     return (
         <QuizContext.Provider value={{
@@ -64,10 +74,13 @@ const PageContent = ({pageData, aid}) => {
             aid,
             saveStatus,
             setSaveStatus,
+            undo,
             setDocument,
             clientId,
             invalidSession,
         }}>
+
+            {/*<button onClick={() => setDocument(documentHistory[0])}>undo</button>*/}
             <EditorLayout aid={aid} windowTitle="Sheetroom"/>
         </QuizContext.Provider>
     )

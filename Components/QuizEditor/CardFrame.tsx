@@ -72,7 +72,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
-                        <h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>
+                        {/*<h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>*/}
                         <QuillEditor border={active} uniqueKey={item+"question"} onChange={(value) => saveItemContent(value)} value={currentItem.question} active={true} placeholder="Question"/>
                     </div>
                     <Controller active={active} type={currentItem.controller_type} item={item}/>

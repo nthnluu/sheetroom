@@ -27,6 +27,17 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
     }
 
     const deleteAnswerChoice = () => {
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                items: {
+                    [item]: {
+                        answer_objects: {$splice: [[answerIndex, 1]]}
+                    }
+                },
+
+            })
+            return newData
+        })
 
     }
 
@@ -37,6 +48,9 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                     [item]: {
                         correct_objects: {$set: [choice]}
                     }
+                },
+                answer_objects: {
+                    $remove: [choice]
                 }
             })
             return newData
