@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import {initialDocumentContent} from "../QuizEditor/Templates";
+import {initialDocumentContent, newInitialDocumentContent} from "../QuizEditor/Templates";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
@@ -27,7 +27,7 @@ const Sidebar: React.FC<Props> = ({session}) => {
                             variables: {
                                 //@ts-ignore
                                 title: event.currentTarget.title.value,
-                                content: initialDocumentContent,
+                                content: newInitialDocumentContent(),
                                 userId: session.userId
                             }
                         })
