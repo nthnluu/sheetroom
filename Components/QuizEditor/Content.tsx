@@ -45,7 +45,7 @@ const Content: React.FC<Props> = ({}) => {
 
 
                     </Dialog>
-                    {document.config.sections.map(sectionId => <Section section={sectionId}/>)}
+                    {document.config.sections.map((sectionId, i) => <Section key={sectionId} section={sectionId} index={i}/>)}
                     <button onClick={() => setDocument(prevState => {
                         const newSectionId = uuidv4()
                         const newData = update(prevState, {

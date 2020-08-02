@@ -1,12 +1,10 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
 import arrayMove from 'array-move';
 import AnswerChoice from "./AnswerChoice";
-import PropTypes from "prop-types";
 import QuizContext from "../../QuizContext";
 import {v4 as uuidv4} from 'uuid';
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import update from "immutability-helper";
-import QuillEditor from "../../../Editor/QuillEditor";
 
 const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} tabIndex="1"
                                                  className={"fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
@@ -47,7 +45,7 @@ export const MultipleChoiceController = ({active, item}) => {
                     }, answer_objects: {
                         $merge: {
                             [newId]: {
-                                content: "<p>New Question!</p>"
+                                content: "<p><br/></p>"
                             }
                         }
                 }

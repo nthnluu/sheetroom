@@ -31,6 +31,16 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
     }
 
     const markAsCorrect = () => {
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                items: {
+                    [item]: {
+                        correct_objects: {$set: [choice]}
+                    }
+                }
+            })
+            return newData
+        })
 
     }
 
@@ -46,9 +56,9 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                     {dragHandler}
                 </span> : null}
 
-                <span className="table-cell w-full pointer-events-auto">
+                <span className="table-cell w-full pointer-events-auto ml-2">
 <QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
-             value={document.answer_objects[choice].content} active={true} placeholder="Question"/>
+             value={document.answer_objects[choice].content} active={true} placeholder="Option"/>
                 </span>
                 <div className="flex justify-between space-x-3">
                     {(active && !isCorrect) ?

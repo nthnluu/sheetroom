@@ -67,7 +67,7 @@ code {
 .editor-card {
     display: table;
     white-space: normal;
-    @apply rounded-lg border p-4 w-full text-left
+    @apply rounded-lg border py-2 px-4 w-full text-left
 }
 
 .editor-unselectedCard {
@@ -95,6 +95,7 @@ code {
 .ql-editor {
     font-family: 'Inter var' !important;
     font-size: 1.1rem !important;
+    padding: 0.5rem !important;
 }
 
 .ql-active {
