@@ -6,8 +6,11 @@ import AppLayout from "../Components/PageLayouts/AppLayout/AppLayout";
 import JsonDebugBox from "../Components/JsonDebugBox";
 import QuizContext from "../Components/QuizEditor/QuizContext";
 
+interface Props {
+    session: Session;
+}
 
-const Dashboard: React.FC<{ session }> = ({session}) => {
+const Dashboard: React.FC<Props> = ({session}) => {
 
     return (
         <>

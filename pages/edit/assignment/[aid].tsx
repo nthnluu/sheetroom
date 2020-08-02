@@ -10,12 +10,10 @@ import {v4 as uuidv4} from 'uuid';
 import {ASSIGNMENT_WS} from "../../../gql/quizzes";
 import {debounce} from 'lodash'
 import EditorLayout from "../../../Components/QuizEditor/EditorLayout";
-import JsonDebugBox from "../../../Components/JsonDebugBox";
-import Navbar from "../../../Components/PageLayouts/AppLayout/Navbar";
-import {Snackbar} from "@material-ui/core";
+import {GetServerSideProps} from "next";
 
 
-const PageContent = ({pageData, aid}) => {
+const PageContent: React.FC = ({pageData, aid}) => {
     // A client ID to identify the current user working on the project
     const [clientId] = useState(uuidv4())
 
@@ -86,7 +84,7 @@ const PageContent = ({pageData, aid}) => {
     )
 };
 
-const LoadingPlaceholder = () => {
+const LoadingPlaceholder: React.FC = () => {
     return (
         <div className="pt-56">
             <Head>
@@ -102,7 +100,7 @@ const LoadingPlaceholder = () => {
 };
 
 
-const QuizEditor = ({user, session}) => {
+const QuizEditor: React.FC = () => {
 
 //get Quiz ID from URL
     const router = useRouter();
@@ -116,26 +114,26 @@ const QuizEditor = ({user, session}) => {
 
 
     return (
-        <div className="min-h-screen bg-gray-50" key={aid}>
+        <div className="min-h-screen bg-gray-50">
             {loading ? <LoadingPlaceholder/> : <PageContent pageData={data} aid={aid}/>}
         </div>
     )
 };
 
-QuizEditor.getInitialProps = async ({res, ...context}) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     if (typeof window === 'undefined') {
         const session = await getSession(context);
         if (!session || !session.user) {
-            res.writeHead(302, {
+            context.res.writeHead(302, {
                 Location: '/api/auth/signin'
             });
-            res.end();
+            context.res.end();
+
         } else {
-            return {session: session, user: session.user}
+            return {props: {session: session}}
         }
     }
-
-
 };
+
 
 export default QuizEditor
