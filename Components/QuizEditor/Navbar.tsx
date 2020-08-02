@@ -5,7 +5,7 @@ import NewTooltip from "../Misc/Tooltip";
 import {useMutation} from "@apollo/react-hooks";
 import Popper from '@material-ui/core/Popper';
 
-export default function ({onUndo}) {
+export default function () {
     const {saveError, clientId, saveStatus, setSaveStatus, undo} = useContext(QuizContext);
 
 
@@ -42,10 +42,11 @@ export default function ({onUndo}) {
 
                             <NewTooltip title="Rename Assignment" placement="bottom" arrow enterDelay={500}
                                         enterNextDelay={500}>
-                                <input onBlur={() => saveTitle()} style={{textOverflow: "ellipsis"}}
+                                <input style={{textOverflow: "ellipsis"}}
                                        placeholder="Untitled Assignment"
                                        className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
                                        value={inputValue}
+                                    // @ts-ignore
                                        onChange={event => setInputValue(event.target.value)}/></NewTooltip>
                         </div>
                     </div>
@@ -118,7 +119,7 @@ export default function ({onUndo}) {
                                 </button>
                             </div>
 
-                            <Transition show={profileDropdown} enter="transition ease-out duration-100"
+                            <Transition appear={profileDropdown} show={profileDropdown} enter="transition ease-out duration-100"
                                         enterFrom="transform opacity-0 scale-95"
                                         enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75"
                                         leaveFrom="transform opacity-100 scale-100"
