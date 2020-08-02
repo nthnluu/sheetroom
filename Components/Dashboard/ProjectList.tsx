@@ -74,6 +74,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
         </div>
         {/*// @ts-ignore*/}
         <JsonDebugBox content={session}/>
+        {/*// @ts-ignore*/}
         <AssignmentList userId={session.userId}/>
     </div>)
 }
