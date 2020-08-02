@@ -12,6 +12,7 @@ import {ASSIGNMENT, ASSIGNMENT_WS} from "../../../gql/quizzes";
 import {debounce} from 'lodash'
 import JsonDebugBox from "../../../Components/JsonDebugBox";
 import EditorLayout from "../../../Components/QuizEditor/EditorLayout";
+import useDeepCompareEffect from "use-deep-compare-effect";
 
 
 const PageContent = ({pageData, aid}) => {
@@ -20,11 +21,26 @@ const PageContent = ({pageData, aid}) => {
 
     //Stores the current state of the document
     // const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
-    const [document, setDocument] = useState(newInitialDocumentContent);
+    const [document, setDocument] = useState(pageData.assignments_assignment_by_pk.content);
 
     //Tracks the save status -- 0: saved; 1: saving; 2: error
     const [saveStatus, setSaveStatus] = useState(0);
     const [invalidSession, setInvalidSession] = useState(false);
+
+    const [mutateAssignment] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
+
+    const saveAssignment = (newDocument) => {
+        setSaveStatus(1)
+        mutateAssignment({variables: {clientId: clientId, id: aid, content: newDocument}})
+            .then(() => setSaveStatus(0))
+            .catch(() => setSaveStatus(2))
+    }
+
+    const delayedMutation = useCallback(debounce(newDocument => saveAssignment(newDocument), 1000), []);
+
+    useEffect(() => {
+        delayedMutation(document)
+    }, [document])
 
 
     // If the document is saving, prevents the window from navigating away
@@ -49,6 +65,8 @@ const PageContent = ({pageData, aid}) => {
         <QuizContext.Provider value={{
             document,
             aid,
+            saveStatus,
+            setSaveStatus,
             setDocument,
             clientId,
             invalidSession,
