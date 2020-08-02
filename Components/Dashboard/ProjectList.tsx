@@ -2,6 +2,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import React, {useState} from "react";
 import Transition from "../Transition";
 import AssignmentList from "./AssignmentList";
+import JsonDebugBox from "../JsonDebugBox";
 
 interface Props {
     session: object;
@@ -72,6 +73,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
             </div>
         </div>
         {/*// @ts-ignore*/}
+        <JsonDebugBox content={session}/>
         <AssignmentList userId={session.userId}/>
     </div>)
 }

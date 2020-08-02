@@ -3,6 +3,8 @@ import {getSession} from 'next-auth/client'
 import {GetServerSideProps} from "next";
 import PageContent from "../Components/Dashboard/Content";
 import AppLayout from "../Components/PageLayouts/AppLayout/AppLayout";
+import JsonDebugBox from "../Components/JsonDebugBox";
+import QuizContext from "../Components/QuizEditor/QuizContext";
 
 
 const Dashboard: React.FC<{ session }> = ({session}) => {

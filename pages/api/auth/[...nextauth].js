@@ -48,16 +48,15 @@ const options = {
             //   If tokenId is used (must be supported by the provider) it will be the
             //   the contents of the token from the provider.
 
-            const isSignIn = oAuthProfile ? true : false;
 
             // Return the object you want to be stored in the token here
             // e.g. `token.auth0 = oAuthProfile`
-            token.auth0 = oAuthProfile;
             token.hasura = {
                 "x-hasura-default-role": "admin",
                 "x-hasura-allowed-roles": ["user", "admin"],
                 "x-hasura-user-id": token.user.id.toString(),
             };
+
             // Note: Try to only store information you need in the JWT to avoid the
             // cookie size growing too large (should not exceed 4KB)
             return Promise.resolve(token)
@@ -66,10 +65,9 @@ const options = {
         session: async (session, token) => {
             // The first object is the default session contents that is returned
             // The second object is the NextAuth.js JWT (aways passed if JWT enabled)
+            console.log(token)
             session.userId = token.user.id;
-            session.isDisabled = token.user.isDisabled;
-            session.tenant = token.user.tenant;
-            session.oAuthProfile = token.auth0;
+            session.isNewUser = token.isNewUser
 
             // As with the JWT, you can add properties to the 'session' object
             // from the 'token' here (e.g. `session.someProperty = token.someProperty`)
