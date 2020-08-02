@@ -71,13 +71,13 @@ export const newInitialDocumentContent = () => {
             [itemId]: {
                 "answer_objects": [answerObjectId],
                 "controller_type": "MC",
-                "question": "<p>Cum!</p>",
+                "question": "<p>Question</p>",
                 "correct_objects": [answerObjectId]
             }
         },
         answer_objects: {
             [answerObjectId]: {
-                content: "<p>Cum!</p>"
+                content: "<p>Option</p>"
             }
         }
     })
