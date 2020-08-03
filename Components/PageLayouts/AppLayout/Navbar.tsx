@@ -68,31 +68,33 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
             <div className="mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="relative flex items-center justify-between h-16">
                     {/* Logo section */}
-                    <div className="flex items-center px-2 lg:px-0 xl:w-64 h-full">
-                        <button onClick={() => window.location.href = "/"} className="flex-shrink-0 px-2 -ml-2 h-full focus:bg-gray-900 active:bg-gray-900 focus:outline-none" style={{opacity: 0.90}}>
-                            <img className="h-6 w-auto hidden md:block" src="/light_logo.svg"
-                                 alt="Workflow logo" />
-                            <img className="h-8 w-auto block md:hidden" src="/light_symbol.svg"
-                                 alt="Workflow logo"/>
-                        </button>
-                    </div>
-                    <div className="related"/>
-                    <div className="related-focus:bg-gray"/>
-                    {/* Search section */}
-                    <div className="flex-1 flex justify-center lg:justify-end">
-                        <div className="w-full max-w-2xl mx-auto px-2 lg:px-6">
-                            <label htmlFor="search" className="sr-only">Search</label>
-                            <div className="relative text-gray-300 focus-within:text-gray-400">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd"
-                                              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                              clipRule="evenodd"/>
-                                    </svg>
+                    <div className="flex items-center justify-start w-full">
+                        <div className="flex items-center px-2 lg:px-0 xl:w-64 h-full">
+                            <button onClick={() => window.location.href = "/"} className="flex-shrink-0 px-2 -ml-2 h-full focus:bg-gray-900 active:bg-gray-900 focus:outline-none" style={{opacity: 0.90}}>
+                                <img className="h-6 w-auto hidden md:block" src="/light_logo.svg"
+                                     alt="Workflow logo" />
+                                <img className="h-8 w-auto block md:hidden" src="/light_symbol.svg"
+                                     alt="Workflow logo"/>
+                            </button>
+                        </div>
+                        <div className="related"/>
+                        <div className="related-focus:bg-gray"/>
+                        {/* Search section */}
+                        <div className="flex-1 flex justify-start w-full lg:justify-start">
+                            <div className="w-full max-w-xl mx-auto px-2 lg:px-6">
+                                <label htmlFor="search" className="sr-only">Search</label>
+                                <div className="relative text-gray-300 focus-within:text-gray-400">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd"
+                                                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                  clipRule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <input id="search"
+                                           className="block w-full pl-10 pr-3 py-2 border border-transparent rounded-md leading-5 bg-gray-400 bg-opacity-25 text-gray-300 placeholder-gray-300 focus:outline-none focus:bg-white focus:placeholder-gray-400 focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out"
+                                           placeholder="Search to your heart's desire and cum!" type="search"/>
                                 </div>
-                                <input id="search"
-                                       className="block w-full pl-10 pr-3 py-2 border border-transparent rounded-md leading-5 bg-gray-400 bg-opacity-25 text-gray-300 placeholder-gray-300 focus:outline-none focus:bg-white focus:placeholder-gray-400 focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out"
-                                       placeholder="Search to your heart's desire and cum!" type="search"/>
                             </div>
                         </div>
                     </div>

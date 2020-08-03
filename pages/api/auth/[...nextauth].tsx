@@ -16,17 +16,17 @@ const options = {
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET
         }),
-        Providers.Email({
-            server: {
-                host: process.env.EMAIL_SERVER_HOST,
-                port: process.env.EMAIL_SERVER_PORT,
-                auth: {
-                    user: process.env.EMAIL_SERVER_USER,
-                    pass: process.env.EMAIL_SERVER_PASSWORD
-                }
-            },
-            from: process.env.EMAIL_FROM
-        }),
+        // Providers.Email({
+        //     server: {
+        //         host: process.env.EMAIL_SERVER_HOST,
+        //         port: process.env.EMAIL_SERVER_PORT,
+        //         auth: {
+        //             user: process.env.EMAIL_SERVER_USER,
+        //             pass: process.env.EMAIL_SERVER_PASSWORD
+        //         }
+        //     },
+        //     from: process.env.EMAIL_FROM
+        // }),
     ],
 
     // A database is optional, but required to persist accounts in a database
@@ -37,7 +37,7 @@ const options = {
         username: "rkofrjdyqoidnj",
         password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
         database: "d2rnd6jboqu0mq",
-        synchronize: true,
+        synchronize: false,
         ssl: true
     },
     // database: process.env.DATABASE_URL,
