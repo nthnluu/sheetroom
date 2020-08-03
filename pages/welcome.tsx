@@ -3,10 +3,6 @@ import StepOneRadioGroup from "../Components/WelcomePage/StepOneRadioGroup";
 import StepThreeRadioGroup from "../Components/WelcomePage/StepThreeRadioGroup";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {getSession} from "next-auth/client";
-import WithGraphQL from "../lib/with-graphql";
-import {useQuery, useSubscription} from "urql";
-import {assignmentSubscription} from "../lib/graphql/Assignments";
-import JsonDebugBox from "../Components/JsonDebugBox";
 
 const StepOne: React.FC<{ onContinue }> = ({onContinue}) => {
     return (<div>
@@ -111,18 +107,10 @@ const OnboardingPages = ({pageNumber, setCurrentPage}) => {
 const WelcomePage: InferGetServerSidePropsType<typeof getServerSideProps> = ({session}) => {
     const [currentPage, setCurrentPage] = useState(1)
 
-    const [result] = useSubscription({
-        query: assignmentSubscription,
-        variables: {
-            assignmentId: '7a6e9c63-80aa-4188-a89d-72f92ad32170'
-        }
-    });
-
 
     return (
 
             <div>
-                {result ? <JsonDebugBox content={result}/> : <p>loading</p> }
                 <div className="max-w-xl mx-auto h-screen flex items-center">
                     <div className="w-full p-4 md:p-6 text-center">
                         <OnboardingPages pageNumber={currentPage} setCurrentPage={value => setCurrentPage(value)}/>

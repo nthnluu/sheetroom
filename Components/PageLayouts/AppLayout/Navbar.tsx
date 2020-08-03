@@ -5,16 +5,17 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
-import {useMutation, useSubscription} from "urql";
+import {useMutation} from "urql";
 import {createAssignment} from "../../../lib/graphql/Assignments";
 import {newInitialDocumentContent} from "../../QuizEditor/Templates";
 
 
 interface Props {
-    session: object;
+    session: string;
+    unfixed?: boolean;
 }
 
-const Navbar: React.FC<Props> = ({session}) => {
+export const Navbar: React.FC<Props> = ({session, unfixed}) => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
     const [newDropdown, toggleNewDropdown] = useState(false);
@@ -22,7 +23,7 @@ const Navbar: React.FC<Props> = ({session}) => {
 
     const [createAssignmentResult, createNewAssignment] = useMutation(createAssignment);
 
-    return<>
+    return(<div>
         <Dialog onClose={() => toggleCreateAssignmentDialog(false)} aria-labelledby="simple-dialog-title"
                 open={createAssignmentDialog}>
             <div className="p-2 pr-4">
@@ -63,7 +64,7 @@ const Navbar: React.FC<Props> = ({session}) => {
 
 
         </Dialog>
-        <nav className="flex-shrink-0 fixed w-full z-50" style={{backgroundColor: '#17181a'}}>
+        <nav className={"flex-shrink-0 w-full z-50 " + (unfixed ? null : "fixed")} style={{backgroundColor: '#17181a'}}>
             <div className="mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="relative flex items-center justify-between h-16">
                     {/* Logo section */}
@@ -227,7 +228,7 @@ const Navbar: React.FC<Props> = ({session}) => {
                 </div>
             </div>
         </nav>
-    </>
+    </div>)
 }
 
 export default Navbar

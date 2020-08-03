@@ -1,17 +1,14 @@
-import CardFrame from "../CardFrame";
 import React, {useContext, useState} from "react";
 import arrayMove from 'array-move';
 import QuizContext from "../QuizContext";
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import ItemCard from "./ItemCard";
 import update from "immutability-helper";
-import JsonDebugBox from "../../JsonDebugBox";
 
 
 
 interface Props {
     section: string;
-
 }
 
 export const ItemDnd:React.FC<Props> = ({section}) => {

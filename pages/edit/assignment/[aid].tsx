@@ -8,7 +8,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {v4 as uuidv4} from 'uuid';
 import {debounce} from 'lodash'
 import EditorLayout from "../../../Components/QuizEditor/EditorLayout";
-import {GetServerSideProps} from "next";
+import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -17,7 +17,7 @@ import {assignmentSubscription, updateAssignmentContent} from "../../../lib/grap
 
 
 
-const PageContent: React.FC<{ pageData, aid: string }> = ({pageData, aid}) => {
+const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({pageData, aid, session}) => {
     // A client ID to identify the current user working on the project
     const [clientId] = useState(uuidv4())
 
@@ -65,6 +65,7 @@ const PageContent: React.FC<{ pageData, aid: string }> = ({pageData, aid}) => {
 
     };
 
+
     return (
         <QuizContext.Provider value={{
             document,
@@ -76,7 +77,8 @@ const PageContent: React.FC<{ pageData, aid: string }> = ({pageData, aid}) => {
             invalidSession,
         }}>
 
-            <EditorLayout aid={aid} windowTitle="Sheetroom"/>
+            {/*// @ts-ignore*/}
+            <EditorLayout aid={aid} windowTitle="Sheetroom" session={session}/>
         </QuizContext.Provider>
     )
 };
@@ -119,7 +121,7 @@ const ErrorScreen = () => {
     </div>)
 }
 
-const QuizEditor: React.FC = () => {
+const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({session}) => {
 
 //get Quiz ID from URL
     const router = useRouter();
@@ -166,25 +168,21 @@ const QuizEditor: React.FC = () => {
         <div className="min-h-screen bg-gray-50">
             {fetching ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ErrorScreen/> :
                 // @ts-ignore
-                <PageContent pageData={data} aid={aid}/>)}
+                <PageContent pageData={data} aid={aid} session={session}/>)}
         </div>
     )
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    if (typeof window === 'undefined') {
-        const session = await getSession(context);
-        if (!session || !session.user) {
-            context.res.writeHead(302, {
-                Location: '/api/auth/signin'
-            });
-            context.res.end();
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const session = await getSession({ req });
 
-        } else {
-            return {props: {session: session}}
-        }
-    }
+    return {
+        props: {
+            session,
+        },
+    };
 };
+
 
 
 export default QuizEditor

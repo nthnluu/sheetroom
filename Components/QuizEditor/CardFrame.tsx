@@ -5,7 +5,6 @@ import QuizContext from "./QuizContext";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 import QuillEditor from "../Editor/QuillEditor";
 import update from "immutability-helper";
-import {it} from "@jest/globals";
 
 interface Props {
     active: boolean;

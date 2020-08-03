@@ -6,7 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ASSIGNMENTS = gql`
 query Assignments($userId: Int!){
-  assignments_assignment(where: {created_by: {_eq: $userId}}) {
+  assignments_assignment(where: {created_by: {_eq: $userId}}, limit: 10) {
     id,
     title
   }
@@ -39,6 +39,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
     if (fetching) return <LoadingPlaceholder/>;
 
     if (data) return (
+        <>
         <ul className="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
             {data.assignments_assignment.map(item => <li
                 className="relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
@@ -105,6 +106,8 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
                 </div>
             </li>)}
         </ul>
+        </>
+
 
     )
 };
