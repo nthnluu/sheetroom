@@ -15,6 +15,7 @@ const PageContent: React.FC<Props> = ({session, sidebar, mainContent}) => {
 
 
         {/* Main Content */}
+
         {mainContent}
     </>)
 }

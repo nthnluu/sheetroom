@@ -6,6 +6,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import {useMutation} from "@apollo/react-hooks";
 import {CREATE_ASSIGNMENT} from "../../gql/getAssignment";
+import NewButton from "../Dropdowns/NewButton";
+
 
 interface Props {
     session: object;
@@ -100,7 +102,8 @@ const Sidebar: React.FC<Props> = ({session}) => {
                         {/* Action buttons */}
                         <div
                             className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">
-                          <span className="inline-flex rounded-md shadow-sm">
+                            <span className="inline-flex rounded-md shadow-sm">
+
                             <button type="button" onClick={() => toggleCreateAssignmentDialog(true)}
                                     className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                               New Assignment
