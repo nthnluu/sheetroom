@@ -17,7 +17,7 @@ const options = {
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET
         }),
-        Providers.Google({
+        Providers.GitHub({
             clientId: "7acf870d9c90d729eb81",
             clientSecret: "55505558a1d8785347d8d02e9cb5eeeb86f616fd"
         })
