@@ -1,23 +1,17 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import MultipleChoiceController from "./Controllers/MultipleChoice/MultipleChoice";
 import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 import QuizContext from "./QuizContext";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 import QuillEditor from "../Editor/QuillEditor";
 import update from "immutability-helper";
-import arrayMove from "array-move";
-import JsonDebugBox from "../JsonDebugBox";
-import AnswerChoice from "./Controllers/MultipleChoice/AnswerChoice";
-import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
-
 
 interface Props {
     active: boolean;
     item: string;
     itemIndex: number;
+    section: any;
 }
-const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} tabIndex="1"
-                                                 className={"fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
 
 
 const Controller = ({type, item, active}) => {
@@ -33,7 +27,7 @@ const Controller = ({type, item, active}) => {
     }
 }
 
-const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
+const CardFrame: React.FC<Props> = ({active, item, itemIndex, section}) => {
     const {document, setDocument} = useContext(QuizContext);
 
     const currentItem = document.items[item];
@@ -43,9 +37,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
         setDocument(prevState => {
             const newData = update(prevState, {
                 items: {
-                    [item]: {
-                        question: {$set: newValue}
-                    }
+                    $remove: [item]
                 }
             })
 
@@ -55,15 +47,18 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
 
 
     const deleteItem = () => {
-        // setDocument(prevState => {
-        //     const newData = update(prevState, {
-        //         items: {
-        //             $remove: [item]
-        //         }
-        //     })
-        //
-        //     return newData
-        // })
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                items: {
+                    [item]: {
+
+                    }
+                }
+            })
+
+            return newData
+        })
+
     }
 
     return (
@@ -72,7 +67,6 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex}) => {
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
-                        {/*<h2 className="font-semibold text-gray-800 text-lg mb-3">Question {itemIndex + 1}</h2>*/}
                         <QuillEditor border={active} uniqueKey={item+"question"} onChange={(value) => saveItemContent(value)} value={currentItem.question} active={true} placeholder="Question"/>
                     </div>
                     <Controller active={active} type={currentItem.controller_type} item={item}/>

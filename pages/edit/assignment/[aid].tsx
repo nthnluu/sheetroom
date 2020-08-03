@@ -1,22 +1,20 @@
 import {useRouter} from 'next/router'
-import {useMutation, useSubscription} from "@apollo/react-hooks";
+import {useSubscription, useMutation} from "urql";
 import {getSession} from "next-auth/client";
 import Head from 'next/head'
 import React, {useCallback, useEffect, useState} from "react";
 import QuizContext from "../../../Components/QuizEditor/QuizContext";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {UPDATE_ASSIGNMENT_CONTENT} from "../../../gql/assignmentAutosave";
 import {v4 as uuidv4} from 'uuid';
-import {ASSIGNMENT_WS} from "../../../gql/quizzes";
 import {debounce} from 'lodash'
 import EditorLayout from "../../../Components/QuizEditor/EditorLayout";
 import {GetServerSideProps} from "next";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import {newInitialDocumentContent} from "../../../Components/QuizEditor/Templates";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
-import JsonDebugBox from "../../../Components/JsonDebugBox";
+import {assignmentSubscription, updateAssignmentContent} from "../../../lib/graphql/Assignments";
+
 
 
 const PageContent: React.FC<{ pageData, aid: string }> = ({pageData, aid}) => {
@@ -27,24 +25,24 @@ const PageContent: React.FC<{ pageData, aid: string }> = ({pageData, aid}) => {
     // const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
     const [document, setDocument] = useState(pageData.assignments_assignment_by_pk.content);
     const [documentHistory, setDocumentHistory] = useState([pageData.assignments_assignment_by_pk.content]);
-    const [undoIndex, setUndoIndex] = useState(0);
 
     //Tracks the save status -- 0: saved; 1: saving; 2: error
     const [saveStatus, setSaveStatus] = useState(0);
     const [invalidSession, setInvalidSession] = useState(false);
 
-    const [mutateAssignment] = useMutation(UPDATE_ASSIGNMENT_CONTENT)
+    const [mutateAssignmentResult, mutateAssignment] = useMutation(updateAssignmentContent)
 
     const saveAssignment = (newDocument) => {
         setDocumentHistory([document, ...documentHistory])
         setSaveStatus(1)
-        mutateAssignment({variables: {clientId: clientId, id: aid, content: newDocument}})
+        mutateAssignment({clientId: clientId, id: aid, content: newDocument})
             .then(() => setSaveStatus(0))
             .catch(() => setSaveStatus(2))
     }
 
-    const delayedMutation = useCallback(debounce(newDocument => saveAssignment(newDocument), 1000), []);
 
+    //Autosave Logic
+    const delayedMutation = useCallback(debounce(newDocument => saveAssignment(newDocument), 1000), []);
     useEffect(() => {
         delayedMutation(document)
     }, [document])
@@ -67,24 +65,17 @@ const PageContent: React.FC<{ pageData, aid: string }> = ({pageData, aid}) => {
 
     };
 
-    const undo = () => {
-        setDocument(documentHistory[undoIndex])
-        setUndoIndex(undoIndex + 1)
-    }
-
     return (
         <QuizContext.Provider value={{
             document,
             aid,
             saveStatus,
             setSaveStatus,
-            undo,
             setDocument,
             clientId,
             invalidSession,
         }}>
 
-            {/*<button onClick={() => setDocument(documentHistory[0])}>undo</button>*/}
             <EditorLayout aid={aid} windowTitle="Sheetroom"/>
         </QuizContext.Provider>
     )
@@ -105,7 +96,7 @@ const LoadingPlaceholder: React.FC = () => {
     )
 };
 
-const ReturnHome = () => {
+const ErrorScreen = () => {
     // window.location.href = '/dashboard'
     return (<div className="pt-56">
         <Head>
@@ -134,10 +125,15 @@ const QuizEditor: React.FC = () => {
     const router = useRouter();
     const {aid} = router.query;
 
-
-    const {loading, error, data} = useSubscription(ASSIGNMENT_WS, {
-        variables: {assignmentId: aid},
+    const [result] = useSubscription({
+        query: assignmentSubscription,
+        variables: {
+            assignmentId: aid
+        }
     });
+
+    const {data, fetching, error} = result
+
 
     if (error) return <Dialog aria-labelledby="simple-dialog-title"
                               open={true}>
@@ -165,12 +161,12 @@ const QuizEditor: React.FC = () => {
     </Dialog>;
 
 
+
     return (
         <div className="min-h-screen bg-gray-50">
-            {loading ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ReturnHome/> :
-                // <PageContent pageData={data} aid={aid}/>
-                <JsonDebugBox content={data}/>
-                )}
+            {fetching ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ErrorScreen/> :
+                // @ts-ignore
+                <PageContent pageData={data} aid={aid}/>)}
         </div>
     )
 };

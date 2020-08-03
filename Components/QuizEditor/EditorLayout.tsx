@@ -2,15 +2,12 @@ import React from "react";
 import Head from "next/head";
 import Navbar from "./Navbar";
 import Content from "./Content";
-import {Snackbar} from "@material-ui/core";
-import SimpleSnackbar from "../Snackbar/Snackbar";
 
 interface Props {
     windowTitle: string;
-    aid: string;
 }
 
-const EditorLayout: React.FC<Props> = ({aid, windowTitle}) => {
+const EditorLayout: React.FC<Props> = ({windowTitle}) => {
 
 
     return (

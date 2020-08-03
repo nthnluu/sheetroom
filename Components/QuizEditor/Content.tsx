@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Content: React.FC<Props> = ({}) => {
-    const {invalidSession, saveStatus, addItem, document, setDocument, aid} = useContext(QuizContext)
+    const {invalidSession, saveStatus, document, setDocument, aid} = useContext(QuizContext)
 
 
     return (<main className="pt-14">

@@ -22,3 +22,19 @@ mutation CreateNewAssignment($title: String!, $content: json!, $userId: Int!) {
   }
 }
 `;
+
+export const updateAssignmentContent = gql`
+ mutation UpdateAssignmentContent($content: json!, $id: uuid!, $clientId: uuid!) {
+    update_assignments_assignment_by_pk(pk_columns: {id: $id}, _set: {content: $content, last_edited_by: $clientId}){
+ last_edited_by
+  }
+}
+`;
+
+export const UPDATE_ASSIGNMENT_CONTENT = gql`
+  mutation UpdateAssignmentContent($content: json!, $id: uuid!, $clientId: uuid!) {
+    update_assignments_assignment_by_pk(pk_columns: {id: $id}, _set: {content: $content, last_edited_by: $clientId}){
+ last_edited_by
+  }
+}
+`;

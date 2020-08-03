@@ -1,12 +1,11 @@
 import Transition from "../Transition";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useState} from "react";
 import QuizContext from "./QuizContext";
 import NewTooltip from "../Misc/Tooltip";
-import {useMutation} from "@apollo/react-hooks";
 import Popper from '@material-ui/core/Popper';
 
 export default function () {
-    const {saveError, clientId, saveStatus, setSaveStatus, undo} = useContext(QuizContext);
+    const {saveError, saveStatus, undo} = useContext(QuizContext);
 
 
     // State for menus
