@@ -15,21 +15,21 @@ const WithGraphQL = ({
     const userIdInString = session.id.toString();
 
     const subscriptionClient = new SubscriptionClient(
-        process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080/v1/graphql",
+        process.env.NEXT_PUBLIC_WS_URL || "ws://api.homework.gg/v1/graphql",
         {
             reconnect: true,
             connectionParams: {
-                headers: { "X-Hasura-User-Id": userIdInString },
+                headers: { "X-Hasura-User-Id": userIdInString, "X-Hasura-Admin-Secret": 'Ik"*Aj=ho)P=Ekext"{P$+g@Ua0J\'|' },
             },
         },
         ws
     );
 
     const client = new Client({
-        url: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/v1/graphql",
+        url: process.env.NEXT_PUBLIC_API_URL || "http://api.homework.gg/v1/graphql",
         fetch,
         fetchOptions: {
-            headers: { "X-Hasura-User-Id": userIdInString },
+            headers: { "X-Hasura-User-Id": userIdInString, "X-Hasura-Admin-Secret": 'Ik"*Aj=ho)P=Ekext"{P$+g@Ua0J\'|' },
         },
         requestPolicy: "cache-and-network",
         exchanges: [
