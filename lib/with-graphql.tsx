@@ -15,7 +15,7 @@ const WithGraphQL = ({
     const userIdInString = session ? (session.id ? session.id.toString() : 'annon') : 'anon';
 
     const subscriptionClient = new SubscriptionClient(
-        process.env.NEXT_PUBLIC_WS_URL || "ws://api.homework.gg/v1/graphql",
+        process.env.NEXT_PUBLIC_WS_URL || "ws://api.sheetroom.com/v1/graphql",
         {
             reconnect: true,
             connectionParams: {
@@ -26,7 +26,7 @@ const WithGraphQL = ({
     );
 
     const client = new Client({
-        url: process.env.NEXT_PUBLIC_API_URL || "http://api.homework.gg/v1/graphql",
+        url: process.env.NEXT_PUBLIC_API_URL || "http://api.sheetroom.com/v1/graphql",
         fetch,
         fetchOptions: {
             headers: { "X-Hasura-User-Id": userIdInString, "X-Hasura-Admin-Secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS" },
