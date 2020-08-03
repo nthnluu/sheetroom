@@ -24,22 +24,7 @@ const Index: InferGetServerSidePropsType<typeof getServerSideProps> = () => {
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
     const session = await getSession({req});
 
-    let response;
-
-    if (session) {
-        res.writeHead(302, {
-            Location: '/dashboard'
-        });
-        res.statusCode = 302
-        response = {props:{session: session}}
-        res.end()
-    } else {
-        res.statusCode = 200
-        response = {props:{session: 'anon'}}
-        res.end()
-    }
-
-    return response
+    return {props:{session: session}}
 };
 
 export default Index;
