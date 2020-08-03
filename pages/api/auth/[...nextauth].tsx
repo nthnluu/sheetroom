@@ -7,7 +7,7 @@ import IUser from "../../../types/user";
 import ISession from "../../../types/session";
 
 const options = {
-    debug: true,
+    debug: false,
     site: process.env.SITE || 'http://localhost:3000',
 
     // Configure one or more authentication providers
@@ -37,7 +37,7 @@ const options = {
         username: "rkofrjdyqoidnj",
         password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
         database: "d2rnd6jboqu0mq",
-        synchronize: false,
+        synchronize: true,
         ssl: true 
     },
     // database: process.env.DATABASE_URL,
@@ -59,7 +59,7 @@ const options = {
         },
     },
     session: {
-        jwt: true,
+        jwt: false,
     },
     jwt: {
         encode: async ({ token, secret }: { token: iToken; secret: string }) => {
