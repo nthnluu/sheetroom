@@ -37,7 +37,11 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section}) => {
         setDocument(prevState => {
             const newData = update(prevState, {
                 items: {
-                    $remove: [item]
+                    [item]: {
+                        question: {
+                            $set: newValue
+                        }
+                    }
                 }
             })
 
@@ -50,9 +54,9 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section}) => {
         setDocument(prevState => {
             const newData = update(prevState, {
                 items: {
-                   [item]: {
-                       $set: null
-                   }
+                    [item]: {
+                        $set: null
+                    }
                 }, sections: {
                     [section]: {
                         items: {
@@ -73,7 +77,9 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section}) => {
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
-                        <QuillEditor border={active} uniqueKey={item+"question"} onChange={(value) => saveItemContent(value)} value={currentItem.question} active={true} placeholder="Question"/>
+                        <QuillEditor border={active} uniqueKey={item + "question"}
+                                     onChange={(value) => saveItemContent(value)} value={currentItem.question}
+                                     active={true} placeholder="Question"/>
                     </div>
                     <Controller active={active} type={currentItem.controller_type} item={item}/>
                 </div>
@@ -85,7 +91,8 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section}) => {
                 <button type="button" onClick={() => deleteItem()}
                         className="inline-flex text-center items-center h-10 w-10 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
                     <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M6 18L18 6M6 6L18 18" strokeWidth="2" strokeLinecap="round" className="stroke-current" strokeLinejoin="round"/>
+                        <path d="M6 18L18 6M6 6L18 18" strokeWidth="2" strokeLinecap="round" className="stroke-current"
+                              strokeLinejoin="round"/>
                     </svg>
                 </button>
             </div> : null}
