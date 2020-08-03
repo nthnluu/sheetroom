@@ -22,7 +22,7 @@ function AnswerChoice({title, desc, onClick, radioName, selected, value}) {
         <>
             <input id={inputId} aria-labelledby={labelId} aria-selected={selected} type="radio"
                    defaultChecked={selected} name={radioName} value={value}
-                   onClick={() => onClick()} className="absolute mt-6 ml-5 opacity-0" onFocus={() => setFocus(true)}
+                   onClick={() => onClick()} className="absolute mt-6 ml-5 opacity-0 sr-only" onFocus={() => setFocus(true)}
                    onBlur={() => setFocus(false)}/>
             <label id={labelId} htmlFor={inputId} onClick={() => onClick(value)}
                    className={selected ? 'card selectedCard cursor-pointer' : 'card unselectedCard cursor-pointer ' + checkFocus()}>
