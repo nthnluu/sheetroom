@@ -64,17 +64,17 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
 
 
         </Dialog>
-        <nav className={"flex-shrink-0 w-full z-50 " + (unfixed ? null : "fixed")} style={{backgroundColor: '#17181a'}}>
+        <nav className={"flex-shrink-0 w-full z-50 " + (unfixed ? null : "fixed")} style={{backgroundColor: '#18191c'}}>
             <div className="mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="relative flex items-center justify-between h-16">
                     {/* Logo section */}
-                    <div className="flex items-center px-2 lg:px-0 xl:w-64">
-                        <div className="flex-shrink-0">
+                    <div className="flex items-center px-2 lg:px-0 xl:w-64 h-full">
+                        <button onClick={() => window.location.href = "/"} className="flex-shrink-0 px-2 -ml-2 h-full focus:bg-gray-900 active:bg-gray-900 focus:outline-none" style={{opacity: 0.90}}>
                             <img className="h-6 w-auto hidden md:block" src="/light_logo.svg"
-                                 alt="Workflow logo"/>
+                                 alt="Workflow logo" />
                             <img className="h-8 w-auto block md:hidden" src="/light_symbol.svg"
                                  alt="Workflow logo"/>
-                        </div>
+                        </button>
                     </div>
                     <div className="related"/>
                     <div className="related-focus:bg-gray"/>
