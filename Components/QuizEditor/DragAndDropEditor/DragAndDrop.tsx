@@ -5,6 +5,7 @@ import QuizContext from "../QuizContext";
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import ItemCard from "./ItemCard";
 import update from "immutability-helper";
+import JsonDebugBox from "../../JsonDebugBox";
 
 
 
@@ -47,6 +48,7 @@ export const ItemDnd:React.FC<Props> = ({section}) => {
                             {(provided, snapshot) => <div ref={provided.innerRef}
                                                           {...provided.draggableProps}>
                                 <ItemCard
+                                    section={section}
                                     provided={provided}
                                     active={currentItem === itemId}
                                     itemIndex={index}
