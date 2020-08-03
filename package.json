@@ -32,10 +32,11 @@
     "graphql-tag": "^2.10.3",
     "immutability-helper": "^3.1.1",
     "isomorphic-unfetch": "^3.0.0",
+    "isomorphic-ws": "^4.0.1",
     "jsonwebtoken": "latest",
     "lodash": "^4.17.19",
     "next": "9.4.4",
-    "next-auth": "^2.2.0",
+    "next-auth": "^3.1.0",
     "pg": "^8.2.1",
     "react": "16.13.1",
     "react-beautiful-dnd": "^13.0.0",
@@ -44,6 +45,7 @@
     "react-transition-group": "^4.4.1",
     "subscriptions-transport-ws": "^0.9.16",
     "tailwindcss": "^1.4.6",
+    "urql": "^1.10.0",
     "uuid": "^8.2.0"
   },
   "devDependencies": {

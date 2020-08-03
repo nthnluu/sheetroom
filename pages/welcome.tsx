@@ -1,7 +1,9 @@
 import React, {useState} from "react";
 import StepOneRadioGroup from "../Components/WelcomePage/StepOneRadioGroup";
 import StepThreeRadioGroup from "../Components/WelcomePage/StepThreeRadioGroup";
-
+import {GetServerSideProps, InferGetServerSidePropsType} from "next";
+import {getSession} from "next-auth/client";
+import WithGraphQL from "../utils/with-graphql";
 
 const StepOne: React.FC<{ onContinue }> = ({onContinue}) => {
     return (<div>
@@ -91,29 +93,45 @@ const OnboardingPages = ({pageNumber, setCurrentPage}) => {
             return <StepOne onContinue={() => setCurrentPage(2)}/>
             break;
         case(2):
-            return <StepTwo onContinue={() => setCurrentPage(3)} onBack={ () => setCurrentPage(1)}/>
+            return <StepTwo onContinue={() => setCurrentPage(3)} onBack={() => setCurrentPage(1)}/>
             break;
         case(3):
-            return <StepThree onContinue={() => setCurrentPage(4)} onBack={ () => setCurrentPage(2)}/>
+            return <StepThree onContinue={() => setCurrentPage(4)} onBack={() => setCurrentPage(2)}/>
             break;
         case(4):
-            return <StepFour onContinue={() => setCurrentPage(3)} onBack={ () => setCurrentPage(3)}/>
+            return <StepFour onContinue={() => setCurrentPage(3)} onBack={() => setCurrentPage(3)}/>
             break;
     }
 }
 
 
-const WelcomePage: React.FC = () => {
+const WelcomePage: InferGetServerSidePropsType<typeof getServerSideProps> = ({
+                                                                                 session,
+                                                                             }) => {
     const [currentPage, setCurrentPage] = useState(1)
 
     return (
-        <div className="max-w-xl mx-auto h-screen flex items-center">
-            <div className="w-full p-4 md:p-6 text-center">
-                <OnboardingPages pageNumber={currentPage} setCurrentPage={value => setCurrentPage(value)}/>
-            </div>
+        <WithGraphQL session={session}>
+            <div>
+                <div className="max-w-xl mx-auto h-screen flex items-center">
+                    <div className="w-full p-4 md:p-6 text-center">
+                        <OnboardingPages pageNumber={currentPage} setCurrentPage={value => setCurrentPage(value)}/>
+                    </div>
 
-        </div>
+                </div>
+            </div>
+        </WithGraphQL>
     )
 }
+
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
+    const session = await getSession({req});
+
+    return {
+        props: {
+            session,
+        },
+    };
+};
 
 export default WelcomePage
