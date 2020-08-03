@@ -4,7 +4,7 @@ import {getSession} from 'next-auth/client';
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 
 
-const Index: InferGetServerSidePropsType<typeof getServerSideProps> = () => {
+const Index: React.FC = () => {
 
     return (
         <>
@@ -21,11 +21,11 @@ const Index: InferGetServerSidePropsType<typeof getServerSideProps> = () => {
 };
 
 
-export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
-    const session = await getSession({req});
-
-    return {props:{session: session}}
-};
+// export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+//     const session = await getSession({req});
+//
+//     return {props:{session: session}}
+// };
 
 export default Index;
 
