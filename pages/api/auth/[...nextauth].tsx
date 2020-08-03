@@ -29,18 +29,18 @@ const options = {
         // }),
     ],
 
-    // A database is optional, but required to persist accounts in a database
-    database: {
-        type: 'postgres',
-        host: "ec2-52-72-65-76.compute-1.amazonaws.com",
-        port: 5432,
-        username: "rkofrjdyqoidnj",
-        password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
-        database: "d2rnd6jboqu0mq",
-        synchronize: false,
-        ssl: true
-    },
-    // database: process.env.DATABASE_URL,
+    // // A database is optional, but required to persist accounts in a database
+    // database: {
+    //     type: 'postgres',
+    //     host: "ec2-52-72-65-76.compute-1.amazonaws.com",
+    //     port: 5432,
+    //     username: "rkofrjdyqoidnj",
+    //     password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
+    //     database: "d2rnd6jboqu0mq",
+    //     synchronize: false,
+    //     ssl: true
+    // },
+    database: process.env.DATABASE_URL,
 
     callbacks: {
         session: async (session: ISession, user: IUser) => {

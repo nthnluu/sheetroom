@@ -35,12 +35,12 @@ const MuiTheme = createMuiTheme({
 const MyApp = ({Component, pageProps}: AppProps) => {
     const {session} = pageProps;
 
-    return<WithGraphQL session={session}>
+    return <NextAuthProvider session={session}><WithGraphQL session={session}>
         <ThemeProvider theme={MuiTheme}>
-            <NextAuthProvider session={session}>
-                <Component {...pageProps} />
-            </NextAuthProvider></ThemeProvider>
-    </WithGraphQL>;
+
+            <Component {...pageProps} />
+        </ThemeProvider>
+    </WithGraphQL></NextAuthProvider>;
 };
 
 
