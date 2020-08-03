@@ -30,10 +30,13 @@ export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
         res.writeHead(302, {
             Location: '/dashboard'
         });
-        res.end()
+        res.statusCode = 302
         response = {props:{session: session}}
+        res.end()
     } else {
+        res.statusCode = 200
         response = {props:{session: 'anon'}}
+        res.end()
     }
 
     return response
