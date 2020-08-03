@@ -1,5 +1,7 @@
 /* purgecss start ignore */
 @tailwind base;
+/* purgecss end ignore */
+
 @tailwind components;
 
 
@@ -110,10 +112,7 @@ code {
 }
 
 
-/* purgecss end ignore */
 
-/*.multipleChoiceRadioButton {*/
-/*    opacity: 0;*/
-/*}*/
+
 
 @tailwind utilities;
