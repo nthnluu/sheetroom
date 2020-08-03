@@ -7,6 +7,6 @@ interface User {
 interface Session {
     user: User;
     expires: string;
-    userId: number;
-    isNewUser: boolean
+    id: number;
 }
+

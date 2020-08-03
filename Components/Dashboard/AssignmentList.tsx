@@ -2,7 +2,6 @@ import {useQuery} from "urql";
 import gql from "graphql-tag";
 import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import JsonDebugBox from "../JsonDebugBox";
 
 
 const ASSIGNMENTS = gql`

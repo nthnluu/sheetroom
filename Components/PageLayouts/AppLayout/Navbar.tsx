@@ -5,6 +5,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
+import {useMutation, useSubscription} from "urql";
+import {createAssignment} from "../../../lib/graphql/Assignments";
+import {newInitialDocumentContent} from "../../QuizEditor/Templates";
+
 
 interface Props {
     session: object;
@@ -16,6 +20,8 @@ const Navbar: React.FC<Props> = ({session}) => {
     const [newDropdown, toggleNewDropdown] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
 
+    const [createAssignmentResult, createNewAssignment] = useMutation(createAssignment);
+
     return<>
         <Dialog onClose={() => toggleCreateAssignmentDialog(false)} aria-labelledby="simple-dialog-title"
                 open={createAssignmentDialog}>
@@ -24,7 +30,10 @@ const Navbar: React.FC<Props> = ({session}) => {
 
                 <form onSubmit={(event) => {
                     event.preventDefault()
-
+                    // @ts-ignore
+                    createNewAssignment({title: event.target.title.value, content: newInitialDocumentContent(), userId: session.id})
+                        .then((data) => window.location.href = '/edit/assignment/' + data.data.insert_assignments_assignment.returning[0].id)
+                        .catch(() => console.log(createAssignmentResult.error))
 
                 }}>
                     <DialogContent>

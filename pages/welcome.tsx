@@ -4,8 +4,8 @@ import StepThreeRadioGroup from "../Components/WelcomePage/StepThreeRadioGroup";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {getSession} from "next-auth/client";
 import WithGraphQL from "../lib/with-graphql";
-import { useQuery } from "urql";
-import {assignmentSubscription} from "../lib/graphql/AssignmentEditor";
+import {useQuery, useSubscription} from "urql";
+import {assignmentSubscription} from "../lib/graphql/Assignments";
 import JsonDebugBox from "../Components/JsonDebugBox";
 
 const StepOne: React.FC<{ onContinue }> = ({onContinue}) => {
@@ -111,7 +111,7 @@ const OnboardingPages = ({pageNumber, setCurrentPage}) => {
 const WelcomePage: InferGetServerSidePropsType<typeof getServerSideProps> = ({session}) => {
     const [currentPage, setCurrentPage] = useState(1)
 
-    const [result] = useQuery({
+    const [result] = useSubscription({
         query: assignmentSubscription,
         variables: {
             assignmentId: '7a6e9c63-80aa-4188-a89d-72f92ad32170'
