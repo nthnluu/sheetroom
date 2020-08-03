@@ -5,11 +5,7 @@ import jwt from "jsonwebtoken";
 import iToken from "../../../types/token";
 import IUser from "../../../types/user";
 import ISession from "../../../types/session";
-import * as fs from "fs";
-import Adapters from 'next-auth/adapters'
-import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
 
 const options = {
     debug: true,
@@ -22,19 +18,19 @@ const options = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET
         })
     ],
-    adapter: Adapters.Prisma.Adapter({ prisma }),
+    database: process.env.NEXT_PUBLIC_DATABASE_URL,
 
     // A database is optional, but required to persist accounts in a database
-    database: {
-        type: 'postgres',
-        host: "ec2-52-72-65-76.compute-1.amazonaws.com",
-        port: 5432,
-        username: "rkofrjdyqoidnj",
-        password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
-        database: "d2rnd6jboqu0mq",
-        synchronize: false,
-        ssl: true
-    },
+    // database: {
+    //     type: 'postgres',
+    //     host: "ec2-52-72-65-76.compute-1.amazonaws.com",
+    //     port: 5432,
+    //     username: "rkofrjdyqoidnj",
+    //     password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
+    //     database: "d2rnd6jboqu0mq",
+    //     synchronize: false,
+    //     ssl: true
+    // },
     callbacks: {
         session: async (session: ISession, user: IUser) => {
             session.id = user.id;
