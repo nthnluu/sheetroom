@@ -38,7 +38,7 @@ const options = {
         password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
         database: "d2rnd6jboqu0mq",
         synchronize: false,
-extra: {ssl: true}
+        ssl: true 
     },
     // database: process.env.DATABASE_URL,
 
