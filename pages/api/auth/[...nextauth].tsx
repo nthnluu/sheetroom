@@ -23,7 +23,7 @@ const options = {
             clientSecret: "55505558a1d8785347d8d02e9cb5eeeb86f616fd"
         })
     ],
-    // database: "postgres://rkofrjdyqoidnj:5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85@ec2-52-72-65-76.compute-1.amazonaws.com:5432/d2rnd6jboqu0mq?sslmode=require",
+    database: "postgres://rkofrjdyqoidnj:5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85@ec2-52-72-65-76.compute-1.amazonaws.com:5432/d2rnd6jboqu0mq"+"?sslmode=require",
 
     // A database is optional, but required to persist accounts in a database
     // database: {
