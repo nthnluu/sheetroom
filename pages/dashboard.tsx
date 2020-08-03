@@ -13,9 +13,9 @@ const Dashboard: React.FC<Props> = ({session}) => {
     return (
         <>
             <AppLayout session={session}
-            //            content={
-            //     <PageContent session={session}/>
-            // }
+                       content={
+                <PageContent session={session}/>
+            }
             />
         </>
     )

@@ -2,20 +2,17 @@ import React, {useState} from "react";
 import Transition from "../../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import {newInitialDocumentContent} from "../../QuizEditor/Templates";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
-import {useMutation} from "@apollo/react-hooks";
-import {CREATE_ASSIGNMENT} from "../../../gql/getAssignment";
 
 interface Props {
     session: object;
 }
 
 const Navbar: React.FC<Props> = ({session}) => {
-    const [createNewAssignment] = useMutation(CREATE_ASSIGNMENT)
     const [profileDropdown, toggleProfileDropdown] = useState(false);
+    const [mobileMenu, toggleMobileMenu] = useState(false);
     const [newDropdown, toggleNewDropdown] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
 
@@ -27,18 +24,6 @@ const Navbar: React.FC<Props> = ({session}) => {
 
                 <form onSubmit={(event) => {
                     event.preventDefault()
-
-                    createNewAssignment({
-                        variables: {
-                            //@ts-ignore
-                            title: event.currentTarget.title.value,
-                            content: newInitialDocumentContent(),
-                            // @ts-ignore
-                            userId: session.userId
-                        }
-                    })
-                        .then((result) => window.location.href = '/edit/assignment/' + result.data.insert_assignments_assignment.returning[0].id)
-                        .catch((error) => console.log(error));
 
 
                 }}>
@@ -103,18 +88,14 @@ const Navbar: React.FC<Props> = ({session}) => {
                     </div>
                     <div className="flex lg:hidden">
                         {/* Mobile menu button */}
-                        <button
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-600 focus:outline-none focus:bg-gray-600 focus:text-white transition duration-150 ease-in-out"
-                            aria-label="Main menu" aria-expanded="false">
-                            {/* Icon when menu is closed. */}
-                            {/* Menu open: "hidden", Menu closed: "block" */}
-                            <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <button onClick={() => toggleMobileMenu(!mobileMenu)}
+                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:bg-gray-800 focus:text-white transition duration-150 ease-in-out"
+                            aria-label="Main menu" aria-expanded={mobileMenu}>
+                            <svg className={"h-6 w-6 " + (mobileMenu ? "hidden" : "block")} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                                       d="M4 6h16M4 12h8m-8 6h16"/>
                             </svg>
-                            {/* Icon when menu is open. */}
-                            {/* Menu open: "block", Menu closed: "hidden" */}
-                            <svg className="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className={"h-6 w-6 " + (mobileMenu ? "block" : "hidden")} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                                       d="M6 18L18 6M6 6l12 12"/>
                             </svg>
@@ -145,16 +126,6 @@ const Navbar: React.FC<Props> = ({session}) => {
                                     </span>
                                     </div>
 
-                                    {/*// <!--*/}
-                                    {/*//   Dropdown panel, show/hide based on dropdown state.*/}
-                                    {/*//*/}
-                                    {/*//   Entering: "transition ease-out duration-100"*/}
-                                    {/*//     From: "transform opacity-0 scale-95"*/}
-                                    {/*//     To: "transform opacity-100 scale-100"*/}
-                                    {/*//   Leaving: "transition ease-in duration-75"*/}
-                                    {/*//     From: "transform opacity-100 scale-100"*/}
-                                    {/*//     To: "transform opacity-0 scale-95"*/}
-                                    {/*// -->*/}
                                     <Transition appear={newDropdown} show={newDropdown}
                                                 enter="transition ease-out duration-100"
                                                 enterFrom="transform opacity-0 scale-95"
@@ -226,12 +197,7 @@ const Navbar: React.FC<Props> = ({session}) => {
                     </div>
                 </div>
             </div>
-            {/*
-      Mobile menu, toggle classes based on menu state.
-
-      Menu open: "block", Menu closed: "hidden"
-    */}
-            <div className="hidden lg:hidden">
+            <div className={"lg:hidden " + (mobileMenu ? "block" : "hidden")}>
                 <div className="px-2 pt-2 pb-3">
                     <a href="#"
                        className="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-800 focus:outline-none focus:text-gray-100 focus:bg-gray-600 transition duration-150 ease-in-out">Dashboard</a>
