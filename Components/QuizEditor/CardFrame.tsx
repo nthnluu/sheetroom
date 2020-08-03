@@ -10,7 +10,7 @@ interface Props {
     active: boolean;
     item: string;
     itemIndex: number;
-    section: string;
+    section?: string;
 }
 
 

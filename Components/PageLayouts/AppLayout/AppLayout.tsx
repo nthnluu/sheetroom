@@ -5,7 +5,7 @@ import ActivityFeed from "../../Dashboard/ActivityFeed";
 
 interface Props {
     content?: JSX.Element;
-    session: Session
+    session: string;
 }
 
 const AppLayout: React.FC<Props> = ({content, session}) => {
