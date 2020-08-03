@@ -365,7 +365,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
                 </div>
             </div>
         </div>
-        <AssignmentList userId={session.userId}/>
+        <AssignmentList session={session}/>
     </div>)
 }
 

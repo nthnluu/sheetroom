@@ -1,7 +1,6 @@
 import {useQuery} from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import React from "react";
-import JsonDebugBox from "../JsonDebugBox";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ASSIGNMENTS = gql`
@@ -23,13 +22,15 @@ const LoadingPlaceholder = () => {
 };
 
 
-const AssignmentList = ({userId}) => {
-    const {loading, error, data} = useQuery(ASSIGNMENTS, {variables: {userId: userId}});
+interface AssignmentListProps {
+    session: Session;
+}
+
+const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
+    const {loading, error, data} = useQuery(ASSIGNMENTS, {variables: {userId: session.userId}});
     if (loading) return <LoadingPlaceholder/>;
-    if (data === undefined) return <JsonDebugBox content={data}/>;
 
     return (
-
         <ul className="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
             {data.assignments_assignment.map(item => <li
                 className="relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">

@@ -16,6 +16,7 @@ import {newInitialDocumentContent} from "../../../Components/QuizEditor/Template
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
+import JsonDebugBox from "../../../Components/JsonDebugBox";
 
 
 const PageContent: React.FC<{ pageData, aid: string }> = ({pageData, aid}) => {
@@ -143,7 +144,7 @@ const QuizEditor: React.FC = () => {
         <div className="p-2 pr-4">
             <DialogTitle id="simple-dialog-title">There was a problem loading this assignment</DialogTitle>
             <DialogContent>
-                <p>{error}</p>
+                <p>{JSON.stringify(error)}</p>
             </DialogContent>
 
             <DialogActions>
@@ -166,7 +167,10 @@ const QuizEditor: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {loading ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ReturnHome/> : <PageContent pageData={data} aid={aid}/>)}
+            {loading ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ReturnHome/> :
+                // <PageContent pageData={data} aid={aid}/>
+                <JsonDebugBox content={data}/>
+                )}
         </div>
     )
 };

@@ -65,7 +65,6 @@ const options = {
         session: async (session, token) => {
             // The first object is the default session contents that is returned
             // The second object is the NextAuth.js JWT (aways passed if JWT enabled)
-            console.log(token)
             session.userId = token.user.id;
             session.isNewUser = token.isNewUser
 

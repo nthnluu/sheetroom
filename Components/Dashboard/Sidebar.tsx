@@ -1,73 +1,14 @@
-import React, {useState} from "react";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import {initialDocumentContent, newInitialDocumentContent} from "../QuizEditor/Templates";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import Dialog from "@material-ui/core/Dialog";
-import {useMutation} from "@apollo/react-hooks";
-import {CREATE_ASSIGNMENT} from "../../gql/getAssignment";
-import NewButton from "../Dropdowns/NewButton";
+import React from "react";
 
 
 interface Props {
-    session: object;
+    session: Session;
 }
 
-const Sidebar: React.FC<Props> = ({session}) => {
-    const [createNewAssignment] = useMutation(CREATE_ASSIGNMENT)
-    const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
 
+const Sidebar: React.FC<Props> = ({session}) => {
     return (
         <>
-            <Dialog onClose={() => toggleCreateAssignmentDialog(false)} aria-labelledby="simple-dialog-title"
-                    open={createAssignmentDialog}>
-                <div className="p-2 pr-4">
-                    <DialogTitle id="simple-dialog-title">New assignment</DialogTitle>
-
-                    <form onSubmit={(event) => {
-                        event.preventDefault()
-
-                        createNewAssignment({
-                            variables: {
-                                //@ts-ignore
-                                title: event.currentTarget.title.value,
-                                content: newInitialDocumentContent(),
-                                // @ts-ignore
-                                userId: session.userId
-                            }
-                        })
-                            .then((result) => window.location.href = '/edit/assignment/' + result.data.insert_assignments_assignment.returning[0].id)
-                            .catch((error) => console.log(error));
-
-
-                    }}>
-                        <DialogContent>
-                            <div className="w-64 sm:w-96 mb-2">
-                                <label htmlFor="title" className="sr-only">Title</label>
-                                <div className="relative rounded-md shadow-sm">
-                                    <input id="title" className="form-input block w-full sm:leading-6"
-                                           placeholder="Untitled Assignment" defaultValue="Untitled Assignment"
-                                           autoFocus/>
-                                </div>
-                            </div>
-                        </DialogContent>
-
-                        <DialogActions>
-                            <button type="button" onClick={() => toggleCreateAssignmentDialog(false)}
-                                    className="inline-flex items-center px-4 py-2 border border-transparent text-gray-600 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline active:bg-gray-200 transition ease-in-out duration-150">
-                                Cancel
-                            </button>
-                            <button type="submit"
-                                    className="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline active:bg-blue-700 transition ease-in-out duration-150">
-                                Create
-                            </button>
-                        </DialogActions>
-                    </form>
-
-                </div>
-
-
-            </Dialog>
         <div className="xl:flex-shrink-0 xl:w-64 xl:border-r xl:border-gray-200 bg-white">
         <div className="pl-4 pr-6 py-6 sm:pl-6 lg:pl-8 xl:pl-0">
             <div className="flex items-center justify-between">
@@ -100,22 +41,22 @@ const Sidebar: React.FC<Props> = ({session}) => {
                             </div>
                         </div>
                         {/* Action buttons */}
-                        <div
-                            className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">
-                            <span className="inline-flex rounded-md shadow-sm">
+                        {/*<div*/}
+                        {/*    className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">*/}
+                        {/*    <span className="inline-flex rounded-md shadow-sm">*/}
 
-                            <button type="button" onClick={() => toggleCreateAssignmentDialog(true)}
-                                    className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                              New Assignment
-                            </button>
-                          </span>
-                            <span className="inline-flex rounded-md shadow-sm">
-                            <button type="button"
-                                    className="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                              Assign to Class
-                            </button>
-                          </span>
-                        </div>
+                        {/*    <button type="button" onClick={() => toggleCreateAssignmentDialog(true)}*/}
+                        {/*            className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">*/}
+                        {/*      New Assignment*/}
+                        {/*    </button>*/}
+                        {/*  </span>*/}
+                        {/*    <span className="inline-flex rounded-md shadow-sm">*/}
+                        {/*    <button type="button"*/}
+                        {/*            className="w-full inline-flex items-center justify-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">*/}
+                        {/*      Assign to Class*/}
+                        {/*    </button>*/}
+                        {/*  </span>*/}
+                        {/*</div>*/}
                     </div>
                     {/* Meta info */}
                     <div
