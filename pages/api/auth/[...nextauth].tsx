@@ -5,6 +5,11 @@ import jwt from "jsonwebtoken";
 import iToken from "../../../types/token";
 import IUser from "../../../types/user";
 import ISession from "../../../types/session";
+import * as fs from "fs";
+import Adapters from 'next-auth/adapters'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 const options = {
     debug: true,
@@ -17,6 +22,7 @@ const options = {
             clientSecret: process.env.GOOGLE_CLIENT_SECRET
         })
     ],
+    adapter: Adapters.Prisma.Adapter({ prisma }),
 
     // A database is optional, but required to persist accounts in a database
     database: {
@@ -27,7 +33,7 @@ const options = {
         password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
         database: "d2rnd6jboqu0mq",
         synchronize: false,
-        ssl: true,
+        ssl: true
     },
     callbacks: {
         session: async (session: ISession, user: IUser) => {
