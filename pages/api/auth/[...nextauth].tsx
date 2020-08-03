@@ -59,7 +59,7 @@ const options = {
         },
     },
     session: {
-        jwt: false,
+        jwt: true,
     },
     jwt: {
         encode: async ({ token, secret }: { token: iToken; secret: string }) => {
