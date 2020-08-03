@@ -21,20 +21,19 @@ const Dashboard: React.FC<Props> = ({session}) => {
     )
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    if (typeof window === 'undefined') {
-        const session = await getSession(context);
-        if (!session || !session.user) {
-            context.res.writeHead(302, {
-                Location: '/api/auth/signin'
-            });
-            context.res.end();
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+    const session = await getSession({ req });
 
-        } else {
-            return {props: {session: session, user: session.user}}
-        }
+    if (!session) {
+        res.writeHead(301, {location: '/'})
+        res.end()
     }
-};
 
+    return {
+        props: {
+            session,
+        },
+    };
+};
 
 export default Dashboard;

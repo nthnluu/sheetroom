@@ -7,7 +7,7 @@ import IUser from "../../../types/user";
 import ISession from "../../../types/session";
 
 const options = {
-    debug: false,
+    debug: true,
     site: process.env.SITE || 'http://localhost:3000',
 
     // Configure one or more authentication providers
@@ -15,18 +15,7 @@ const options = {
         Providers.Google({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET
-        }),
-        // Providers.Email({
-        //     server: {
-        //         host: process.env.EMAIL_SERVER_HOST,
-        //         port: process.env.EMAIL_SERVER_PORT,
-        //         auth: {
-        //             user: process.env.EMAIL_SERVER_USER,
-        //             pass: process.env.EMAIL_SERVER_PASSWORD
-        //         }
-        //     },
-        //     from: process.env.EMAIL_FROM
-        // }),
+        })
     ],
 
     // A database is optional, but required to persist accounts in a database
@@ -37,22 +26,16 @@ const options = {
         username: "rkofrjdyqoidnj",
         password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
         database: "d2rnd6jboqu0mq",
-        synchronize: true,
-        extra: {
-          ssl: true
-          }
+        synchronize: false,
+        ssl: true,
     },
-    // database: process.env.DATABASE_URL,
-
     callbacks: {
         session: async (session: ISession, user: IUser) => {
             session.id = user.id;
-
             return Promise.resolve(session);
         },
         jwt: async (token: iToken, user: IUser) => {
-            const isSignIn = user ? true : false;
-
+            const isSignIn = !!user;
             if (isSignIn) {
                 token.id = user.id;
             }
@@ -74,6 +57,7 @@ const options = {
                     "x-hasura-allowed-roles": ["admin", "user"],
                     "x-hasura-default-role": "user",
                     "x-hasura-user-id": token.id,
+                    "x-hasura-admin-secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS"
                 },
                 iat: Date.now() / 1000,
                 exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,

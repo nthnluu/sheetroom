@@ -23,11 +23,20 @@ const Index: React.FC = () => {
 };
 
 
-// export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
-//     const session = await getSession({req});
-//
-//     return {props:{session: session}}
-// };
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+    const session = await getSession({ req });
+
+    if (session) {
+        res.writeHead(301, {location: '/dashboard'})
+        res.end()
+    }
+
+    return {
+        props: {
+            session,
+        },
+    };
+};
 
 export default Index;
 
