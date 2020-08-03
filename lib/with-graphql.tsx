@@ -29,7 +29,9 @@ const WithGraphQL = ({
         url: process.env.NEXT_PUBLIC_API_URL || "http://api.sheetroom.com/v1/graphql",
         fetch,
         fetchOptions: {
-            headers: { "X-Hasura-User-Id": userIdInString, "X-Hasura-Admin-Secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS" },
+            headers: {
+                "X-Hasura-User-Id": userIdInString ? userIdInString : undefined,
+                "X-Hasura-Admin-Secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS" },
         },
         requestPolicy: "cache-and-network",
         exchanges: [

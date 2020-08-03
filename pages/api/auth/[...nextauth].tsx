@@ -7,7 +7,7 @@ import IUser from "../../../types/user";
 import ISession from "../../../types/session";
 
 const options = {
-    debug: false,
+    debug: true,
     site: process.env.SITE || 'http://localhost:3000',
 
     // Configure one or more authentication providers
