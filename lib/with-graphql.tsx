@@ -12,7 +12,7 @@ const WithGraphQL = ({
     session: session;
     children: ReactNode;
 }) => {
-    const userIdInString = session.id ? session.id.toString() : 'annon';
+    const userIdInString = session ? (session.id ? session.id.toString() : 'annon') : 'anon';
 
     const subscriptionClient = new SubscriptionClient(
         process.env.NEXT_PUBLIC_WS_URL || "ws://api.homework.gg/v1/graphql",
