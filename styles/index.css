@@ -1,7 +1,7 @@
 /* purgecss start ignore */
 @tailwind base;
 @tailwind components;
-/* purgecss end ignore */
+
 
 blockquote {
     @apply p-3 border rounded text-lg border-gray-200 my-4
@@ -110,6 +110,7 @@ code {
 }
 
 
+/* purgecss end ignore */
 
 /*.multipleChoiceRadioButton {*/
 /*    opacity: 0;*/
