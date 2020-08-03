@@ -5,7 +5,7 @@ import AssignmentList from "./AssignmentList";
 
 
 interface Props {
-    session: Session;
+    session: string;
 }
 
 

@@ -24,13 +24,15 @@ const LoadingPlaceholder = () => {
 
 
 interface AssignmentListProps {
-    session: Session;
+    session: string;
 }
 
 const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
+
     const [result] = useQuery({
         query: ASSIGNMENTS,
         variables: {
+            // @ts-ignore
             userId: session.id
         }
     });

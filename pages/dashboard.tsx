@@ -5,7 +5,7 @@ import PageContent from "../Components/Dashboard/Content";
 import AppLayout from "../Components/PageLayouts/AppLayout/AppLayout";
 
 interface Props {
-    session: Session;
+    session: string;
 }
 
 const Dashboard: React.FC<Props> = ({session}) => {

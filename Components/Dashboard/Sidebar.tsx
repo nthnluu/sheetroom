@@ -2,7 +2,7 @@ import React from "react";
 
 
 interface Props {
-    session: Session;
+    session: string;
 }
 
 

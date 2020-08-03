@@ -1,7 +1,7 @@
 import React from "react";
 
 interface Props {
-    session: object;
+    session: string;
     sidebar: JSX.Element;
     mainContent: JSX.Element;
 }

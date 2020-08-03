@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import ProjectList from "./ProjectList";
 
 interface Props {
-    session: Session;
+    session: string;
 }
 
 
