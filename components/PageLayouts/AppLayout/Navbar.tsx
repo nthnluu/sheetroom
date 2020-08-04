@@ -114,7 +114,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
                         </button>
                     </div>
                     {/* Links section */}
-                    <div className="hidden lg:block lg:w-80">
+                    <div className="hidden lg:block lg:w-80 ml-4">
                         <div className="flex items-center justify-end">
                             <div className="flex">
                                 <a href="#"
