@@ -1,8 +1,8 @@
 import React from 'react';
 import {getSession} from 'next-auth/client'
 import {GetServerSideProps} from "next";
-import PageContent from "../Components/Dashboard/Content";
-import AppLayout from "../Components/PageLayouts/AppLayout/AppLayout";
+import PageContent from "../components/Dashboard/Content";
+import AppLayout from "../components/PageLayouts/AppLayout/AppLayout";
 
 interface Props {
     session: string;

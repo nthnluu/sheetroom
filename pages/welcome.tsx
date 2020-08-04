@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import StepOneRadioGroup from "../Components/WelcomePage/StepOneRadioGroup";
-import StepThreeRadioGroup from "../Components/WelcomePage/StepThreeRadioGroup";
+import StepOneRadioGroup from "../components/WelcomePage/StepOneRadioGroup";
+import StepThreeRadioGroup from "../components/WelcomePage/StepThreeRadioGroup";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {getSession} from "next-auth/client";
 

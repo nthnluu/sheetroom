@@ -1,4 +1,4 @@
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 import React, {useState} from 'react';
 import {getSession} from 'next-auth/client';
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
