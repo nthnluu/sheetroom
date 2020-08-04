@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import ItemDnd from "./DragAndDrop";
-import JsonDebugBox from "../../JsonDebugBox";
 import QuizContext from "../QuizContext";
 import update from "immutability-helper";
 import {v4 as uuidv4} from 'uuid';
@@ -11,7 +10,7 @@ interface Props {
 }
 
 const Section: React.FC<Props> = ({section, index}) => {
-    const {document, setDocument} = useContext(QuizContext)
+    const {setDocument} = useContext(QuizContext)
 
     const addMcItem = () => {
 

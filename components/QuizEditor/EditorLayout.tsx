@@ -2,7 +2,6 @@ import React from "react";
 import Head from "next/head";
 import Navbar from "./Navbar";
 import Content from "./Content";
-import {Navbar as PageNavbar} from "../PageLayouts/AppLayout/Navbar"
 
 interface Props {
     windowTitle: string;

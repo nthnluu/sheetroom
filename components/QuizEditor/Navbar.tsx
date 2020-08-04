@@ -8,12 +8,11 @@ import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 
 export default function ({session, content, pageData}) {
-    const {saveError, saveStatus, undo, clientId, setSaveStatus} = useContext(QuizContext);
+    const {saveError, saveStatus, clientId, setSaveStatus} = useContext(QuizContext);
     const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
 
 
     // State for menus
-    const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
 
 
@@ -26,10 +25,9 @@ export default function ({session, content, pageData}) {
     const id = open ? 'simple-popper' : undefined;
 
 
-
     return (
         <div className="w-full z-50 shadow-sm">
-            <PageNavbar session={session} unfixed />
+            <PageNavbar session={session} unfixed/>
             <nav className=" w-full z-50 sticky top-0 bg-white border-b border-gray-200">
                 <div className="mx-auto px-2 sm:px-4 lg:px-8">
                     <div className="flex justify-between h-16">
@@ -41,11 +39,15 @@ export default function ({session, content, pageData}) {
                                            placeholder="Untitled Assignment"
                                            className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
                                            defaultValue={pageData.assignments_assignment_by_pk.title} onBlur={event => {
-                                               setSaveStatus(1)
-                                               mutateTitle({title: event.target.value, assignmentId: pageData.assignments_assignment_by_pk.id, clientId: clientId})
-                                                   .then(() => setSaveStatus(0))
-                                                   .catch(() => setSaveStatus(2));
-                                           }}
+                                        setSaveStatus(1)
+                                        mutateTitle({
+                                            title: event.target.value,
+                                            assignmentId: pageData.assignments_assignment_by_pk.id,
+                                            clientId: clientId
+                                        })
+                                            .then(() => setSaveStatus(0))
+                                            .catch(() => setSaveStatus(2));
+                                    }}
                                     /></NewTooltip>
                             </div>
                         </div>
@@ -68,13 +70,17 @@ export default function ({session, content, pageData}) {
                         </div>
                         <div className="hidden lg:ml-4 lg:flex lg:items-center">
                             <div className="space-x-2">
-                                <button type="button" aria-describedby={id} onClick={handleClick}
-                                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
-                                    {saveStatus === 2 ?
-                                        <span className="text-red-500"><i className="fas fa-exclamation-circle mr-2"/>Error</span> : (saveStatus === 1 ?
-                                            <span><i className="fas fa-sync-alt mr-2 fa-spin text-gray-400"/>Saving</span> :
-                                            <span><i className="fas fa-check mr-2 text-green-500"/>Saved</span>)}
-                                </button>
+                                <NewTooltip title="All changes saved" placement="bottom" arrow enterDelay={500}
+                                            enterNextDelay={500}>
+                                    <button type="button" aria-describedby={id} onClick={handleClick}
+                                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                        {saveStatus === 2 ?
+                                            <span className="text-red-500"><i
+                                                className="fas fa-exclamation-circle mr-2"/>Error</span> : (saveStatus === 1 ?
+                                                <span><i className="fas fa-sync-alt mr-2 fa-spin text-gray-400"/>Saving</span> :
+                                                <span><i className="fas fa-check mr-2 text-green-500"/>Saved</span>)}
+                                    </button>
+                                </NewTooltip>
                                 <Popper id={id} open={open} anchorEl={anchorEl}>
                                     <div className="z-50 mt-4 bg-white rounded-lg shadow-lg max-w-sm">
                                         {saveError ? <div className="p-4 rounded-t-lg text-red-600 text-center"><i
