@@ -4,7 +4,6 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
 
     important: true,
-    purge: ['./components/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}'],
     theme: {
         extend: {
             spacing: {
