@@ -175,7 +175,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
                                             {/*// @ts-ignore*/}
                                             <img className="h-8 w-8 rounded-full"
                                                 // @ts-ignore
-                                                 src={session.user.image ? session.user.image : "https://lh3.googleusercontent.com/proxy/Ge8IjXjwr-9jS3f5_gnxcIyi1OFQ-IMWCvHtmpCze2EeQi2TqNgtMx1oVZoFhiHATpISTmeXCZ_uQfiiauO2R6uEBFFLwI86huh6RNZjXn2csWFM6GIhulXwJ50oXU2Jb3I"}
+                                                 src={session.picture ? session.picture : "https://lh3.googleusercontent.com/proxy/Ge8IjXjwr-9jS3f5_gnxcIyi1OFQ-IMWCvHtmpCze2EeQi2TqNgtMx1oVZoFhiHATpISTmeXCZ_uQfiiauO2R6uEBFFLwI86huh6RNZjXn2csWFM6GIhulXwJ50oXU2Jb3I"}
                                                  alt=""/>
                                         </button>
                                     </div>

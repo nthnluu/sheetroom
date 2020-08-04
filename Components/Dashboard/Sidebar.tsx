@@ -20,7 +20,7 @@ const Sidebar: React.FC<Props> = ({session}) => {
                             <div className="flex-shrink-0 h-12 w-12">
                                 <img className="h-12 w-12 rounded-full"
                                     // @ts-ignore
-                                     src={session.user.image ? session.user.image : "https://lh3.googleusercontent.com/proxy/Ge8IjXjwr-9jS3f5_gnxcIyi1OFQ-IMWCvHtmpCze2EeQi2TqNgtMx1oVZoFhiHATpISTmeXCZ_uQfiiauO2R6uEBFFLwI86huh6RNZjXn2csWFM6GIhulXwJ50oXU2Jb3I"}
+                                     src={session.picture ? session.picture : "https://lh3.googleusercontent.com/proxy/Ge8IjXjwr-9jS3f5_gnxcIyi1OFQ-IMWCvHtmpCze2EeQi2TqNgtMx1oVZoFhiHATpISTmeXCZ_uQfiiauO2R6uEBFFLwI86huh6RNZjXn2csWFM6GIhulXwJ50oXU2Jb3I"}
                                      alt=""/>
                             </div>
 
@@ -35,7 +35,7 @@ const Sidebar: React.FC<Props> = ({session}) => {
                                     {/*</svg>*/}
                                     <div
                                         // @ts-ignore
-                                        className="text-sm leading-5 text-gray-500 group-hover:text-gray-900 font-medium">{session.user.email}
+                                        className="text-sm leading-5 text-gray-500 group-hover:text-gray-900 font-medium">{session.email}
                                     </div>
                                 </a>
                             </div>
