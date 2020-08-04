@@ -1,5 +1,7 @@
+// postcss.config.js
 module.exports = {
-    "plugins": [
+    plugins: [
+        'tailwindcss',
         process.env.NODE_ENV === 'production'
             ? [
                 '@fullhuman/postcss-purgecss',
@@ -12,19 +14,6 @@ module.exports = {
                 },
             ]
             : undefined,
-        'tailwindcss',
-        "postcss-flexbugs-fixes",
-        [
-            "postcss-preset-env",
-            {
-                "autoprefixer": {
-                    "flexbox": "no-2009"
-                },
-                "stage": 3,
-                "features": {
-                    "custom-properties": false
-                }
-            }
-        ]
-    ]
+        'autoprefixer'
+    ],
 }
