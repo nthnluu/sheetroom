@@ -43,7 +43,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
             const newData = update(prevState, {
                 items: {
                     [item]: {
-                        correct_objects: {$set: [[choice]]}
+                        correct_objects: {$set: [choice]}
                     }
                 }
             })
@@ -65,8 +65,8 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                 </span> : null}
 
                 <span className={"table-cell w-full pointer-events-auto " + (active ? "p-2" : "p-1")}>
-<QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
-             value={document.answer_objects[choice].content} active={active} placeholder="Option"/>
+                    <QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
+                                 value={document.answer_objects[choice].content} active={active} placeholder="Option"/>
                 </span>
                 <div className="flex justify-between space-x-3">
                     {(active && !isCorrect) ?
