@@ -93,7 +93,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
                                     </div>
                                     <input id="search"
                                            className="block w-full pl-10 pr-3 py-2 border border-transparent rounded-md leading-5 bg-gray-400 bg-opacity-25 text-gray-300 placeholder-gray-300 focus:outline-none focus:bg-white focus:placeholder-gray-400 focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out"
-                                           placeholder="Search to your heart's desire and cum!" type="search"/>
+                                           placeholder="Search" type="search"/>
                                 </div>
                             </div>
                         </div>
