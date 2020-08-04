@@ -5,7 +5,7 @@ import NewTooltip from "../Misc/Tooltip";
 import Popper from '@material-ui/core/Popper';
 import {Navbar as PageNavbar} from "../PageLayouts/AppLayout/Navbar";
 
-export default function ({session}) {
+export default function ({session, content}) {
     const {saveError, saveStatus, undo} = useContext(QuizContext);
 
 
@@ -28,9 +28,9 @@ export default function ({session}) {
 
 
     return (
-        <div className="fixed w-full z-50 shadow-sm">
+        <div className="w-full z-50 shadow-sm">
             <PageNavbar session={session} unfixed />
-            <nav className=" w-full z-50 bg-white border-b border-gray-200">
+            <nav className=" w-full z-50 sticky top-0 bg-white border-b border-gray-200">
                 <div className="mx-auto px-2 sm:px-4 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex px-2 lg:px-0">
@@ -148,6 +148,7 @@ export default function ({session}) {
                     </div>
                 </div> : null}
             </nav>
+            {content}
 
         </div>
 
