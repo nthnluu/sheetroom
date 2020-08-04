@@ -5,7 +5,7 @@ const Navbar: React.FC = ()  => {
 
     const [currentFlyout, setFlyout] = useState(0);
     const [mobileMenu, toggleMobileMenu] = useState(false);
-    // @ts-ignore
+
     // @ts-ignore
     return (
         // <!-- This example requires Tailwind CSS v1.4.0+ -->
