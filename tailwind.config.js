@@ -2,22 +2,11 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-    // purge: [
-    //     './src/**/*.html',
-    //     './src/**/*.vue',
-    //     './src/**/*.jsx',
-    //     './src/**/*.tsx',
-    // ],
-    important: true,
     theme: {
         extend: {
             spacing: {
                 ...defaultTheme.spacing,
                 '86': '20rem'
-            },
-            colors: {
-                // darkGray: '#323248',
-                // ...defaultTheme.colors
             },
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
@@ -42,8 +31,6 @@ module.exports = {
         visibility: ['responsive', 'group-hover']
     },
     plugins: [
-        require('@tailwindcss/ui')({
-            layout: 'sidebar',
-        }),
+        require('@tailwindcss/ui')
     ]
 };
