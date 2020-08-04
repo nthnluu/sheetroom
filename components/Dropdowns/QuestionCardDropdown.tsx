@@ -49,6 +49,7 @@ const QuestionCardDropdown: React.FC<Props> = ({item}) => {
                 >
                     <MenuItem value="MC" disableRipple>Multiple Choice</MenuItem>
                     <MenuItem value="MA" disableRipple>Multiple Answers</MenuItem>
+                    <MenuItem value="SA" disableRipple>Short Answer</MenuItem>
                 </Select>
             </FormControl>
         </NewTooltip>
