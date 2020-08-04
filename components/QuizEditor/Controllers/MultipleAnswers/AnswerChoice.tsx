@@ -90,7 +90,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                             </button>
                         </NewTooltip> : null}
                     {isCorrect ? <button onClick={() => markAsCorrect()}><i className="fas fa-check-square text-xl table-cell"/></button> : (active ?
-                        <NewTooltip title="Set as correct answer" placement="bottom" enterDelay={500}
+                        <NewTooltip title="Mark as correct" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                             <button onClick={() => markAsCorrect()}><i
                                 className="far fa-square text-xl table-cell text-gray-300"/></button>
