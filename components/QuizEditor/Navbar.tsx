@@ -4,18 +4,17 @@ import QuizContext from "./QuizContext";
 import NewTooltip from "../Misc/Tooltip";
 import Popper from '@material-ui/core/Popper';
 import {Navbar as PageNavbar} from "../PageLayouts/AppLayout/Navbar";
+import {useMutation} from "urql";
+import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 
-export default function ({session, content}) {
-    const {saveError, saveStatus, undo} = useContext(QuizContext);
+export default function ({session, content, pageData}) {
+    const {saveError, saveStatus, clientId, setSaveStatus} = useContext(QuizContext);
+    const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
 
 
     // State for menus
-    const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
 
-
-    // State for tracking the value of the title input field
-    const [inputValue, setInputValue] = useState();
 
     // Popper Shit
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,10 +25,9 @@ export default function ({session, content}) {
     const id = open ? 'simple-popper' : undefined;
 
 
-
     return (
         <div className="w-full z-50 shadow-sm">
-            <PageNavbar session={session} unfixed />
+            <PageNavbar session={session} unfixed/>
             <nav className=" w-full z-50 sticky top-0 bg-white border-b border-gray-200">
                 <div className="mx-auto px-2 sm:px-4 lg:px-8">
                     <div className="flex justify-between h-16">
@@ -40,9 +38,17 @@ export default function ({session, content}) {
                                     <input style={{textOverflow: "ellipsis"}}
                                            placeholder="Untitled Assignment"
                                            className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
-                                           value={inputValue}
-                                        // @ts-ignore
-                                           onChange={event => setInputValue(event.target.value)}/></NewTooltip>
+                                           defaultValue={pageData.assignments_assignment_by_pk.title} onBlur={event => {
+                                        setSaveStatus(1)
+                                        mutateTitle({
+                                            title: event.target.value,
+                                            assignmentId: pageData.assignments_assignment_by_pk.id,
+                                            clientId: clientId
+                                        })
+                                            .then(() => setSaveStatus(0))
+                                            .catch(() => setSaveStatus(2));
+                                    }}
+                                    /></NewTooltip>
                             </div>
                         </div>
                         <div className="flex items-center lg:hidden">
@@ -63,28 +69,18 @@ export default function ({session, content}) {
                             </button>
                         </div>
                         <div className="hidden lg:ml-4 lg:flex lg:items-center">
-                            {/*<button*/}
-                            {/*    className="flex-shrink-0 p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition duration-150 ease-in-out"*/}
-                            {/*    aria-label="Notifications">*/}
-                            {/*    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">*/}
-                            {/*        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"*/}
-                            {/*              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>*/}
-                            {/*    </svg>*/}
-                            {/*</button>*/}
-
-                            {/*// <!-- Profile dropdown -->*/}
                             <div className="space-x-2">
-                                <button type="button" aria-describedby={id} onClick={() => undo()}
-                                        className="inline-flex items-center px-2 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
-                                    <span className="text-gray-500"><i className="fas fa-undo"/></span>
-                                </button>
-                                <button type="button" aria-describedby={id} onClick={handleClick}
-                                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
-                                    {saveStatus === 2 ?
-                                        <span className="text-red-500"><i className="fas fa-exclamation-circle mr-2"/>Error</span> : (saveStatus === 1 ?
-                                            <span><i className="fas fa-sync-alt mr-2 fa-spin text-gray-400"/>Saving</span> :
-                                            <span><i className="fas fa-check mr-2 text-green-500"/>Saved</span>)}
-                                </button>
+                                <NewTooltip title="All changes saved" placement="bottom" arrow enterDelay={500}
+                                            enterNextDelay={500}>
+                                    <button type="button" aria-describedby={id} onClick={handleClick}
+                                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                        {saveStatus === 2 ?
+                                            <span className="text-red-500"><i
+                                                className="fas fa-exclamation-circle mr-2"/>Error</span> : (saveStatus === 1 ?
+                                                <span><i className="fas fa-sync-alt mr-2 fa-spin text-gray-400"/>Saving</span> :
+                                                <span><i className="fas fa-check mr-2 text-green-500"/>Saved</span>)}
+                                    </button>
+                                </NewTooltip>
                                 <Popper id={id} open={open} anchorEl={anchorEl}>
                                     <div className="z-50 mt-4 bg-white rounded-lg shadow-lg max-w-sm">
                                         {saveError ? <div className="p-4 rounded-t-lg text-red-600 text-center"><i

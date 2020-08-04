@@ -5,6 +5,8 @@ import QuizContext from "./QuizContext";
 import MultipleAnswersController from "./Controllers/MultipleAnswers/MultipleAnswers";
 import QuillEditor from "../Editor/QuillEditor";
 import update from "immutability-helper";
+import NewTooltip from "../Misc/Tooltip";
+import {ShortAnswerController} from "./Controllers/ShortAnswer/ShortAnswer";
 
 interface Props {
     active: boolean;
@@ -20,6 +22,8 @@ const Controller = ({type, item, active}) => {
             return <MultipleChoiceController item={item} active={active}/>
         case("MA"):
             return <MultipleAnswersController active={active} item={item}/>
+        case("SA"):
+            return <ShortAnswerController active={active} item={item}/>
         default:
             return <p className="w-full p-3 text-red-600 border border-red-600 rounded-lg"><i
                 className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact
@@ -73,7 +77,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section}) => {
 
     return (
         <div
-            className={"bg-white focus:shadow-outline w-full pt-2 px-4 sm:px-6 md:px-8 focus:outline-none rounded-lg " + (!active ? ' pb-8' : null)}>
+            className={"bg-white focus:shadow-outline w-full pt-2 px-4 sm:px-6 focus:outline-none rounded-lg " + (!active ? ' pb-8' : null)}>
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
@@ -88,13 +92,18 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section}) => {
                 <div className="max-w-2xl">
                     <QuestionCardDropdown item={item}/>
                 </div>
-                <button type="button" onClick={() => deleteItem()}
-                        className="inline-flex text-center items-center h-10 w-10 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
-                    <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M6 18L18 6M6 6L18 18" strokeWidth="2" strokeLinecap="round" className="stroke-current"
-                              strokeLinejoin="round"/>
-                    </svg>
-                </button>
+
+                <NewTooltip title="Delete item" placement="bottom" enterDelay={500}
+                            enterNextDelay={500}>
+                    <button type="button" onClick={() => deleteItem()}
+                            className="inline-flex text-center items-center h-10 w-10 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
+                        <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 18L18 6M6 6L18 18" strokeWidth="2" strokeLinecap="round"
+                                  className="stroke-current"
+                                  strokeLinejoin="round"/>
+                        </svg>
+                    </button>
+                </NewTooltip>
             </div> : null}
 
         </div>

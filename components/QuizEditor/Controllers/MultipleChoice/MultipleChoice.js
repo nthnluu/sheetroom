@@ -22,14 +22,14 @@ export const MultipleChoiceController = ({active, item}) => {
         }
         setDocument(prevState => {
             const newData = update(prevState, {
-                    items: {
-                        [item]: {
-                            answer_objects: {
-                                $set: arrayMove(prevState.items[item].answer_objects, result.source.index, result.destination.index)
-                            }
+                items: {
+                    [item]: {
+                        answer_objects: {
+                            $set: arrayMove(prevState.items[item].answer_objects, result.source.index, result.destination.index)
                         }
                     }
-                })
+                }
+            })
 
             return newData
         })
@@ -48,22 +48,9 @@ export const MultipleChoiceController = ({active, item}) => {
                                 content: "<p><br/></p>"
                             }
                         }
-                }
-                }
-            )
-            return newData
-        })
-    }
-
-    const saveChoiceContent = (newValue, choiceId) => {
-        setDocument(prevState => {
-            const newData = update(prevState, {
-                answer_objects: {
-                    [choiceId]: {
-                        content: {$set: newValue}
                     }
                 }
-            })
+            )
             return newData
         })
     }
@@ -79,14 +66,12 @@ export const MultipleChoiceController = ({active, item}) => {
                             <ul {...provided.droppableProps} ref={provided.innerRef}>
                                 {document.items[item].answer_objects.map((answerId, index) => (
                                     <Draggable draggableId={answerId}
-                                               index={index} key={answerId+"pineappe"}>
+                                               index={index} key={answerId + "pineappe"}>
                                         {(provided, snapshot) =>
-                                            <li className="pb-4"  key={answerId+"pinee"} ref={provided.innerRef}
+                                            <li className="pb-4" key={answerId + "pinee"} ref={provided.innerRef}
                                                 {...provided.draggableProps}>
-
-
                                                 <AnswerChoice choice={answerId} active={true}
-                                                              key={answerId+"pinedqwdappe"}
+                                                              key={answerId + "pinedqwdappe"}
                                                               isCorrect={document.items[item].correct_objects.includes(answerId)}
                                                               item={item}
                                                               answerIndex={index}
@@ -109,27 +94,12 @@ export const MultipleChoiceController = ({active, item}) => {
                             New Option
                         </button>
                     </div>
-                    <div>
-                        <button type="button" onClick={() =>
-                            addAnswerChoice()
-                        }
-                                className="items-center px-2 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
-                            All of the above
-                        </button>
-                    </div>
-                    <div>
-                        <button type="button" onClick={() =>
-                            addAnswerChoice()
-                        }
-                                className="items-center px-2 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
-                            None of the above
-                        </button>
-                    </div>
                 </div>
             </div> : <div className="space-y-4">
-                {document.items[item].answer_objects.map(answerId => <AnswerChoice key={answerId+"inactivemc"} choice={answerId}
-                                                                          isCorrect={document.items[item].correct_objects.includes(answerId)}
-                                                                          active={false}/>)}
+                {document.items[item].answer_objects.map(answerId => <AnswerChoice key={answerId + "inactivemc"}
+                                                                                   choice={answerId}
+                                                                                   isCorrect={document.items[item].correct_objects.includes(answerId)}
+                                                                                   active={false}/>)}
             </div>}
         </div>
 

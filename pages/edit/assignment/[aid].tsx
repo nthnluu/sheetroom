@@ -78,7 +78,7 @@ const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({page
         }}>
 
             {/*// @ts-ignore*/}
-            <EditorLayout aid={aid} windowTitle="Sheetroom" session={session}/>
+            <EditorLayout aid={aid} pageData={pageData} windowTitle="Sheetroom" session={session}/>
         </QuizContext.Provider>
     )
 };

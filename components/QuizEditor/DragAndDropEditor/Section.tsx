@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import ItemDnd from "./DragAndDrop";
-import JsonDebugBox from "../../JsonDebugBox";
 import QuizContext from "../QuizContext";
 import update from "immutability-helper";
 import {v4 as uuidv4} from 'uuid';
@@ -11,7 +10,7 @@ interface Props {
 }
 
 const Section: React.FC<Props> = ({section, index}) => {
-    const {document, setDocument} = useContext(QuizContext)
+    const {setDocument} = useContext(QuizContext)
 
     const addMcItem = () => {
 
@@ -38,7 +37,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                     answer_objects: {
                         [newObjectId]: {
                             $set: {
-                                content: "<p>Cum!</p>"
+                                content: "<p>Option</p>"
                             }
                         }
                     }
@@ -50,8 +49,8 @@ const Section: React.FC<Props> = ({section, index}) => {
 
     return (
         <div className="mb-8">
-            <div className="bg-white border px-8 py-6 text-gray-700 rounded-lg mb-2">
-                <h1 className="text-xl font-semibold">Section {index + 1}</h1>
+            <div className="mb-4">
+                <h1 className="text-2xl text-gray-800 font-semibold ">Section {index + 1}</h1>
             </div>
             <ItemDnd section={section}/>
             <div>
