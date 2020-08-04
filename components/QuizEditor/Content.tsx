@@ -17,7 +17,7 @@ const Content: React.FC<Props> = ({}) => {
     const {invalidSession, saveStatus, document, setDocument, aid} = useContext(QuizContext)
 
 
-    return (<main className="pt-32">
+    return (<main className="pt-0">
         <div className="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div className="px-4 py-8 sm:px-0">
                 <div key={aid} className="max-w-7xl mx-auto">

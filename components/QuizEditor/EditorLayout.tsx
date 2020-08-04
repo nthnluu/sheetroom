@@ -21,8 +21,8 @@ const EditorLayout: React.FC<Props> = ({windowTitle, session}) => {
             </Head>
             {/*// @ts-ignore*/}
 
-            <Navbar  session={session}/>
-            <Content/>
+            <Navbar  session={session} content={<Content/>}/>
+
         </div>
     )
 
