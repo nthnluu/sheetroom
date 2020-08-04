@@ -64,7 +64,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                     {dragHandler}
                 </span> : null}
 
-                <span className={"table-cell w-full pointer-events-auto " + (active ? "p-3" : "p-1")}>
+                <span className={"table-cell w-full pointer-events-auto " + (active ? "p-1" : "p-0")}>
 <QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
              value={document.answer_objects[choice].content} active={active} placeholder="Option"/>
                 </span>
