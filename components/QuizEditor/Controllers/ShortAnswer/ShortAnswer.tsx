@@ -25,7 +25,7 @@ export const ShortAnswerController: React.FC<Props> = ({active, item}) => {
                     }, answer_objects: {
                         $merge: {
                             [newId]: {
-                                content: "<p><br/></p>"
+                                content: "Option"
                             }
                         }
                     }

@@ -31,10 +31,11 @@ export const updateAssignmentContent = gql`
 }
 `;
 
-export const UPDATE_ASSIGNMENT_CONTENT = gql`
-  mutation UpdateAssignmentContent($content: json!, $id: uuid!, $clientId: uuid!) {
-    update_assignments_assignment_by_pk(pk_columns: {id: $id}, _set: {content: $content, last_edited_by: $clientId}){
+export const updateAssignmentTitle = gql`
+  mutation UpdateAssignmentTitle($title: String!, $assignmentId: uuid!, $clientId: uuid!) {
+    assignments_assignment_by_pk: update_assignments_assignment_by_pk(pk_columns: {id: $assignmentId}, _set: {title: $title, last_edited_by: $clientId}){
  last_edited_by
   }
 }
 `;
+

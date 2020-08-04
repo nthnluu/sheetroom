@@ -6,8 +6,8 @@ import {useMutation} from "@apollo/react-hooks";
 import {UPDATE_ASSIGNMENT_TITLE} from "../../gql/assignmentAutosave";
 import Popper from '@material-ui/core/Popper';
 
-export default function ({saveStatus, setSaveStatus}) {
-    const {data, saveError, clientId, setLastSavedState} = useContext(QuizContext);
+export default function ({saveStatus, setSaveStatus, data}) {
+    const {saveError, clientId, setLastSavedState} = useContext(QuizContext);
     const [mutateTitle] = useMutation(UPDATE_ASSIGNMENT_TITLE)
 
     // State for menus

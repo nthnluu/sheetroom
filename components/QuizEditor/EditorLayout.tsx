@@ -7,9 +7,10 @@ import {Navbar as PageNavbar} from "../PageLayouts/AppLayout/Navbar"
 interface Props {
     windowTitle: string;
     session: string;
+    pageData: object;
 }
 
-const EditorLayout: React.FC<Props> = ({windowTitle, session}) => {
+const EditorLayout: React.FC<Props> = ({windowTitle, session, pageData}) => {
 
 
 
@@ -21,7 +22,7 @@ const EditorLayout: React.FC<Props> = ({windowTitle, session}) => {
             </Head>
             {/*// @ts-ignore*/}
 
-            <Navbar  session={session} content={<Content/>}/>
+            <Navbar  session={session} content={<Content/>} pageData={pageData}/>
 
         </div>
     )

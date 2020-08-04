@@ -49,7 +49,7 @@ const AnswerObject = ({active, choice, answerIndex, item}) => {
                     <input value={currentChoice.content} onChange={(e) => saveChoiceContent(e.target.value)} placeholder="Option" className="text-gray-700 focus:outline-none w-full"/>
                 </span>
             <div className="flex justify-between space-x-3">
-                {(active) ?
+                {(active && document.items[item].answer_objects.length > 1) ?
                     <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}
                                 enterNextDelay={500}>
                         <button onClick={() => deleteAnswerChoice()}><i
