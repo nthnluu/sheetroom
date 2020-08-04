@@ -13,7 +13,6 @@ const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} t
 export const MultipleChoiceController = ({active, item}) => {
     const {setDocument, document} = useContext(QuizContext);
 
-    const answerObjects = document.items[item].answer_objects.map(objectId => document.answer_objects[objectId])
 
     const onDragEnd = (result) => {
         // dropped outside the list
@@ -55,18 +54,6 @@ export const MultipleChoiceController = ({active, item}) => {
         })
     }
 
-    const saveChoiceContent = (newValue, choiceId) => {
-        setDocument(prevState => {
-            const newData = update(prevState, {
-                answer_objects: {
-                    [choiceId]: {
-                        content: {$set: newValue}
-                    }
-                }
-            })
-            return newData
-        })
-    }
 
     return (
         <div>
@@ -107,22 +94,6 @@ export const MultipleChoiceController = ({active, item}) => {
                         }
                                 className="items-center px-2 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
                             New Option
-                        </button>
-                    </div>
-                    <div>
-                        <button type="button" onClick={() =>
-                            addAnswerChoice()
-                        }
-                                className="items-center px-2 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
-                            All of the above
-                        </button>
-                    </div>
-                    <div>
-                        <button type="button" onClick={() =>
-                            addAnswerChoice()
-                        }
-                                className="items-center px-2 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
-                            None of the above
                         </button>
                     </div>
                 </div>

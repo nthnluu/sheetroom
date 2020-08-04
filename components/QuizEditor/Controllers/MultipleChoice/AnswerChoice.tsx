@@ -76,11 +76,13 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                                 className={((isCorrect) ? "text-blue-600" : "text-gray-300") + " far fa-trash-alt table-cell"}/>
                             </button>
                         </NewTooltip> : null}
-                    {isCorrect ? <i className="fas fa-check table-cell"/> : (active ?
+
+                    {isCorrect ? <i
+                        className="fas fa-check-circle text-lg table-cell"/> : (active ?
                         <NewTooltip title="Set as correct answer" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                             <button onClick={() => markAsCorrect()}><i
-                                className="far fa-circle table-cell text-gray-300"/></button>
+                                className="far fa-circle table-cell text-xl text-gray-300"/></button>
                         </NewTooltip> : null)}
                 </div>
 
