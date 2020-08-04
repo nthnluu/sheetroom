@@ -19,7 +19,7 @@ const QuillEditor: React.FC<Props> = ({active, value, onChange, placeholder, bor
 
 
     return (<>
-        <div className={"font-sans text-gray-700 " + (border ? "border rounded-lg p-3 " : "p-0")}>
+        <div className={"font-sans text-gray-700 " + (border ? "border rounded-lg p-1 " : "p-0")}>
             <ReactQuill
                 key={"key" + uniqueKey}
                 id={uniqueKey + "xxxxx_myPropertyUsingQuill"}
