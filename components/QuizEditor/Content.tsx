@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Content: React.FC<Props> = ({}) => {
-    const {invalidSession, saveStatus, document, setDocument, aid} = useContext(QuizContext)
+    const {invalidSession, document, setDocument, aid} = useContext(QuizContext)
 
 
     return (<main className="pt-0">
@@ -22,7 +22,7 @@ const Content: React.FC<Props> = ({}) => {
             <div className="px-4 py-8 sm:px-0">
                 <div key={aid} className="max-w-7xl mx-auto">
                     <Dialog aria-labelledby="simple-dialog-title"
-                            open={invalidSession && saveStatus === 2}>
+                            open={invalidSession}>
                         <div className="p-2 pr-4">
                             <DialogTitle id="simple-dialog-title">Someone has made changes to this
                                 assignment</DialogTitle>

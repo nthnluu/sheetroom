@@ -77,7 +77,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section}) => {
 
     return (
         <div
-            className={"bg-white focus:shadow-outline w-full pt-2 px-4 sm:px-6 focus:outline-none rounded-lg " + (!active ? ' pb-8' : null)}>
+            className={"bg-white focus:shadow-outline w-full pt-2 px-4 sm:px-6 focus:outline-none rounded-lg " + (!active ? ' pb-4' : null)}>
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">

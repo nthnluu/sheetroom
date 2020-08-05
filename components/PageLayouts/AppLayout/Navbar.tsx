@@ -8,6 +8,7 @@ import Dialog from "@material-ui/core/Dialog";
 import {useMutation} from "urql";
 import {createAssignment} from "../../../lib/graphql/Assignments";
 import {newInitialDocumentContent} from "../../QuizEditor/Templates";
+import NewAssignmentDialog from "../../DialogBox/NewAssignmentDialog";
 
 
 interface Props {
@@ -21,49 +22,8 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
     const [newDropdown, toggleNewDropdown] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
 
-    const [createAssignmentResult, createNewAssignment] = useMutation(createAssignment);
-
     return(<div>
-        <Dialog onClose={() => toggleCreateAssignmentDialog(false)} aria-labelledby="simple-dialog-title"
-                open={createAssignmentDialog}>
-            <div className="p-2 pr-4">
-                <DialogTitle id="simple-dialog-title">New assignment</DialogTitle>
-
-                <form onSubmit={(event) => {
-                    event.preventDefault()
-                    // @ts-ignore
-                    createNewAssignment({title: event.target.title.value, content: newInitialDocumentContent(), userId: session.id})
-                        .then((data) => window.location.href = '/edit/assignment/' + data.data.insert_assignments_assignment.returning[0].id)
-                        .catch(() => console.log(createAssignmentResult.error))
-
-                }}>
-                    <DialogContent>
-                        <div className="w-64 sm:w-96 mb-2">
-                            <label htmlFor="title" className="sr-only">Title</label>
-                            <div className="relative rounded-md shadow-sm">
-                                <input id="title" className="form-input block w-full sm:leading-6"
-                                       placeholder="Untitled Assignment" defaultValue="Untitled Assignment"
-                                       autoFocus/>
-                            </div>
-                        </div>
-                    </DialogContent>
-
-                    <DialogActions>
-                        <button type="button" onClick={() => toggleCreateAssignmentDialog(false)}
-                                className="inline-flex items-center px-4 py-2 border border-transparent text-gray-600 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline active:bg-gray-200 transition ease-in-out duration-150">
-                            Cancel
-                        </button>
-                        <button type="submit"
-                                className="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline active:bg-blue-700 transition ease-in-out duration-150">
-                            Create
-                        </button>
-                    </DialogActions>
-                </form>
-
-            </div>
-
-
-        </Dialog>
+        <NewAssignmentDialog onClose={() => toggleCreateAssignmentDialog(false)} open={createAssignmentDialog} session={session}/>
         <nav className={"flex-shrink-0 w-full z-50 " + (unfixed ? null : "fixed")} style={{backgroundColor: '#18191c'}}>
             <div className="mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="relative flex items-center justify-between h-16">

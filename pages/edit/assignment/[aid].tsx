@@ -14,6 +14,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import {assignmentSubscription, updateAssignmentContent} from "../../../lib/graphql/Assignments";
+import JsonDebugBox from "../../../components/JsonDebugBox";
 
 
 
@@ -30,14 +31,19 @@ const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({page
     const [saveStatus, setSaveStatus] = useState(0);
     const [invalidSession, setInvalidSession] = useState(false);
 
+    const [prevClientId, setPrevClientId] = useState(pageData.assignments_assignment_by_pk.last_edited_by);
+
     const [mutateAssignmentResult, mutateAssignment] = useMutation(updateAssignmentContent)
 
     const saveAssignment = (newDocument) => {
-        setDocumentHistory([document, ...documentHistory])
-        setSaveStatus(1)
-        mutateAssignment({clientId: clientId, id: aid, content: newDocument})
-            .then(() => setSaveStatus(0))
-            .catch(() => setSaveStatus(2))
+        if (!invalidSession) {
+            setDocumentHistory([document, ...documentHistory])
+            setSaveStatus(1)
+            mutateAssignment({clientId: clientId, id: aid, content: newDocument})
+                .then(() => setSaveStatus(0))
+                .catch(() => setSaveStatus(2))
+        }
+
     }
 
 
@@ -46,6 +52,16 @@ const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({page
     useEffect(() => {
         delayedMutation(document)
     }, [document])
+
+    //Checks if  session is expired
+    useEffect(() => {
+        if (prevClientId !== pageData.assignments_assignment_by_pk.last_edited_by) {
+            setInvalidSession(true)
+        } else {
+            setPrevClientId(pageData.assignments_assignment_by_pk.last_edited_by)
+        }
+
+    }, [pageData])
 
 
     // If the document is saving, prevents the window from navigating away
@@ -76,7 +92,6 @@ const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({page
             clientId,
             invalidSession,
         }}>
-
             {/*// @ts-ignore*/}
             <EditorLayout aid={aid} pageData={pageData} windowTitle="Sheetroom" session={session}/>
         </QuizContext.Provider>
@@ -126,6 +141,10 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
 //get Quiz ID from URL
     const router = useRouter();
     const {aid} = router.query;
+    const [pageData, setPageData] = useState()
+
+    // @ts-ignore
+
 
     const [result] = useSubscription({
         query: assignmentSubscription,
