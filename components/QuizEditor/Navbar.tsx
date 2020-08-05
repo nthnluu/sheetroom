@@ -150,7 +150,7 @@ export default function ({session, content, pageData}) {
                         </div>
                     </div> : null}
                 </nav>
-                <div className="h-full w-full">
+                <div className="h-auto w-full">
                     {content}
                 </div>
 
