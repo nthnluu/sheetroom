@@ -53,8 +53,11 @@ const Section: React.FC<Props> = ({section, index}) => {
                 <h1 className="text-2xl text-gray-800 font-semibold ">Section {index + 1}</h1>
             </div>
             <ItemDnd section={section}/>
-            <div>
-                <button onClick={() => addMcItem()}>New MC Question</button>
+            <div className="flex justify-between">
+                <button type="button" onClick={() => addMcItem()}
+                        className="inline-flex items-center px-3 py-2 border-2 border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-500 bg-transparent hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                    New Item
+                </button>
             </div>
         </div>
     )

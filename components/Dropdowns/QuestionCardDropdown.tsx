@@ -35,24 +35,21 @@ const QuestionCardDropdown: React.FC<Props> = ({item}) => {
 
 
     return (
-        <NewTooltip title="Change item type" placement="bottom" enterDelay={500}
-                    enterNextDelay={500}>
-            <FormControl>
-                <Select
-                    autoWidth
-                    IconComponent="div"
-                    labelId="demo-customized-select-label"
-                    id="demo-customized-select"
-                    value={document.items[item].controller_type}
-                    onChange={handleChange}
-                    input={<StyledInput/>}
-                >
-                    <MenuItem value="MC" disableRipple>Multiple Choice</MenuItem>
-                    <MenuItem value="MA" disableRipple>Multiple Answers</MenuItem>
-                    <MenuItem value="SA" disableRipple>Short Answer</MenuItem>
-                </Select>
-            </FormControl>
-        </NewTooltip>
+        <FormControl>
+            <Select
+                autoWidth
+                IconComponent="div"
+                labelId="demo-customized-select-label"
+                id="demo-customized-select"
+                value={document.items[item].controller_type}
+                onChange={handleChange}
+                input={<StyledInput/>}
+            >
+                <MenuItem value="MC" disableRipple>Multiple Choice</MenuItem>
+                <MenuItem value="MA" disableRipple>Multiple Answers</MenuItem>
+                <MenuItem value="SA" disableRipple>Short Answer</MenuItem>
+            </Select>
+        </FormControl>
     )
 };
 export default QuestionCardDropdown

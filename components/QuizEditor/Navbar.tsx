@@ -26,7 +26,7 @@ export default function ({session, content, pageData}) {
 
 
     return (
-        <div className="w-full z-50 shadow-sm">
+        <div className="w-full z-50">
             <PageNavbar session={session} unfixed/>
             <nav className=" w-full z-50 sticky top-0 bg-white border-b border-gray-200">
                 <div className="mx-auto px-2 sm:px-4 lg:px-8">
