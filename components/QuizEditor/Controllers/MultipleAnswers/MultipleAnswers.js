@@ -92,8 +92,8 @@ export const MultipleChoiceController = ({active, item}) => {
                         <button type="button" onClick={() =>
                             addAnswerChoice()
                         }
-                                className="items-center px-2 py-1 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
-                            New Option
+                                className="items-center px-2 py-1 border border-transparent text-sm leading-5 font-light rounded-md text-gray-400 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
+                            <i className="fas fa-plus mr-2"/>New Option
                         </button>
                     </div>
                 </div>

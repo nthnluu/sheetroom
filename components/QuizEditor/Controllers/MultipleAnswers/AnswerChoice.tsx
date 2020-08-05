@@ -70,7 +70,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
         <>
             <div
                 key={"key1" + choice}
-                className={isCorrect ? 'editor-card editor-selectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
+                className={isCorrect ? 'editor-card editor-unselectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
             >
                 {active ? <span
                     className="text-gray-200 active:text-blue-400 mr-2">
@@ -82,7 +82,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
              value={document.answer_objects[choice].content} active={active} placeholder="Option"/>
                 </span>
                 <div className="flex justify-between space-x-3">
-                    {(active) ?
+                    {(active && document.items[item].answer_objects.length > 1) ?
                         <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                             <button onClick={() => deleteAnswerChoice()}><i

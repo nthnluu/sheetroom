@@ -44,7 +44,6 @@ const AnswerObject = ({active, choice, answerIndex, item}) => {
             key={"key1" + choice}
             className='flex-grow editor-card mb-2 bg-white editor-unselectedCard '
         >
-
                 <span className={"table-cell w-full pointer-events-auto " + (active ? "p-2" : "p-1")}>
                     <input value={currentChoice.content} onChange={(e) => saveChoiceContent(e.target.value)} placeholder="Option" className="text-gray-700 focus:outline-none w-full"/>
                 </span>

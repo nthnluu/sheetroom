@@ -1,5 +1,6 @@
 import React, {useMemo, useState} from "react";
 import {v4 as uuidv4} from 'uuid';
+import NewTooltip from "../Misc/Tooltip";
 
 const ReactQuill = typeof window === 'object' ? require('react-quill') : false;
 
@@ -38,25 +39,34 @@ const QuillEditor: React.FC<Props> = ({active, value, onChange, placeholder, bor
                 clipboard: {
                     matchVisual: false,
                 },
-                keyboard:{ bindings:{ tab: false } }
+                keyboard: {bindings: {tab: false}}
 
             }}/>
         </div>
         <div
-            className="text-white space-x-2 p-2 overflow-hidden flex justify-between"
+            className="text-white space-x-2 p-2 text-lg overflow-hidden flex justify-between"
             id={"toolbar" + uniqueKey}>
-            <button type="button"
-                    className="ql-bold items-center h-12 w-12 text-center border border-transparent leading-4 font-medium rounded bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
-                <i className="fas fa-bold"/>
-            </button>
-            <button type="button"
-                    className="ql-italic  items-center h-12 w-12 text-center border border-transparent leading-4 font-medium rounded bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
-                <i className="fas fa-italic"/>
-            </button>
-            <button type="button"
-                    className="ql-underline  items-center h-12 w-12 text-center border border-transparent leading-4 font-medium rounded bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
-                <i className="fas fa-underline"/>
-            </button>
+            <NewTooltip title="Bold" placement="bottom" enterDelay={500}
+                        enterNextDelay={500}>
+                <button type="button"
+                        className="ql-bold items-center h-16 w-16 text-center border border-transparent leading-4 font-medium rounded bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
+                    <i className="fas fa-bold"/>
+                </button>
+            </NewTooltip>
+            <NewTooltip title="Italic" placement="bottom" enterDelay={500}
+                        enterNextDelay={500}>
+                <button type="button"
+                        className="ql-italic  items-center h-16 w-16 text-center border border-transparent leading-4 font-medium rounded bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
+                    <i className="fas fa-italic"/>
+                </button>
+            </NewTooltip>
+            <NewTooltip title="Underline" placement="bottom" enterDelay={500}
+                        enterNextDelay={500}>
+                <button type="button"
+                        className="ql-underline  items-center h-16 w-16 text-center border border-transparent leading-4 font-medium rounded bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline-indigo active:bg-gray-100 transition ease-in-out duration-150">
+                    <i className="fas fa-underline"/>
+                </button>
+            </NewTooltip>
         </div>
     </>)
 }
