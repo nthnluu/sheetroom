@@ -20,7 +20,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
         <div className="pb-4" key={item}>
             {active ? <div className="bg-white rounded-lg border border-gray-300 shadow-xl">
                 <div className="w-full text-center z-50"><DragHandle provided={provided}/></div>
-                <ActiveContent item={item} itemIndex={itemIndex} section={section}/>
+                <ActiveContent item={item} itemIndex={itemIndex} section={section} />
             </div> : <div className="group bg-white rounded-lg border border-gray-200">
                 <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible"><DragHandle
                     provided={provided}/></div>

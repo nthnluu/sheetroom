@@ -36,7 +36,7 @@ const NewClassDialog:React.FC<Props> = ({onClose, open, session}) => {
                         <label htmlFor="title" className="sr-only">Title</label>
                         <div className="relative rounded-md shadow-sm">
                             <input id="title" className="form-input block w-full sm:leading-6 w-full"
-                                   placeholder="Untitled Class" defaultValue="Untitled Assignment"
+                                   placeholder="Untitled Class" defaultValue="Untitled Class"
                                    autoFocus/>
                         </div>
                     </div>

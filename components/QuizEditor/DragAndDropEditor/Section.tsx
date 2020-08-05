@@ -37,7 +37,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                     answer_objects: {
                         [newObjectId]: {
                             $set: {
-                                content: "<p>Option</p>"
+                                content: "<p><br/></p>"
                             }
                         }
                     }
