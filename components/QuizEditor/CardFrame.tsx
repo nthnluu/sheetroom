@@ -7,6 +7,7 @@ import QuillEditor from "../Editor/QuillEditor";
 import update from "immutability-helper";
 import NewTooltip from "../Misc/Tooltip";
 import {ShortAnswerController} from "./Controllers/ShortAnswer/ShortAnswer";
+import GraphWidget from "./Controllers/GraphWidget/GraphWidget";
 
 interface Props {
     active: boolean;

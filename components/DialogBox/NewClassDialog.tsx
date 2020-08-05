@@ -3,9 +3,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import {newInitialDocumentContent} from "../QuizEditor/Templates";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
-import React, {useState} from "react";
+import React from "react";
 import {useMutation} from "urql";
-import {createAssignment} from "../../lib/graphql/Assignments";
+import {createClass} from "../../lib/graphql/Class";
 
 interface Props {
     onClose: any;
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const NewClassDialog:React.FC<Props> = ({onClose, open, session}) => {
-    const [createAssignmentResult, createNewAssignment] = useMutation(createAssignment);
+    const [createClassResult, createNewClass] = useMutation(createClass);
 
 
     return ( <Dialog onClose={onClose} aria-labelledby="simple-dialog-title"
@@ -26,9 +26,9 @@ const NewClassDialog:React.FC<Props> = ({onClose, open, session}) => {
             <form onSubmit={(event) => {
                 event.preventDefault()
                 // @ts-ignore
-                createNewAssignment({title: event.target.title.value, content: newInitialDocumentContent(), userId: session.id})
+                createNewClass({title: event.target.title.value, userId: session.id})
                     .then((data) => window.location.href = '/edit/assignment/' + data.data.insert_assignments_assignment.returning[0].id)
-                    .catch(() => console.log(createAssignmentResult.error))
+                    .catch(() => console.log(createClassResult.error))
 
             }}>
                 <DialogContent>
@@ -36,7 +36,7 @@ const NewClassDialog:React.FC<Props> = ({onClose, open, session}) => {
                         <label htmlFor="title" className="sr-only">Title</label>
                         <div className="relative rounded-md shadow-sm">
                             <input id="title" className="form-input block w-full sm:leading-6 w-full"
-                                   placeholder="Untitled Assignment" defaultValue="Untitled Assignment"
+                                   placeholder="Untitled Class" defaultValue="Untitled Assignment"
                                    autoFocus/>
                         </div>
                     </div>
