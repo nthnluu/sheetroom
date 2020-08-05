@@ -1,5 +1,4 @@
 import '../styles/index.css'
-import '../styles/quill.snow.css'
 import '../styles/quill.bubble.css'
 import {Provider as NextAuthProvider} from "next-auth/client";
 import type {AppContext, AppProps /*, AppContext */} from 'next/app'
