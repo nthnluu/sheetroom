@@ -1,4 +1,5 @@
 import '../styles/index.css'
+import "katex/dist/katex.min.css";
 import '../styles/quill.bubble.css'
 import {Provider as NextAuthProvider} from "next-auth/client";
 import type {AppContext, AppProps /*, AppContext */} from 'next/app'
