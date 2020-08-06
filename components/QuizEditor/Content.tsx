@@ -8,6 +8,7 @@ import QuizContext from "./QuizContext";
 import Section from "./DragAndDropEditor/Section";
 import update from 'immutability-helper';
 import {v4 as uuidv4} from 'uuid';
+import SpeedDials from "../SpeedDial/SpeedDial";
 
 interface Props {
 
@@ -46,25 +47,7 @@ const Content: React.FC<Props> = ({}) => {
 
                     </Dialog>
                     {document.config.sections.map((sectionId, i) => <Section key={sectionId} section={sectionId} index={i}/>)}
-                    <button onClick={() => setDocument(prevState => {
-                        const newSectionId = uuidv4()
-                        const newData = update(prevState, {
-                            config: {
-                                sections:
-                                    {$push: [newSectionId]}
-                            },
-                            sections: {
-                                $merge: {
-                                    [newSectionId]: {
-                                        items: []
-                                    }
-                                }
-                            }
-                        })
-                        return newData
-                    })}>
-                        Add Section
-                        </button>
+
                     {/*<div className="pt-12 pb-32">*/}
                     {/*    <div*/}
                     {/*        className="grid grid-cols-2 items-center sm:grid-cols-2 gap-6 max-w-sm mx-auto leading-tight">*/}
