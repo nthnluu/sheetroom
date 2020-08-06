@@ -14,6 +14,7 @@ interface Props {
     item: string;
     itemIndex: number;
     section?: string;
+    condensed: boolean;
 }
 
 
@@ -32,7 +33,7 @@ const Controller = ({type, item, active}) => {
     }
 }
 
-const CardFrame: React.FC<Props> = ({active, item, itemIndex, section}) => {
+const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed}) => {
     const {document, setDocument} = useContext(QuizContext);
 
     const currentItem = document.items[item];
@@ -86,25 +87,64 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section}) => {
                                      onChange={(value) => saveItemContent(value)} value={currentItem.question}
                                      active={true} placeholder="Question"/>
                     </div>
-                    <Controller active={active} type={currentItem.controller_type} item={item}/>
+                    {!condensed ? <Controller active={active} type={currentItem.controller_type} item={item}/> : null}
                 </div>
             </div>
             {active ? <div className="flex justify-between border-t items-center w-full border-gray-200 py-3">
-                <div className="max-w-2xl">
-                    <QuestionCardDropdown item={item}/>
+                <div>
+                    <div className="max-w-2xl flex justify-between items-center">
+                        <QuestionCardDropdown item={item}/>
+                        <NewTooltip title="Delete item" placement="bottom" enterDelay={500}
+                                                                       enterNextDelay={500}>
+                        <button type="button" onClick={() => deleteItem()}
+                                className="inline-flex text-center items-center h-8 w-8 ml-4 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
+                            <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6 18L18 6M6 6L18 18" strokeWidth="2" strokeLinecap="round"
+                                      className="stroke-current"
+                                      strokeLinejoin="round"/>
+                            </svg>
+                        </button>
+                    </NewTooltip>
+                    </div>
+
+                </div>
+                <div>
+                    <div className="max-w-2xl flex justify-between items-center">
+                        <NewTooltip title="Move down" placement="bottom" enterDelay={500}
+                                    enterNextDelay={500}>
+                            <button type="button" onClick={() => deleteItem()}
+                                    className="inline-flex text-center items-center h-8 w-8 mr-1 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
+                                <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
+                                    <path d="M19 9L12 16L5 9" strokeWidth="2" strokeLinecap="round"
+                                          className="stroke-current"
+                                          strokeLinejoin="round"/>
+                                </svg>
+                            </button>
+                        </NewTooltip>
+                        <div>
+                            <label htmlFor="email" className="sr-only">Email</label>
+                            <div className="relative rounded-md shadow-sm">
+                                <input id="email" className="form-input block w-10 text-center sm:text-sm sm:leading-5"
+                                       placeholder="1"/>
+                            </div>
+                        </div>
+
+
+                        <NewTooltip title="Move up" placement="bottom" enterDelay={500}
+                                    enterNextDelay={500}>
+                            <button type="button" onClick={() => deleteItem()}
+                                    className="inline-flex text-center items-center h-8 w-8 ml-1 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
+                                <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 15L12 8L19 15" strokeWidth="2" strokeLinecap="round"
+                                          className="stroke-current"
+                                          strokeLinejoin="round"/>
+                                </svg>
+                            </button>
+                        </NewTooltip>
+                    </div>
+
                 </div>
 
-                <NewTooltip title="Delete item" placement="bottom" enterDelay={500}
-                            enterNextDelay={500}>
-                    <button type="button" onClick={() => deleteItem()}
-                            className="inline-flex text-center items-center h-10 w-10 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
-                        <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M6 18L18 6M6 6L18 18" strokeWidth="2" strokeLinecap="round"
-                                  className="stroke-current"
-                                  strokeLinejoin="round"/>
-                        </svg>
-                    </button>
-                </NewTooltip>
             </div> : null}
 
         </div>

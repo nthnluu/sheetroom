@@ -20,7 +20,7 @@ const QuillEditor: React.FC<Props> = ({active, value, onChange, placeholder, bor
 
 
     return (<>
-        <div className={"font-sans text-gray-700 " + (border ? "border rounded-lg p-4 " : "p-0")}>
+        <div className={"font-sans text-gray-700 w-full z-40 " + (border ? "border rounded-lg p-4 " : "p-0")}>
             <ReactQuill
                 tabIndex={0}
                 key={"key" + uniqueKey}
@@ -44,7 +44,7 @@ const QuillEditor: React.FC<Props> = ({active, value, onChange, placeholder, bor
             }}/>
         </div>
         <div
-            className="text-white space-x-2 p-2 text-lg overflow-hidden flex justify-between"
+            className="text-white space-x-2 p-2 text-lg overflow-hidden flex justify-between z-50"
             id={"toolbar" + uniqueKey}>
             <NewTooltip title="Bold" placement="bottom" enterDelay={500}
                         enterNextDelay={500}>

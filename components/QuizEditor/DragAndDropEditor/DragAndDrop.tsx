@@ -45,6 +45,7 @@ export const ItemDnd:React.FC<Props> = ({section}) => {
                             {(provided, snapshot) => <div ref={provided.innerRef}
                                                           {...provided.draggableProps}>
                                 <ItemCard
+                                    snapshot={snapshot}
                                     section={section}
                                     provided={provided}
                                     active={currentItem === itemId}

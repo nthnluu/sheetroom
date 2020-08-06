@@ -16,6 +16,10 @@
 .ql-container.ql-disabled .ql-tooltip {
   visibility: hidden;
 }
+.ql-tooltip {
+  z-index: 1000 !important;
+}
+
 .ql-container.ql-disabled .ql-editor ul[data-checked] > li::before {
   pointer-events: none;
 }

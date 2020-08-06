@@ -67,7 +67,7 @@ code {
 .editor-card {
     display: table;
     white-space: normal;
-    @apply rounded-lg border py-2 px-4 w-full text-left shadow-sm
+    @apply rounded-lg py-2 px-4 w-full text-left
 }
 
 .editor-unselectedCard {
