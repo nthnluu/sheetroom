@@ -44,7 +44,7 @@ const QuillEditor: React.FC<Props> = ({active, value, onChange, placeholder, bor
             }}/>
         </div>
         <div
-            className="text-white space-x-2 p-2 text-lg overflow-hidden flex justify-between z-50"
+            className="text-white space-x-2 p-2 text-lg overflow-hidden flex justify-between toolbarOverlay"
             id={"toolbar" + uniqueKey}>
             <NewTooltip title="Bold" placement="bottom" enterDelay={500}
                         enterNextDelay={500}>
