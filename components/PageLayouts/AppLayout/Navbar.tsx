@@ -1,13 +1,6 @@
 import React, {useState} from "react";
 import Transition from "../../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import Dialog from "@material-ui/core/Dialog";
-import {useMutation} from "urql";
-import {createAssignment} from "../../../lib/graphql/Assignments";
-import {newInitialDocumentContent} from "../../QuizEditor/Templates";
 import NewAssignmentDialog from "../../DialogBox/NewAssignmentDialog";
 
 
@@ -24,7 +17,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
 
     return(<div>
         <NewAssignmentDialog onClose={() => toggleCreateAssignmentDialog(false)} open={createAssignmentDialog} session={session}/>
-        <nav className={"flex-shrink-0 w-full z-50 " + (unfixed ? null : "fixed")} style={{backgroundColor: '#18191c'}}>
+        <nav className={"flex-shrink-0 w-full navbar " + (unfixed ? null : "fixed")} style={{backgroundColor: '#18191c'}}>
             <div className="mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="relative flex items-center justify-between h-16">
                     {/* Logo section */}
@@ -93,7 +86,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
                                     <span className="rounded-md shadow-sm">
                                         <button className="text-gray-100 flex items-center"
                                                 onClick={() => toggleNewDropdown(!newDropdown)}>
-                                            <i className="fas fa-plus mr-1"></i><i className="fas fa-caret-down"></i>
+                                            <i className="fas fa-plus mr-1"></i><i className="fas fa-caret-down opacity-50"></i>
                                         </button>
                                     </span>
                                     </div>
@@ -106,7 +99,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
                                                 leaveTo="transform opacity-0 scale-95"
                                                 leaveFrom="transform opacity-100 scale-100">
                                         <div
-                                            className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg">
+                                            className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg popover">
                                             <div className="rounded-md bg-white shadow-xs">
                                                 <div className="py-1" role="menu" aria-orientation="vertical"
                                                      aria-labelledby="options-menu">
@@ -148,7 +141,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
                                                 leaveTo="transform opacity-0 scale-95"
                                                 leaveFrom="transform opacity-100 scale-100">
                                         <div
-                                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
+                                            className="origin-top-right popover absolute right-0 mt-2 w-48 rounded-md shadow-lg">
                                             <div className="py-1 rounded-md bg-white shadow-xs" role="menu"
                                                  aria-orientation="vertical" aria-labelledby="user-menu">
                                                 <a href="#"

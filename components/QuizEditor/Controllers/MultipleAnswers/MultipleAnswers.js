@@ -6,8 +6,8 @@ import {v4 as uuidv4} from 'uuid';
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import update from "immutability-helper";
 
-const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} tabIndex="1"
-                                                 className={"fas fa-grip-lines text-center inline-block z-50 cursor-move active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
+const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps}
+                                                 className={"fas fa-grip-lines-vertical text-center z-50 cursor-move text-gray-200 active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
 
 
 export const MultipleChoiceController = ({active, item}) => {
@@ -58,22 +58,20 @@ export const MultipleChoiceController = ({active, item}) => {
     return (
         <div>
             {active ? <div>
-
-
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId={item + '_controller'}>
                         {(provided, snapshot) => (
                             <ul {...provided.droppableProps} ref={provided.innerRef}>
                                 {document.items[item].answer_objects.map((answerId, index) => (
                                     <Draggable draggableId={answerId}
-                                               index={index} key={answerId+"pineappe"}>
+                                               index={index} key={answerId + "pineappe"}>
                                         {(provided, snapshot) =>
-                                            <li className="pb-4"  key={answerId+"pinee"} ref={provided.innerRef}
+                                            <li className="pb-2 relative flex items-center" key={answerId + "pinee"}
+                                                ref={provided.innerRef}
                                                 {...provided.draggableProps}>
-
-
+                                                {active ? <div><DragHandle provided={provided} active={true}/></div>: null}
                                                 <AnswerChoice choice={answerId} active={true}
-                                                              key={answerId+"pinedqwdappe"}
+                                                              key={answerId + "pinedqwdappe"}
                                                               isCorrect={document.items[item].correct_objects.includes(answerId)}
                                                               item={item}
                                                               answerIndex={index}
@@ -97,8 +95,9 @@ export const MultipleChoiceController = ({active, item}) => {
                         </button>
                     </div>
                 </div>
-            </div> : <div className="space-y-4">
-                {document.items[item].answer_objects.map(answerId => <AnswerChoice key={answerId+"inactivemc"} choice={answerId}
+            </div> : <div className="space-y-2">
+                {document.items[item].answer_objects.map(answerId => <AnswerChoice key={answerId + "inactivemc"}
+                                                                                   choice={answerId}
                                                                                    isCorrect={document.items[item].correct_objects.includes(answerId)}
                                                                                    active={false}/>)}
             </div>}

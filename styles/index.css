@@ -107,6 +107,18 @@ code {
     display: block;
     left: 0px !important;
 }
+
+.popover {
+    z-index: 3000 !important;
+}
+
+.navbar {
+    z-index: 2000 !important;
+}
+
+.toolbarOverlay {
+    z-index: 1000 !important;
+}
 /* purgecss end ignore */
 
 

@@ -58,8 +58,6 @@ export const MultipleChoiceController = ({active, item}) => {
     return (
         <div>
             {active ? <div>
-
-
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId={item + '_controller'}>
                         {(provided, snapshot) => (
