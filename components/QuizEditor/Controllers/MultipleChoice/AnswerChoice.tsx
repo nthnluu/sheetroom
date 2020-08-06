@@ -3,6 +3,7 @@ import QuizContext from "../../QuizContext";
 import NewTooltip from "../../../Misc/Tooltip";
 import update from "immutability-helper";
 import QuillEditor from "../../../Editor/QuillEditor";
+import InactiveEditor from "../../../Editor/InactiveEditor";
 
 
 const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect}) => {
@@ -74,8 +75,11 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                         </NewTooltip> : <i className="far fa-circle table-cell text-xl text-gray-300"/>)}
                 </div>
                 <span className={"table-cell w-full pointer-events-auto p-1 pl-2"}>
-                    <QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
-                                 value={document.answer_objects[choice].content} active={active} placeholder="Option"/>
+                    {active ? <QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
+                                           value={document.answer_objects[choice].content} active={active} placeholder="Option"/> :
+                        <InactiveEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
+                                     value={document.answer_objects[choice].content} active={active} placeholder="Option"/>}
+
                 </span>
                 <div className="flex justify-between space-x-3">
                     {(active && !isCorrect && document.items[item].answer_objects.length > 1) ?

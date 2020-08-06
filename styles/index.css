@@ -71,11 +71,11 @@ code {
 }
 
 .editor-unselectedCard {
-    @apply border-gray-200
+    @apply border-transparent
 
 }
 .editor-unselectedCard:hover {
-    @apply border-gray-300
+    @apply border-gray-100
 }
 
 .editor-selectedCard:hover {

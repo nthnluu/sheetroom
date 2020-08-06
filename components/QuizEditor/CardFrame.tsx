@@ -7,7 +7,7 @@ import QuillEditor from "../Editor/QuillEditor";
 import update from "immutability-helper";
 import NewTooltip from "../Misc/Tooltip";
 import {ShortAnswerController} from "./Controllers/ShortAnswer/ShortAnswer";
-import GraphWidget from "./Controllers/GraphWidget/GraphWidget";
+import InactiveEditor from "../Editor/InactiveEditor";
 
 interface Props {
     active: boolean;
@@ -83,9 +83,12 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
-                        <QuillEditor border={active} uniqueKey={item + "question"}
-                                     onChange={(value) => saveItemContent(value)} value={currentItem.question}
-                                     active={true} placeholder="Question"/>
+                        {active ? <QuillEditor border={active} uniqueKey={item + "question"}
+                                               onChange={(value) => saveItemContent(value)} value={currentItem.question}
+                                               active={active} placeholder="Question"/> : <InactiveEditor border={active} uniqueKey={item + "question"}
+                                                                                                       onChange={(value) => saveItemContent(value)} value={currentItem.question}
+                                                                                                       active={active} placeholder="Question"/>}
+
                     </div>
                     {!condensed ? <Controller active={active} type={currentItem.controller_type} item={item}/> : null}
                 </div>

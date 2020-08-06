@@ -6,7 +6,7 @@ import {v4 as uuidv4} from 'uuid';
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import update from "immutability-helper";
 
-const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps} tabIndex="1"
+const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps}
                                                  className={"fas fa-grip-lines-vertical text-center z-50 cursor-move text-gray-200 active:text-blue-400 focus:text-blue-400 " + (!active ? "hidden" : "block")}/>);
 
 
@@ -71,7 +71,7 @@ export const MultipleChoiceController = ({active, item}) => {
                                             <li className="pb-2 relative flex items-center" key={answerId + "pinee"}
                                                 ref={provided.innerRef}
                                                 {...provided.draggableProps}>
-                                                <DragHandle provided={provided} active={true}/>
+                                                {active ? <div><DragHandle provided={provided} active={true}/></div>: null}
                                                 <AnswerChoice choice={answerId} active={true}
                                                               key={answerId + "pinedqwdappe"}
                                                               isCorrect={document.items[item].correct_objects.includes(answerId)}
