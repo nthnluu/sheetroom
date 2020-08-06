@@ -57,14 +57,23 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
         <>
             <div
                 key={"key1" + choice}
-                className={isCorrect ? 'editor-card editor-unselectedCard cursor-pointer flex-grow bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
+                className={isCorrect ? 'editor-card editor-unselectedCard cursor-pointer z-30 flex-grow flex items-center bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
             >
-                {active ? <span
-                    className="text-gray-200 active:text-blue-400 mr-2">
-                    {dragHandler}
-                </span> : null}
+                {/*{active ? <span*/}
+                {/*    className="text-gray-200 active:text-blue-400 mr-4">*/}
+                {/*    {dragHandler}*/}
+                {/*</span> : null}*/}
 
-                <span className={"table-cell w-full pointer-events-auto " + (active ? "p-2" : "p-1")}>
+                <div className="flex justify-between space-x-3">
+                    {isCorrect ? <i
+                        className="fas fa-check-circle text-xl text-blue-600 table-cell"/> : (active ?
+                        <NewTooltip title="Set as correct answer" placement="bottom" enterDelay={500}
+                                    enterNextDelay={500}>
+                            <button onClick={() => markAsCorrect()}><i
+                                className="far fa-circle table-cell text-xl text-gray-300"/></button>
+                        </NewTooltip> : <i className="far fa-circle table-cell text-xl text-gray-300"/>)}
+                </div>
+                <span className={"table-cell w-full pointer-events-auto p-1 pl-2"}>
                     <QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
                                  value={document.answer_objects[choice].content} active={active} placeholder="Option"/>
                 </span>
@@ -76,15 +85,8 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                                 className={((isCorrect) ? "text-blue-600" : "text-gray-300") + " far fa-trash-alt table-cell"}/>
                             </button>
                         </NewTooltip> : null}
-
-                    {isCorrect ? <i
-                        className="fas fa-check-circle text-lg table-cell"/> : (active ?
-                        <NewTooltip title="Set as correct answer" placement="bottom" enterDelay={500}
-                                    enterNextDelay={500}>
-                            <button onClick={() => markAsCorrect()}><i
-                                className="far fa-circle table-cell text-xl text-gray-300"/></button>
-                        </NewTooltip> : null)}
                 </div>
+
 
             </div>
         </>
