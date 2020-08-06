@@ -20,7 +20,7 @@ const InactiveEditor: React.FC<Props> = ({active, value, onChange, placeholder, 
 
 
     return (<>
-        <div className={"font-sans text-gray-700 w-full z-40 " + (border ? "border rounded-lg p-4 " : "p-0")}>
+        <div className={"font-sans text-gray-700 w-full z-40 pointer-events-none " + (border ? "border rounded-lg p-4 " : "p-0")}>
             <ReactQuill
                 tabIndex={0}
                 key={"key" + uniqueKey}
