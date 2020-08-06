@@ -71,7 +71,7 @@ export const MultipleChoiceController = ({active, item}) => {
                                             <li className="pb-2 relative flex items-center" key={answerId + "pinee"}
                                                 ref={provided.innerRef}
                                                 {...provided.draggableProps}>
-                                                <DragHandle provided={provided} active={true}/>
+                                                {active ? <div><DragHandle provided={provided} active={true}/></div>: null}
                                                 <AnswerChoice choice={answerId} active={true}
                                                               key={answerId + "pinedqwdappe"}
                                                               isCorrect={document.items[item].correct_objects.includes(answerId)}
