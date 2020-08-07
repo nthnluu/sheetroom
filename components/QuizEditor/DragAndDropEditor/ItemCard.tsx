@@ -18,7 +18,7 @@ const DragHandle = ({provided}) => (<i {...provided.dragHandleProps}
 const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex, section, snapshot}) => {
 
     return (
-        <div className="pb-4" key={item}>
+        <div className="pb-4 relative" key={item}>
             {active ? <div className="bg-white rounded-lg border border-gray-300 shadow-xl pt-2 md:pt-0">
                 <div className="w-full text-center z-50 hidden md:block"><DragHandle provided={provided}/></div>
                 <ActiveContent item={item} itemIndex={itemIndex} section={section} condensed={snapshot.isDragging}/>

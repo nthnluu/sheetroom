@@ -8,6 +8,7 @@ import update from "immutability-helper";
 import NewTooltip from "../Misc/Tooltip";
 import {ShortAnswerController} from "./Controllers/ShortAnswer/ShortAnswer";
 import InactiveEditor from "../Editor/InactiveEditor";
+import arrayMove from "array-move";
 
 interface Props {
     active: boolean;
@@ -76,7 +77,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
         })
 
     }
-
+    
     return (
         <div
             className={"bg-white focus:shadow-outline w-full pt-3 px-4 sm:px-6 focus:outline-none rounded-lg " + (!active ? ' pb-2' : null)}>
@@ -124,15 +125,6 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
                                 </svg>
                             </button>
                         </NewTooltip>
-                        <div>
-                            <label htmlFor="email" className="sr-only">Email</label>
-                            <div className="relative rounded-md shadow-sm">
-                                <input id="email" className="form-input block w-10 text-center sm:text-sm sm:leading-5"
-                                       placeholder="1"/>
-                            </div>
-                        </div>
-
-
                         <NewTooltip title="Move up" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                             <button type="button" onClick={() => deleteItem()}

@@ -33,7 +33,7 @@ export default function ({session, content, pageData}) {
                     <div className="flex justify-between h-16">
                         <div className="flex px-2 lg:px-0">
                             <div className="flex justify-between items-center -ml-2">
-                                <NewTooltip title="Rename Assignment" placement="bottom" arrow enterDelay={500}
+                                <NewTooltip title="Rename Assignment" placement="bottom" enterDelay={500}
                                             enterNextDelay={500}>
                                     <input style={{textOverflow: "ellipsis"}}
                                            placeholder="Untitled Assignment"
@@ -72,33 +72,31 @@ export default function ({session, content, pageData}) {
                             </button>
                         </div>
                         <div className="hidden lg:ml-4 lg:flex lg:items-center">
+
                             <div className="space-x-2">
-                                <NewTooltip title="All changes saved" placement="bottom" arrow enterDelay={500}
+                                <NewTooltip title="Import item" placement="bottom" arrow enterDelay={500}
                                             enterNextDelay={500}>
                                     <button type="button" aria-describedby={id} onClick={handleClick}
-                                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
-                                        {saveStatus === 2 ?
-                                            <span className="text-red-500"><i
-                                                className="fas fa-exclamation-circle mr-2"/>Error</span> : (saveStatus === 1 ?
-                                                <span><i className="fas fa-sync-alt mr-2 fa-spin text-gray-400"/>Saving</span> :
-                                                <span><i
-                                                    className="fas fa-check mr-2 text-green-500"/>Saved</span>)}
+                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                        <i className="fas fa-file-import text-gray-400 mx-auto"/>
                                     </button>
                                 </NewTooltip>
-                                <Popper id={id} open={open} anchorEl={anchorEl}>
-                                    <div className="z-50 mt-4 bg-white rounded-lg shadow-lg max-w-sm">
-                                        {saveError ? <div className="p-4 rounded-t-lg text-red-600 text-center"><i
-                                            className="fas fa-exclamation-circle mr-2"/>There were issues saving
-                                            this
-                                            document.
-                                            <p>{JSON.stringify(saveError)}</p>
-                                        </div> : <div className="p-4 rounded-t-lg text-blue-600 text-center"><i
-                                            className="fas fa-cloud mr-2"/>All changes automatically saved to the
-                                            Homework Cloud.
-                                        </div>}
-                                    </div>
-                                </Popper>
 
+                                <NewTooltip title="Undo" placement="bottom" arrow enterDelay={500}
+                                            enterNextDelay={500}>
+                                    <button type="button" aria-describedby={id} onClick={handleClick}
+                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                        <i className="fas fa-undo text-gray-400 mx-auto"/>
+                                    </button>
+                                </NewTooltip>
+
+                                <NewTooltip title="Settings" placement="bottom" arrow enterDelay={500}
+                                            enterNextDelay={500}>
+                                    <button type="button" aria-describedby={id} onClick={handleClick}
+                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                        <i className="fas fa-cog text-gray-400 mx-auto"/>
+                                    </button>
+                                </NewTooltip>
                                 <button type="button"
                                         className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                                     <i className="fas fa-users mr-2"/>Share
