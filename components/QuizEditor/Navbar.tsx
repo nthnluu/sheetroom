@@ -6,6 +6,7 @@ import Popper from '@material-ui/core/Popper';
 import {Navbar as PageNavbar} from "../PageLayouts/AppLayout/Navbar";
 import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
+import SimpleModal from "../Modals/SimpleModal";
 
 export default function ({session, content, pageData}) {
     const {saveError, saveStatus, clientId, setSaveStatus} = useContext(QuizContext);
@@ -14,6 +15,7 @@ export default function ({session, content, pageData}) {
 
     // State for menus
     const [mobileMenu, toggleMobileMenu] = useState(false);
+    const [shareDialog, toggleShareDialog] = useState(false);
 
 
     // Popper Shit
@@ -28,12 +30,12 @@ export default function ({session, content, pageData}) {
     return (
         <div className="w-full z-50">
             <PageNavbar session={session} unfixed/>
-            <nav className=" w-full navbar sticky top-0 bg-white border-b border-gray-200">
+            <nav className=" w-full navbar sticky top-0 bg-white border-b border-gray-200 shadow-sm">
                 <div className="mx-auto px-2 sm:px-4 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex px-2 lg:px-0">
                             <div className="flex justify-between items-center -ml-2">
-                                <NewTooltip title="Rename Assignment" placement="bottom" arrow enterDelay={500}
+                                <NewTooltip title="Rename Assignment" placement="bottom" enterDelay={500}
                                             enterNextDelay={500}>
                                     <input style={{textOverflow: "ellipsis"}}
                                            placeholder="Untitled Assignment"
@@ -52,54 +54,33 @@ export default function ({session, content, pageData}) {
                                     /></NewTooltip>
                             </div>
                         </div>
-                        <div className="flex items-center lg:hidden">
-                            {/*// <!-- Mobile menu button -->*/}
-                            <button onClick={() => toggleMobileMenu(!mobileMenu)}
-                                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                                    aria-label="Main menu" aria-expanded="false">
-                                {/*// <!-- Icon when menu is closed. -->*/}
-                                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                          d="M4 6h16M4 12h16M4 18h16"/>
-                                </svg>
-                                {/*// <!-- Icon when menu is open. -->*/}
-                                <svg className="hidden h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                          d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
                         <div className="hidden lg:ml-4 lg:flex lg:items-center">
+
                             <div className="space-x-2">
-                                <NewTooltip title="All changes saved" placement="bottom" arrow enterDelay={500}
+                                <NewTooltip title="Import item" placement="bottom" arrow enterDelay={500}
                                             enterNextDelay={500}>
                                     <button type="button" aria-describedby={id} onClick={handleClick}
-                                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
-                                        {saveStatus === 2 ?
-                                            <span className="text-red-500"><i
-                                                className="fas fa-exclamation-circle mr-2"/>Error</span> : (saveStatus === 1 ?
-                                                <span><i className="fas fa-sync-alt mr-2 fa-spin text-gray-400"/>Saving</span> :
-                                                <span><i
-                                                    className="fas fa-check mr-2 text-green-500"/>Saved</span>)}
+                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                        <i className="fas fa-file-import text-gray-400 mx-auto"/>
                                     </button>
                                 </NewTooltip>
-                                <Popper id={id} open={open} anchorEl={anchorEl}>
-                                    <div className="z-50 mt-4 bg-white rounded-lg shadow-lg max-w-sm">
-                                        {saveError ? <div className="p-4 rounded-t-lg text-red-600 text-center"><i
-                                            className="fas fa-exclamation-circle mr-2"/>There were issues saving
-                                            this
-                                            document.
-                                            <p>{JSON.stringify(saveError)}</p>
-                                        </div> : <div className="p-4 rounded-t-lg text-blue-600 text-center"><i
-                                            className="fas fa-cloud mr-2"/>All changes automatically saved to the
-                                            Homework Cloud.
-                                        </div>}
-                                    </div>
-                                </Popper>
 
-                                <button type="button"
+                                <NewTooltip title="Undo" placement="bottom" arrow enterDelay={500}
+                                            enterNextDelay={500}>
+                                    <button type="button" aria-describedby={id} onClick={handleClick}
+                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                        <i className="fas fa-undo text-gray-400 mx-auto"/>
+                                    </button>
+                                </NewTooltip>
+
+                                <NewTooltip title="Settings" placement="bottom" arrow enterDelay={500}
+                                            enterNextDelay={500}>
+                                    <button type="button" aria-describedby={id} onClick={handleClick}
+                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                        <i className="fas fa-cog text-gray-400 mx-auto"/>
+                                    </button>
+                                </NewTooltip>
+                                <button type="button" onClick={() => toggleShareDialog(true)}
                                         className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                                     <i className="fas fa-users mr-2"/>Share
                                 </button>
@@ -150,6 +131,7 @@ export default function ({session, content, pageData}) {
                 </div> : null}
             </nav>
             <div className="h-full">
+                <SimpleModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)}/>
                 {content}
             </div>
 
