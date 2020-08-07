@@ -6,6 +6,7 @@ import Popper from '@material-ui/core/Popper';
 import {Navbar as PageNavbar} from "../PageLayouts/AppLayout/Navbar";
 import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
+import SimpleModal from "../Modals/SimpleModal";
 
 export default function ({session, content, pageData}) {
     const {saveError, saveStatus, clientId, setSaveStatus} = useContext(QuizContext);
@@ -14,6 +15,7 @@ export default function ({session, content, pageData}) {
 
     // State for menus
     const [mobileMenu, toggleMobileMenu] = useState(false);
+    const [shareDialog, toggleShareDialog] = useState(false);
 
 
     // Popper Shit
@@ -52,25 +54,6 @@ export default function ({session, content, pageData}) {
                                     /></NewTooltip>
                             </div>
                         </div>
-                        <div className="flex items-center lg:hidden">
-                            {/*// <!-- Mobile menu button -->*/}
-                            <button onClick={() => toggleMobileMenu(!mobileMenu)}
-                                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                                    aria-label="Main menu" aria-expanded="false">
-                                {/*// <!-- Icon when menu is closed. -->*/}
-                                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                          d="M4 6h16M4 12h16M4 18h16"/>
-                                </svg>
-                                {/*// <!-- Icon when menu is open. -->*/}
-                                <svg className="hidden h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                          d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
                         <div className="hidden lg:ml-4 lg:flex lg:items-center">
 
                             <div className="space-x-2">
@@ -97,7 +80,7 @@ export default function ({session, content, pageData}) {
                                         <i className="fas fa-cog text-gray-400 mx-auto"/>
                                     </button>
                                 </NewTooltip>
-                                <button type="button"
+                                <button type="button" onClick={() => toggleShareDialog(true)}
                                         className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                                     <i className="fas fa-users mr-2"/>Share
                                 </button>
@@ -148,6 +131,7 @@ export default function ({session, content, pageData}) {
                 </div> : null}
             </nav>
             <div className="h-full">
+                <SimpleModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)}/>
                 {content}
             </div>
 

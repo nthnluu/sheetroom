@@ -108,6 +108,10 @@ code {
     left: 0px !important;
 }
 
+.modalOverlay {
+    z-index: 4000 !important;
+}
+
 .popover {
     z-index: 3000 !important;
 }
