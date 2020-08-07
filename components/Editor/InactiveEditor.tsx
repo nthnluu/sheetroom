@@ -19,6 +19,7 @@ const InactiveEditor: React.FC<Props> = ({active, value, onChange, placeholder, 
     const uniqueKey = useMemo(() => uuidv4(), []);
 
 
+
     return (<>
         <div className={"font-sans text-gray-700 w-full z-40 pointer-events-none " + (border ? "border rounded-lg p-4 " : "p-0")}>
             <ReactQuill
