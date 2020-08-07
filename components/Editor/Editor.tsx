@@ -31,7 +31,7 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
                         setIsFocused(true)
                     }
                 }}
-                formats={["bold", "underline", "italic", "strike", "blockquote", "list", "link", "formula"]}
+                formats={["bold", "underline", "italic", "blockquote", "list", "formula"]}
                 onBlur={() => setIsFocused(false)}
                 readOnly={!active}
                 placeholder={placeholder} theme="bubble"
@@ -44,10 +44,9 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
                 formula: true,
                 keyboard: {bindings: {tab: false}},
                 toolbar: [
-                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    ['bold', 'italic', 'underline', 'blockquote'],
                     [{'list': 'ordered'}, {'list': 'bullet'}],
-                    ['link', 'formula'],
-                    ['clean']
+                    ['formula']
                 ],
 
             }}/>
