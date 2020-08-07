@@ -20,7 +20,7 @@ const Content: React.FC<Props> = ({}) => {
 
     return (<main className="pt-0">
         <div className="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <div className="px-4 py-8 sm:px-0">
+            <div className="px-2 py-8 sm:px-0">
                 <div key={aid} className="max-w-7xl mx-auto">
                     <Dialog aria-labelledby="simple-dialog-title"
                             open={invalidSession}>

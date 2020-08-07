@@ -23,7 +23,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                 <div className="w-full text-center z-50 hidden md:block"><DragHandle provided={provided}/></div>
                 <ActiveContent item={item} itemIndex={itemIndex} section={section} condensed={snapshot.isDragging}/>
             </div> : <div className="group bg-white rounded-lg border border-gray-200 pt-4 md:pt-0">
-                <div className="mb-1 w-full mx-auto text-center z-50 invisible group-hover:visible hidden md:block"><DragHandle
+                <div className="w-full mx-auto text-center z-50 invisible group-hover:visible hidden md:block"><DragHandle
                     provided={provided}/></div>
                 <InactiveContent item={item} setActive={(id) => setActive(id)}
                                  itemIndex={itemIndex} condensed={snapshot.isDragging}/>
