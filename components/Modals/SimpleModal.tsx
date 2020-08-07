@@ -6,7 +6,7 @@ const SimpleModal = ({isOpen, onCancel}) => {
 
             <Transition show={isOpen} appear={isOpen} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
                 <div className="fixed inset-0 transition-opacity">
-                    <div className="absolute inset-0 bg-gray-900 opacity-50" onClick={onCancel}></div>
+                    <div className="absolute inset-0 bg-gray-500 opacity-75" onClick={onCancel}></div>
                 </div>
             </Transition>
 

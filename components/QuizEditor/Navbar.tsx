@@ -54,13 +54,31 @@ export default function ({session, content, pageData}) {
                                     /></NewTooltip>
                             </div>
                         </div>
+                        <div className="hidden sm:ml-6 sm:flex">
+                            <a href="#"
+                               className="inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out">
+                                Edit
+                            </a>
+                            <a href="#"
+                               className="ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                Results
+                            </a>
+                            <a href="#"
+                               className="ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                Insights
+                            </a>
+                            <a href="#"
+                               className="ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                Settings
+                            </a>
+                        </div>
                         <div className="hidden lg:ml-4 lg:flex lg:items-center">
 
                             <div className="space-x-2">
                                 <NewTooltip title="Import item" placement="bottom" arrow enterDelay={500}
                                             enterNextDelay={500}>
                                     <button type="button" aria-describedby={id} onClick={handleClick}
-                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 active:bg-gray-200 transition ease-in-out duration-150">
                                         <i className="fas fa-file-import text-gray-400 mx-auto"/>
                                     </button>
                                 </NewTooltip>
@@ -68,7 +86,7 @@ export default function ({session, content, pageData}) {
                                 <NewTooltip title="Undo" placement="bottom" arrow enterDelay={500}
                                             enterNextDelay={500}>
                                     <button type="button" aria-describedby={id} onClick={handleClick}
-                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
                                         <i className="fas fa-undo text-gray-400 mx-auto"/>
                                     </button>
                                 </NewTooltip>
@@ -76,7 +94,7 @@ export default function ({session, content, pageData}) {
                                 <NewTooltip title="Settings" placement="bottom" arrow enterDelay={500}
                                             enterNextDelay={500}>
                                     <button type="button" aria-describedby={id} onClick={handleClick}
-                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
+                                            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
                                         <i className="fas fa-cog text-gray-400 mx-auto"/>
                                     </button>
                                 </NewTooltip>

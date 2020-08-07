@@ -5,7 +5,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 const NewTooltip = withStyles((theme) => ({
     tooltip: {
         fontSize: 14,
-        padding: 7
+        padding: 7,
     },
 }))(Tooltip);
 

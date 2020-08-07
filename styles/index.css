@@ -120,6 +120,10 @@ code {
     z-index: 2000 !important;
 }
 
+.tooltipNavbar {
+    z-index: 2500 !important;
+}
+
 .toolbarOverlay {
     z-index: 1000 !important;
 }
