@@ -7,7 +7,7 @@ module.exports = {
             spacing: {
                 ...defaultTheme.spacing,
                 '86': '20rem',
-                '99': '32rem'
+                '99': '28.9rem'
             },
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
