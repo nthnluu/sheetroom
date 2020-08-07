@@ -27,7 +27,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
                     {/* Logo section */}
                     <div className="flex items-center justify-start w-full">
                         <div className="flex items-center px-2 lg:px-0 w-full h-full" style={{maxWidth: '28.9rem'}}>
-                            <button onClick={() => window.location.href = "/"} className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:bg-gray-900 active:bg-gray-900 focus:outline-none opacity-75 focus:opacity-100">
+                            <button onClick={() => window.location.href = "/"} className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none opacity-75 hover:opacity-100 focus:opacity-100 active:shadow-outline">
                                 <img className="h-8 w-auto hidden md:block" src="/light_symbol.svg"
                                      alt="Workflow logo" />
                                 <img className="h-8 w-auto block md:hidden" src="/light_symbol.svg"
