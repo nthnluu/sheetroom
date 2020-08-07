@@ -4,8 +4,10 @@ import '../styles/quill.bubble.css'
 import {Provider as NextAuthProvider} from "next-auth/client";
 import type {AppContext, AppProps /*, AppContext */} from 'next/app'
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
-import React from "react";
+import React, {useEffect} from "react";
 import WithGraphQL from "../lib/with-graphql";
+import {useAnalytics} from "../components/useAnalytics";
+import {Router} from "next/router";
 
 const MuiTheme = createMuiTheme({
     palette: {
@@ -35,6 +37,16 @@ const MuiTheme = createMuiTheme({
 
 const MyApp = ({Component, pageProps}: AppProps) => {
     const {session} = pageProps;
+    const {init, trackPageViewed} = useAnalytics();
+
+    useEffect(() => {
+        init("UA-174935077-1");
+        trackPageViewed();
+        Router.events.on("routeChangeComplete", () => {
+            trackPageViewed();
+        });
+    }, []);
+
 
     return <NextAuthProvider session={session}><WithGraphQL session={session}>
         <ThemeProvider theme={MuiTheme}>
