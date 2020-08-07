@@ -19,7 +19,7 @@ const WithGraphQL = ({
         {
             reconnect: true,
             connectionParams: {
-                headers: { "X-Hasura-User-Id": userIdInString, "X-Hasura-Admin-Secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS" },
+                headers: { "X-Hasura-User-Id": userIdInString, "x-hasura-admin-secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS" },
             },
         },
         ws
@@ -31,7 +31,9 @@ const WithGraphQL = ({
         fetchOptions: {
             headers: {
                 "X-Hasura-User-Id": userIdInString ? userIdInString : undefined,
-                "X-Hasura-Admin-Secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS" },
+                "x-hasura-admin-secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS"
+            },
+
         },
         requestPolicy: "cache-and-network",
         exchanges: [

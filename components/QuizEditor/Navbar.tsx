@@ -7,6 +7,7 @@ import {Navbar as PageNavbar} from "../PageLayouts/AppLayout/Navbar";
 import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 import SimpleModal from "../Modals/SimpleModal";
+import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 
 export default function ({session, content, pageData}) {
     const {saveError, saveStatus, clientId, setSaveStatus} = useContext(QuizContext);
@@ -124,7 +125,7 @@ export default function ({session, content, pageData}) {
                 </nav>
             </div>
             <div className="h-full">
-                <SimpleModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)}/>
+                <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)}/>
                 {content}
             </div>
 
