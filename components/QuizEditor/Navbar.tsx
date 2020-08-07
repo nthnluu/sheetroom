@@ -34,11 +34,11 @@ export default function ({session, content, pageData}) {
                 <nav>
                     <div className="mx-auto px-2 sm:px-4 lg:px-8">
                         <div className="flex justify-between h-16">
-                            <div className="flex px-2 lg:px-0">
-                                <div className="flex justify-between items-center -ml-2">
+                            <div className="flex px-0 lg:px-0">
+                                <div className="flex justify-between items-center lg:-ml-2">
                                     <NewTooltip title="Rename Assignment" placement="bottom" enterDelay={500}
                                                 enterNextDelay={500}>
-                                        <input style={{textOverflow: "ellipsis"}}
+                                        <input style={{textOverflow: "ellipsis", maxWidth: '12rem'}}
                                                placeholder="Untitled Assignment"
                                                className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
                                                defaultValue={pageData.assignments_assignment_by_pk.title}
@@ -55,28 +55,27 @@ export default function ({session, content, pageData}) {
                                         /></NewTooltip>
                                 </div>
                             </div>
-                            <div className="hidden sm:ml-6 lg:flex">
+                            <div className="hidden sm:ml-6 xl:flex">
                                 <a href="#"
                                    className="inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out">
-                                    Edit
+                                    <i className="far fa-edit mr-2"/>Edit
                                 </a>
                                 <a href="#"
                                    className="ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    Results
+                                    <i className="fas fa-poll mr-2"/>Results
                                 </a>
                                 <a href="#"
                                    className="ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    Insights
+                                    <i className="fas fa-chart-area mr-2"/>Insights
                                 </a>
                                 <a href="#"
                                    className="ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    Settings
+                                    <i className="fas fa-cog mr-2"/>Settings
                                 </a>
                             </div>
                             <div className="lg:ml-4 flex lg:items-center">
-
-                                <div className="space-x-2 flex items-center">
-                                    <div className="hidden lg:flex ">
+                                <div className="space-x-2 flex items-center w-auto">
+                                    <div className="hidden lg:flex">
                                         <NewTooltip title="Import item" placement="bottom" arrow enterDelay={500}
                                                     enterNextDelay={500}>
                                             <button type="button" aria-describedby={id} onClick={handleClick}
@@ -101,10 +100,9 @@ export default function ({session, content, pageData}) {
                                             </button>
                                         </NewTooltip>
                                     </div>
-
                                     <button type="button" onClick={() => toggleShareDialog(true)}
-                                            className="inline-flex items-center px-4 h-10 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                                        <i className="fas fa-users mr-2"/>Share
+                                            className="inline-flex items-center px-3 h-10 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                                        <i className="fas fa-users mr-2 hidden sm:inline-block"/>Share
                                     </button>
                                 </div>
 
@@ -113,21 +111,21 @@ export default function ({session, content, pageData}) {
                     </div>
                 </nav>
                 <nav>
-                    <div className="flex sm:ml-6 lg:hidden px-4 h-12">
+                    <div className="flex sm:ml-6 xl:hidden px-4 h-12">
                         <a href="#"
                            className="inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out">
                             Edit
                         </a>
                         <a href="#"
-                           className="ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                           className="ml-4 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             Results
                         </a>
                         <a href="#"
-                           className="ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                           className="ml-4 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             Insights
                         </a>
                         <a href="#"
-                           className="ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                           className="ml-4 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             Settings
                         </a>
                     </div>
