@@ -17,13 +17,17 @@ export const Navbar: React.FC<Props> = ({session, unfixed}) => {
 
     return(<div>
         <NewAssignmentDialog onClose={() => toggleCreateAssignmentDialog(false)} open={createAssignmentDialog} session={session}/>
-        <nav className={"flex-shrink-0 w-full navbar " + (unfixed ? null : "fixed")} style={{backgroundColor: '#18191c'}}>
+        <nav className={"flex-shrink-0 w-full navbar " + (unfixed ? null : "fixed")} style={{backgroundColor: '#242629'}}>
             <div className="mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="relative flex items-center justify-between h-14">
+                    <a href="#main" tabIndex={1}
+                            className="inline-flex sr-only items-center px-6 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
+                        Skip to main content
+                    </a>
                     {/* Logo section */}
                     <div className="flex items-center justify-start w-full">
                         <div className="flex items-center px-2 lg:px-0 w-full h-full" style={{maxWidth: '28.9rem'}}>
-                            <button onClick={() => window.location.href = "/"} className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:bg-gray-900 active:bg-gray-900 focus:outline-none" style={{opacity: 0.90}}>
+                            <button onClick={() => window.location.href = "/"} className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:bg-gray-900 active:bg-gray-900 focus:outline-none opacity-75 focus:opacity-100">
                                 <img className="h-8 w-auto hidden md:block" src="/light_symbol.svg"
                                      alt="Workflow logo" />
                                 <img className="h-8 w-auto block md:hidden" src="/light_symbol.svg"
