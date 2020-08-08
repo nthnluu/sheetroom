@@ -7,7 +7,7 @@ const AddButton = () => {
 
     return (<motion.button
         onClick={() => setIsOpen(!isOpen)}
-        animate={isOpen ? {width: '9rem'} : {width: '2rem'}}
+        animate={isOpen ? {width: '9rem', opacity: 1} : {width: '2rem', opacity: 0.5}}
         transition={{duration: 0.15}}
         className="bg-white flex items-center justify-between shadow focus:outline-none h-8 w-8 rounded-lg p-1 overflow-hidden">
 
