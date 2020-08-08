@@ -1,9 +1,10 @@
 import fetch from "isomorphic-unfetch";
-import { Client, defaultExchanges, subscriptionExchange, Provider } from "urql";
-import { SubscriptionClient } from "subscriptions-transport-ws";
+import {Client, defaultExchanges, subscriptionExchange, Provider} from "urql";
+import {SubscriptionClient} from "subscriptions-transport-ws";
 import ws from "isomorphic-ws";
-import { ReactNode } from "react";
+import {ReactNode} from "react";
 import session from "../types/session";
+import jwt from "jsonwebtoken";
 
 const WithGraphQL = ({
                          session,
@@ -13,14 +14,24 @@ const WithGraphQL = ({
     children: ReactNode;
 }) => {
     const userIdInString = session ? (session.id ? session.id.toString() : 'annon') : 'anon';
+    const secret = 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw'
+    const newToken = jwt.sign({
+        "https://hasura.io/jwt/claims": {
+            "X-Hasura-User-Id": userIdInString,
+            "x-hasura-default-role": "user",
+            "x-hasura-allowed-roles": ["user"]
+        }
+    }, secret)
+
+    console.log(newToken)
 
     const subscriptionClient = new SubscriptionClient(
         process.env.NEXT_PUBLIC_WS_URL || "ws://api.sheetroom.com/v1/graphql",
         {
             reconnect: true,
             connectionParams: {
-                headers: { "X-Hasura-User-Id": userIdInString,
-                    // "x-hasura-admin-secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS"
+                headers: {
+                    Authorization: `Bearer ${newToken}`
                 },
             },
         },
@@ -32,8 +43,7 @@ const WithGraphQL = ({
         fetch,
         fetchOptions: {
             headers: {
-                "X-Hasura-User-Id": userIdInString ? userIdInString : undefined,
-                // "x-hasura-admin-secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS"
+                Authorization: `Bearer ${newToken}`
             },
 
         },
