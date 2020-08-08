@@ -2,24 +2,22 @@ import React, {useState} from "react";
 import Transition from "../../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import NewAssignmentDialog from "../../DialogBox/NewAssignmentDialog";
-import NewAssignmentModal from "../../Modals/NewAssignmentModal";
 
 
 interface Props {
     session: string;
     unfixed?: boolean;
-    transparent?: boolean;
 }
 
-export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
+export const Navbar: React.FC<Props> = ({session, unfixed}) => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
     const [newDropdown, toggleNewDropdown] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
 
     return(<div>
-        <NewAssignmentModal onCancel={() => toggleCreateAssignmentDialog(false)} isOpen={createAssignmentDialog} session={session}/>
-        <nav className={"flex-shrink-0 w-full navbar " + (unfixed ? null : "fixed")} style={!transparent ? {backgroundColor: '#242629'} : null}>
+        <NewAssignmentDialog onClose={() => toggleCreateAssignmentDialog(false)} open={createAssignmentDialog} session={session}/>
+        <nav className={"flex-shrink-0 w-full navbar " + (unfixed ? null : "fixed")} style={{backgroundColor: '#242629'}}>
             <div className="mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="relative flex items-center justify-between h-14">
                     <a href="#main" tabIndex={1}

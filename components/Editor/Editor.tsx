@@ -1,6 +1,7 @@
 import React, {useMemo, useRef, useState} from "react";
 import {v4 as uuidv4} from 'uuid';
-import ReactQuill from 'react-quill'; // ES6
+import ReactQuill from 'react-quill';
+import AddButton from "./AddButton"; // ES6
 
 
 interface Props {
@@ -50,6 +51,11 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
                 ],
 
             }}/>
+            {isFocused ? <div className={"absolute right-0 bottom-0 " + (border ? "m-2": null)}>
+                <AddButton/>
+            </div> : null}
+
+
         </div>
 
     </>
