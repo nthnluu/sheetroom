@@ -6,7 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ASSIGNMENTS = gql`
 query Assignments($userId: Int!){
-  assignments_assignment(where: {created_by: {_eq: $userId}}, limit: 10) {
+  assignments_assignment(where: {created_by: {_eq: $userId}}, limit: 10, order_by: {updated_at: desc}) {
     id,
     title
   }

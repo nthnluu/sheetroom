@@ -95,7 +95,7 @@ const Section: React.FC<Props> = ({section, index}) => {
     }
 
     return (
-        <div className="mb-8 group">
+        <div className="mb-8">
             <div className="mb-4 flex justify-start items-center">
                 <h1 className="text-2xl text-gray-800 font-semibold mr-1">Section {index + 1}</h1>
                 <span
@@ -158,30 +158,20 @@ const Section: React.FC<Props> = ({section, index}) => {
 
             </div>
             {!isCollapsed ? <ItemDnd section={section}/> : <button onClick={() => toggleIsCollapsed(false)}
-                                                                   className="bg-white border border-gray-300 px-4 py-4 rounded-lg focus:outline-none w-full text-left">
+                                                                   className="bg-white border border-gray-300 mb-2 px-4 py-4 rounded-lg focus:outline-none w-full text-left">
                 <h2 className="text-lg font-semibold text-gray-800">{document.sections[section].items.length} items</h2>
             </button>}
 
-            <div className="flex justify-between mt-4 invisible group-hover:visible ">
+            <div className="flex justify-between">
                 <button type="button" onClick={() => addSection()}
-                        className="inline-flex items-center border-gray-300 text-lg leading-4 font-medium rounded-md text-gray-300 bg-transparent hover:text-gray-400 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
+                        className="inline-flex items-center border-gray-300 leading-4 font-medium rounded-md text-gray-300 bg-transparent hover:text-gray-400 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
                     <svg width="32" height="32" viewBox="0 0 24 24" className="mr-2" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M12 9V12M12 12V15M12 12H15M12 12H9M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     New Section
-                </button>
-                <button type="button" onClick={() => addMcItem()}
-                        className="inline-flex items-center border-gray-300 text-lg leading-4 font-medium rounded-md text-gray-300 bg-transparent hover:text-gray-400 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
-                    <svg width="32" height="32" viewBox="0 0 24 24" className="mr-2" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12 9V12M12 12V15M12 12H15M12 12H9M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    New Answer
                 </button>
             </div>
         </div>
