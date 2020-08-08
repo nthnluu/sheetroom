@@ -45,6 +45,9 @@ const options = {
 
             if (!isSignIn) {
                 token.id = user.id
+                token['X-Hasura-User-Id'] = user.id
+                token['X-Hasura-Role'] = "user"
+                token['X-Hasura-Allowed-Roles'] = ["user"]
             }
 
             return Promise.resolve(token);
@@ -54,50 +57,7 @@ const options = {
         jwt: true,
     },
     jwt: {
-        secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
-        encode: async ({ token, secret }: { token: iToken; secret: string }) => {
-            const tokenContents = {
-                id: token.id,
-                name: token.name,
-                email: token.email,
-                picture: token.picture,
-                "https://hasura.io/jwt/claims": {
-                    "x-hasura-allowed-roles": ["admin", "user"],
-                    "x-hasura-default-role": "user",
-                    "x-hasura-user-id": token.id,
-                },
-                iat: Date.now() / 1000,
-                exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
-                sub: token.id,
-            };
-
-            const signOptions = {
-                algorithm: "RS256",
-            };
-
-            const encodedToken = jwt.sign(
-                tokenContents,
-                process.env.AUTH_PRIVATE_KEY.replace(/\\n/gm, "\n") || secret,
-                // @ts-ignore
-                signOptions
-            );
-
-            return encodedToken;
-        },
-        decode: async ({ token, secret }: { token: string; secret: string }) => {
-            const signOptions = {
-                algorithms: ["RS256"],
-            };
-
-            const decodedToken = jwt.verify(
-                token,
-                process.env.AUTH_PRIVATE_KEY.replace(/\\n/gm, "\n") || secret,
-                // @ts-ignore
-                signOptions
-            );
-
-            return decodedToken;
-        },
+        secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw'
     },
 };
 
