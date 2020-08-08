@@ -3,6 +3,7 @@ import ItemDnd from "./DragAndDrop";
 import QuizContext from "../QuizContext";
 import update from "immutability-helper";
 import {v4 as uuidv4} from 'uuid';
+import AddButton from "../../Editor/AddButton";
 
 interface Props {
     section: string;
