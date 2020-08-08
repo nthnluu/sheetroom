@@ -3,15 +3,11 @@ import jwt from 'next-auth/jwt'
 
 export default async (req, res) => {
     const secret = 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw'
-    const token = await jwt.getToken({ req, secret })
+    const token = await jwt.getToken({ req, secret, raw: true})
     if (token) {
+        console.log(token)
         // Signed in
-        res.statusCode = 200
-        res.setHeader('Content-Type', 'application/json')
-        res.end(JSON.stringify({
-            "X-Hasura-User-Id": token["X-Hasura-User-Id"],
-            "X-Hasura-Role": "user",
-        }))
+        res.status(200).json({token: token})
     } else {
         // Not Signed in
         res.status(401)
