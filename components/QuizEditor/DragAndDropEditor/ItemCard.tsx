@@ -1,6 +1,7 @@
 import React from "react";
 import ActiveContent from "./ActiveContent";
 import InactiveContent from "./InactiveContent";
+import {motion} from "framer-motion"
 
 interface Props {
     item: string;
@@ -18,7 +19,7 @@ const DragHandle = ({provided}) => (<i {...provided.dragHandleProps}
 const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex, section, snapshot}) => {
 
     return (
-        <div className="pb-4 relative" key={item}>
+        <motion.div whileTap={!active ? { scale: 0.98 } : null} className="pb-4 relative" key={item} animate={active ? {scale:1.01} : {scale:1}}>
             {active ? <div className="bg-white rounded-lg border border-gray-200 shadow-lg pt-2 md:pt-0">
                 <div className="w-full text-center z-50 hidden md:block"><DragHandle provided={provided}/></div>
                 <ActiveContent item={item} itemIndex={itemIndex} section={section} condensed={snapshot.isDragging}/>
@@ -28,7 +29,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                 <InactiveContent item={item} setActive={(id) => setActive(id)}
                                  itemIndex={itemIndex} condensed={snapshot.isDragging}/>
             </div>}
-        </div>
+        </motion.div>
     )
 }
 

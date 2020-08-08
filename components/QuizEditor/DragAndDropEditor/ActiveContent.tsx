@@ -1,6 +1,7 @@
 import CardFrame from "../CardFrame";
 import React from "react";
 
+
 interface Props {
     item: string;
     itemIndex: number;
