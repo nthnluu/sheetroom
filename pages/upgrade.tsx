@@ -41,6 +41,7 @@ const Upgrade = ({session}) => {
                 <Elements stripe={stripePromise}>
                     <div className="w-96 space-y-2">
                         <div className="form-input p-4">
+                            {/*//@ts-ignore*/}
                             <CardElement options={CARD_OPTIONS}/>
 
                         </div>
