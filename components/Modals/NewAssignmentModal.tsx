@@ -3,11 +3,18 @@ import React, {useState} from "react";
 import {useMutation} from "urql";
 import {createAssignment} from "../../lib/graphql/Assignments";
 import {newInitialDocumentContent} from "../QuizEditor/Templates";
+import {nanoid} from "nanoid";
 
 
 const NewAssignmentModal = ({isOpen, onCancel, session}) => {
     const [createAssignmentResult, createNewAssignment] = useMutation(createAssignment);
     const [currentValue, setNewValue] = useState("Untitled Assignment");
+
+    function closeModal () {
+        onCancel();
+        setTimeout(() => setNewValue("Untitled Assignment"), 900)
+    }
+
 
 
     return (<SimpleModal buttons={<div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse sm:justify-between">
@@ -30,19 +37,20 @@ const NewAssignmentModal = ({isOpen, onCancel, session}) => {
         </button>
       </span>
             <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
-        <button type="button" onClick={onCancel}
+        <button type="button" onClick={closeModal}
                 className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
           Cancel
         </button>
       </span>
         </div>
-    </div>} isOpen={isOpen} onCancel={onCancel} title="New Assignment" content={<div className="w-full">
+    </div>} isOpen={isOpen} onCancel={closeModal} title="New Assignment" content={<div className="w-full">
         <label htmlFor="email" className="sr-only">Email</label>
         <div className="rounded-md shadow-sm w-full">
             {/*//@ts-ignore*/}
             <input id="email" value={currentValue} onChange={event => setNewValue(event.target.value)}
                    className="form-input block w-full mt-4 sm:text-sm sm:leading-5" autoFocus
-                   placeholder="Untitled Assignment"/>
+//                  @ts-ignore
+                   placeholder="Untitled Assignment" onClick={(e) => e.target.select()}/>
         </div>
     </div>}/>)
 }
