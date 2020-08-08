@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Section: React.FC<Props> = ({section, index}) => {
-    const {setDocument, document} = useContext(QuizContext)
+    const {setDocument, document, setCurrentItem} = useContext(QuizContext)
     const [isCollapsed, toggleIsCollapsed] = useState(false);
 
     const addMcItem = () => {
@@ -33,7 +33,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                     }, sections: {
                         [section]: {
                             items: {
-                                $push: [newId]
+                                $unshift: [newId]
                             }
                         }
                     },
@@ -46,6 +46,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                     }
                 }
             )
+            setCurrentItem(newId)
             return newData
         })
     }
@@ -94,11 +95,24 @@ const Section: React.FC<Props> = ({section, index}) => {
     }
 
     return (
-        <div className="mb-8 group">
+        <div className="mb-8">
             <div className="mb-4 flex justify-start items-center">
                 <h1 className="text-2xl text-gray-800 font-semibold mr-1">Section {index + 1}</h1>
                 <span
                     className="text-gray-300 mx-2 space-x-2">
+                    <NewTooltip title="Add item" placement="bottom" enterDelay={500}
+                                enterNextDelay={500}>
+                            <button type="button" onClick={() => addMcItem()}
+                                    className="inline-flex text-center items-center h-8 w-8 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200 focus:outline-none focus:shadow-outline transition ease-in-out duration-150">
+                                <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
+                                    <path
+                                        d="M12 6V12M12 12V18M12 12H18M12 12L6 12"
+                                        strokeWidth="2" strokeLinecap="round"
+                                        className="stroke-current"
+                                        strokeLinejoin="round"/>
+                                </svg>
+                            </button>
+                        </NewTooltip>
                     {isCollapsed ?
                         <NewTooltip title="Expand" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
@@ -130,9 +144,11 @@ const Section: React.FC<Props> = ({section, index}) => {
                             <button type="button" onClick={() => toggleIsCollapsed(false)}
                                     className="inline-flex text-center items-center h-8 w-8 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200 focus:outline-none focus:shadow-outline transition ease-in-out duration-150">
                                 <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
-                                    <path d="M5 12H5.01M12 12H12.01M19 12H19.01M6 12C6 12.5523 5.55228 13 5 13C4.44772 13 4 12.5523 4 12C4 11.4477 4.44772 11 5 11C5.55228 11 6 11.4477 6 12ZM13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12ZM20 12C20 12.5523 19.5523 13 19 13C18.4477 13 18 12.5523 18 12C18 11.4477 18.4477 11 19 11C19.5523 11 20 11.4477 20 12Z" strokeWidth="2" strokeLinecap="round"
-                                          className="stroke-current"
-                                          strokeLinejoin="round"/>
+                                    <path
+                                        d="M5 12H5.01M12 12H12.01M19 12H19.01M6 12C6 12.5523 5.55228 13 5 13C4.44772 13 4 12.5523 4 12C4 11.4477 4.44772 11 5 11C5.55228 11 6 11.4477 6 12ZM13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12ZM20 12C20 12.5523 19.5523 13 19 13C18.4477 13 18 12.5523 18 12C18 11.4477 18.4477 11 19 11C19.5523 11 20 11.4477 20 12Z"
+                                        strokeWidth="2" strokeLinecap="round"
+                                        className="stroke-current"
+                                        strokeLinejoin="round"/>
                                 </svg>
                             </button>
                         </NewTooltip>
@@ -142,30 +158,20 @@ const Section: React.FC<Props> = ({section, index}) => {
 
             </div>
             {!isCollapsed ? <ItemDnd section={section}/> : <button onClick={() => toggleIsCollapsed(false)}
-                                                                   className="bg-white border border-gray-300 px-4 py-4 rounded-lg focus:outline-none w-full text-left">
+                                                                   className="bg-white border border-gray-300 mb-2 px-4 py-4 rounded-lg focus:outline-none w-full text-left">
                 <h2 className="text-lg font-semibold text-gray-800">{document.sections[section].items.length} items</h2>
             </button>}
 
-            <div className="flex justify-between mt-4 invisible group-hover:visible ">
+            <div className="flex justify-between">
                 <button type="button" onClick={() => addSection()}
-                        className="inline-flex items-center border-gray-300 text-lg leading-4 font-medium rounded-md text-gray-300 bg-transparent hover:text-gray-400 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
+                        className="inline-flex items-center border-gray-300 leading-4 font-medium rounded-md text-gray-300 bg-transparent hover:text-gray-400 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
                     <svg width="32" height="32" viewBox="0 0 24 24" className="mr-2" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M12 9V12M12 12V15M12 12H15M12 12H9M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     New Section
-                </button>
-                <button type="button" onClick={() => addMcItem()}
-                        className="inline-flex items-center border-gray-300 text-lg leading-4 font-medium rounded-md text-gray-300 bg-transparent hover:text-gray-400 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
-                    <svg width="32" height="32" viewBox="0 0 24 24" className="mr-2" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12 9V12M12 12V15M12 12H15M12 12H9M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    New Answer
                 </button>
             </div>
         </div>

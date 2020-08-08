@@ -10,6 +10,7 @@ import {ShortAnswerController} from "./Controllers/ShortAnswer/ShortAnswer";
 import InactiveEditor from "../Editor/InactiveEditor";
 import arrayMove from "array-move";
 
+
 interface Props {
     active: boolean;
     item: string;
@@ -77,7 +78,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
         })
 
     }
-    
+
     return (
         <div
             className={"bg-white focus:shadow-outline w-full pt-3 px-4 sm:px-6 focus:outline-none rounded-lg " + (!active ? ' pb-2' : null)}>
