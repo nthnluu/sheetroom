@@ -8,6 +8,9 @@ import React, {useEffect} from "react";
 import WithGraphQL from "../lib/with-graphql";
 import {useAnalytics} from "../components/useAnalytics";
 import {Router} from "next/router";
+import App from "next/app";
+import jwt from 'next-auth/jwt'
+import axios from 'axios';
 
 const MuiTheme = createMuiTheme({
     palette: {
@@ -50,12 +53,10 @@ const MyApp = ({Component, pageProps}: AppProps) => {
 
     return <NextAuthProvider session={session}><WithGraphQL session={session}>
         <ThemeProvider theme={MuiTheme}>
-
             <Component {...pageProps} />
         </ThemeProvider>
     </WithGraphQL></NextAuthProvider>;
 };
-
 
 export default MyApp;
 
