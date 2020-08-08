@@ -45,7 +45,7 @@ const options = {
 
             if (!isSignIn) {
                 token.id = user.id
-                token['X-Hasura-User-Id'] = user.id
+                token['X-Hasura-User-Id'] = user.id.toString()
                 token['X-Hasura-Role'] = "user"
                 token['X-Hasura-Allowed-Roles'] = ["user"]
             }
