@@ -12,8 +12,7 @@ interface Props {
 }
 
 export const ItemDnd:React.FC<Props> = ({section}) => {
-    const {document, setDocument} = useContext(QuizContext)
-    const [currentItem, setCurrentItem] = useState(document.config.sections[0]);
+    const {document, setDocument, currentItem, setCurrentItem} = useContext(QuizContext)
 
     const onSortEnd = (result) => {
         // dropped outside the list
