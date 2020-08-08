@@ -5,6 +5,7 @@ import AssignmentList from "./AssignmentList";
 import NewAssignmentDialog from "../DialogBox/NewAssignmentDialog";
 import NewClassDialog from "../DialogBox/NewClassDialog";
 import ClassCard from "./ClassCard";
+import NewAssignmentModal from "../Modals/NewAssignmentModal";
 
 
 interface Props {
@@ -20,7 +21,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
     return (
         <div className="bg-white lg:min-w-0 lg:flex-1 w-full">
 
-            <NewAssignmentDialog onClose={() => toggleCreateAssignmentDialog(false)} open={createAssignmentDialog} session={session}/>
+            <NewAssignmentModal onCancel={() => toggleCreateAssignmentDialog(false)} isOpen={createAssignmentDialog} session={session}/>
             <NewClassDialog onClose={() => toggleCreateClassDialog(false)} open={createClassDialog} session={session}/>
             <div className="border-b border-gray-200 pb-8">
                 <div

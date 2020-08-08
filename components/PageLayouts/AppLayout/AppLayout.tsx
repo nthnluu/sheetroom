@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "./Navbar";
 import ActivityFeed from "../../Dashboard/ActivityFeed";
+import NewAssignmentModal from "../../Modals/NewAssignmentModal";
 
 
 interface Props {

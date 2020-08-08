@@ -33,7 +33,29 @@ const ModalContent = () => {
 }
 
 const ShareAssignmentModal = ({isOpen, onCancel}) => {
-    return (<SimpleModal isOpen={isOpen} onCancel={onCancel} title="Share Assignment" content={<ModalContent/>}/>)
+    return (<SimpleModal buttons={<div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse sm:justify-between">
+        <div className="sm:flex sm:flex-row-reverse">
+                        <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+        <button type="button"
+                className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+          Create Invite
+        </button>
+      </span>
+            <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+        <button type="button" onClick={onCancel}
+                className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+          Cancel
+        </button>
+      </span>
+        </div>
+
+        <span className="mt-3 w-full rounded-md sm:mt-0 sm:w-auto hidden sm:flex">
+        <button type="button" onClick={onCancel}
+                className="inline-flex justify-center w-full rounded-md px-4 py-2 bg-white text-base leading-6 font-medium text-gray-400 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+          View previous invites
+        </button>
+      </span>
+    </div>} isOpen={isOpen} onCancel={onCancel} title="Share Assignment" content={<ModalContent/>}/>)
 }
 
 export default ShareAssignmentModal
