@@ -18,8 +18,8 @@ const WithGraphQL = ({
     const newToken = jwt.sign({
         "https://hasura.io/jwt/claims": {
             "X-Hasura-User-Id": userIdInString,
-            "x-hasura-default-role": "admin",
-            "x-hasura-allowed-roles": ["admin"]
+            "x-hasura-default-role": "user",
+            "x-hasura-allowed-roles": ["user"]
         }
     }, secret)
 
@@ -32,8 +32,6 @@ const WithGraphQL = ({
             connectionParams: {
                 headers: {
                     Authorization: `Bearer ${newToken}`
-                    // "X-Hasura-User-Id": userIdInString,
-                    // "x-hasura-admin-secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS"
                 },
             },
         },
@@ -46,7 +44,6 @@ const WithGraphQL = ({
         fetchOptions: {
             headers: {
                 Authorization: `Bearer ${newToken}`
-                // "x-hasura-admin-secret": "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS"
             },
 
         },
