@@ -35,8 +35,8 @@ export default function ({session, content, pageData}) {
                 <nav>
                     <div className="mx-auto px-2 sm:px-4 lg:px-8">
                         <div className="flex justify-between h-16">
-                            <div className="flex px-0 lg:px-0">
-                                <div className="flex justify-between items-center lg:-ml-2">
+                            <div className="flex px-0">
+                                <div className="flex items-center lg:-ml-2">
                                     <NewTooltip title="Rename Assignment" placement="bottom" enterDelay={500}
                                                 enterNextDelay={500}>
                                         <input style={{textOverflow: "ellipsis", maxWidth: '12rem'}}
@@ -125,7 +125,7 @@ export default function ({session, content, pageData}) {
                 </nav>
             </div>
             <div className="h-full">
-                <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)}/>
+                <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session}/>
                 {content}
             </div>
 

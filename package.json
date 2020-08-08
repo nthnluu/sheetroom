@@ -35,6 +35,7 @@
     "jsonwebtoken": "latest",
     "katex": "^0.12.0",
     "lodash": "^4.17.19",
+    "nanoid": "^3.1.12",
     "next": "9.4.4",
     "next-auth": "^3.1.0",
     "pg": "^8.2.1",
