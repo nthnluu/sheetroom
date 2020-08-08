@@ -19,7 +19,7 @@ const DragHandle = ({provided}) => (<i {...provided.dragHandleProps}
 const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex, section, snapshot}) => {
 
     return (
-        <motion.div whileTap={!active ? { scale: 0.98 } : null} className="pb-4 relative" key={item} animate={active ? {scale:1.01} : {scale:1}}>
+        <motion.div whileTap={!active ? { scale: 0.98 } : null} className="pb-4 relative" key={item} >
             {active ? <div className="bg-white rounded-lg border border-gray-200 shadow-lg pt-2 md:pt-0">
                 <div className="w-full text-center z-50 hidden md:block"><DragHandle provided={provided}/></div>
                 <ActiveContent item={item} itemIndex={itemIndex} section={section} condensed={snapshot.isDragging}/>
