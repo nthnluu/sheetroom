@@ -32,6 +32,9 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                         answer_objects: {$splice: [[answerIndex, 1]]}
                     }
                 },
+                answer_objects: {
+                    $unset: [choice]
+                }
 
             })
             return newData

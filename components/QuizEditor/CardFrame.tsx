@@ -39,7 +39,6 @@ const Controller = ({type, item, active}) => {
 
 const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed, sectionIndex}) => {
     const {document, setDocument} = useContext(QuizContext);
-
     const currentItem = document.items[item];
 
     // Logic for AUTOSAVING the ITEM CONTENT
@@ -65,13 +64,9 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
             setDocument(prevState => {
                 const newData = update(prevState, {
                     items: {
-                        [item]: {
-                            $set: undefined
-                        }
+                        $unset: [item]
                     }, sections: {
-                        [section]: {
-                            $set: undefined
-                        }
+                        $unset: [section]
                     }, config: {
                         sections: {
                             $splice: [[sectionIndex, 1]]
@@ -85,9 +80,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
             setDocument(prevState => {
                 const newData = update(prevState, {
                     items: {
-                        [item]: {
-                            $set: null
-                        }
+                        $unset: [item]
                     }, sections: {
                         [section]: {
                             items: {
