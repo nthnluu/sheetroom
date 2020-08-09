@@ -127,35 +127,138 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                             enterNextDelay={500}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100"
                             onClick={() => addMcItem()}>
-                        <img src="/question_icons/MultipleChoice.jpg" className="h-6"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
+                            <defs>
+                                <clipPath id="a">
+                                    <path d="M0 0h100v100H0z"/>
+                                </clipPath>
+                            </defs>
+                            <g clipPath="url(#a)">
+                                <path fill="#fff" d="M0 0h100v100H0z"/>
+                                <g data-name="Rectangle 1" transform="translate(53)" fill="#707070" stroke="#707070">
+                                    <rect width="47" height="47" rx="23.5" stroke="none"/>
+                                    <rect x=".5" y=".5" width="46" height="46" rx="23" fill="none"/>
+                                </g>
+                                <g data-name="Rectangle 2" transform="translate(53 53)" fill="#707070" stroke="#707070" strokeWidth="7">
+                                    <rect width="47" height="47" rx="23.5" stroke="none"/>
+                                    <rect x="3.5" y="3.5" width="40" height="40" rx="20" fill="none"/>
+                                </g>
+                                <g data-name="Rectangle 3" transform="translate(0 53)" fill="#707070" stroke="#707070">
+                                    <rect width="47" height="47" rx="23.5" stroke="none"/>
+                                    <rect x=".5" y=".5" width="46" height="46" rx="23" fill="none"/>
+                                </g>
+                                <g data-name="Rectangle 4" fill="none" stroke="#707070" strokeWidth="7">
+                                    <rect width="47" height="47" rx="23.5" stroke="none"/>
+                                    <rect x="3.5" y="3.5" width="40" height="40" rx="20"/>
+                                </g>
+                            </g>
+                        </svg>
                     </button>
                 </NewTooltip>
 
                 <NewTooltip title="Multiple Answers" placement="bottom" enterDelay={500}
                             enterNextDelay={500}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
-                        <img src="/question_icons/MultipleAnswers.jpg" className="h-6"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
+                            <defs>
+                                <clipPath id="a">
+                                    <path d="M0 0h100v100H0z"/>
+                                </clipPath>
+                            </defs>
+                            <g clipPath="url(#a)">
+                                <path fill="#fff" d="M0 0h100v100H0z"/>
+                                <g data-name="Rectangle 1" transform="translate(53)" fill="#707070" stroke="#707070">
+                                    <rect width="47" height="47" rx="13" stroke="none"/>
+                                    <rect x=".5" y=".5" width="46" height="46" rx="12.5" fill="none"/>
+                                </g>
+                                <g data-name="Rectangle 2" transform="translate(53 53)" fill="none" stroke="#707070" strokeWidth="7">
+                                    <rect width="47" height="47" rx="13" stroke="none"/>
+                                    <rect x="3.5" y="3.5" width="40" height="40" rx="9.5"/>
+                                </g>
+                                <g data-name="Rectangle 3" transform="translate(0 53)" fill="#707070" stroke="#707070">
+                                    <rect width="47" height="47" rx="13" stroke="none"/>
+                                    <rect x=".5" y=".5" width="46" height="46" rx="12.5" fill="none"/>
+                                </g>
+                                <g data-name="Rectangle 4" fill="none" stroke="#707070" strokeWidth="7">
+                                    <rect width="47" height="47" rx="13" stroke="none"/>
+                                    <rect x="3.5" y="3.5" width="40" height="40" rx="9.5"/>
+                                </g>
+                            </g>
+                        </svg>
                     </button>
                 </NewTooltip>
 
                 <NewTooltip title="Short Answer" placement="bottom" enterDelay={500}
                             enterNextDelay={500}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
-                        <img src="/question_icons/ShortAnswer.jpg" className="h-6"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
+                            <defs>
+                                <clipPath id="a">
+                                    <path d="M0 0h100v100H0z"/>
+                                </clipPath>
+                            </defs>
+                            <g clipPath="url(#a)">
+                                <path fill="#fff" d="M0 0h100v100H0z"/>
+                                <g data-name="Rectangle 4" fill="none" stroke="#707070" strokeWidth="8">
+                                    <rect width="100" height="100" rx="13" stroke="none"/>
+                                    <rect x="4" y="4" width="92" height="92" rx="9"/>
+                                </g>
+                                <text transform="translate(16 66)" fill="#707070" fontSize="52" fontFamily="AdellePE-Bold, Adelle PE" fontWeight="700">
+                                    <tspan x="0" y="0">Aa</tspan>
+                                </text>
+                            </g>
+                        </svg>
                     </button>
                 </NewTooltip>
 
                 <NewTooltip title="Paragraph" placement="bottom" enterDelay={500}
                             enterNextDelay={500}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
-                        <img src="/question_icons/Paragraph.jpg" className="h-6"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
+                            <defs>
+                                <clipPath id="a">
+                                    <path d="M0 0h100v100H0z"/>
+                                </clipPath>
+                            </defs>
+                            <g clipPath="url(#a)">
+                                <path fill="#fff" d="M0 0h100v100H0z"/>
+                                <g data-name="Rectangle 4" fill="none" stroke="#707070" strokeWidth="8">
+                                    <rect width="100" height="100" rx="13" stroke="none"/>
+                                    <rect x="4" y="4" width="92" height="92" rx="9"/>
+                                </g>
+                                <text transform="translate(13 48)" fill="#707070" fontSize="38" fontFamily="AdellePE-Bold, Adelle PE" fontWeight="700">
+                                    <tspan x="0" y="0">T</tspan>
+                                </text>
+                                <path data-name="Line 1" fill="none" stroke="#707070" strokeLinecap="round" strokeWidth="7" d="M82.5 23.5h-37"/>
+                                <path data-name="Line 2" fill="none" stroke="#707070" strokeLinecap="round" strokeWidth="7" d="M82.5 41.5h-37"/>
+                                <path data-name="Line 4" fill="none" stroke="#707070" strokeLinecap="round" strokeWidth="7" d="M82.5 59.5h-65"/>
+                                <path data-name="Line 5" fill="none" stroke="#707070" strokeLinecap="round" strokeWidth="7" d="M82.5 77.5h-65"/>
+                            </g>
+                        </svg>
                     </button>
                 </NewTooltip>
 
                 <NewTooltip title="Math" placement="bottom" enterDelay={500}
                             enterNextDelay={500}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
-                        <img src="/question_icons/Math.jpg" className="h-6"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
+                            <defs>
+                                <clipPath id="a">
+                                    <path d="M0 0h100v100H0z"/>
+                                </clipPath>
+                            </defs>
+                            <g clipPath="url(#a)">
+                                <path fill="#fff" d="M0 0h100v100H0z"/>
+                                <g data-name="Rectangle 4" fill="none" stroke="#707070" strokeWidth="8">
+                                    <rect width="100" height="100" rx="13" stroke="none"/>
+                                    <rect x="4" y="4" width="92" height="92" rx="9"/>
+                                </g>
+                                <text data-name="f(x)" transform="translate(17 60)" fill="#707070" fontSize="38" fontFamily="AdellePE-BoldItalic, Adelle PE" fontWeight="700" fontStyle="italic">
+                                    <tspan x="0" y="0">f(x)</tspan>
+                                </text>
+                            </g>
+                        </svg>
+
                     </button>
                 </NewTooltip>
 
@@ -163,7 +266,18 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                             enterNextDelay={500}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100"
                             onClick={() => addSection()}>
-                        <img src="/question_icons/Section.jpg" className="h-6"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
+                            <defs>
+                                <clipPath id="a">
+                                    <path d="M0 0h100v100H0z"/>
+                                </clipPath>
+                            </defs>
+                            <g clipPath="url(#a)">
+                                <path fill="#fff" d="M0 0h100v100H0z"/>
+                                <path d="M81.479 45.819H17.92m63.559 0a9.08 9.08 0 019.08 9.08v27.24a9.08 9.08 0 01-9.08 9.08H17.92a9.08 9.08 0 01-9.08-9.08V54.9a9.08 9.08 0 019.08-9.08m63.559 0v-9.08a9.08 9.08 0 00-9.08-9.08M17.92 45.819V36.74A9.08 9.08 0 0127 27.66m0 0v-9.08a9.08 9.08 0 019.08-9.08h27.24a9.08 9.08 0 019.08 9.08v9.08m-45.4 0h45.4" fill="none" stroke="#707070" strokeLinecap="round" strokeLinejoin="round" strokeWidth="8"/>
+                            </g>
+                        </svg>
+
                     </button>
                 </NewTooltip>
             </div></div> : null}
