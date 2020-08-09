@@ -123,8 +123,8 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                 className="w-full bg-white rounded-lg shadow-md z-50 px-6 sm:px-6 py-3 flex justify-between md:max-w-sm md:space-x-4">
 
 
-                <NewTooltip title="Multiple Choice" placement="bottom" enterDelay={500}
-                            enterNextDelay={500}>
+                <NewTooltip title="Multiple Choice" placement="bottom" enterDelay={100}
+                            enterNextDelay={100}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100"
                             onClick={() => addMcItem()}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
@@ -156,8 +156,8 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     </button>
                 </NewTooltip>
 
-                <NewTooltip title="Multiple Answers" placement="bottom" enterDelay={500}
-                            enterNextDelay={500}>
+                <NewTooltip title="Multiple Answers" placement="bottom" enterDelay={100}
+                            enterNextDelay={100}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
                             <defs>
@@ -188,8 +188,8 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     </button>
                 </NewTooltip>
 
-                <NewTooltip title="Short Answer" placement="bottom" enterDelay={500}
-                            enterNextDelay={500}>
+                <NewTooltip title="Short Answer" placement="bottom" enterDelay={100}
+                            enterNextDelay={100}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
                             <defs>
@@ -211,8 +211,8 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     </button>
                 </NewTooltip>
 
-                <NewTooltip title="Paragraph" placement="bottom" enterDelay={500}
-                            enterNextDelay={500}>
+                <NewTooltip title="Paragraph" placement="bottom" enterDelay={100}
+                            enterNextDelay={100}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
                             <defs>
@@ -238,8 +238,8 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     </button>
                 </NewTooltip>
 
-                <NewTooltip title="Math" placement="bottom" enterDelay={500}
-                            enterNextDelay={500}>
+                <NewTooltip title="Math" placement="bottom" enterDelay={100}
+                            enterNextDelay={100}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
                             <defs>
@@ -262,8 +262,8 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     </button>
                 </NewTooltip>
 
-                <NewTooltip title="Section" placement="bottom" enterDelay={500}
-                            enterNextDelay={500}>
+                <NewTooltip title="Section" placement="bottom" enterDelay={100}
+                            enterNextDelay={100}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100"
                             onClick={() => addSection()}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
