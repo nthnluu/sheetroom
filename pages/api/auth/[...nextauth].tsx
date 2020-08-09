@@ -4,7 +4,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 import iToken from "../../../types/token";
 import IUser from "../../../types/user";
 import ISession from "../../../types/session";
-import jwt from "jsonwebtoken";
+
 
 
 const options = {
