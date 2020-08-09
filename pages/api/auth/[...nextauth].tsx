@@ -4,6 +4,7 @@ import {NextApiRequest, NextApiResponse} from "next";
 import iToken from "../../../types/token";
 import IUser from "../../../types/user";
 import ISession from "../../../types/session";
+import ReactGA from "react-ga";
 
 
 
@@ -59,6 +60,17 @@ const options = {
     jwt: {
         secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw'
     },
+    events: {
+        signIn: async (message) => { ReactGA.event({
+            category: 'User',
+            action: 'Signed in'
+        }) },
+        signOut: async (message) => { /* on signout */ },
+        createUser: async (message) => { /* user created */ },
+        linkAccount: async (message) => { /* account linked to a user */ },
+        session: async (message) => { /* session is active */ },
+        error: async (message) => { /* error in authentication flow */ }
+    }
 };
 
 const Auth = (req: NextApiRequest, res: NextApiResponse) => NextAuth(req, res, options);

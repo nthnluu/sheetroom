@@ -6,6 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import React, {useState} from "react";
 import {useMutation} from "urql";
 import {createAssignment} from "../../lib/graphql/Assignments";
+import ReactGA from "react-ga";
 
 interface Props {
     onClose: any;
@@ -16,8 +17,6 @@ interface Props {
 
 const NewAssignmentDialog:React.FC<Props> = ({onClose, open, session}) => {
     const [createAssignmentResult, createNewAssignment] = useMutation(createAssignment);
-
-
     return ( <Dialog onClose={onClose} aria-labelledby="simple-dialog-title"
                      open={open}>
         <div className="p-2">

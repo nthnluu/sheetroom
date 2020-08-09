@@ -8,9 +8,6 @@ import React, {useEffect} from "react";
 import WithGraphQL from "../lib/with-graphql";
 import {useAnalytics} from "../components/useAnalytics";
 import {Router} from "next/router";
-import App from "next/app";
-import jwt from 'next-auth/jwt'
-import axios from 'axios';
 
 const MuiTheme = createMuiTheme({
     palette: {
@@ -43,7 +40,7 @@ const MyApp = ({Component, pageProps}: AppProps) => {
     const {init, trackPageViewed} = useAnalytics();
 
     useEffect(() => {
-        init("UA-174935077-1");
+        init("UA-174935077-1", session ? session.id : null);
         trackPageViewed();
         Router.events.on("routeChangeComplete", () => {
             trackPageViewed();
