@@ -92,6 +92,8 @@ code {
     font-family: 'Inter var' !important;
     font-size: 1.1rem !important;
     padding: 0rem !important;
+    overflow-x: hidden !important;
+    height: 100%;
 }
 
 
@@ -106,6 +108,7 @@ code {
     padding: 0rem !important;
     display: block;
     left: 0px !important;
+    z-index: 500 !important;
 }
 
 .modalOverlay {
@@ -127,6 +130,7 @@ code {
 .toolbarOverlay {
     z-index: 1000 !important;
 }
+
 /* purgecss end ignore */
 
 
