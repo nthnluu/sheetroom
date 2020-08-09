@@ -23,8 +23,6 @@ const WithGraphQL = ({
         }
     }, secret)
 
-    console.log(newToken)
-
     const subscriptionClient = new SubscriptionClient(
         process.env.NEXT_PUBLIC_WS_URL || "ws://api.sheetroom.com/v1/graphql",
         {

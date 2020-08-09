@@ -9,9 +9,10 @@ import update from "immutability-helper";
 
 interface Props {
     section: string;
+    sectionIndex: any;
 }
 
-export const ItemDnd:React.FC<Props> = ({section}) => {
+export const ItemDnd:React.FC<Props> = ({section, sectionIndex}) => {
     const {document, setDocument, currentItem, setCurrentItem} = useContext(QuizContext)
 
     const onSortEnd = (result) => {
@@ -44,6 +45,7 @@ export const ItemDnd:React.FC<Props> = ({section}) => {
                             {(provided, snapshot) => <div ref={provided.innerRef}
                                                           {...provided.draggableProps}>
                                 <ItemCard
+                                    sectionIndex={sectionIndex}
                                     snapshot={snapshot}
                                     section={section}
                                     provided={provided}

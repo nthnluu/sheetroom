@@ -90,6 +90,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                     }
                 }
             )
+            setCurrentItem(newId)
             return newData
         })
     }
@@ -157,7 +158,7 @@ const Section: React.FC<Props> = ({section, index}) => {
 
 
             </div>
-            {!isCollapsed ? <ItemDnd section={section}/> : <button onClick={() => toggleIsCollapsed(false)}
+            {!isCollapsed ? <ItemDnd section={section} sectionIndex={index}/> : <button onClick={() => toggleIsCollapsed(false)}
                                                                    className="bg-white border border-gray-300 mb-2 px-4 py-4 rounded-lg focus:outline-none w-full text-left">
                 <h2 className="text-lg font-semibold text-gray-800">{document.sections[section].items.length} items</h2>
             </button>}
