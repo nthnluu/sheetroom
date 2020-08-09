@@ -16,12 +16,13 @@ interface Props {
     section: string;
     snapshot: any;
     sectionIndex: any;
+    collapseSection: any;
 }
 
 const DragHandle = ({provided}) => (<i {...provided.dragHandleProps}
                                        className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
 
-const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex, section, snapshot, sectionIndex}) => {
+const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex, section, snapshot, sectionIndex, collapseSection}) => {
 
     const {setDocument, document, setCurrentItem} = useContext(QuizContext)
     const addSection = () => {
@@ -64,6 +65,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                 }
             )
             setCurrentItem(newId)
+            collapseSection()
             return newData
         })
     }
