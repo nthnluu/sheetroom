@@ -162,19 +162,6 @@ const Section: React.FC<Props> = ({section, index}) => {
                                                                    className="bg-white border border-gray-300 mb-2 px-4 py-4 rounded-lg focus:outline-none w-full text-left">
                 <h2 className="text-lg font-semibold text-gray-800">{document.sections[section].items.length} items</h2>
             </button>}
-
-            <div className="flex justify-between">
-                <button type="button" onClick={() => addSection()}
-                        className="inline-flex items-center border-gray-300 leading-4 font-medium rounded-md text-gray-300 bg-transparent hover:text-gray-400 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
-                    <svg width="32" height="32" viewBox="0 0 24 24" className="mr-2" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12 9V12M12 12V15M12 12H15M12 12H9M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    New Section
-                </button>
-            </div>
         </div>
     )
 }

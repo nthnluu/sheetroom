@@ -5,6 +5,7 @@ import {motion} from "framer-motion"
 import update from "immutability-helper";
 import {v4 as uuidv4} from 'uuid';
 import QuizContext from "../QuizContext";
+import NewTooltip from "../../Misc/Tooltip";
 
 interface Props {
     item: string;
@@ -14,6 +15,7 @@ interface Props {
     setActive: any
     section: string;
     snapshot: any;
+    sectionIndex: any;
 }
 
 const DragHandle = ({provided}) => (<i {...provided.dragHandleProps}
@@ -115,30 +117,52 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                      itemIndex={itemIndex} condensed={snapshot.isDragging}/>
                 </div>}
             </motion.div>
-            {active ? <div className="w-full bg-white rounded-md shadow-md z-50 px-6 sm:px-6 py-3 mb-8 flex justify-between md:justify-start md:space-x-6">
-                <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100" onClick={() => addMcItem()}>
-                    <img src="/question_icons/MultipleChoice.jpg" className="h-6"/>
-                </button>
+            {active ? <div
+                className="w-full bg-white rounded-lg shadow-md z-50 px-6 sm:px-6 py-3 mb-8 flex justify-between md:max-w-xs md:space-x-6">
+                <NewTooltip title="Multiple Choice" placement="bottom" enterDelay={500}
+                            enterNextDelay={500}>
+                    <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100"
+                            onClick={() => addMcItem()}>
+                        <img src="/question_icons/MultipleChoice.jpg" className="h-6"/>
+                    </button>
+                </NewTooltip>
 
-                <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
-                    <img src="/question_icons/MultipleAnswers.jpg" className="h-6"/>
-                </button>
+                <NewTooltip title="Multiple Answers" placement="bottom" enterDelay={500}
+                            enterNextDelay={500}>
+                    <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
+                        <img src="/question_icons/MultipleAnswers.jpg" className="h-6"/>
+                    </button>
+                </NewTooltip>
 
-                <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
-                    <img src="/question_icons/ShortAnswer.jpg" className="h-6"/>
-                </button>
+                <NewTooltip title="Short Answer" placement="bottom" enterDelay={500}
+                            enterNextDelay={500}>
+                    <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
+                        <img src="/question_icons/ShortAnswer.jpg" className="h-6"/>
+                    </button>
+                </NewTooltip>
 
-                <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
-                    <img src="/question_icons/Paragraph.jpg" className="h-6"/>
-                </button>
+                <NewTooltip title="Paragraph" placement="bottom" enterDelay={500}
+                            enterNextDelay={500}>
+                    <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
+                        <img src="/question_icons/Paragraph.jpg" className="h-6"/>
+                    </button>
+                </NewTooltip>
 
-                <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
-                    <img src="/question_icons/Math.jpg" className="h-6"/>
-                </button>
-                <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100" onClick={()=>addSection()}>
-                    <img src="/question_icons/Section.jpg" className="h-6"/>
-                </button>
-            </div>:null}
+                <NewTooltip title="Math" placement="bottom" enterDelay={500}
+                            enterNextDelay={500}>
+                    <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100">
+                        <img src="/question_icons/Math.jpg" className="h-6"/>
+                    </button>
+                </NewTooltip>
+
+                <NewTooltip title="Section" placement="bottom" enterDelay={500}
+                            enterNextDelay={500}>
+                    <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100"
+                            onClick={() => addSection()}>
+                        <img src="/question_icons/Section.jpg" className="h-6"/>
+                    </button>
+                </NewTooltip>
+            </div> : null}
         </div>
     )
 }
