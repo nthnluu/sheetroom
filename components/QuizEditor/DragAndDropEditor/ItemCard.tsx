@@ -119,8 +119,10 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                      itemIndex={itemIndex} condensed={snapshot.isDragging}/>
                 </div>}
             </motion.div>
-            {active ? <div
-                className="w-full bg-white rounded-lg shadow-md z-50 px-6 sm:px-6 py-3 mb-8 flex justify-between md:max-w-xs md:space-x-6">
+            {active ? <div className="pb-6"><div
+                className="w-full bg-white rounded-lg shadow-md z-50 px-6 sm:px-6 py-3 flex justify-between md:max-w-sm md:space-x-4">
+
+
                 <NewTooltip title="Multiple Choice" placement="bottom" enterDelay={500}
                             enterNextDelay={500}>
                     <button className="hover:opacity-75 focus:opacity-75 transition-opacity duration-100"
@@ -164,7 +166,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                         <img src="/question_icons/Section.jpg" className="h-6"/>
                     </button>
                 </NewTooltip>
-            </div> : null}
+            </div></div> : null}
         </div>
     )
 }
