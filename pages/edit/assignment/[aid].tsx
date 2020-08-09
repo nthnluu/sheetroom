@@ -26,7 +26,7 @@ const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({page
     // const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
     const [document, setDocument] = useState(pageData.assignments_assignment_by_pk.content);
     const [documentHistory, setDocumentHistory] = useState([pageData.assignments_assignment_by_pk.content]);
-    const [currentItem, setCurrentItem] = useState(document.sections[document.config.sections[0]].items[0] ? document.sections[document.config.sections[0]].items[0] : null);
+    const [currentItem, setCurrentItem] = useState(document.sections[document.config.sections[0]] ? document.sections[document.config.sections[0]].items[0] : null);
 
     //Tracks the save status -- 0: saved; 1: saving; 2: error
     const [saveStatus, setSaveStatus] = useState(0);

@@ -9,6 +9,7 @@ import NewTooltip from "../Misc/Tooltip";
 import {ShortAnswerController} from "./Controllers/ShortAnswer/ShortAnswer";
 import InactiveEditor from "../Editor/InactiveEditor";
 import arrayMove from "array-move";
+import JsonDebugBox from "../JsonDebugBox";
 
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
     itemIndex: number;
     section?: string;
     condensed: boolean;
+    sectionIndex?: number;
 }
 
 
@@ -35,7 +37,7 @@ const Controller = ({type, item, active}) => {
     }
 }
 
-const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed}) => {
+const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed, sectionIndex}) => {
     const {document, setDocument} = useContext(QuizContext);
 
     const currentItem = document.items[item];
@@ -59,23 +61,46 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
 
 
     const deleteItem = () => {
-        setDocument(prevState => {
-            const newData = update(prevState, {
-                items: {
-                    [item]: {
-                        $set: null
-                    }
-                }, sections: {
-                    [section]: {
-                        items: {
-                            $splice: [[itemIndex, 1]]
+        if (document.sections[section].items.length === 1) {
+            setDocument(prevState => {
+                const newData = update(prevState, {
+                    items: {
+                        [item]: {
+                            $set: undefined
+                        }
+                    }, sections: {
+                        [section]: {
+                            $set: undefined
+                        }
+                    }, config: {
+                        sections: {
+                            $splice: [[sectionIndex, 1]]
                         }
                     }
-                }
-            })
+                })
 
-            return newData
-        })
+                return newData
+            })
+        } else {
+            setDocument(prevState => {
+                const newData = update(prevState, {
+                    items: {
+                        [item]: {
+                            $set: null
+                        }
+                    }, sections: {
+                        [section]: {
+                            items: {
+                                $splice: [[itemIndex, 1]]
+                            }
+                        }
+                    }
+                })
+
+                return newData
+            })
+        }
+
 
     }
 
@@ -99,17 +124,17 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
                 <div>
                     <div className="max-w-2xl flex justify-between items-center">
                         <QuestionCardDropdown item={item}/>
-                        <NewTooltip title="Delete item" placement="bottom" enterDelay={500}
-                                                                       enterNextDelay={500}>
-                        <button type="button" onClick={() => deleteItem()}
-                                className="inline-flex text-center items-center h-8 w-8 ml-4 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
-                            <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M6 18L18 6M6 6L18 18" strokeWidth="2" strokeLinecap="round"
-                                      className="stroke-current"
-                                      strokeLinejoin="round"/>
-                            </svg>
-                        </button>
-                    </NewTooltip>
+                        {(Object.keys(document.items).length > 1) ? <NewTooltip title="Delete item" placement="bottom" enterDelay={500}
+                                                                   enterNextDelay={500}>
+                            <button type="button" onClick={() => deleteItem()}
+                                    className="inline-flex text-center items-center h-8 w-8 ml-4 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
+                                <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M6 18L18 6M6 6L18 18" strokeWidth="2" strokeLinecap="round"
+                                          className="stroke-current"
+                                          strokeLinejoin="round"/>
+                                </svg>
+                            </button>
+                        </NewTooltip> : null}
                     </div>
 
                 </div>
