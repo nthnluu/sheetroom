@@ -21,39 +21,42 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
     const reactQuillRef = useRef(null);
 
     return <>
-        <div className={"font-sans text-gray-700 w-full z-40 relative relative " + (border ? "border rounded-lg p-4 " : "p-0")}>
-            <ReactQuill
-                ref={reactQuillRef}
-                tabIndex={0}
-                key={"key" + uniqueKey}
-                id={uniqueKey + "xxxxx_myPropertyUsingQuill"}
-                onFocus={() => {
-                    if (active) {
-                        setIsFocused(true)
-                    }
-                }}
-                formats={["bold", "underline", "italic", "blockquote", "list", "formula"]}
-                onBlur={() => setIsFocused(false)}
-                readOnly={!active}
-                placeholder={placeholder} theme="bubble"
-                //@ts-ignore
-                value={value}
-                onChange={(html) => onChange(html)} modules={{
-                clipboard: {
-                    matchVisual: false,
-                },
-                formula: true,
-                keyboard: {bindings: {tab: false}},
-                toolbar: [
-                    ['bold', 'italic', 'underline', 'blockquote'],
-                    [{'list': 'ordered'}, {'list': 'bullet'}],
-                    ['formula']
-                ],
+        <div className={"font-sans text-gray-700 w-full z-40 overflow-y-hidden relative " + (border ? "border rounded-lg p-4 " : "p-0")}>
+            <div className="border-black h-full">
+                <ReactQuill
+                    ref={reactQuillRef}
+                    tabIndex={0}
+                    key={"key" + uniqueKey}
+                    id={uniqueKey + "xxxxx_myPropertyUsingQuill"}
+                    onFocus={() => {
+                        if (active) {
+                            setIsFocused(true)
+                        }
+                    }}
+                    formats={["bold", "underline", "italic", "blockquote", "list", "formula"]}
+                    onBlur={() => setIsFocused(false)}
+                    readOnly={!active}
+                    placeholder={placeholder} theme="bubble"
+                    //@ts-ignore
+                    value={value}
+                    onChange={(html) => onChange(html)} modules={{
+                    clipboard: {
+                        matchVisual: false,
+                    },
+                    formula: true,
+                    keyboard: {bindings: {tab: false}},
+                    toolbar: [
+                        ['bold', 'italic', 'underline', 'blockquote'],
+                        [{'list': 'ordered'}, {'list': 'bullet'}],
+                        ['formula']
+                    ],
 
-            }}/>
-            {isFocused ? <div className={"absolute right-0 bottom-0 " + (border ? "m-2": null)}>
-                <AddButton/>
-            </div> : null}
+                }}/>
+                {isFocused ? <div className={"absolute right-0 bottom-0 " + (border ? "m-2": null)}>
+                    <AddButton/>
+                </div> : null}
+            </div>
+
 
 
         </div>
