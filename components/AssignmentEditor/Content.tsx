@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -6,7 +6,6 @@ import {DialogContentText} from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
 import QuizContext from "./QuizContext";
 import Section from "./DragAndDropEditor/Section";
-import JsonDebugBox from "../JsonDebugBox";
 import ResultPage from "./ResultPage";
 
 interface Props {
@@ -49,7 +48,6 @@ const Content: React.FC<Props> = ({}) => {
                     {currentPage === 1 ? document.config.sections.map((sectionId, i) => <Section key={sectionId}
                                                                                                  section={sectionId}
                                                                                                  index={i}/>) : null}
-                    <JsonDebugBox content={currentPage}/>
                     {currentPage === 2 ? <ResultPage/> : null}
                 </div>
             </div>
@@ -58,4 +56,5 @@ const Content: React.FC<Props> = ({}) => {
 
 }
 
-export default Content
+// @ts-ignore
+export default Content;
