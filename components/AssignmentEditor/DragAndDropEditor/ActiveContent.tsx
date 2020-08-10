@@ -1,5 +1,6 @@
 import CardFrame from "../CardFrame";
-import React from "react";
+import React, {useState} from "react";
+import ItemOptionsModal from "../../Modals/ItemOptionsModal";
 
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const ActiveContent: React.FC<Props> = ({item, itemIndex, section, condensed, sectionIndex}) => {
+
     return (
         <div
             className="flex flex-grow-0 justify-between text-left z-40">

@@ -2,7 +2,7 @@ import SimpleModal from "./SimpleModal";
 import React, {useState} from "react";
 import {useMutation} from "urql";
 import {createAssignment} from "../../lib/graphql/Assignments";
-import {newInitialDocumentContent} from "../QuizEditor/Templates";
+import {newInitialDocumentContent} from "../AssignmentEditor/Templates";
 import {nanoid} from "nanoid";
 import ReactGA from "react-ga";
 

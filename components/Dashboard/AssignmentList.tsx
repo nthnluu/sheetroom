@@ -55,7 +55,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
                           </span>
                                 <span className="block">
                             <h2 className="text-sm font-medium leading-5">
-                              <a href={"/edit/assignment/"+ item.id}>
+                              <a href={"/assignment/"+ item.id}>
                                 <span className="absolute inset-0"/>
                                   {item.title}
                               </a>

@@ -1,14 +1,10 @@
 import SimpleModal from "./SimpleModal";
 import React, {useContext, useState} from "react";
 import {nanoid} from "nanoid";
-import {useMutation} from "urql";
-import {createInvite} from "../../lib/graphql/Invites";
-import {newInitialDocumentContent} from "../AssignmentEditor/Templates";
 import QuizContext from "../AssignmentEditor/QuizContext";
-import SectionCalculatorDropdown from "../Dropdowns/SectionCalculatorDropdown";
 
 
-const SectionOptionsModal = ({isOpen, onCancel}) => {
+const ItemOptionsModal = ({isOpen, onCancel}) => {
     const [newInviteCode, setInviteCode] = useState(nanoid(8))
     const [modalStep, setModalStep] = useState(0)
     const [sharingSetting, setSharingSetting] = useState("public")
@@ -48,21 +44,31 @@ const SectionOptionsModal = ({isOpen, onCancel}) => {
         </div>
 
         {/*@ts-ignore*/}
-    </div>} isOpen={isOpen} onCancel={cancelModal} title="Section Options" content={<div>
+    </div>} isOpen={isOpen} onCancel={cancelModal} title="Item Options" content={<div>
         <div className="flex justify-between items-center mt-6">
-            <label htmlFor="sectionCalculator" className="font-medium text-gray-700">Description</label>
+            <label htmlFor="sectionCalculator" className="font-medium text-gray-700">Points</label>
+            {/*// <!-- On: "bg-indigo-600", Off: "bg-gray-200" -->*/}
+            <span>
+                <label htmlFor="email" className="sr-only">Email</label>
+                <div className="relative rounded-md shadow-sm">
+                    <input id="email" className="form-input block w-14 text-center sm:text-sm sm:leading-5"
+                           placeholder="you@example.com" value="10"/>
+                </div>
+            </span>
+        </div>
+        <div className="flex justify-between items-center mt-6">
+            <label htmlFor="sectionCalculator" className="font-medium text-gray-700">Extra Credit</label>
             {/*// <!-- On: "bg-indigo-600", Off: "bg-gray-200" -->*/}
             <span role="checkbox" tabIndex={0} aria-checked="false" id="sectionCalculator"
                   className="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline">
-  {/*// <!-- On: "translate-x-5", Off: "translate-x-0" -->*/}
+  {/*// <!-- On: "translate-xx-5", Off: "translate-x-0" -->*/}
                 <span aria-hidden="true"
                       className="translate-x-0 inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200"></span>
             </span>
         </div>
 
-
         <div className="flex justify-between items-center mt-6">
-            <label htmlFor="sectionCalculator" className="font-medium text-gray-700">Calculator</label>
+            <label htmlFor="sectionCalculator" className="font-medium text-gray-700">Reference Info</label>
             {/*// <!-- On: "bg-indigo-600", Off: "bg-gray-200" -->*/}
             <span role="checkbox" tabIndex={0} aria-checked="false" id="sectionCalculator"
                   className="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline">
@@ -74,8 +80,7 @@ const SectionOptionsModal = ({isOpen, onCancel}) => {
 
         <div className="flex justify-between items-center my-6">
             <div className="text-left">
-                <label htmlFor="sectionCalculator" className="font-medium text-gray-700">Time Limit</label>
-                <p className="text-gray-400 text-sm"><u>Enable per-section timing</u> to set a time limit.</p>
+                <label htmlFor="sectionCalculator" className="font-medium text-gray-700">Scan for plagiarism </label>
             </div>
 
             {/*// <!-- On: "bg-indigo-600", Off: "bg-gray-200" -->*/}
@@ -91,4 +96,4 @@ const SectionOptionsModal = ({isOpen, onCancel}) => {
     />)
 }
 
-export default SectionOptionsModal
+export default ItemOptionsModal

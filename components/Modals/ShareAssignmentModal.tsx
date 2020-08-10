@@ -3,8 +3,8 @@ import React, {useContext, useState} from "react";
 import {nanoid} from "nanoid";
 import {useMutation} from "urql";
 import {createInvite} from "../../lib/graphql/Invites";
-import {newInitialDocumentContent} from "../QuizEditor/Templates";
-import QuizContext from "../QuizEditor/QuizContext";
+import {newInitialDocumentContent} from "../AssignmentEditor/Templates";
+import QuizContext from "../AssignmentEditor/QuizContext";
 
 
 const ShareAssignmentModal = ({isOpen, onCancel, session}) => {
