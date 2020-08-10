@@ -7,3 +7,15 @@ mutation CreateNewClass($title: String!, $userId: Int!) {
   }
 }
 `;
+
+
+export const allClasses = gql`
+query AllClasses($userId: Int!) {
+  classes_class(where: {created_by: {
+    _eq: $userId
+  }}) {
+    title
+    id
+  }
+}
+`;

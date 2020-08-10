@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import Transition from "../../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import NewAssignmentDialog from "../../DialogBox/NewAssignmentDialog";
 import NewAssignmentModal from "../../Modals/NewAssignmentModal";
 import Link from 'next/link'
 import NewClassModal from "../../Modals/NewClassModal";
@@ -35,7 +34,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
                     {/* Logo section */}
                     <div className="flex items-center justify-start w-full">
                         <div className="flex items-center px-2 lg:px-0 w-full h-full" style={{maxWidth: '28.9rem'}}>
-                            <Link href="/" shallow>
+                            <Link href="/">
                                 <a
                                    className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none opacity-75 hover:opacity-100 focus:opacity-100 active:shadow-outline">
                                     <img className="h-8 w-auto hidden md:block" src="/light_symbol.svg"
@@ -70,25 +69,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
                         </div>
                         <div className="related"/>
                         <div className="related-focus:bg-gray"/>
-                        {/* Search section */}
-                        {/*<div className="flex-1 flex justify-start w-full lg:justify-start">*/}
 
-                        {/*    <div className="w-full max-w-xl mx-auto px-2 lg:px-6">*/}
-                        {/*        <label htmlFor="search" className="sr-only">Search</label>*/}
-                        {/*        <div className="relative text-gray-300 focus-within:text-gray-400">*/}
-                        {/*            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">*/}
-                        {/*                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">*/}
-                        {/*                    <path fillRule="evenodd"*/}
-                        {/*                          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"*/}
-                        {/*                          clipRule="evenodd"/>*/}
-                        {/*                </svg>*/}
-                        {/*            </div>*/}
-                        {/*            <input id="search"*/}
-                        {/*                   className="block w-full pl-10 pr-3 py-1.5 border border-transparent rounded-md leading-5 bg-gray-400 bg-opacity-25 text-gray-300 placeholder-gray-300 focus:outline-none focus:bg-white focus:placeholder-gray-400 focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out"*/}
-                        {/*                   placeholder="Search" type="search"/>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                     </div>
                     <div className="flex lg:hidden">
                         {/* Mobile menu button */}
