@@ -1,16 +1,13 @@
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import React, {useState} from "react";
-import Transition from "../Transition";
 import AssignmentList from "./AssignmentList";
-import NewAssignmentDialog from "../DialogBox/NewAssignmentDialog";
-import NewClassDialog from "../DialogBox/NewClassDialog";
 import ClassCard from "./ClassCard";
 import NewAssignmentModal from "../Modals/NewAssignmentModal";
 import NewClassModal from "../Modals/NewClassModal";
+import ClassGrid from "./ClassGrid";
 
 
 interface Props {
-    session: string;
+    session: any;
 }
 
 
@@ -19,6 +16,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
     const [createClassDialog, toggleCreateClassDialog] = useState(false);
 
+    // @ts-ignore
     return (
         <div className="bg-white lg:min-w-0 lg:flex-1 w-full">
 
@@ -46,15 +44,8 @@ const ProjectList: React.FC<Props> = ({session}) => {
                     </div>
                 </div>
                 <div className="px-4 mt-6 sm:px-6 lg:px-6">
-                    <ul className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-2 mt-3">
-                        <ClassCard/>
-                        <ClassCard/>
-                        <ClassCard/>
-                        <ClassCard/>
-
-
-                        {/*// <!-- More project cards... -->*/}
-                    </ul>
+                    {/*@ts-ignore*/}
+                    <ClassGrid session={session}/>
                 </div>
             </div>
 

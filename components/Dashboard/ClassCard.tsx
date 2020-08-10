@@ -1,6 +1,12 @@
 import React from "react";
+import {useQuery} from "urql";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import {allClasses} from "../../lib/graphql/Class";
 
-const ClassCard = () => {
+
+
+const ClassCard = ({title}) => {
+
     return (<li className="relative col-span-1 flex shadow-sm rounded-md">
         <div
             className="flex-shrink-0 flex items-center justify-center w-16 bg-red-600 text-white text-sm leading-5 font-medium rounded-l-md">
@@ -11,7 +17,7 @@ const ClassCard = () => {
             <div className="flex-1 px-4 py-2 text-sm leading-5 truncate">
                 <a href="#"
                    className="text-gray-900 font-medium hover:text-gray-600 transition ease-in-out duration-150">
-                    GraphQL API
+                    {title}
                 </a>
                 <p className="text-gray-500">12 Members</p>
             </div>
