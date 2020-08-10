@@ -54,7 +54,7 @@ const ResultPage = () => {
               className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
           <span className="flex h-2 w-2 relative mr-2 ">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"/>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"/>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"/>
           </span>
           Active
       </button>
