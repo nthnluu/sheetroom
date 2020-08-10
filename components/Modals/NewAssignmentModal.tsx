@@ -29,7 +29,7 @@ const NewAssignmentModal = ({isOpen, onCancel, session}) => {
                 content: newInitialDocumentContent(),
                 userId: session.id
             })
-                .then((data) => window.location.href = '/edit/assignment/' + data.data.insert_assignments_assignment.returning[0].id)
+                .then((data) => window.location.href = '/assignment/' + data.data.insert_assignments_assignment.returning[0].id)
                 .catch(() => console.log(createAssignmentResult.error))
                 .then(() => ReactGA.event({
                     category: 'User',
