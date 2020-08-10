@@ -18,11 +18,11 @@ const AddButton = ({quillRef}) => {
             setFormulaValue("f(x)=")
         }}>
             <motion.div
-                animate={isOpen ? (formulaMode ? {width: '16rem', height: '2.5rem', opacity: 1} : {
+                animate={isOpen ? (formulaMode ? {width: '16rem', height: '3rem', opacity: 1} : {
                     width: '9rem',
                     height: '2rem',
                     opacity: 1
-                }) : {width: '2rem', height: '2rem', opacity: 0.5}}
+                }) : {width: '2rem', height: '2rem', opacity: 0.85}}
                 transition={{duration: 0.15}}
                 className="bg-white flex items-center justify-between shadow focus:outline-none h-8 w-8 rounded-lg p-1 overflow-hidden">
 

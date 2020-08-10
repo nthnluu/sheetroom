@@ -48,12 +48,11 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
                     keyboard: {bindings: {tab: false}},
                     toolbar: [
                         ['bold', 'italic', 'underline', 'blockquote'],
-                        [{'list': 'ordered'}, {'list': 'bullet'}],
-                        ['formula']
+                        [{'list': 'ordered'}, {'list': 'bullet'}]
                     ],
 
                 }}/>
-                <div className={"absolute right-0 bottom-0 invisible group-hover:visible " + (border ? "m-2" : null)}>
+                <div className={"absolute right-0 bottom-0 invisible group-hover:visible " + (border ? "m-1" : null)}>
                     <AddButton quillRef={reactQuillRef}/>
                 </div>
             </div>
