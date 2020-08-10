@@ -2,15 +2,28 @@ import React from "react";
 import {useQuery} from "urql";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {allClasses} from "../../lib/graphql/Class";
+import getInitials from "../../lib/getInitials";
 
 
 
-const ClassCard = ({title}) => {
+const ClassCard = ({title, color}) => {
+
+    const colorObject = (inputColor) => {
+        switch(inputColor) {
+            case('red'):
+                return {bg: "bg-gray-600"}
+            case('blue'):
+                return {bg: "bg-blue-600"}
+            case('pink'):
+                return {bg: "bg-pink-600"}
+        }
+    }
+
 
     return (<li className="relative col-span-1 flex shadow-sm rounded-md">
         <div
-            className="flex-shrink-0 flex items-center justify-center w-16 bg-red-600 text-white text-sm leading-5 font-medium rounded-l-md">
-            GA
+            className={"flex-shrink-0 flex items-center justify-center w-16 text-white text-sm leading-5 font-medium rounded-l-md " + colorObject(color).bg}>
+            {getInitials(title)}
         </div>
         <div
             className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">

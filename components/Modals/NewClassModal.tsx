@@ -16,7 +16,6 @@ const NewClassModal = ({isOpen, onCancel, session}) => {
     }
 
 
-
     return (<SimpleModal buttons={<div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse sm:justify-between">
         <div className="sm:flex sm:flex-row-reverse">
                         <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
@@ -25,7 +24,8 @@ const NewClassModal = ({isOpen, onCancel, session}) => {
             // @ts-ignore
             createNewClass({
                 title: currentValue,
-                userId: session.id
+                userId: session.id,
+                color: "pink"
             })
                 .then((data) => window.location.href = '/edit/assignment/' + data.data.insert_classes_class_one.id)
                 .catch(() => console.log(createClassResult.error))
