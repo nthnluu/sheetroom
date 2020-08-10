@@ -34,15 +34,15 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
                     {/* Logo section */}
                     <div className="flex items-center justify-start w-full">
                         <div className="flex items-center px-2 lg:px-0 w-full h-full" style={{maxWidth: '28.9rem'}}>
-                            <Link href="/">
-                                <a
-                                   className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none opacity-75 hover:opacity-100 focus:opacity-100 active:shadow-outline">
-                                    <img className="h-8 w-auto hidden md:block" src="/light_symbol.svg"
-                                         alt="Workflow logo"/>
-                                    <img className="h-8 w-auto block md:hidden" src="/light_symbol.svg"
-                                         alt="Workflow logo"/>
-                                </a>
-                            </Link>
+
+                            <a href="/"
+                                className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none opacity-75 hover:opacity-100 focus:opacity-100 active:shadow-outline">
+                                <img className="h-8 w-auto hidden md:block" src="/light_symbol.svg"
+                                     alt="Workflow logo"/>
+                                <img className="h-8 w-auto block md:hidden" src="/light_symbol.svg"
+                                     alt="Workflow logo"/>
+                            </a>
+
                             <div className="w-full mx-auto px-2 lg:px-2">
                                 <label htmlFor="search" className="sr-only">Search</label>
                                 <div className="relative text-gray-300 focus-within:text-gray-400">
@@ -130,8 +130,9 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
                                                         toggleNewDropdown(false);
                                                         toggleCreateClassDialog(true)
                                                     }}
-                                                       className="block px-4 py-2 text-sm w-full text-left leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                                       role="menuitem">New class</button>
+                                                            className="block px-4 py-2 text-sm w-full text-left leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                                            role="menuitem">New class
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

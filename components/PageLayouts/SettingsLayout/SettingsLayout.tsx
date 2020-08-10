@@ -16,8 +16,8 @@ const SettingsLayout: React.FC<Props> = ({content, session}) => {
     return (
         <div>
             {/*// <!-- Background color split screen for large screens -->*/}
-            <div className="fixed top-0 left-0 w-1/2 h-full bg-white"></div>
-            <div className="fixed top-0 right-0 w-1/2 h-full bg-gray-50"></div>
+            <div className="fixed top-0 left-0 w-1/2 h-full bg-white"/>
+            <div className="fixed top-0 right-0 w-1/2 h-full bg-gray-50"/>
             <div className="relative min-h-screen flex flex-col">
                 {/*// <!-- Navbar -->*/}
                 <Navbar session={session}/>
