@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import Navbar from "./Navbar";
+import Navbar from "../AppLayout/Navbar";
 import ActivityFeed from "../../Dashboard/ActivityFeed";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
@@ -21,6 +21,7 @@ const SettingsLayout: React.FC<Props> = ({content, session}) => {
             <div className="relative min-h-screen flex flex-col">
                 {/*// <!-- Navbar -->*/}
                 <Navbar session={session}/>
+
 
                 {/*// <!-- 3 column wrapper -->*/}
                 <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex mt-14">
