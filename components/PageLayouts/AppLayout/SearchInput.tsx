@@ -1,20 +1,67 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import React, {useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
+import {useQuery} from "urql";
+import {instructorSearch} from "../../../lib/graphql/Search";
+import JsonDebugBox from "../../JsonDebugBox";
+import {debounce} from 'lodash'
+
+const SearchDropdown = ({value, session}) => {
+
+    const [result, reexecuteQuery] = useQuery({
+        query: instructorSearch,
+        variables: {
+            userId: session.id,
+            searchValue: `%${value}%`
+        }
+    });
+
+    const {fetching, data, error} = result
+
+
+    return (<div className="pr-4 absolute w-full mt-1">
+        <ul className="w-full h-auto bg-white shadow-lg rounded-md border overflow-hidden">
+            <li className="w-full bg-blue-500 h-10  flex justify-start items-center p-2 text-white text-sm font-medium">
+                <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                        stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                {value}
+            </li>
+
+            <li
+                className="w-full h-6 flex bg-gray-100 justify-start items-center p-2 text-gray-600 text-xs font-medium">
+                Classes
+            </li>
+            {data ? <>
+                {result.data.classes_class.map(course => <li key={course.id} className="w-full h-10  flex justify-start items-center p-2 text-gray-800 text-sm font-medium">
+                    {course.title}
+                </li>)}
+            </> : null}
+
+            {fetching ? <div className="mx-auto w-full text-center"><CircularProgress size={25} color="secondary"/>
+            </div> : null}
+
+
+        </ul>
+    </div>)
+}
+
 
 const SearchInput = ({session}) => {
-    const [searchDropdown, toggleSearchDropdown] = useState(false);
+    const [searchDropdownMode, setSearchDropdownMde] = useState(0);
     const [searchValue, setSearchValue] = useState("");
 
     const handleOnChange = event => {
         const value = event.target.value
-        if (!searchDropdown) {
-            toggleSearchDropdown(true)
+        if (!searchDropdownMode) {
+            setSearchDropdownMde(1)
         }
         setSearchValue(value)
     }
 
-    return (<ClickAwayListener onClickAway={() => toggleSearchDropdown(false)}>
+    return (<ClickAwayListener onClickAway={() => setSearchDropdownMde(0)}>
         <div className="w-full mx-auto px-2 lg:px-2 relative">
             <label htmlFor="search" className="sr-only">Search</label>
             <div className="relative text-gray-300 focus-within:text-gray-400">
@@ -30,7 +77,10 @@ const SearchInput = ({session}) => {
                        className="block w-full pl-10 pr-3 py-1.5 border border-transparent rounded-md leading-5 bg-gray-400 bg-opacity-25 text-gray-300 placeholder-gray-300 focus:outline-none focus:bg-white focus:placeholder-gray-400 focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out"
                        placeholder="Search" type="search"/>
             </div>
-            {searchDropdown && searchValue.length > 0 ? <div className="pr-4 absolute w-full mt-1">
+            {searchDropdownMode === 1 && searchValue.length > 0 ?
+                <SearchDropdown session={session} value={searchValue}/> : null}
+
+            {searchDropdownMode === 3 && searchValue.length > 0 ? <div className="pr-4 absolute w-full mt-1">
                 <div className="w-full h-16 bg-white shadow-lg rounded-md border flex items-center">
                     <div className="mx-auto w-full text-center"><CircularProgress size={25} color="secondary"/></div>
                 </div>
