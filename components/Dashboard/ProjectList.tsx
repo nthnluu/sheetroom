@@ -6,6 +6,7 @@ import NewAssignmentDialog from "../DialogBox/NewAssignmentDialog";
 import NewClassDialog from "../DialogBox/NewClassDialog";
 import ClassCard from "./ClassCard";
 import NewAssignmentModal from "../Modals/NewAssignmentModal";
+import NewClassModal from "../Modals/NewClassModal";
 
 
 interface Props {
@@ -21,8 +22,8 @@ const ProjectList: React.FC<Props> = ({session}) => {
     return (
         <div className="bg-white lg:min-w-0 lg:flex-1 w-full">
 
+            <NewClassModal onCancel={() => toggleCreateClassDialog(false)} isOpen={createClassDialog} session={session}/>
             <NewAssignmentModal onCancel={() => toggleCreateAssignmentDialog(false)} isOpen={createAssignmentDialog} session={session}/>
-            <NewClassDialog onClose={() => toggleCreateClassDialog(false)} open={createClassDialog} session={session}/>
             <div className="border-b border-gray-200 pb-8">
                 <div
                     className="pl-4 pr-6 pt-4 pb-4 border-b border-t border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:pt-6 xl:border-t-0">
@@ -34,7 +35,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
                                     aria-haspopup="true" aria-expanded="false">
                                 <svg className="mr-1 h-5 w-5 text-white" viewBox="0 0 24 24" stroke="currentColor">
                                     <path
-                                        d="M12 4v16m8-8H4" stroke-width="2"/>
+                                        d="M12 4v16m8-8H4" strokeWidth="2"/>
                                 </svg>
                                 New
                             </button>
@@ -118,7 +119,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
                                 aria-haspopup="true" aria-expanded="false">
                             <svg className="mr-1 h-5 w-5 text-white" viewBox="0 0 24 24" stroke="currentColor">
                                 <path
-                                    d="M12 4v16m8-8H4" stroke-width="2"/>
+                                    d="M12 4v16m8-8H4" strokeWidth="2"/>
                             </svg>
                             New
                         </button>
