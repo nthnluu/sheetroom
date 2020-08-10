@@ -1,31 +1,9 @@
 import Navbar from "../../components/PageLayouts/AppLayout/Navbar";
 import {GetServerSideProps} from "next";
 import {getSession} from "next-auth/client";
-import {useQuery} from "urql";
-import {getInviteByJoinCode} from "../../lib/graphql/Invites";
-import JsonDebugBox from "../../components/JsonDebugBox";
 import { useRouter } from 'next/router'
 import {useState} from "react";
 
-
-const ReturnedAssignment = ({joinCode}) => {
-    const [result] = useQuery({
-        query: getInviteByJoinCode,
-        variables: {
-            // @ts-ignore
-            joinCode: joinCode
-        }
-    });
-
-    const {data, fetching, error} = result;
-    if (fetching) return <p>Loading...</p>;
-    if (error) return <p>Oh no... {error.message}</p>;
-    return (
-        <JsonDebugBox content={data}/>
-    );
-
-
-}
 
 const JoinPage = ({session}) => {
     const router = useRouter()
