@@ -8,9 +8,6 @@ const AddButton = ({quillRef}) => {
     const [formulaMode, toggleFormulaMode] = useState(false)
     const [formulaValue, setFormulaValue] = useState("f(x)=");
 
-
-    // @ts-ignore
-    // noinspection BadExpressionStatementJS
     return (
         <ClickAwayListener onClickAway={() => {
             setIsOpen(false)
