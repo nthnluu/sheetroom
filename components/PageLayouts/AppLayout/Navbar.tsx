@@ -4,6 +4,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import NewAssignmentDialog from "../../DialogBox/NewAssignmentDialog";
 import NewAssignmentModal from "../../Modals/NewAssignmentModal";
 import Link from 'next/link'
+import NewClassModal from "../../Modals/NewClassModal";
 
 
 interface Props {
@@ -17,8 +18,10 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
     const [mobileMenu, toggleMobileMenu] = useState(false);
     const [newDropdown, toggleNewDropdown] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
+    const [createClassDialog, toggleCreateClassDialog] = useState(false);
 
     return (<div>
+        <NewClassModal onCancel={() => toggleCreateClassDialog(false)} isOpen={createClassDialog} session={session}/>
         <NewAssignmentModal onCancel={() => toggleCreateAssignmentDialog(false)} isOpen={createAssignmentDialog}
                             session={session}/>
         <nav className={"flex-shrink-0 w-full navbar " + (unfixed ? null : "fixed")}
@@ -142,9 +145,12 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
                                                             className="block px-4 py-2 w-full text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                                             role="menuitem">New assignment
                                                     </button>
-                                                    <a href="#"
-                                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                                       role="menuitem">New class</a>
+                                                    <button onClick={() => {
+                                                        toggleNewDropdown(false);
+                                                        toggleCreateClassDialog(true)
+                                                    }}
+                                                       className="block px-4 py-2 text-sm w-full text-left leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                                       role="menuitem">New class</button>
                                                 </div>
                                             </div>
                                         </div>
