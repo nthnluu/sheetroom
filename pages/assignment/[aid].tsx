@@ -3,18 +3,18 @@ import {useSubscription, useMutation} from "urql";
 import {getSession} from "next-auth/client";
 import Head from 'next/head'
 import React, {useCallback, useEffect, useState} from "react";
-import QuizContext from "../../../components/QuizEditor/QuizContext";
+import QuizContext from "../../components/QuizEditor/QuizContext";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {v4 as uuidv4} from 'uuid';
 import {debounce} from 'lodash'
-import EditorLayout from "../../../components/QuizEditor/EditorLayout";
+import EditorLayout from "../../components/QuizEditor/EditorLayout";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
-import {assignmentSubscription, updateAssignmentContent} from "../../../lib/graphql/Assignments";
-import JsonDebugBox from "../../../components/JsonDebugBox";
+import {assignmentSubscription, updateAssignmentContent} from "../../lib/graphql/Assignments";
+import JsonDebugBox from "../../components/JsonDebugBox";
 
 
 
@@ -27,6 +27,7 @@ const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({page
     const [document, setDocument] = useState(pageData.assignments_assignment_by_pk.content);
     const [documentHistory, setDocumentHistory] = useState([pageData.assignments_assignment_by_pk.content]);
     const [currentItem, setCurrentItem] = useState(document.sections[document.config.sections[0]] ? document.sections[document.config.sections[0]].items[0] : null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     //Tracks the save status -- 0: saved; 1: saving; 2: error
     const [saveStatus, setSaveStatus] = useState(0);
@@ -93,7 +94,9 @@ const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({page
             clientId,
             invalidSession,
             currentItem,
-            setCurrentItem
+            setCurrentItem,
+            currentPage,
+            setCurrentPage
         }}>
             {/*// @ts-ignore*/}
             <EditorLayout aid={aid} pageData={pageData} windowTitle="Sheetroom" session={session}/>

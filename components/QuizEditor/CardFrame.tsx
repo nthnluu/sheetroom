@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import MultipleChoiceController from "./Controllers/MultipleChoice/MultipleChoice";
 import QuestionCardDropdown from "../Dropdowns/QuestionCardDropdown";
 import QuizContext from "./QuizContext";
@@ -10,6 +10,7 @@ import {ShortAnswerController} from "./Controllers/ShortAnswer/ShortAnswer";
 import InactiveEditor from "../Editor/InactiveEditor";
 import arrayMove from "array-move";
 import JsonDebugBox from "../JsonDebugBox";
+import ItemOptionsModal from "../Modals/ItemOptionsModal";
 
 
 interface Props {
@@ -97,9 +98,13 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
 
     }
 
+    const [settingsOpen, toggleSettingsOpen] = useState(false);
+
+
     return (
         <div
             className={"bg-white focus:shadow-outline w-full pt-3 px-4 sm:px-6 focus:outline-none rounded-lg " + (!active ? ' pb-2' : null)}>
+            <ItemOptionsModal isOpen={settingsOpen} onCancel={() => toggleSettingsOpen(false)}/>
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">
@@ -130,7 +135,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
                         </NewTooltip> : null}
                         <NewTooltip title="Item settings" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
-                            <button type="button" onClick={() => deleteItem()}
+                            <button type="button" onClick={() => toggleSettingsOpen(true)}
                                     className="inline-flex text-center items-center h-8 w-8 ml-2 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
                                 <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
                                     <path d="M10.3246 4.31731C10.751 2.5609 13.249 2.5609 13.6754 4.31731C13.9508 5.45193 15.2507 5.99038 16.2478 5.38285C17.7913 4.44239 19.5576 6.2087 18.6172 7.75218C18.0096 8.74925 18.5481 10.0492 19.6827 10.3246C21.4391 10.751 21.4391 13.249 19.6827 13.6754C18.5481 13.9508 18.0096 15.2507 18.6172 16.2478C19.5576 17.7913 17.7913 19.5576 16.2478 18.6172C15.2507 18.0096 13.9508 18.5481 13.6754 19.6827C13.249 21.4391 10.751 21.4391 10.3246 19.6827C10.0492 18.5481 8.74926 18.0096 7.75219 18.6172C6.2087 19.5576 4.44239 17.7913 5.38285 16.2478C5.99038 15.2507 5.45193 13.9508 4.31731 13.6754C2.5609 13.249 2.5609 10.751 4.31731 10.3246C5.45193 10.0492 5.99037 8.74926 5.38285 7.75218C4.44239 6.2087 6.2087 4.44239 7.75219 5.38285C8.74926 5.99037 10.0492 5.45193 10.3246 4.31731Z" strokeWidth="1.75" strokeLinecap="round"
