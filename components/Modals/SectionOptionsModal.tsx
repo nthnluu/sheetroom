@@ -1,11 +1,7 @@
 import SimpleModal from "./SimpleModal";
 import React, {useContext, useState} from "react";
 import {nanoid} from "nanoid";
-import {useMutation} from "urql";
-import {createInvite} from "../../lib/graphql/Invites";
-import {newInitialDocumentContent} from "../AssignmentEditor/Templates";
 import QuizContext from "../AssignmentEditor/QuizContext";
-import SectionCalculatorDropdown from "../Dropdowns/SectionCalculatorDropdown";
 
 
 const SectionOptionsModal = ({isOpen, onCancel}) => {
