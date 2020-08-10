@@ -1,6 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="147" height="147" viewBox="0 0 147 147">
-  <g id="Group_6" data-name="Group 6" transform="translate(-433 -1130)">
-    <rect id="Rectangle_1" data-name="Rectangle 1" width="147" height="147" rx="41" transform="translate(433 1130)" fill="#f2f4fa"/>
-    <path id="check" d="M5,39.591,26.727,61.318,81.045,7" transform="translate(463.954 1169.559)" fill="none" stroke="#030917" stroke-linecap="round" stroke-linejoin="round" stroke-width="22"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="147" height="154" viewBox="0 0 147 154"><path d="M105,154H42A41.965,41.965,0,0,1,0,112V42A41.965,41.965,0,0,1,42,0h63a41.965,41.965,0,0,1,42,42v70a41.964,41.964,0,0,1-42,42ZM34.866,67.747a11.567,11.567,0,0,0-8.179,19.746L48.4,109.21a11.494,11.494,0,0,0,8.179,3.388,11.658,11.658,0,0,0,2.444-.259,11.466,11.466,0,0,0,6.582-3.278l54.5-54.5A11.567,11.567,0,0,0,103.75,38.2L56.931,85.021,43.045,71.135A11.491,11.491,0,0,0,34.866,67.747Z" fill="#fff"/></svg>

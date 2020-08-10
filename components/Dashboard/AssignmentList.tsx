@@ -46,6 +46,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
         <>
             <ul className="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
                 {data.assignments_assignment ? data.assignments_assignment.map(item => <li
+                    key={item.id}
                     className="relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
                     <div className="flex items-center justify-between space-x-4">
                         {/* Repo name and link */}
