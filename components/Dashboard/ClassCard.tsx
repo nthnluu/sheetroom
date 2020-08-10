@@ -6,8 +6,9 @@ import getInitials from "../../lib/getInitials";
 
 
 
-const ClassCard = ({title, color}) => {
+const ClassCard = ({course}) => {
 
+    const {title, id, color} = course
     const colorObject = (inputColor) => {
         switch(inputColor) {
             case('red'):
@@ -28,14 +29,14 @@ const ClassCard = ({title, color}) => {
         <div
             className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
             <div className="flex-1 px-4 py-2 text-sm leading-5 truncate">
-                <a href="#"
+                <a href={"/class/" + id}
                    className="text-gray-900 font-medium hover:text-gray-600 transition ease-in-out duration-150">
                     {title}
                 </a>
                 <p className="text-gray-500">12 Members</p>
             </div>
             <div className="flex-shrink-0 pr-2">
-                <button id="pinned-project-options-menu-0" aria-has-popup="true"
+                <button id="pinned-project-options-menu-0" aria-haspopup="true"
                         className="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150">
                     <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                         <path
