@@ -31,7 +31,7 @@ const ClassGrid: React.FC<Props>  = ({session})  => {
     if (fetching) return <LoadingPlaceholder/>;
 
     return (<ul className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-2 mt-3">
-        {data.classes_class.map(course => <ClassCard title={course.title}/>)}
+        {data.classes_class.map(course => <ClassCard course={course} />)}
     </ul>)
 }
 
