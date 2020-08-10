@@ -14,11 +14,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import {assignmentSubscription, updateAssignmentContent} from "../../lib/graphql/Assignments";
-import JsonDebugBox from "../../components/JsonDebugBox";
+import Transition from "../../components/Transition";
 
-
-
-const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({pageData, aid, session}) => {
+const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({pageData, aid, session}) => {
     // A client ID to identify the current user working on the project
     const [clientId] = useState(uuidv4())
 
@@ -37,6 +35,14 @@ const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({page
 
     const [mutateAssignmentResult, mutateAssignment] = useMutation(updateAssignmentContent)
 
+    const [currentNotification, setCurrentNotification] = useState(null)
+
+    const sendNotification = (newNotification) => {
+        setCurrentNotification(null);
+        setCurrentNotification(newNotification);
+        setTimeout(() => setCurrentNotification(null), 4000)
+    }
+
     const saveAssignment = (newDocument) => {
         if (!invalidSession) {
             setDocumentHistory([document, ...documentHistory])
@@ -47,6 +53,7 @@ const PageContent: React.FC<{ pageData, aid: string , session: string}> = ({page
         }
 
     }
+
 
 
     //Autosave Logic
@@ -128,7 +135,8 @@ const ErrorScreen = () => {
         <div className="mx-auto p-3">
 
             <img className="h-36 mx-auto text-center" src="https://i.imgur.com/jZR71Ox.png"/>
-            <h1 className="text-center text-gray-600 mt-6 text-lg font-semibold">Sorry, the assignment you're looking for does not exist.</h1>
+            <h1 className="text-center text-gray-600 mt-6 text-lg font-semibold">Sorry, the assignment you're looking
+                for does not exist.</h1>
             <h1 className="text-center text-gray-400 mt-2 text-sm">Make sure you have entered the correct URL.</h1>
             <div className="w-full mt-8">
                 <button type="button" onClick={() => window.location.href = "/dashboard"}
@@ -188,7 +196,6 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
     </Dialog>;
 
 
-
     return (
         <div className="min-h-screen bg-gray-50">
             {fetching ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ErrorScreen/> :
@@ -198,8 +205,8 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
     )
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-    const session = await getSession({ req });
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
+    const session = await getSession({req});
 
     return {
         props: {
@@ -207,7 +214,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         },
     };
 };
-
 
 
 export default QuizEditor

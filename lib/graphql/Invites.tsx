@@ -1,16 +1,15 @@
 import gql from "graphql-tag";
 
-// export const assignmentSubscription = gql`
-//   query AssignmentByPk($assignmentId: uuid!) {
-//  assignments_assignment_by_pk(id: $assignmentId){
-//  last_edited_by
-//  updated_at
-//     title
-//     id
-//     content
-//   }
-// }
-// `;
+export const getInviteByJoinCode = gql`
+  query InviteByJoinCode($joinCode: String!) {
+assignments_invite(limit: 1, where: {join_code: {
+  _eq: $joinCode
+}}) {
+  id
+  assignment
+}
+}
+`;
 
 
 export const createInvite = gql`

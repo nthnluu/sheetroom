@@ -2,6 +2,7 @@ import {useQuery} from "urql";
 import gql from "graphql-tag";
 import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Link from 'next/link'
 
 
 const ASSIGNMENTS = gql`
@@ -29,6 +30,7 @@ interface AssignmentListProps {
 
 const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
 
+
     const [result] = useQuery({
         query: ASSIGNMENTS,
         variables: {
@@ -42,8 +44,8 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
 
     if (data) return (
         <>
-        <ul className="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
-            {data.assignments_assignment ? data.assignments_assignment.map(item => <li
+            <ul className="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
+                {data.assignments_assignment ? data.assignments_assignment.map(item => <li
                     className="relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
                     <div className="flex items-center justify-between space-x-4">
                         {/* Repo name and link */}
@@ -55,10 +57,10 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
                           </span>
                                 <span className="block">
                             <h2 className="text-sm font-medium leading-5">
-                              <a href={"/assignment/"+ item.id}>
-                                <span className="absolute inset-0"/>
-                                  {item.title}
-                              </a>
+                                <Link href={"/assignment/" + item.id} shallow><a>
+                                    <span className="absolute inset-0"/>{item.title}</a>
+                                </Link>
+
                             </h2>
                           </span>
                             </div>
@@ -107,7 +109,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
                         </div>
                     </div>
                 </li>) : <></>}
-        </ul>
+            </ul>
         </>
 
 
