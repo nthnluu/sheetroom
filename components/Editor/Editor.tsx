@@ -35,6 +35,13 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
                             setIsFocused(true)
                         }
                     }}
+                    onBlur={() => {
+                        if (active) {
+                            setIsFocused(false)
+                        }
+                    }
+
+                    }
                     formats={["bold", "underline", "italic", "blockquote", "list", "formula"]}
                     readOnly={!active}
                     placeholder={placeholder} theme="bubble"
@@ -52,8 +59,8 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
                     ],
 
                 }}/>
-                <div className={"absolute right-0 bottom-0 invisible group-hover:visible " + (border ? "m-1" : null)}>
-                    <AddButton quillRef={reactQuillRef}/>
+                <div className={"absolute right-0 bottom-0 " + (border ? "m-1" : null)}>
+                    <AddButton quillRef={reactQuillRef} isFocused={isFocused}/>
                 </div>
             </div>
 
