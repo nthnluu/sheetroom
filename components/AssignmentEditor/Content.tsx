@@ -6,15 +6,12 @@ import {DialogContentText} from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
 import QuizContext from "./QuizContext";
 import Section from "./DragAndDropEditor/Section";
-import update from 'immutability-helper';
-import {v4 as uuidv4} from 'uuid';
-import SpeedDials from "../SpeedDial/SpeedDial";
 import JsonDebugBox from "../JsonDebugBox";
+import ResultPage from "./ResultPage";
 
 interface Props {
 
 }
-
 
 
 const Content: React.FC<Props> = ({}) => {
@@ -49,8 +46,11 @@ const Content: React.FC<Props> = ({}) => {
 
 
                     </Dialog>
-                    {currentPage === 1 ? document.config.sections.map((sectionId, i) => <Section key={sectionId} section={sectionId}
+                    {currentPage === 1 ? document.config.sections.map((sectionId, i) => <Section key={sectionId}
+                                                                                                 section={sectionId}
                                                                                                  index={i}/>) : null}
+                    <JsonDebugBox content={currentPage}/>
+                    {currentPage === 2 ? <ResultPage/> : null}
                 </div>
             </div>
         </div>

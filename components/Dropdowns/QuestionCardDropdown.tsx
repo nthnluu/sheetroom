@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import {Select} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import QuizContext from "../QuizEditor/QuizContext";
+import QuizContext from "../AssignmentEditor/QuizContext";
 import StyledInput from "./StyledInput";
 import update from "immutability-helper";
 import NewTooltip from "../Misc/Tooltip";

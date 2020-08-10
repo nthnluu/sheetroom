@@ -3,11 +3,11 @@ import {useSubscription, useMutation} from "urql";
 import {getSession} from "next-auth/client";
 import Head from 'next/head'
 import React, {useCallback, useEffect, useState} from "react";
-import QuizContext from "../../components/QuizEditor/QuizContext";
+import QuizContext from "../../components/AssignmentEditor/QuizContext";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {v4 as uuidv4} from 'uuid';
 import {debounce} from 'lodash'
-import EditorLayout from "../../components/QuizEditor/EditorLayout";
+import EditorLayout from "../../components/AssignmentEditor/EditorLayout";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
