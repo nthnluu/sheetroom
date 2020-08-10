@@ -272,7 +272,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                     <g fill="none">
                                         <rect width="100" height="100" rx="13"/>
                                         <rect x="4" y="4" width="92" height="92" rx="9" stroke="currentColor"
-                                              stroke-width="8"/>
+                                              strokeWidth="8"/>
                                     </g>
                                     <g fill="currentColor">
                                         <path
