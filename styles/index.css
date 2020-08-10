@@ -111,8 +111,14 @@ code {
     z-index: 500 !important;
 }
 
+
+
 .modalOverlay {
     z-index: 4000 !important;
+}
+
+.cornerNotification {
+    z-index: 3500 !important;
 }
 
 .popover {
