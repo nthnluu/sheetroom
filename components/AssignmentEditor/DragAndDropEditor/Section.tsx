@@ -60,12 +60,12 @@ const Section: React.FC<Props> = ({section, index}) => {
             const newId = uuidv4()
             const newObjectId = uuidv4()
             const newData = update(prevState, {
-                config: {
-                    sections: {
-                        $splice: [[index + 1, 0, newSectionId]]
-                    }
+                    config: {
+                        sections: {
+                            $splice: [[index + 1, 0, newSectionId]]
+                        }
 
-                },
+                    },
                     items: {
                         [newId]: {
                             $set: {
@@ -111,9 +111,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                             <button type="button" onClick={() => toggleIsCollapsed(false)}
                                     className="inline-flex text-center items-center h-8 w-8 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200 focus:outline-none focus:shadow-outline transition ease-in-out duration-150">
                                 <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
-                                    <path d="M19 9L12 16L5 9" strokeWidth="2" strokeLinecap="round"
-                                          className="stroke-current"
-                                          strokeLinejoin="round"/>
+                                    <path d="M3 4H16M3 8H12M3 12H12M17 8V20M17 20L13 16M17 20L21 16" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                             </button>
                         </NewTooltip>
@@ -123,9 +121,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                             <button type="button" onClick={() => toggleIsCollapsed(true)}
                                     className="inline-flex text-center items-center h-8 w-8 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200  focus:outline-none focus:shadow-outline transition ease-in-out duration-150">
                                 <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
-                                    <path d="M5 15L12 8L19 15" strokeWidth="2" strokeLinecap="round"
-                                          className="stroke-current"
-                                          strokeLinejoin="round"/>
+                                    <path d="M3 4H16M3 8H12M3 12H9M13 12L17 8M17 8L21 12M17 8V20" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                             </button>
                         </NewTooltip>
@@ -143,7 +139,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                                         strokeLinejoin="round"/>
                                     <path
                                         d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
-                                        strokeWidth="2" strokeLinecap="round"
+                                        strokeWidth="1.75" strokeLinecap="round"
                                         className="stroke-current"
                                         strokeLinejoin="round"/>
                                 </svg>
@@ -153,10 +149,12 @@ const Section: React.FC<Props> = ({section, index}) => {
 
 
             </div>
-            {!isCollapsed ? <ItemDnd section={section} sectionIndex={index} collapseSection={() => toggleIsCollapsed(true)}/> : <button onClick={() => toggleIsCollapsed(false)}
-                                                                   className="bg-white border border-gray-300 mb-2 px-4 py-4 rounded-lg focus:outline-none w-full text-left">
-                <h2 className="text-lg font-semibold text-gray-800">{document.sections[section].items.length} items</h2>
-            </button>}
+            {!isCollapsed ?
+                <ItemDnd section={section} sectionIndex={index} collapseSection={() => toggleIsCollapsed(true)}/> :
+                <button onClick={() => toggleIsCollapsed(false)}
+                        className="bg-white border border-gray-300 mb-2 px-4 py-4 rounded-lg focus:outline-none w-full text-left">
+                    <h2 className="text-lg font-semibold text-gray-800">{document.sections[section].items.length} items</h2>
+                </button>}
         </div>
     )
 }

@@ -36,7 +36,7 @@ const AddButton = ({quillRef, isFocused}) => {
                         opacity: 1
                     }) : {width: '2rem', height: '2rem', opacity: 0.85}}
                     transition={{duration: 0.15}}
-                    className="bg-white flex items-center justify-between shadow focus:outline-none h-8 w-8 rounded-lg p-1 overflow-hidden"
+                    className="bg-white flex items-center justify-between shadow z-50 focus:outline-none h-8 w-8 rounded-lg p-1 overflow-hidden"
                     style={{zIndex: 2000}}>
 
                     <motion.div animate={isOpen ? {opacity: 1, scaleX: 1, display: "flex"} : {
