@@ -39,9 +39,9 @@ export default function ({session, content, pageData}) {
                                 <div className="flex items-center lg:-ml-2">
                                     <NewTooltip title="Rename Assignment" placement="bottom" enterDelay={500}
                                                 enterNextDelay={500}>
-                                        <input style={{textOverflow: "ellipsis", maxWidth: '12rem'}}
+                                        <input style={{textOverflow: "ellipsis"}}
                                                placeholder="Untitled Assignment"
-                                               className="text-lg font-medium border border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
+                                               className="text-lg font-medium border w-48 sm:w-auto border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
                                                defaultValue={pageData.assignments_assignment_by_pk.title}
                                                onBlur={event => {
                                                    setSaveStatus(1)
