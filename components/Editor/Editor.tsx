@@ -18,10 +18,12 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
     const [isFocused, setIsFocused] = useState(false);
     const uniqueKey = useMemo(() => uuidv4(), []);
 
+
     const reactQuillRef = useRef(null);
 
     return <>
-        <div className={"font-sans text-gray-700 w-full z-40 overflow-y-hidden relative " + (border ? "border rounded-lg p-4 " : "p-0")}>
+        <div
+            className={"font-sans text-gray-700 w-full z-40 relative group " + (border ? "border rounded-lg p-4 " : "p-0")}>
             <div className="border-black h-full">
                 <ReactQuill
                     ref={reactQuillRef}
@@ -34,7 +36,6 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
                         }
                     }}
                     formats={["bold", "underline", "italic", "blockquote", "list", "formula"]}
-                    onBlur={() => setIsFocused(false)}
                     readOnly={!active}
                     placeholder={placeholder} theme="bubble"
                     //@ts-ignore
@@ -52,11 +53,10 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
                     ],
 
                 }}/>
-                {isFocused ? <div className={"absolute right-0 bottom-0 " + (border ? "m-2": null)}>
-                    <AddButton/>
-                </div> : null}
+                <div className={"absolute right-0 bottom-0 invisible group-hover:visible " + (border ? "m-2" : null)}>
+                    <AddButton quillRef={reactQuillRef}/>
+                </div>
             </div>
-
 
 
         </div>
