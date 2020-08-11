@@ -3,8 +3,6 @@ import React from "react";
 import {useQuery} from "urql";
 import {allClasses} from "../../lib/graphql/Class";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import exportPage from "next/dist/export/worker";
-import JsonDebugBox from "../JsonDebugBox";
 
 const LoadingPlaceholder = () => {
     return (<div className="p-4">
