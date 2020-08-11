@@ -1,11 +1,11 @@
 import React, {useContext} from "react";
-import {Select} from "@material-ui/core";
+import {Divider, Select} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import QuizContext from "../AssignmentEditor/QuizContext";
 import StyledInput from "./StyledInput";
 import update from "immutability-helper";
-import NewTooltip from "../Misc/Tooltip";
+import {nanoid} from "nanoid";
 
 interface Props {
     item: string;
@@ -15,22 +15,133 @@ const QuestionCardDropdown: React.FC<Props> = ({item}) => {
     const {document, setDocument} = useContext(QuizContext);
 
     const handleChange = selectedOption => {
-        setDocument(prevState => {
-            const newData = update(prevState, {
-                items: {
-                    [item]: {
-                        controller_type: {
-                            $set: selectedOption.target.value
-                        },
-                        correct_objects: {
-                            $set: [prevState.items[item].correct_objects[0] || prevState.items[item].answer_objects[0]]
-                        }
-                    }
-                }
-            })
 
-            return newData
-        })
+        switch (selectedOption.target.value) {
+            case("MC"):
+                if (document.items[item].controller_type === "MC" || document.items[item].controller_type === "MA") {
+                    setDocument(prevState => {
+                        return update(prevState, {
+                            items: {
+                                [item]: {
+                                    controller_type: {
+                                        $set: selectedOption.target.value
+                                    },
+                                    correct_objects: {
+                                        $set: [prevState.items[item].correct_objects[0] || prevState.items[item].answer_objects[0]]
+                                    }
+                                }
+                            }
+                        })
+                    })
+                } else {
+                    setDocument(prevState => {
+                        const newId = nanoid(5)
+                        return update(prevState, {
+                            items: {
+                                [item]: {
+                                    controller_type: {
+                                        $set: selectedOption.target.value
+                                    },
+                                    correct_objects: {
+                                        $set: [newId]
+                                    },
+                                    answer_objects: {
+                                        $set: [newId]
+                                    }
+                                }
+                            },
+                            answer_objects: {
+                                $unset: [document.items[item].answer_objects],
+                                $merge: {
+                                    [newId]: {
+                                        content: "<p><br/></p>"
+                                    }
+                                }
+                            }
+                        })
+                    })
+                }
+                break;
+            case("MA"):
+                if (document.items[item].controller_type === "MC" || document.items[item].controller_type === "MA") {
+                    setDocument(prevState => {
+                        return update(prevState, {
+                            items: {
+                                [item]: {
+                                    controller_type: {
+                                        $set: selectedOption.target.value
+                                    },
+                                    correct_objects: {
+                                        $set: [prevState.items[item].correct_objects[0] || prevState.items[item].answer_objects[0]]
+                                    }
+                                }
+                            }
+                        })
+                    })
+                } else {
+                    setDocument(prevState => {
+                        const newId = nanoid(5)
+                        return update(prevState, {
+                            items: {
+                                [item]: {
+                                    controller_type: {
+                                        $set: selectedOption.target.value
+                                    },
+                                    correct_objects: {
+                                        $set: [newId]
+                                    },
+                                    answer_objects: {
+                                        $set: [newId]
+                                    }
+                                }
+                            },
+                            answer_objects: {
+                                $unset: [document.items[item].answer_objects],
+                                $merge: {
+                                    [newId]: {
+                                        content: "<p><br/></p>"
+                                    }
+                                }
+                            }
+                        })
+                    })
+                }
+                break;
+            case("SA"):
+                if (document.items[item].controller_type === "SA") {
+                    return
+                } else {
+                    setDocument(prevState => {
+                        const newId = nanoid(5)
+                        const newData = update(prevState, {
+                            items: {
+                                [item]: {
+                                    controller_type: {
+                                        $set: "SA"
+                                    },
+                                    correct_objects: {
+                                        $set: [newId]
+                                    },
+                                    answer_objects: {
+                                        $set: [newId]
+                                    }
+                                }
+                            },
+                            answer_objects: {
+                                [newId]: {
+                                    $set: {
+                                        value: "Short answer"
+                                    }
+                                }
+                            }
+                        })
+
+                        return newData
+                    })
+                }
+                break;
+        }
+
     };
 
 
@@ -47,7 +158,11 @@ const QuestionCardDropdown: React.FC<Props> = ({item}) => {
             >
                 <MenuItem value="MC" disableRipple>Multiple Choice</MenuItem>
                 <MenuItem value="MA" disableRipple>Multiple Answers</MenuItem>
+                <Divider/>
                 <MenuItem value="SA" disableRipple>Short Answer</MenuItem>
+                <MenuItem value="PG" disableRipple>Paragraph</MenuItem>
+                <Divider/>
+                <MenuItem value="MT" disableRipple>Math</MenuItem>
             </Select>
         </FormControl>
     )

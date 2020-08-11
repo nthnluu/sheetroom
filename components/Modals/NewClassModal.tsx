@@ -5,6 +5,7 @@ import {newInitialDocumentContent} from "../AssignmentEditor/Templates";
 import ReactGA from "react-ga";
 import {createClass} from "../../lib/graphql/Class";
 import {nanoid} from "nanoid";
+import getEditDistance from "../../lib/getEditDistance"
 
 
 const NewClassModal = ({isOpen, onCancel, session}) => {
@@ -18,6 +19,17 @@ const NewClassModal = ({isOpen, onCancel, session}) => {
         setTimeout(() => setNewValue("Untitled Class"), 900)
     }
 
+
+    function levenshteinDistance (s, t) {
+        if (!s.length) return t.length;
+        if (!t.length) return s.length;
+
+        return Math.min(
+            levenshteinDistance(s.substr(1), t) + 1,
+            levenshteinDistance(t.substr(1), s) + 1,
+            levenshteinDistance(s.substr(1), t.substr(1)) + (s[0] !== t[0] ? 1 : 0)
+        ) + 1;
+    }
 
     return (<SimpleModal buttons={<div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse sm:justify-between">
         <div className="sm:flex sm:flex-row-reverse">
