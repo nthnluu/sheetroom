@@ -7,7 +7,7 @@ import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 
-export default function ({session, content, pageData, title, currentPage, setCurrentPage}) {
+const Navbar =  ({session, content, title, currentPage, setCurrentPage})  => {
     const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
 
 
@@ -41,16 +41,6 @@ export default function ({session, content, pageData, title, currentPage, setCur
                                                placeholder="Untitled Assignment"
                                                className="text-lg font-medium border w-48 sm:w-auto border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
                                                defaultValue={title}
-                                               onBlur={event => {
-                                                   setSaveStatus(1)
-                                                   mutateTitle({
-                                                       title: event.target.value,
-                                                       assignmentId: pageData.assignments_assignment_by_pk.id,
-                                                       clientId: clientId
-                                                   })
-                                                       .then(() => setSaveStatus(0))
-                                                       .catch(() => setSaveStatus(2));
-                                               }}
                                         /></NewTooltip>
                                 </div>
                             </div>
@@ -130,3 +120,5 @@ export default function ({session, content, pageData, title, currentPage, setCur
     )
 
 }
+
+export default Navbar
