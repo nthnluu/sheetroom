@@ -56,6 +56,12 @@ query ClassByJoinCode($joinCode: String!) {
     classes_class(where: {join_code: {_eq: $joinCode}}, limit: 1) {
     title
     id
+    created_by
+    studentProfiles {
+      user {
+        id
+      }
+    }
     user {
       name
     }
