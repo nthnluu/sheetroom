@@ -1,9 +1,11 @@
 import {useQuery} from "urql";
 import gql from "graphql-tag";
-import React from "react";
+import React, {useState} from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Link from 'next/link'
 import moment from "moment";
+import Transition from "../Transition";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 
 const ASSIGNMENTS = gql`
@@ -32,6 +34,7 @@ interface AssignmentListProps {
 }
 
 const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
+    const [dropdown, toggleDropdown] = useState(false);
 
 
     const [result] = useQuery({
@@ -87,10 +90,13 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
                         {/* Repo meta info */}
                         <div className="hidden sm:flex flex-col flex-shrink-0 items-end space-y-3">
                             <p className="flex items-center space-x-4">
+
+                                
                                 <a href={"/assignment/" + item.id}
                                    className="relative text-sm leading-5 text-gray-500 hover:text-gray-900 font-medium">
                                     View
                                 </a>
+
                                 {/*<button className="relative" type="button">*/}
                                 {/*    <svg className="h-5 w-5 text-yellow-300 hover:text-yellow-400" viewBox="0 0 20 20"*/}
                                 {/*         fill="currentColor">*/}

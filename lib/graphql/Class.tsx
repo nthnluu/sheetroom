@@ -9,6 +9,23 @@ mutation CreateNewClass($title: String!, $userId: Int!, $color: String!) {
 }
 `;
 
+export const classByPk = gql`
+query ClassByPk($classId: uuid!) {
+ classes_class_by_pk(id: $classId) {
+    title
+    id
+    studentProfiles {
+      user {
+        name
+        image
+        email
+      }
+    }
+    __typename
+  }
+}
+`;
+
 
 export const allClasses = gql`
 query AllClasses($userId: Int!) {
