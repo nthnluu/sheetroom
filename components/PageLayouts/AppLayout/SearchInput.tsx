@@ -19,7 +19,7 @@ const SearchDropdown = ({value, session}) => {
     const {fetching, data, error} = result
 
 
-    return (<div className="pr-4 absolute w-full mt-1">
+    return (<div className="pr-4 absolute w-full mt-1 popover">
         <ul className="w-full h-auto bg-white shadow-lg rounded-md border overflow-hidden">
             <li className="w-full bg-blue-500 h-10  flex justify-start items-center p-2 text-white text-sm font-medium">
                 <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,26 +32,26 @@ const SearchDropdown = ({value, session}) => {
 
             {data ? <> {result.data.classes_class.length > 0 ? <>
                 <li
-                    className="w-full h-6 flex bg-gray-100 justify-start items-center p-2 text-gray-600 text-xs font-medium">
+                    className="w-full h-6 flex bg-gray-100 justify-start items-center p-3 text-gray-600 text-xs font-medium">
                     Classes
                 </li>
                 {data ? <>
                     {result.data.classes_class.map(course => <li key={course.id}
-                                                                 className="w-full h-10  flex justify-start items-center p-2 text-gray-800 text-sm font-medium">
+                                                                 className="w-full h-10  flex justify-start items-center p-3 text-gray-800 text-sm font-medium">
                         {course.title}
                     </li>)}
                 </> : null}</> : null}
 
                        {result.data.assignments_assignment.length > 0 ? <>
                            <li
-                               className="w-full h-6 flex bg-gray-100 justify-start items-center p-2 text-gray-600 text-xs font-medium">
+                               className="w-full h-6 flex bg-gray-100 justify-start items-center p-3 text-gray-600 text-xs font-medium">
                                Assignments
                            </li>
                            {data ? <>
-                               {result.data.assignments_assignment.map(assignment => <li key={assignment.id}
-                                                                                         className="w-full h-10  flex justify-start items-center p-2 text-gray-800 text-sm font-medium">
+                               {result.data.assignments_assignment.map(assignment => <a key={assignment.id} href={"/assignment/" + assignment.id}
+                                                                                         className="w-full h-10  flex justify-start items-center p-3 text-gray-800 text-sm font-medium hover:bg-gray-50 ">
                                    {assignment.title}
-                               </li>)}
+                               </a>)}
                            </> : null}</> : null}</> : null}
 
 
