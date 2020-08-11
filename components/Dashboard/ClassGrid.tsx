@@ -2,7 +2,6 @@ import ClassCard from "./ClassCard";
 import React from "react";
 import {useQuery} from "urql";
 import {allClasses} from "../../lib/graphql/Class";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import LoadingClassCard from "./LoadingClassCard";
 
 const LoadingPlaceholder = () => {

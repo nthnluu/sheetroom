@@ -111,10 +111,11 @@ const Navbar =  ({session, content, title, currentPage, setCurrentPage})  => {
                         </button>
                     </div>
                 </nav>
+                <div className="h-full">
+                    {content}
+                </div>
             </div>
-            <div className="h-full">
-                {content}
-            </div>
+
 
         </div>
     )

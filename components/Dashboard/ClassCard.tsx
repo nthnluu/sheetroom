@@ -1,7 +1,4 @@
 import React, {useState} from "react";
-import {useQuery} from "urql";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import {allClasses} from "../../lib/graphql/Class";
 import getInitials from "../../lib/getInitials";
 import Transition from "../Transition";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -15,12 +12,16 @@ const ClassCard = ({course}) => {
         switch (inputColor) {
             case('red'):
                 return {bg: "bg-red-500"}
-            case('blue'):
-                return {bg: "bg-blue-500"}
+            case('green'):
+                return {bg: "bg-green-500"}
             case('pink'):
                 return {bg: "bg-pink-500"}
             case('teal'):
                 return {bg: "bg-teal-400"}
+            case('orange'):
+                return {bg: "bg-orange-400"}
+            case('purple'):
+                return {bg: "bg-purple-400"}
             default:
                 return {bg: "bg-gray-400"}
         }

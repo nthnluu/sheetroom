@@ -11,6 +11,8 @@ const NewClassModal = ({isOpen, onCancel, session}) => {
     const [createClassResult, createNewClass] = useMutation(createClass);
     const [currentValue, setNewValue] = useState("Untitled Class");
 
+    const colors = ["teal", "pink", "green", "orange", "purple", "red"]
+
     function closeModal () {
         onCancel();
         setTimeout(() => setNewValue("Untitled Class"), 900)
@@ -26,7 +28,7 @@ const NewClassModal = ({isOpen, onCancel, session}) => {
             createNewClass({
                 title: currentValue,
                 userId: session.id,
-                color: "pink",
+                color: colors[Math.floor(Math.random() * colors.length)],
                 joinCode: nanoid(9).toLowerCase()
             })
                 .then((data) => window.location.href = '/class/' + data.data.insert_classes_class_one.id)
