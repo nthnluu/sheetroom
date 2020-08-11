@@ -21,9 +21,10 @@ const AddButton = ({quillRef, isFocused}) => {
     }, [isFocused])
 
 
+    // @ts-ignore
     return (
         isVisible ?
-                <ClickAwayListener onClickAway={() => {
+            <ClickAwayListener onClickAway={() => {
                 setIsOpen(false)
                 toggleFormulaMode(false)
                 setFormulaValue("f(x)=")
@@ -47,15 +48,19 @@ const AddButton = ({quillRef, isFocused}) => {
                                 className="items-center justify-start space-x-3 ml-1 opacity-0 text-gray-400 z-20">
 
                         {!formulaMode ? <>
-                                <button onClick={() => toggleFormulaMode(true)}>
+                                <button className="focus:outline-none h-full focus:shadow-outline"
+                                        onClick={() => toggleFormulaMode(true)}>
                                     <i className="fas fa-square-root-alt"/>
                                 </button>
                                 <i className="fas fa-table"/>
                                 <i className="far fa-image"/>
                                 <i className="fas fa-chart-line"/></> :
-                            <EditableMathField latex={formulaValue} onChange={value => setFormulaValue(value.latex())}
+                            // @ts-ignore
+                            <EditableMathField latex={formulaValue} style={{width: '14rem'}}
+                                               onChange={value => setFormulaValue(value.latex())}
                                                mathquillDidMount={() => toggleIsMounted(true)}
-                                               className="focus:outline-none active:outline-none border-transparent text-black"/>}
+                                               className="focus:outline-none active:outline-none p-4 -ml-4 border-transparent text-black"/>
+                        }
 
                     </motion.div>
 
@@ -73,13 +78,14 @@ const AddButton = ({quillRef, isFocused}) => {
                         } else {
                             setIsOpen(!isOpen)
                         }
-                    }} className="flex items-center justify-center w-8 absolute right-0 bg-white z-30">
+                    }}
+                            className="flex items-center justify-center w-8 active:outline-none focus:outline-none focus:shadow-outline h-full rounded-lg absolute right-0 bg-white z-30">
                         <i className="fas fa-plus text-blue-500"/>
                     </button>
 
                 </motion.div>
             </ClickAwayListener> : <></>
-        )
+    )
 }
 
 export default AddButton

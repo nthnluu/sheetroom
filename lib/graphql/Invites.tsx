@@ -6,7 +6,12 @@ assignments_invite(limit: 1, where: {join_code: {
   _eq: $joinCode
 }}) {
   id
-  assignment
+  assignmentByAssignment {
+    title
+    user {
+    name
+    }
+  }
   __typename
 }
 }

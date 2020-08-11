@@ -27,7 +27,7 @@ const NewClassModal = ({isOpen, onCancel, session}) => {
                 title: currentValue,
                 userId: session.id,
                 color: "pink",
-                joinCode: nanoid(9)
+                joinCode: nanoid(9).toLowerCase()
             })
                 .then((data) => window.location.href = '/class/' + data.data.insert_classes_class_one.id)
                 .catch(() => console.log(createClassResult.error))
