@@ -4,7 +4,6 @@ import {getSession} from "next-auth/client";
 import {useRouter} from 'next/router'
 import React, {useState} from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import JsonDebugBox from "../../components/JsonDebugBox";
 import {useMutation, useQuery} from "urql";
 import {classByJoinCode, createStudentProfile} from "../../lib/graphql/Class";
 import {getInviteByJoinCode} from "../../lib/graphql/Invites";
@@ -57,12 +56,12 @@ const InviteFetch = ({joinCode, session}) => {
         const studentsInClass = data.classes_class[0].studentProfiles.map(profile => (profile.user.id))
         if (studentsInClass.includes(session.id) || data.classes_class[0].created_by === session.id) {
             return (
-                <div className="text-center">
-                    <img src="/a-ok-monochrome.svg" className="h-96 mb-8 mx-auto"/>
-                    <h1 className="text-3xl font-semibold text-gray-800">You've already joined {data.classes_class[0].title}</h1>
-                    <h2 className="text-lg font-light text-gray-600">You're signed in as <strong>{session.email}</strong>. If this isn't you, you can switch accounts.</h2>
+                <div className="text-center px-8">
+                    <img src="/a-ok-monochrome.svg" className="h-64 md:h-96 mb-8 mx-auto"/>
+                    <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800">You've already joined {data.classes_class[0].title}</h1>
+                    <h2 className="text-sm sm:text-lg md:text-xl font-light text-gray-600 max-w-md mx-auto">You're signed in as {session.email}.<br/> If this isn't you, you can <a href="#" className="underline text-gray-700 hover:text-blue-600 font-semibold">switch accounts.</a></h2>
                     <button type="button" onClick={() => window.location.href = "/class/" + data.classes_class[0].id}
-                            className="inline-flex mt-4 items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                            className="inline-flex mt-4 items-center px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                         Continue
                     </button>
                 </div>
@@ -134,7 +133,6 @@ const InviteFetch = ({joinCode, session}) => {
 
 }
 
-
 const JoinCode = ({session}) => {
     return (<div className="text-center">
         <h1 className="text-4xl font-bold text-gray-800">Enter your join code</h1>
@@ -162,10 +160,8 @@ const JoinPage = ({session}) => {
 
     return (<div className="h-screen bg-gray-100">
         <Navbar session={session}/>
-        <div className="h-full flex justify-center items-center max-w-xl mx-auto">
+        <div className="h-full flex justify-center items-center max-w-3xl mx-auto">
             {joinCode ? <InviteFetch joinCode={joinCode[0]} session={session}/> : <JoinCode session={session}/>}
-
-
         </div>
     </div>)
 }
