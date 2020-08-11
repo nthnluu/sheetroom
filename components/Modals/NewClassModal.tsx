@@ -4,6 +4,7 @@ import {useMutation} from "urql";
 import {newInitialDocumentContent} from "../AssignmentEditor/Templates";
 import ReactGA from "react-ga";
 import {createClass} from "../../lib/graphql/Class";
+import {nanoid} from "nanoid";
 
 
 const NewClassModal = ({isOpen, onCancel, session}) => {
@@ -25,9 +26,10 @@ const NewClassModal = ({isOpen, onCancel, session}) => {
             createNewClass({
                 title: currentValue,
                 userId: session.id,
-                color: "pink"
+                color: "pink",
+                joinCode: nanoid(9)
             })
-                .then((data) => window.location.href = '/edit/assignment/' + data.data.insert_classes_class_one.id)
+                .then((data) => window.location.href = '/class/' + data.data.insert_classes_class_one.id)
                 .catch(() => console.log(createClassResult.error))
                 .then(() => ReactGA.event({
                     category: 'User',
