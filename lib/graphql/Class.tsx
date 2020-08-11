@@ -4,6 +4,7 @@ export const createClass = gql`
 mutation CreateNewClass($title: String!, $userId: Int!, $color: String!) {
   insert_classes_class_one(object: {title: $title, created_by: $userId, color: $color}) {
     id
+    __typename
   }
 }
 `;
@@ -17,6 +18,7 @@ query AllClasses($userId: Int!) {
     title
     id
     color
+    __typename
   }
 }
 `;

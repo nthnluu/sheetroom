@@ -7,11 +7,13 @@ export const assignmentSubscription = gql`
  invites {
     id
     join_code
+    __typename
   }
  updated_at
     title
     id
     content
+    __typename
   }
 }
 `;
@@ -22,6 +24,7 @@ mutation CreateNewAssignment($title: String!, $content: json!, $userId: Int!) {
   insert_assignments_assignment(objects: {title: $title, content: $content, created_by: $userId}) {
     returning {
       id
+      __typename
     }
   }
 }
