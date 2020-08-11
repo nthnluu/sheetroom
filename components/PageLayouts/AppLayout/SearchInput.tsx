@@ -36,10 +36,10 @@ const SearchDropdown = ({value, session}) => {
                     Classes
                 </li>
                 {data ? <>
-                    {result.data.classes_class.map(course => <li key={course.id}
-                                                                 className="w-full h-10  flex justify-start items-center p-3 text-gray-800 text-sm font-medium">
+                    {result.data.classes_class.map(course => <a key={course.id} href={"/class/" + course.id}
+                                                                 className="w-full h-10  flex justify-start items-center p-3 text-gray-800 text-sm font-medium hover:bg-gray-50">
                         {course.title}
-                    </li>)}
+                    </a>)}
                 </> : null}</> : null}
 
                        {result.data.assignments_assignment.length > 0 ? <>
