@@ -14,6 +14,7 @@ query ClassByPk($classId: uuid!) {
  classes_class_by_pk(id: $classId) {
     title
     id
+    join_code
     studentProfiles {
       user {
         name
