@@ -42,6 +42,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
     const {fetching, data} = result
     if (fetching) return <LoadingPlaceholder/>;
 
+
     if (data) return (
         <>
             <ul className="relative z-0 divide-y divide-gray-200 border-b border-gray-200">

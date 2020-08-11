@@ -30,18 +30,31 @@ const SearchDropdown = ({value, session}) => {
                 {value}
             </li>
 
-            <li
-                className="w-full h-6 flex bg-gray-100 justify-start items-center p-2 text-gray-600 text-xs font-medium">
-                Classes
-            </li>
-            {data ? <>
-                {result.data.classes_class.map(course => <li key={course.id} className="w-full h-10  flex justify-start items-center p-2 text-gray-800 text-sm font-medium">
-                    {course.title}
-                </li>)}
-            </> : null}
+            {data ? <> {result.data.classes_class.length > 0 ? <>
+                <li
+                    className="w-full h-6 flex bg-gray-100 justify-start items-center p-2 text-gray-600 text-xs font-medium">
+                    Classes
+                </li>
+                {data ? <>
+                    {result.data.classes_class.map(course => <li key={course.id}
+                                                                 className="w-full h-10  flex justify-start items-center p-2 text-gray-800 text-sm font-medium">
+                        {course.title}
+                    </li>)}
+                </> : null}</> : null}
 
-            {fetching ? <div className="mx-auto w-full text-center"><CircularProgress size={25} color="secondary"/>
-            </div> : null}
+                       {result.data.assignments_assignment.length > 0 ? <>
+                           <li
+                               className="w-full h-6 flex bg-gray-100 justify-start items-center p-2 text-gray-600 text-xs font-medium">
+                               Assignments
+                           </li>
+                           {data ? <>
+                               {result.data.assignments_assignment.map(assignment => <li key={assignment.id}
+                                                                                         className="w-full h-10  flex justify-start items-center p-2 text-gray-800 text-sm font-medium">
+                                   {assignment.title}
+                               </li>)}
+                           </> : null}</> : null}</> : null}
+
+
 
 
         </ul>
@@ -52,6 +65,7 @@ const SearchDropdown = ({value, session}) => {
 const SearchInput = ({session}) => {
     const [searchDropdownMode, setSearchDropdownMde] = useState(0);
     const [searchValue, setSearchValue] = useState("");
+
 
     const handleOnChange = event => {
         const value = event.target.value
@@ -79,12 +93,6 @@ const SearchInput = ({session}) => {
             </div>
             {searchDropdownMode === 1 && searchValue.length > 0 ?
                 <SearchDropdown session={session} value={searchValue}/> : null}
-
-            {searchDropdownMode === 3 && searchValue.length > 0 ? <div className="pr-4 absolute w-full mt-1">
-                <div className="w-full h-16 bg-white shadow-lg rounded-md border flex items-center">
-                    <div className="mx-auto w-full text-center"><CircularProgress size={25} color="secondary"/></div>
-                </div>
-            </div> : null}
 
 
         </div>
