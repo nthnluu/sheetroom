@@ -51,7 +51,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
 
 
         <div
-            className="px-4 pt-4 pb-4 border-b border-t border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:pt-4 xl:border-t-0">
+            className="px-4 pt-4 pb-4 border-b border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:pt-4 xl:border-t-0">
             <div className="flex items-center">
                 <h1 className="flex-1 text-lg leading-7 font-medium">Assignments</h1>
                 <div className="relative">

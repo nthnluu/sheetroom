@@ -7,6 +7,7 @@ assignments_invite(limit: 1, where: {join_code: {
 }}) {
   id
   assignment
+  __typename
 }
 }
 `;
@@ -16,6 +17,7 @@ export const createInvite = gql`
 mutation CreateNewInvite($code: String!, $userId: Int!, $assignmentId: uuid!, $isPublic: Boolean!){
     insert_assignments_invite_one(object: {join_code: $code, created_by: $userId, assignment: $assignmentId, is_public: $isPublic}) {
         join_code
+        __typename
     }
 }
 `;
