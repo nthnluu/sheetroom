@@ -7,7 +7,7 @@ import exportPage from "next/dist/export/worker";
 import JsonDebugBox from "../JsonDebugBox";
 
 const LoadingPlaceholder = () => {
-    return (<div className="p-6 border-b border-gray-200">
+    return (<div className="p-4">
         <div className="mx-auto">
             <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>
         </div>

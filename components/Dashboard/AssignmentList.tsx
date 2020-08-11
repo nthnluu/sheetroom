@@ -87,7 +87,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
                         {/* Repo meta info */}
                         <div className="hidden sm:flex flex-col flex-shrink-0 items-end space-y-3">
                             <p className="flex items-center space-x-4">
-                                <a href="#"
+                                <a href={"/assignment/" + item.id}
                                    className="relative text-sm leading-5 text-gray-500 hover:text-gray-900 font-medium">
                                     View
                                 </a>
