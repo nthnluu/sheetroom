@@ -64,16 +64,12 @@ const ClassCard = ({course}) => {
                                 <div className="py-1">
                                     <a href="#"
                                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                       role="menuitem">View</a>
+                                       role="menuitem">Show join code</a>
                                 </div>
-                                <div className="border-t border-gray-100"></div>
                                 <div className="py-1">
                                     <a href="#"
                                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                       role="menuitem">Removed from pinned</a>
-                                    <a href="#"
-                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                       role="menuitem">Share</a>
+                                       role="menuitem">Delete class</a>
                                 </div>
                             </div>
                         </div>

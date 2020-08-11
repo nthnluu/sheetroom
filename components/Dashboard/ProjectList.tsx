@@ -122,9 +122,6 @@ const ProjectList: React.FC<Props> = ({session}) => {
             </div>
         </div>
         <AssignmentList session={session}/>
-        <div className="p-6 text-gray-400 font-semibold">
-            <p>© Sheetroom, Inc. 2020</p>
-        </div>
     </div>)
 }
 
