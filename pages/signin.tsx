@@ -10,8 +10,8 @@ export default function SignIn({ providers }) {
         <>
             <Navbar logoOnly unfixed/>
             <div className="h-screen flex justify-center">
-                <div className="space-y-4 mt-36 md:mt-64">
-                    <h1 className="font-bold text-4xl text-gray-800">Sign in to Sheetroom</h1>
+                <div className="space-y-4 mt-24 md:mt-56 p-4">
+                    <h1 className="font-bold text-3xl md:text-4xl text-gray-800">Sign in to Sheetroom</h1>
                     <div>
                         <label htmlFor="email" className="sr-only">Email</label>
                         <div className="relative rounded-md shadow-sm">
