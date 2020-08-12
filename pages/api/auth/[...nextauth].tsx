@@ -32,7 +32,7 @@ const options = {
         // The first argument should be a database connection string or TypeORM config object
         {
             type: 'postgres',
-            url: process.env.DATABASE_URL + "?ssl=true",
+            url: process.env.DATABASE_URL,
             synchronize: false,
             ssl: {
                 rejectUnauthorized: false
