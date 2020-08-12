@@ -9,13 +9,14 @@ import SearchInput from "./SearchInput";
 
 
 interface Props {
-    session: string;
+    session?: string;
     unfixed?: boolean;
     transparent?: boolean;
     color?: string;
+    logoOnly?: boolean;
 }
 
-export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color}) => {
+export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, logoOnly}) => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
     const [newDropdown, toggleNewDropdown] = useState(false);
@@ -55,23 +56,23 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color}) 
                                 <img className={"w-auto block md:hidden " + (session ? "h-8" : "h-6")} src={session ? "/light_symbol.svg": "/light_logo.svg"}
                                      alt="Workflow logo"/>
                             </a>
-                            {session ? <><SearchInput session={session}/><div className="flex hidden lg:block">
+                            {session && !logoOnly ? <><SearchInput session={session}/><div className="flex hidden lg:block">
                                 <a href="#"
                                    className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Workshop</a>
                                 <a href="#"
                                    className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Learn</a>
-                            </div></> : <div className="flex hidden lg:block">
+                            </div></> : (!logoOnly ? <div className="flex hidden lg:block">
                                 <a href="#"
                                    className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Features</a>
                                 <a href="#"
                                    className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Institutions</a>
                                 <a href="#"
-                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Pricing</a>
-                                <a href="#"
                                    className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Explore</a>
                                 <a href="#"
                                    className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Blog</a>
-                            </div>}
+                                <a href="#"
+                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Pricing</a>
+                            </div> : null)}
 
 
 
@@ -80,7 +81,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color}) 
                         <div className="related-focus:bg-gray"/>
 
                     </div>
-                    <div className="flex lg:hidden">
+                    {!logoOnly ?  <div className="flex lg:hidden">
                         {/* Mobile menu button */}
                         <button onClick={() => toggleMobileMenu(!mobileMenu)}
                                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:bg-gray-800 focus:text-white transition duration-150 ease-in-out"
@@ -96,14 +97,15 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color}) 
                                       d="M6 18L18 6M6 6l12 12"/>
                             </svg>
                         </button>
-                    </div>
+                    </div> : null}
+
                     {/* Links section */}
                     <div className="hidden lg:block lg:w-80 ml-4">
                         <div className="flex items-center justify-end">
 
                             {/* Profile dropdown */}
 
-                            {session ? <><ClickAwayListener onClickAway={() => toggleNewDropdown(false)}>
+                            {session && !logoOnly ? <><ClickAwayListener onClickAway={() => toggleNewDropdown(false)}>
                                 <div className="relative inline-block text-left mr-6 ml-4">
                                     <div>
                                     <span className="rounded-md shadow-sm">
@@ -187,23 +189,23 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color}) 
                                             </div>
                                         </Transition>
                                     </div>
-                                </ClickAwayListener></>: <div className="flex justify-between">
-                                <button type="button" onClick={() => window.location.href = "/api/auth/signin"}
-                                        className="inline-flex items-center px-3 py-1 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:text-gray-200 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
-                                    Log in
+                                </ClickAwayListener></>: (!logoOnly ? <div className="flex justify-between">
+                                <button type="button" onClick={() => window.location.href = "/signin"}
+                                        className="inline-flex items-center px-3 py-1 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:text-gray-200 focus:outline-none focus:border-blue-300 focus:bg-gray-800 mr-1 active:text-gray-300 transition ease-in-out duration-150">
+                                    Sign in
                                 </button>
                                 <button type="button" onClick={() => window.location.href = "/api/auth/signin"}
                                         className="inline-flex items-center px-3 py-1 border border-gray-300 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:text-gray-200 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
-                                    Sign up
+                                    Join Sheetroom
                                 </button>
 
-                            </div>}
+                            </div> : null)}
 
                         </div>
                     </div>
                 </div>
             </div>
-            <div className={"lg:hidden " + (mobileMenu ? "block" : "hidden")}>
+            {!logoOnly ? <div className={"lg:hidden " + (mobileMenu ? "block" : "hidden")}>
                 <div className="px-2 pt-2 pb-3">
                     <a href="#"
                        className="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-800 focus:outline-none focus:text-gray-100 focus:bg-gray-600 transition duration-150 ease-in-out">Dashboard</a>
@@ -211,18 +213,25 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color}) 
                        className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Support</a>
                 </div>
                 <div className="pt-4 pb-3 border-t border-gray-800">
-                    <div className="mt-3 px-2">
+                    {!session ? <div className="mt-3 px-2">
+                        <a href="/api/auth/signin"
+                           className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Log in</a>
+                        <a href="/api/auth/signin"
+                           className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Sign up</a>
+                    </div> : <div className="mt-3 px-2">
                         <a href="#"
                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Your
                             Profile</a>
                         <a href="#"
                            className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Settings</a>
-                        <a href="#"
+                        <a href="/api/auth/signout"
                            className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Sign
                             out</a>
-                    </div>
+                    </div>}
+
                 </div>
-            </div>
+            </div> : null}
+
         </nav>
     </div>)
 }

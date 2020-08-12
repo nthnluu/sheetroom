@@ -19,34 +19,22 @@ const options = {
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET
         }),
+        Providers.Email({
+            server: {
+                host: process.env.EMAIL_SERVER_HOST,
+                port: process.env.EMAIL_SERVER_PORT,
+                auth: {
+                    user: process.env.EMAIL_SERVER_USER,
+                    pass: process.env.EMAIL_SERVER_PASSWORD
+                }
+            },
+            from: process.env.EMAIL_FROM
+        }),
         Providers.GitHub({
             clientId: "7acf870d9c90d729eb81",
             clientSecret: "55505558a1d8785347d8d02e9cb5eeeb86f616fd"
         })
     ],
-    // database: "postgres://rkofrjdyqoidnj:5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85@ec2-52-72-65-76.compute-1.amazonaws.com:5432/d2rnd6jboqu0mq"+"?sslmode=require",
-    // adapter: Adapters.TypeORM.Adapter(
-    //     // The first argument should be a database connection string or TypeORM config object
-    //     {
-    //         type: 'postgres',
-    //         host: "ec2-52-72-65-76.compute-1.amazonaws.com",
-    //         port: 5432,
-    //         username: "rkofrjdyqoidnj",
-    //         password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
-    //         database: "d2rnd6jboqu0mq",
-    //         synchronize: true,
-    //         ssl: {
-    //             rejectUnauthorized: false
-    //         }
-    //     },
-    //     // The second argument can be used to pass custom models and schemas
-    //     {
-    //         models: {
-    //             User: Models.User,
-    //         },
-    //     }
-    // ),
-    // A database is optional, but required to persist accounts in a database
     database: {
         type: 'postgres',
         url: process.env.DATABASE_URL,
