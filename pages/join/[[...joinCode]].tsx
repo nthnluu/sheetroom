@@ -102,18 +102,20 @@ const InviteFetch = ({joinCode, session}) => {
                             </div>
                             }
 
-                        </div> : null}
+                        </div> : <JoinCode session={session}/>}
 
                     </>
                 )
             }
         } else {
-            return (
-                <div className="w-full">
+            if (data.assignments_invite.length > 0) {
+                return  <div className="w-full">
                     <AssignmentCard assignment={data.assignments_invite[0].assignmentByAssignment}/>
                 </div>
+            } else {
+                return <JoinCode session={session}/>
+            }
 
-            )
 
         }
 
@@ -123,7 +125,7 @@ const InviteFetch = ({joinCode, session}) => {
 }
 
 const JoinCode = ({session}) => {
-    return (<div className="text-center">
+    return (<div className="text-center max-w-sm mx-auto">
         <h1 className="text-4xl font-bold text-gray-800">Enter your join code</h1>
         <div>
             <label htmlFor="join-code" className="sr-only">Join Code</label>
@@ -149,7 +151,7 @@ const JoinPage = ({session}) => {
 
     return (<div className="h-screen bg-gray-100">
         <Navbar session={session}/>
-        <div className="h-full flex justify-center items-center max-w-3xl mx-auto">
+        <div className="h-full flex justify-center items-center max-w-3xl mx-auto px-4 md:px-0">
             <div className="w-full">
                 {joinCode ? <InviteFetch joinCode={joinCode[0]} session={session}/> : <JoinCode session={session}/>}
             </div>
