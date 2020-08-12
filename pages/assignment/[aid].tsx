@@ -15,6 +15,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import {assignmentSubscription, updateAssignmentContent} from "../../lib/graphql/Assignments";
 import Transition from "../../components/Transition";
+import JsonDebugBox from "../../components/JsonDebugBox";
 
 const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({pageData, aid, session}) => {
     // A client ID to identify the current user working on the project
@@ -160,14 +161,14 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
     // @ts-ignore
 
 
-    const [result] = useSubscription({
+    const [res] = useSubscription({
         query: assignmentSubscription,
         variables: {
             assignmentId: aid
         }
     });
 
-    const {data, fetching, error} = result
+    const {data, fetching, error} = res
 
 
     if (error) return <Dialog aria-labelledby="simple-dialog-title"
@@ -198,7 +199,7 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {fetching ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ErrorScreen/> :
+            {fetching && !data ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ErrorScreen/> :
                 // @ts-ignore
                 <PageContent pageData={data} aid={aid} session={session}/>)}
         </div>
