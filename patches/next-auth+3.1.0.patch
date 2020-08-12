@@ -1,0 +1,29 @@
+diff --git a/node_modules/next-auth/dist/adapters/typeorm/models/user.js b/node_modules/next-auth/dist/adapters/typeorm/models/user.js
+index c24cd8c..27db9a3 100644
+--- a/node_modules/next-auth/dist/adapters/typeorm/models/user.js
++++ b/node_modules/next-auth/dist/adapters/typeorm/models/user.js
+@@ -61,7 +61,23 @@ var UserSchema = {
+     updatedAt: {
+       type: 'timestamp',
+       updateDate: true
+-    }
++    },
++    firstName: {
++      type: 'varchar',
++      nullable: true
++    },
++    lastName: {
++      type: 'varchar',
++      nullable: true
++    },
++    accountType: {
++      type: 'varchar',
++      nullable: true
++    },
++    isDisabled: {
++      type: 'boolean',
++      default: false
++    },
+   }
+ };
+ exports.UserSchema = UserSchema;
