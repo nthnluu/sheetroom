@@ -34,9 +34,7 @@ const options = {
             type: 'postgres',
             url: process.env.DATABASE_URL,
             synchronize: true,
-            ssl: {
-                rejectUnauthorized: false
-            }
+            ssl: true
         },
         // The second argument can be used to pass custom models and schemas
         {
