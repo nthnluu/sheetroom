@@ -30,12 +30,7 @@ const options = {
 
     adapter: Adapters.TypeORM.Adapter(
         // The first argument should be a database connection string or TypeORM config object
-        {
-            type: 'postgres',
-            url: process.env.DATABASE_URL,
-            synchronize: true,
-            ssl: true
-        },
+        "postgres://rkofrjdyqoidnj:5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85@ec2-52-72-65-76.compute-1.amazonaws.com:5432/d2rnd6jboqu0mq?ssl=true&synchronize=true",
         // The second argument can be used to pass custom models and schemas
         {
             models: {
