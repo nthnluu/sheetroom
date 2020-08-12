@@ -193,7 +193,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
             </motion.div>
             {active ? <div className="pb-6">
                 <div
-                    className="w-full bg-white rounded-lg shadow-md z-50 px-6 sm:px-6 py-3 flex justify-between md:max-w-sm md:space-x-4">
+                    className="w-full bg-white rounded-lg shadow-md z-50 px-6 sm:px-6 py-3 flex justify-between md:max-w-xs md:space-x-4">
 
 
                     <NewTooltip title="Multiple Choice" placement="bottom" enterDelay={100}
@@ -296,34 +296,34 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                         </button>
                     </NewTooltip>
 
-                    <NewTooltip title="Paragraph" placement="bottom" enterDelay={100}
-                                enterNextDelay={100}>
-                        <button
-                            className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6" viewBox="0 0 100 100">
-                                <defs>
-                                    <clipPath id="a">
-                                        <path fill="none" d="M0 0h100v100H0z"/>
-                                    </clipPath>
-                                </defs>
-                                <g clipPath="url(#a)">
-                                    <path fill="#fff" d="M0 0h100v100H0z"/>
-                                    <g fill="none">
-                                        <rect width="100" height="100" rx="13"/>
-                                        <rect x="4" y="4" width="92" height="92" rx="9" stroke="currentColor"
-                                              strokeWidth="8"/>
-                                    </g>
-                                    <g>
-                                        <path
-                                            d="M18.74 48v-3l3.91-.27c.53 0 .61-.19.61-.76V24.63h-3.91c-.42 0-.54 0-.61.42l-.61 3.12-4.13.19v-7.87h24.42v7.87l-4.14-.19-.61-3.12c-.08-.38-.19-.42-.61-.42h-3.91V44c0 .53 0 .69.61.72l4.18.31v3z"
-                                            fill="currentColor"/>
-                                    </g>
-                                    <path fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="7"
-                                          d="M82.5 23.5h-37M82.5 41.5h-37M82.5 59.5h-65M82.5 77.5h-65"/>
-                                </g>
-                            </svg>
-                        </button>
-                    </NewTooltip>
+                    {/*<NewTooltip title="Paragraph" placement="bottom" enterDelay={100}*/}
+                    {/*            enterNextDelay={100}>*/}
+                    {/*    <button*/}
+                    {/*        className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">*/}
+                    {/*        <svg xmlns="http://www.w3.org/2000/svg" className="h-6" viewBox="0 0 100 100">*/}
+                    {/*            <defs>*/}
+                    {/*                <clipPath id="a">*/}
+                    {/*                    <path fill="none" d="M0 0h100v100H0z"/>*/}
+                    {/*                </clipPath>*/}
+                    {/*            </defs>*/}
+                    {/*            <g clipPath="url(#a)">*/}
+                    {/*                <path fill="#fff" d="M0 0h100v100H0z"/>*/}
+                    {/*                <g fill="none">*/}
+                    {/*                    <rect width="100" height="100" rx="13"/>*/}
+                    {/*                    <rect x="4" y="4" width="92" height="92" rx="9" stroke="currentColor"*/}
+                    {/*                          strokeWidth="8"/>*/}
+                    {/*                </g>*/}
+                    {/*                <g>*/}
+                    {/*                    <path*/}
+                    {/*                        d="M18.74 48v-3l3.91-.27c.53 0 .61-.19.61-.76V24.63h-3.91c-.42 0-.54 0-.61.42l-.61 3.12-4.13.19v-7.87h24.42v7.87l-4.14-.19-.61-3.12c-.08-.38-.19-.42-.61-.42h-3.91V44c0 .53 0 .69.61.72l4.18.31v3z"*/}
+                    {/*                        fill="currentColor"/>*/}
+                    {/*                </g>*/}
+                    {/*                <path fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="7"*/}
+                    {/*                      d="M82.5 23.5h-37M82.5 41.5h-37M82.5 59.5h-65M82.5 77.5h-65"/>*/}
+                    {/*            </g>*/}
+                    {/*        </svg>*/}
+                    {/*    </button>*/}
+                    {/*</NewTooltip>*/}
 
                     <NewTooltip title="Math" placement="bottom" enterDelay={100}
                                 enterNextDelay={100}>

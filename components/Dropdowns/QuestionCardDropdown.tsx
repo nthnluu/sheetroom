@@ -130,7 +130,7 @@ const QuestionCardDropdown: React.FC<Props> = ({item}) => {
                             answer_objects: {
                                 [newId]: {
                                     $set: {
-                                        value: "Short answer"
+                                        content: "Answer"
                                     }
                                 }
                             }
@@ -160,7 +160,6 @@ const QuestionCardDropdown: React.FC<Props> = ({item}) => {
                 <MenuItem value="MA" disableRipple>Multiple Answers</MenuItem>
                 <Divider/>
                 <MenuItem value="SA" disableRipple>Short Answer</MenuItem>
-                <MenuItem value="PG" disableRipple>Paragraph</MenuItem>
                 <Divider/>
                 <MenuItem value="MT" disableRipple>Math</MenuItem>
             </Select>
