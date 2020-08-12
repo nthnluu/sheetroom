@@ -1,12 +1,7 @@
-import React, {useState} from 'react'
-import { providers, signIn } from 'next-auth/client'
+import React from 'react'
 import Navbar from "../../components/PageLayouts/AppLayout/Navbar";
-import Divider from '@material-ui/core/Divider';
-import JsonDebugBox from "../../components/JsonDebugBox";
 
-export default function VerifyRequest({ providers }) {
-    const [currentValue, setCurrentValue] = useState("")
-
+export default function VerifyRequest() {
     return (
         <>
             <Navbar logoOnly unfixed/>
@@ -25,10 +20,4 @@ export default function VerifyRequest({ providers }) {
 
         </>
     )
-}
-
-VerifyRequest.getInitialProps = async (context) => {
-    return {
-        providers: await providers(context),
-    }
 }
