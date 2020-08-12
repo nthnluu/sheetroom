@@ -5,7 +5,7 @@ import PageLayout from "../../components/ClassPage/PageLayout";
 import React from "react";
 import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {useQuery} from "urql";
+import {useQuery, useSubscription} from "urql";
 import {classByPk} from "../../lib/graphql/Class";
 import ClassContext from "../../components/ClassPage/ClassContext";
 
@@ -29,10 +29,15 @@ const LoadingPlaceholder: React.FC = () => {
 const ClassPage = ({session}) => {
     const router = useRouter();
     const {cid} = router.query;
-    const [result] = useQuery({query: classByPk, variables: {classId: cid}})
+
+    const handleSubscription = (messages = [], response) => {
+        return response;
+    };
+
+    const [result] = useSubscription({query: classByPk, variables: {classId: cid}}, handleSubscription)
     const {data, fetching, error} = result
 
-    if (fetching) {
+    if (fetching && !data) {
         return <LoadingPlaceholder/>
     } else {
         return <PageLayout session={session} course={data.classes_class_by_pk}/>

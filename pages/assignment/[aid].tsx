@@ -66,7 +66,11 @@ const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({page
     //Checks if  session is expired
     useEffect(() => {
         if (prevClientId !== pageData.assignments_assignment_by_pk.last_edited_by) {
-            setInvalidSession(true)
+            if (prevClientId === clientId) {
+                setPrevClientId(clientId)
+            } else {
+                setInvalidSession(false)
+            }
         } else {
             setPrevClientId(pageData.assignments_assignment_by_pk.last_edited_by)
         }
@@ -159,6 +163,9 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
     const [pageData, setPageData] = useState()
 
     // @ts-ignore
+    const handleSubscription = (messages = [], response) => {
+        return response;
+    };
 
 
     const [res] = useSubscription({
@@ -166,7 +173,7 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
         variables: {
             assignmentId: aid
         }
-    });
+    }, handleSubscription);
 
     const {data, fetching, error} = res
 
