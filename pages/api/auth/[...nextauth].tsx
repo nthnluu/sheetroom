@@ -5,8 +5,6 @@ import iToken from "../../../types/token";
 import IUser from "../../../types/user";
 import ISession from "../../../types/session";
 import ReactGA from "react-ga";
-import Adapters from "next-auth/adapters"
-import Models from "../../../lib/models";
 
 
 
