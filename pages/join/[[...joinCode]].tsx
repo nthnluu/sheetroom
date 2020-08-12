@@ -9,6 +9,7 @@ import {classByJoinCode, createStudentProfile} from "../../lib/graphql/Class";
 import {getInviteByJoinCode} from "../../lib/graphql/Invites";
 import JsonDebugBox from "../../components/JsonDebugBox";
 import AssignmentCard from "../../components/JoinScreen/AssignmentCard";
+import ReactGA from "react-ga";
 
 
 const InviteFetch = ({joinCode, session}) => {
@@ -46,7 +47,18 @@ const InviteFetch = ({joinCode, session}) => {
     const [joinClassResult, joinClass] = useMutation(inviteType(joinCode).mutation)
 
 
-    const {fetching, data} = result
+    const {fetching, data, error} = result
+
+    if (error) {
+        ReactGA.event({
+            category: 'Error',
+            action: 'Join Code Fetch Error (GraphQL QUERY)',
+            // @ts-ignore
+            label: error
+        })
+
+        return <JoinCode session={session}/>
+    }
 
     if (fetching) {
         return (<div>
@@ -89,7 +101,21 @@ const InviteFetch = ({joinCode, session}) => {
                                 studentId: session.id,
                                 classId: data.classes_class[0].id
                             })
-                                .then(() => window.location.href = "/class/" + data.classes_class[0].id)
+                                .then(() => {
+                                    window.location.href = "/class/" + data.classes_class[0].id
+                                    ReactGA.event({
+                                        category: 'User',
+                                        action: 'Joined a class (GraphQL MUTATION)',
+                                        // @ts-ignore
+                                        label: `${data.classes_class[0].title}(data.classes_class[0].id)`
+                                    })
+                                })
+                                .catch(() => ReactGA.event({
+                                    category: 'Error',
+                                    action: 'Insert Student Profile Error/Join Class (GraphQL MUTATION)',
+                                    // @ts-ignore
+                                    label: joinClassResult.error
+                                }))
                             }
                                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                                 Continue
