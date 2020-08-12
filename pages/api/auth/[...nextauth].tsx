@@ -83,6 +83,13 @@ const options = {
             category: 'User',
             action: 'Signed in'
         }) },
+    },
+    pages: {
+        signIn: '/signin',
+        // signOut: '/auth/signout',
+        // error: '/auth/error', // Error code passed in query string as ?error=
+        verifyRequest: '/auth/7747278844', // (used for check email message)
+        newUser: null // If set, new users will be directed here on first sign in
     }
 };
 
