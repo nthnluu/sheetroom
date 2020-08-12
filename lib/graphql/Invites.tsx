@@ -6,6 +6,7 @@ assignments_invite(limit: 1, where: {join_code: {
   _eq: $joinCode
 }}) {
   id
+  is_public
   assignmentByAssignment {
     title
     user {

@@ -10,7 +10,7 @@ mutation CreateNewClass($title: String!, $userId: Int!, $color: String!, $joinCo
 `;
 
 export const classByPk = gql`
-query ClassByPk($classId: uuid!) {
+subscription ClassByPk($classId: uuid!) {
  classes_class_by_pk(id: $classId) {
     title
     id
@@ -36,6 +36,9 @@ query AllClasses($userId: Int!) {
     title
     id
     color
+    studentProfiles {
+      __typename
+    }
     __typename
   }
 }

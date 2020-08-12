@@ -6,7 +6,7 @@ import update from "immutability-helper";
 import {v4 as uuidv4} from 'uuid';
 import QuizContext from "../QuizContext";
 import NewTooltip from "../../Misc/Tooltip";
-import ItemOptionsModal from "../../Modals/ItemOptionsModal";
+import {nanoid} from "nanoid";
 
 interface Props {
     item: string;
@@ -107,6 +107,74 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
             return newData
         })
     }
+    const addMaItem = () => {
+        setDocument(prevState => {
+            const newId = nanoid(7)
+            const newObjectId = nanoid(8)
+            const newData = update(prevState, {
+                    items: {
+                        [newId]: {
+                            $set: {
+                                content: "<p>Option</p>",
+                                controller_type: "MA",
+                                answer_objects: [newObjectId],
+                                correct_objects: [newObjectId]
+                            }
+                        }
+                    }, sections: {
+                        [section]: {
+                            items: {
+                                $splice: [[itemIndex + 1, 0, newId]]
+                            }
+                        }
+                    },
+                    answer_objects: {
+                        [newObjectId]: {
+                            $set: {
+                                content: "<p><br/></p>"
+                            }
+                        }
+                    }
+                }
+            )
+            setCurrentItem(newId)
+            return newData
+        })
+    }
+    const addSaItem = () => {
+        setDocument(prevState => {
+            const newId = nanoid(7)
+            const newObjectId = nanoid(8)
+            const newData = update(prevState, {
+                    items: {
+                        [newId]: {
+                            $set: {
+                                content: "<p>Option</p>",
+                                controller_type: "SA",
+                                answer_objects: [newObjectId],
+                                correct_objects: [newObjectId]
+                            }
+                        }
+                    }, sections: {
+                        [section]: {
+                            items: {
+                                $splice: [[itemIndex + 1, 0, newId]]
+                            }
+                        }
+                    },
+                    answer_objects: {
+                        [newObjectId]: {
+                            $set: {
+                                content: "Answer"
+                            }
+                        }
+                    }
+                }
+            )
+            setCurrentItem(newId)
+            return newData
+        })
+    }
 
     return (
         <div className="relative">
@@ -169,7 +237,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                 enterNextDelay={100}>
                         <button
                             className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6" onClick={() => addMaItem()}>
                                 <defs>
                                     <clipPath id="a">
                                         <path d="M0 0h100v100H0z"/>
@@ -206,7 +274,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                 enterNextDelay={100}>
                         <button
                             className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6" onClick={() => addSaItem()}>
                                 <defs>
                                     <clipPath id="a">
                                         <path fill="none" d="M0 0h100v100H0z"/>

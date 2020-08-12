@@ -3,9 +3,6 @@
 @tailwind components;
 /* purgecss end ignore */
 
-blockquote {
-    @apply p-3 border rounded text-lg border-gray-200 my-4
-}
 
 code {
     background-color: rgba(0,0,0,0.075);
@@ -92,8 +89,11 @@ code {
     font-family: 'Inter var' !important;
     font-size: 1.1rem !important;
     padding: 0rem !important;
-    overflow-x: hidden !important;
     height: 100%;
+}
+
+.ql-editor hr {
+    color:  black;
 }
 
 

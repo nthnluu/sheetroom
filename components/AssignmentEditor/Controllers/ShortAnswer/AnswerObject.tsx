@@ -42,20 +42,28 @@ const AnswerObject = ({active, choice, answerIndex, item}) => {
 
         <div
             key={"key1" + choice}
-            className='flex-grow editor-card mb-2 bg-white editor-unselectedCard '
+            className='mb-2 bg-white '
         >
-                <span className={"table-cell w-full pointer-events-auto " + (active ? "p-2" : "p-1")}>
-                    <input value={currentChoice.content} onChange={(e) => saveChoiceContent(e.target.value)} placeholder="Option" className="text-gray-700 focus:outline-none w-full"/>
-                </span>
-            <div className="flex justify-between space-x-3">
-                {(active && document.items[item].answer_objects.length > 1) ?
-                    <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}
-                                enterNextDelay={500}>
-                        <button onClick={() => deleteAnswerChoice()}><i
-                            className="far fa-trash-alt text-gray-300 table-cell"/>
-                        </button>
-                    </NewTooltip> : null}
+            <div className="flex justify-start items-center h-full">
+                <div className="w-full">
+                    <label htmlFor="answer_choice" className="sr-only">Acceptable Answer {answerIndex + 1}</label>
+                    <div className="relative rounded-md shadow-sm">
+                        <input id="answer_choice" className={"border rounded-lg pl-4 focus:outline-none focus:shadow-outline focus:border-blue-400 block p-3 w-full sm:text-lg sm:leading-5 placeholder-gray-200 text-gray-700 " + (active ? "border-gray-300" : "border-gray-100")}
+                               placeholder="Acceptable answer" onChange={event => saveChoiceContent(event.target.value)} value={currentChoice.content}/>
+                    </div>
+                </div>
+
+                <div className="-ml-6 z-50">
+                    {(active && document.items[item].answer_objects.length > 1) ?
+                        <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}
+                                    enterNextDelay={500}>
+                            <button onClick={() => deleteAnswerChoice()}><i
+                                className="far fa-trash-alt text-gray-300 table-cell"/>
+                            </button>
+                        </NewTooltip> : null}
+                </div>
             </div>
+
         </div>
 
     )

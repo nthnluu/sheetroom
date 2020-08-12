@@ -14,7 +14,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import {assignmentSubscription, updateAssignmentContent} from "../../lib/graphql/Assignments";
-import Transition from "../../components/Transition";
 
 const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({pageData, aid, session}) => {
     // A client ID to identify the current user working on the project
@@ -32,16 +31,7 @@ const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({page
     const [invalidSession, setInvalidSession] = useState(false);
 
     const [prevClientId, setPrevClientId] = useState(pageData.assignments_assignment_by_pk.last_edited_by);
-
     const [mutateAssignmentResult, mutateAssignment] = useMutation(updateAssignmentContent)
-
-    const [currentNotification, setCurrentNotification] = useState(null)
-
-    const sendNotification = (newNotification) => {
-        setCurrentNotification(null);
-        setCurrentNotification(newNotification);
-        setTimeout(() => setCurrentNotification(null), 4000)
-    }
 
     const saveAssignment = (newDocument) => {
         if (!invalidSession) {
@@ -54,8 +44,6 @@ const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({page
 
     }
 
-
-
     //Autosave Logic
     const delayedMutation = useCallback(debounce(newDocument => saveAssignment(newDocument), 1000), []);
     useEffect(() => {
@@ -65,7 +53,11 @@ const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({page
     //Checks if  session is expired
     useEffect(() => {
         if (prevClientId !== pageData.assignments_assignment_by_pk.last_edited_by) {
-            setInvalidSession(true)
+            if (prevClientId === clientId) {
+                setPrevClientId(clientId)
+            } else {
+                setInvalidSession(false)
+            }
         } else {
             setPrevClientId(pageData.assignments_assignment_by_pk.last_edited_by)
         }
@@ -158,16 +150,19 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
     const [pageData, setPageData] = useState()
 
     // @ts-ignore
+    const handleSubscription = (messages = [], response) => {
+        return response;
+    };
 
 
-    const [result] = useSubscription({
+    const [res] = useSubscription({
         query: assignmentSubscription,
         variables: {
             assignmentId: aid
         }
-    });
+    }, handleSubscription);
 
-    const {data, fetching, error} = result
+    const {data, fetching, error} = res
 
 
     if (error) return <Dialog aria-labelledby="simple-dialog-title"
@@ -198,7 +193,7 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {fetching ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ErrorScreen/> :
+            {fetching && !data ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ErrorScreen/> :
                 // @ts-ignore
                 <PageContent pageData={data} aid={aid} session={session}/>)}
         </div>
