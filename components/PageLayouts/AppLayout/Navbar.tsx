@@ -90,8 +90,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
 
                             {/* Profile dropdown */}
 
-
-                            <ClickAwayListener onClickAway={() => toggleNewDropdown(false)}>
+                            {session ? <><ClickAwayListener onClickAway={() => toggleNewDropdown(false)}>
                                 <div className="relative inline-block text-left mr-6 ml-4">
                                     <div>
                                     <span className="rounded-md shadow-sm">
@@ -135,49 +134,58 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
                                     </Transition>
                                 </div>
                             </ClickAwayListener>
+                                <ClickAwayListener onClickAway={() => toggleProfileDropdown(false)}>
+                                    <div className="relative flex-shrink-0">
+                                        <div>
 
-
-                            <ClickAwayListener onClickAway={() => toggleProfileDropdown(false)}>
-                                <div className="relative flex-shrink-0">
-                                    <div>
-
-                                        <button
-                                            onClick={() => toggleProfileDropdown(!profileDropdown)}
-                                            className="flex text-sm rounded-full text-white focus:outline-none focus:shadow-solid transition duration-150 ease-in-out"
-                                            id="user-menu" aria-label="User menu" aria-haspopup="true">
-                                            {/*// @ts-ignore*/}
-                                            <img className="h-8 w-8 rounded-full"
-                                                // @ts-ignore
-                                                 src={session.picture ? session.picture : "https://lh3.googleusercontent.com/proxy/Ge8IjXjwr-9jS3f5_gnxcIyi1OFQ-IMWCvHtmpCze2EeQi2TqNgtMx1oVZoFhiHATpISTmeXCZ_uQfiiauO2R6uEBFFLwI86huh6RNZjXn2csWFM6GIhulXwJ50oXU2Jb3I"}
-                                                 alt=""/>
-                                        </button>
-                                    </div>
-
-                                    <Transition appear={profileDropdown} show={profileDropdown}
-                                                enter="transition ease-out duration-100"
-                                                enterFrom="transform opacity-0 scale-95"
-                                                enterTo="transform opacity-100 scale-100"
-                                                leave="transition ease-in duration-75"
-                                                leaveTo="transform opacity-0 scale-95"
-                                                leaveFrom="transform opacity-100 scale-100">
-                                        <div
-                                            className="origin-top-right popover absolute right-0 mt-2 w-48 rounded-md shadow-lg">
-                                            <div className="py-1 rounded-md bg-white shadow-xs" role="menu"
-                                                 aria-orientation="vertical" aria-labelledby="user-menu">
-                                                <a href="#"
-                                                   className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                                   role="menuitem">View Profile</a>
-                                                <a href="#"
-                                                   className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                                   role="menuitem">Settings</a>
-                                                <a href="/api/auth/signout"
-                                                   className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                                   role="menuitem">Sign out</a>
-                                            </div>
+                                            <button
+                                                onClick={() => toggleProfileDropdown(!profileDropdown)}
+                                                className="flex text-sm rounded-full text-white focus:outline-none focus:shadow-solid transition duration-150 ease-in-out"
+                                                id="user-menu" aria-label="User menu" aria-haspopup="true">
+                                                {/*// @ts-ignore*/}
+                                                <img className="h-8 w-8 rounded-full"
+                                                    // @ts-ignore
+                                                     src={session.picture ? session.picture : "https://lh3.googleusercontent.com/proxy/Ge8IjXjwr-9jS3f5_gnxcIyi1OFQ-IMWCvHtmpCze2EeQi2TqNgtMx1oVZoFhiHATpISTmeXCZ_uQfiiauO2R6uEBFFLwI86huh6RNZjXn2csWFM6GIhulXwJ50oXU2Jb3I"}
+                                                     alt=""/>
+                                            </button>
                                         </div>
-                                    </Transition>
-                                </div>
-                            </ClickAwayListener>
+
+                                        <Transition appear={profileDropdown} show={profileDropdown}
+                                                    enter="transition ease-out duration-100"
+                                                    enterFrom="transform opacity-0 scale-95"
+                                                    enterTo="transform opacity-100 scale-100"
+                                                    leave="transition ease-in duration-75"
+                                                    leaveTo="transform opacity-0 scale-95"
+                                                    leaveFrom="transform opacity-100 scale-100">
+                                            <div
+                                                className="origin-top-right popover absolute right-0 mt-2 w-48 rounded-md shadow-lg">
+                                                <div className="py-1 rounded-md bg-white shadow-xs" role="menu"
+                                                     aria-orientation="vertical" aria-labelledby="user-menu">
+                                                    <a href="#"
+                                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                                                       role="menuitem">View Profile</a>
+                                                    <a href="#"
+                                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                                                       role="menuitem">Settings</a>
+                                                    <a href="/api/auth/signout"
+                                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                                                       role="menuitem">Sign out</a>
+                                                </div>
+                                            </div>
+                                        </Transition>
+                                    </div>
+                                </ClickAwayListener></>: <div className="flex justify-between">
+                                <button type="button" onClick={() => window.location.href = "/api/auth/signin"}
+                                        className="inline-flex items-center px-3 py-1 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:text-gray-200 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
+                                    Log in
+                                </button>
+                                <button type="button" onClick={() => window.location.href = "/api/auth/signin"}
+                                        className="inline-flex items-center px-3 py-1 border border-gray-300 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:text-gray-200 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
+                                    Sign up
+                                </button>
+
+                            </div>}
+
                         </div>
                     </div>
                 </div>

@@ -28,9 +28,7 @@ const WithGraphQL = ({
         {
             reconnect: true,
             connectionParams: {
-                headers: {
-                    Authorization: `Bearer ${newToken}`
-                },
+                headers: session ? {Authorization: `Bearer ${newToken}`} : undefined
             },
         },
         ws
@@ -40,9 +38,7 @@ const WithGraphQL = ({
         url: process.env.NEXT_PUBLIC_API_URL || "http://api.sheetroom.com/v1/graphql",
         fetch,
         fetchOptions: {
-            headers: {
-                Authorization: `Bearer ${newToken}`
-            },
+            headers: session ? {Authorization: `Bearer ${newToken}`} : undefined
 
         },
         requestPolicy: "cache-and-network",

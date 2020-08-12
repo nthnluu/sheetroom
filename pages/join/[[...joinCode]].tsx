@@ -47,6 +47,7 @@ const InviteFetch = ({joinCode, session}) => {
 
 
     const {fetching, data} = result
+
     if (fetching) {
         return (<div>
             <div className="mx-auto">
