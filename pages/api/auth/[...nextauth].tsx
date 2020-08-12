@@ -9,7 +9,7 @@ import ReactGA from "react-ga";
 
 
 const options = {
-    debug: true,
+    debug: false,
     secret: process.env.NEXT_AUTH_SECRET,
     site: process.env.SITE || 'http://localhost:3000',
 
@@ -49,16 +49,24 @@ const options = {
     // A database is optional, but required to persist accounts in a database
     database: {
         type: 'postgres',
-        host: "ec2-52-72-65-76.compute-1.amazonaws.com",
-        port: 5432,
-        username: "rkofrjdyqoidnj",
-        password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
-        database: "d2rnd6jboqu0mq",
+        url: process.env.DATABASE_URL,
         synchronize: true,
         ssl: {
             rejectUnauthorized: false
         }
     },
+    // database: {
+    //     type: 'postgres',
+    //     host: "ec2-52-72-65-76.compute-1.amazonaws.com",
+    //     port: 5432,
+    //     username: "rkofrjdyqoidnj",
+    //     password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
+    //     database: "d2rnd6jboqu0mq",
+    //     synchronize: true,
+    //     ssl: {
+    //         rejectUnauthorized: false
+    //     }
+    // },
     callbacks: {
         session: async (session: ISession, user: IUser) => {
             return Promise.resolve(user);
