@@ -167,11 +167,9 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
 
 
     if (error){
-        ReactGA.event({
-            category: 'Error',
-            action: 'Assignment Subscription Error (GraphQL SUBSCRIPTION)',
-            // @ts-ignore
-            label: error
+        ReactGA.exception({
+            description: error,
+            fatal: true
         })
 
         return <Dialog aria-labelledby="simple-dialog-title"

@@ -37,11 +37,9 @@ const NewAssignmentModal = ({isOpen, onCancel, session}) => {
                         label: `${currentValue}(${data.data.insert_assignments_assignment.returning[0].id})`
                     })
                 })
-                .catch(() => ReactGA.event({
-                    category: 'Error',
-                    action: 'Assignment Insertion Error (GraphQL MUTATION)',
-                    // @ts-ignore
-                    label: createAssignmentResult.error
+                .catch(() => ReactGA.exception({
+                    description: createAssignmentResult.error,
+                    fatal: false
                 }));
         }}
             // @ts-ignore
