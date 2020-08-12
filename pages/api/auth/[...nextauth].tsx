@@ -33,7 +33,7 @@ const options = {
         {
             type: 'postgres',
             url: process.env.DATABASE_URL,
-            synchronize: false,
+            synchronize: true,
             ssl: {
                 rejectUnauthorized: false
             }
