@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prepare": "patch-package",
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p $PORT",
@@ -62,6 +63,8 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "jest": "^26.1.0",
+    "patch-package": "^6.2.2",
+    "postinstall-prepare": "^1.0.1",
     "typescript": "^3.9.7"
   }
 }
