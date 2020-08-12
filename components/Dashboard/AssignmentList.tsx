@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import React, {useState} from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
+import ReactGA from "react-ga";
 
 
 const ASSIGNMENTS = gql`
@@ -42,7 +43,17 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
         }
     });
 
-    const {fetching, data} = result
+    const {fetching, data, error} = result
+
+    if (error) {
+        ReactGA.event({
+            category: 'Error',
+            action: 'Fetch Assignment List Error (GraphQL QUERY)',
+            // @ts-ignore
+            label: error
+        })
+        return <LoadingPlaceholder/>
+    }
 
     if (fetching) {
         return <LoadingPlaceholder/>

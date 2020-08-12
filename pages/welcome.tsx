@@ -3,6 +3,7 @@ import StepOneRadioGroup from "../components/WelcomePage/StepOneRadioGroup";
 import StepThreeRadioGroup from "../components/WelcomePage/StepThreeRadioGroup";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {getSession} from "next-auth/client";
+import getEditDistance from "../lib/getEditDistance";
 
 const StepOne: React.FC<{ onContinue }> = ({onContinue}) => {
     return (<div>
@@ -18,9 +19,26 @@ const StepOne: React.FC<{ onContinue }> = ({onContinue}) => {
 }
 
 const StepTwo: React.FC<{ onContinue, onBack }> = ({onContinue, onBack}) => {
+    const [currentValueA, setCurrentValueA] = useState("")
+    const [currentValueB, setCurrentValueB] = useState("")
     return (<div>
         <h1 className="text-4xl font-bold">⚡️ Now let's get to know you</h1>
         <h2 className="text-xl font-light mb-8">What is your name?</h2>
+        <div>
+            <label htmlFor="fname" className="sr-only">Input A</label>
+            <div className="relative rounded-lg shadow-sm">
+                <input id="fname" name="fname" className="form-input p-4 block w-full sm:text-lg sm:leading-5"
+                       placeholder="Input A" value={currentValueA} onChange={event => setCurrentValueA(event.target.value)}/>
+            </div>
+        </div>
+        <div>
+            <label htmlFor="fname" className="sr-only">Input B</label>
+            <div className="relative rounded-lg shadow-sm">
+                <input id="fname" name="fname" className="form-input p-4 block w-full sm:text-lg sm:leading-5"
+                       placeholder="Input B" value={currentValueB} onChange={event => setCurrentValueB(event.target.value)}/>
+            </div>
+        </div>
+        <p>{getEditDistance(currentValueA, currentValueB)}</p>
         <form autoComplete="on">
             <div>
                 <label htmlFor="fname" className="sr-only">First Name</label>

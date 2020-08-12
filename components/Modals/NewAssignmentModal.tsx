@@ -29,12 +29,20 @@ const NewAssignmentModal = ({isOpen, onCancel, session}) => {
                 content: newInitialDocumentContent(),
                 userId: session.id
             })
-                .then((data) => window.location.href = '/assignment/' + data.data.insert_assignments_assignment.returning[0].id)
-                .catch(() => console.log(createAssignmentResult.error))
-                .then(() => ReactGA.event({
-                    category: 'User',
-                    action: 'Created an assignment'
-                }))
+                .then((data) => {
+                    window.location.href = '/assignment/' + data.data.insert_assignments_assignment.returning[0].id
+                    ReactGA.event({
+                        category: 'User',
+                        action: 'Created an assignment',
+                        label: `${currentValue}(${data.data.insert_assignments_assignment.returning[0].id})`
+                    })
+                })
+                .catch(() => ReactGA.event({
+                    category: 'Error',
+                    action: 'Assignment Insertion Error (GraphQL MUTATION)',
+                    // @ts-ignore
+                    label: createAssignmentResult.error
+                }));
         }}
             // @ts-ignore
                 disabled={currentValue.length === 0} className={"inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 text-base leading-6 font-medium text-white shadow-sm  transition ease-in-out duration-150 sm:text-sm sm:leading-5 " + (currentValue.length === 0 ? "bg-blue-400" : "bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue")}>
