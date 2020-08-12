@@ -9,7 +9,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
     return (
         <>
             <div style={{backgroundColor: "#16181a"}} className="z-50">
-                <Navbar session={session} transparent />
+                <Navbar session={session} color="#16181a" />
             </div>
             <div style={{backgroundColor: "#16181a"}}>
                 <div className="max-w-6xl mx-auto pt-12 px-4 pb-12 pt-36">
@@ -18,7 +18,9 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                             assignments for desktop, mobile and paper.
                         </h1>
                     </header>
-                    <img src="/screenshot.png" className="rounded-lg -mb-64 shadow-lg"/>
+                    <img src="/screenshot.png" className="rounded-lg -mb-32 md:-mb-64 shadow-lg min-w-full"/>
+
+
                 </div>
 
             </div>

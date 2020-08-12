@@ -12,9 +12,10 @@ interface Props {
     session: string;
     unfixed?: boolean;
     transparent?: boolean;
+    color?: string;
 }
 
-export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
+export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color}) => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
     const [newDropdown, toggleNewDropdown] = useState(false);
@@ -36,7 +37,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
         <NewAssignmentModal onCancel={() => toggleCreateAssignmentDialog(false)} isOpen={createAssignmentDialog}
                             session={session}/>
         <nav className={"flex-shrink-0 w-full navbar " + (unfixed ? null : "fixed")}
-             style={!transparent ? {backgroundColor: '#242629'} : null}>
+             style={!transparent ? {backgroundColor: color ? color : '#242629'} : null}>
             <div className="mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="relative flex items-center justify-between h-14">
                     <a href="#main" tabIndex={1}
@@ -49,18 +50,30 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent}) => {
 
                             <a href="/"
                                className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none opacity-75 hover:opacity-100 focus:opacity-100 active:shadow-outline">
-                                <img className="h-8 w-auto hidden md:block" src="/light_symbol.svg"
+                                <img className={"w-auto hidden md:block " + (session ? "h-8" : "h-6")} src={session ? "/light_symbol.svg": "/light_logo.svg"}
                                      alt="Workflow logo"/>
-                                <img className="h-8 w-auto block md:hidden" src="/light_symbol.svg"
+                                <img className={"w-auto block md:hidden " + (session ? "h-8" : "h-6")} src={session ? "/light_symbol.svg": "/light_logo.svg"}
                                      alt="Workflow logo"/>
                             </a>
-                            <SearchInput session={session}/>
-                            <div className="flex hidden lg:block">
+                            {session ? <><SearchInput session={session}/><div className="flex hidden lg:block">
                                 <a href="#"
                                    className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Workshop</a>
                                 <a href="#"
                                    className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Learn</a>
-                            </div>
+                            </div></> : <div className="flex hidden lg:block">
+                                <a href="#"
+                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Features</a>
+                                <a href="#"
+                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Institutions</a>
+                                <a href="#"
+                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Pricing</a>
+                                <a href="#"
+                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Explore</a>
+                                <a href="#"
+                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Blog</a>
+                            </div>}
+
+
 
                         </div>
                         <div className="related"/>
