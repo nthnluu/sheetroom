@@ -187,10 +187,10 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
                     <div className="max-w-2xl flex justify-between items-center">
                         <NewTooltip title="Move down" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
-                            <span>
-                                <button type="button" onClick={() => moveItemDown()}
-                                        disabled={itemIndex === document.sections[section].items.length - 1}
-                                        className="inline-flex text-center items-center h-8 w-8 mr-1 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
+                            <button type="button" onClick={() => {
+                                if (itemIndex !== (document.sections[section].items.length - 1))
+                                moveItemDown()}}
+                                    className="inline-flex text-center items-center h-8 w-8 mr-1 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
                                 <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
                                     <path d="M19 9L12 16L5 9" strokeWidth="2" strokeLinecap="round"
                                           className="stroke-current"
@@ -201,8 +201,10 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
                         </NewTooltip>
                         <NewTooltip title="Move up" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
-                            <span><button type="button" onClick={() => moveItemUp()} disabled={itemIndex === 0}
-                                          className="inline-flex text-center items-center h-8 w-8 ml-1 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
+                            <button type="button" onClick={() => {if (itemIndex > 0) {
+                                moveItemUp()
+                            }
+                            }} className="inline-flex text-center items-center h-8 w-8 ml-1 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
                                 <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
                                     <path d="M5 15L12 8L19 15" strokeWidth="2" strokeLinecap="round"
                                           className="stroke-current"
