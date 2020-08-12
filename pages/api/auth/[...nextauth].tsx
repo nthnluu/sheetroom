@@ -9,7 +9,7 @@ import ReactGA from "react-ga";
 
 
 const options = {
-    debug: true,
+    debug: false,
     secret: process.env.NEXT_AUTH_SECRET,
     site: process.env.SITE || 'http://localhost:3000',
 
