@@ -14,6 +14,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import {assignmentSubscription, updateAssignmentContent} from "../../lib/graphql/Assignments";
+import ReactGA from "react-ga";
 
 const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({pageData, aid, session}) => {
     // A client ID to identify the current user working on the project
@@ -165,7 +166,15 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
     const {data, fetching, error} = res
 
 
-    if (error) return <Dialog aria-labelledby="simple-dialog-title"
+    if (error){
+        ReactGA.event({
+            category: 'Error',
+            action: 'Assignment Subscription Error (GraphQL SUBSCRIPTION)',
+            // @ts-ignore
+            label: error
+        })
+
+        return <Dialog aria-labelledby="simple-dialog-title"
                               open={true}>
         <div className="p-2 pr-4">
             <DialogTitle id="simple-dialog-title">There was a problem loading this assignment</DialogTitle>
@@ -188,7 +197,7 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
         </div>
 
 
-    </Dialog>;
+    </Dialog>;}
 
 
     return (

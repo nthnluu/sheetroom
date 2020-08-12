@@ -10,12 +10,9 @@ interface Event {
 
 export const useAnalytics = () => {
     return {
-        init: (trackingId: string, userId: number) => {
+        init: (trackingId: string) => {
             // @ts-ignore
             ReactGA.initialize(trackingId);
-            if (userId) {
-                ReactGA.set({userId: userId});
-            }
 
         },
         trackPageViewed: (path?: string) => {

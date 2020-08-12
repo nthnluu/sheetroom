@@ -40,7 +40,7 @@ const MyApp = ({Component, pageProps}: AppProps) => {
     const {init, trackPageViewed} = useAnalytics();
 
     useEffect(() => {
-        init("UA-174935077-1", session ? session.id : null);
+        init("UA-174935077-1");
         trackPageViewed();
         Router.events.on("routeChangeComplete", () => {
             trackPageViewed();
