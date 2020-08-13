@@ -22,16 +22,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
     const [newDropdown, toggleNewDropdown] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
     const [createClassDialog, toggleCreateClassDialog] = useState(false);
-    const [searchDropdown, toggleSearchDropdown] = useState(false);
-    const [searchValue, setSearchValue] = useState("");
 
-    const handleOnChange = event => {
-        const value = event.target.value
-        if (!searchDropdown) {
-            toggleSearchDropdown(true)
-        }
-        setSearchValue(value)
-    }
 
     return (<div>
         <NewClassModal onCancel={() => toggleCreateClassDialog(false)} isOpen={createClassDialog} session={session}/>
