@@ -47,7 +47,6 @@ query AllClasses($userId: Int!) {
 export const createStudentProfile = gql`
 mutation CreateStudentProfile($studentId: Int!, $classId: uuid!) {
   insert_classes_studentProfile_one(object: {student: $studentId, class: $classId}) {
-    id
     __typename
   }
 }

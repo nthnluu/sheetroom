@@ -125,7 +125,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
     return (
         <div
             className={"bg-white focus:shadow-outline w-full pt-3 px-4 sm:px-6 focus:outline-none rounded-lg " + (!active ? ' pb-2' : null)}>
-            <ItemOptionsModal isOpen={settingsOpen} onCancel={() => toggleSettingsOpen(false)}/>
+            <ItemOptionsModal isOpen={settingsOpen} onCancel={() => toggleSettingsOpen(false)} item={item}/>
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-transparent pb-3">
                     <div className="mb-8">

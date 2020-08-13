@@ -10,7 +10,10 @@ export const blankMCItem = (newId, answerId) => ({
         }
     ],
     "controller_type": "MC",
-    "question": null
+    "question": null,
+    "config": {
+        points: 10
+    }
 })
 
 export const blankMAItem = (newId, answerId) => ({
@@ -23,7 +26,10 @@ export const blankMAItem = (newId, answerId) => ({
         }
     ],
     "controller_type": "MA",
-    "question": null
+    "question": null,
+    "config": {
+        points: 10
+    }
 })
 
 export const blankAnswerChoice = (isCorrect, newId) => ({
@@ -46,7 +52,10 @@ export const initialDocumentContent = {
                         }
                     ],
                     "controller_type": "MC",
-                    "question": [{"children": [{"text": "Question"}], "type": "paragraph"}]
+                    "question": [{"children": [{"text": "Question"}], "type": "paragraph"}],
+                    "config": {
+                        points: 10
+                    }
                 }
             ],
         }
@@ -72,7 +81,10 @@ export const newInitialDocumentContent = () => {
                 "answer_objects": [answerObjectId],
                 "controller_type": "MC",
                 "question": "<p>Question</p>",
-                "correct_objects": [answerObjectId]
+                "correct_objects": [answerObjectId],
+                "config": {
+                    points: 10
+                }
             }
         },
         answer_objects: {

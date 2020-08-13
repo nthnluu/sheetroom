@@ -44,7 +44,7 @@ const InviteFetch = ({joinCode, session}) => {
     const [result] = useQuery(queryObject)
 
     // @ts-ignore
-    const [joinClassResult, joinClass] = useMutation(inviteType(joinCode).mutation)
+    const [joinClassResult, joinClass] = useMutation(createStudentProfile)
 
 
     const {fetching, data, error} = result
@@ -96,19 +96,21 @@ const InviteFetch = ({joinCode, session}) => {
                             </div>
                             <h2 className="font-light">has invited you to join</h2>
                             <h2 className="font-semibold text-3xl">{data.classes_class[0].title}</h2>
+                            <JsonDebugBox content={data}/>
 
                             {session ? <button type="button" onClick={() => joinClass({
                                 studentId: session.id,
                                 classId: data.classes_class[0].id
                             })
-                                .then(() => {
-                                    window.location.href = "/class/" + data.classes_class[0].id
-                                    ReactGA.event({
-                                        category: 'User',
-                                        action: 'Joined a class (GraphQL MUTATION)',
-                                        // @ts-ignore
-                                        label: `${data.classes_class[0].title}(data.classes_class[0].id)`
-                                    })
+                                .then((result) => {
+                                    console.log(result)
+                                    // window.location.href = "/class/" + data.classes_class[0].id
+                                    // ReactGA.event({
+                                    //     category: 'User',
+                                    //     action: 'Joined a class (GraphQL MUTATION)',
+                                    //     // @ts-ignore
+                                    //     label: `${data.classes_class[0].title}(data.classes_class[0].id)`
+                                    // })
                                 })
                                 .catch(() => ReactGA.exception({
                                     description: joinClassResult.error,
