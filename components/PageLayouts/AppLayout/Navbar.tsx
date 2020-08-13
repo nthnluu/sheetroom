@@ -14,9 +14,11 @@ interface Props {
     transparent?: boolean;
     color?: string;
     logoOnly?: boolean;
+    darkText?: boolean;
+    logoLinkDisabled?: boolean;
 }
 
-export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, logoOnly}) => {
+export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, logoOnly, darkText, logoLinkDisabled}) => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
     const [newDropdown, toggleNewDropdown] = useState(false);
@@ -48,19 +50,25 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                     {/* Logo section */}
                     <div className="flex items-center justify-start w-full">
                         <div className="flex items-center px-2 lg:px-0 w-full h-full" style={{maxWidth: '28.9rem'}}>
-
-                            <a href="/"
-                               className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none opacity-75 hover:opacity-100 focus:opacity-100 active:shadow-outline">
-                                <img className={"w-auto hidden md:block " + (session ? "h-8" : "h-6")} src={session ? "/light_symbol.svg": "/light_logo.svg"}
+                            {logoLinkDisabled ?  <span
+                                                    className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none active:shadow-outline opacity-75">
+                                <img className="w-auto hidden md:block h-8" src="/light_symbol.svg"
+                                     alt="Workflow logo"/>
+                                <img className="w-auto block md:hidden h-8" src="/light_symbol.svg"
+                                     alt="Workflow logo"/>
+                            </span> :  <a href="/"
+                                       className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none active:shadow-outline">
+                                <img className={"w-auto hidden md:block " + (session ? "h-8" : "h-6")} src={session ? "/light_symbol.svg": (darkText ? "/sheetroom_logo.svg": "/light_logo.svg")}
                                      alt="Workflow logo"/>
                                 <img className={"w-auto block md:hidden " + (session ? "h-8" : "h-6")} src={session ? "/light_symbol.svg": "/light_logo.svg"}
                                      alt="Workflow logo"/>
-                            </a>
-                            {session && !logoOnly ? <><SearchInput session={session}/><div className="flex hidden lg:block">
+                            </a>}
+
+                            {session && !logoOnly ? <><SearchInput session={session}/><div className="flex hidden lg:block text-gray-200 ">
                                 <a href="#"
-                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Workshop</a>
+                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Workshop</a>
                                 <a href="#"
-                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Learn</a>
+                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Learn</a>
                             </div></> : (!logoOnly ? <div className="flex hidden lg:block">
                                 <a href="#"
                                    className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Features</a>

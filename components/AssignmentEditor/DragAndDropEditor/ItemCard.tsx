@@ -47,7 +47,12 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                 content: "<p>Option</p>",
                                 controller_type: "MC",
                                 answer_objects: [newObjectId],
-                                correct_objects: [newObjectId]
+                                correct_objects: [newObjectId],
+                                config: {
+                                    points: 10,
+                                    shuffle: false,
+                                    extra_credit: false
+                                }
                             }
                         }
                     }, sections: {
@@ -84,7 +89,12 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                 content: "<p>Option</p>",
                                 controller_type: "MC",
                                 answer_objects: [newObjectId],
-                                correct_objects: [newObjectId]
+                                correct_objects: [newObjectId],
+                                config: {
+                                    points: 10,
+                                    shuffle: false,
+                                    extra_credit: false
+                                }
                             }
                         }
                     }, sections: {
@@ -118,7 +128,12 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                 content: "<p>Option</p>",
                                 controller_type: "MA",
                                 answer_objects: [newObjectId],
-                                correct_objects: [newObjectId]
+                                correct_objects: [newObjectId],
+                                config: {
+                                    points: 10,
+                                    shuffle: false,
+                                    extra_credit: false
+                                }
                             }
                         }
                     }, sections: {
@@ -152,7 +167,12 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                 content: "<p>Option</p>",
                                 controller_type: "SA",
                                 answer_objects: [newObjectId],
-                                correct_objects: [newObjectId]
+                                correct_objects: [newObjectId],
+                                config: {
+                                    points: 10,
+                                    shuffle: false,
+                                    extra_credit: false
+                                }
                             }
                         }
                     }, sections: {
@@ -237,7 +257,8 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                 enterNextDelay={100}>
                         <button
                             className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6" onClick={() => addMaItem()}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6"
+                                 onClick={() => addMaItem()}>
                                 <defs>
                                     <clipPath id="a">
                                         <path d="M0 0h100v100H0z"/>
@@ -274,7 +295,8 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                 enterNextDelay={100}>
                         <button
                             className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6" onClick={() => addSaItem()}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6"
+                                 onClick={() => addSaItem()}>
                                 <defs>
                                     <clipPath id="a">
                                         <path fill="none" d="M0 0h100v100H0z"/>
