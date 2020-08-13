@@ -6,7 +6,7 @@ import update from "immutability-helper";
 import ToggleRow from "../Misc/ToggleRow";
 
 
-const ItemOptionsModal = ({isOpen, onCancel, item}) => {
+const ItemOptionsModal = ({isOpen, onCancel, item, type}) => {
     const [newInviteCode, setInviteCode] = useState(nanoid(8))
     const [modalStep, setModalStep] = useState(0)
     const [sharingSetting, setSharingSetting] = useState("public")
@@ -88,9 +88,11 @@ const ItemOptionsModal = ({isOpen, onCancel, item}) => {
         <ToggleRow label="Extra Credit" value={document.items[item].config.extra_credit}
                    onEnable={() => setConfigValue("extra_credit", true)}
                    onDisable={() => setConfigValue("extra_credit", false)}/>
-        <ToggleRow label="Shuffle Answers" value={document.items[item].config.shuffle}
-                   onEnable={() => setConfigValue("shuffle", true)} onDisable={() => setConfigValue("shuffle", false)}/>
+        {type === "MC" || type === "MA" ? <ToggleRow label="Shuffle Answers" value={document.items[item].config.shuffle}
+                                    onEnable={() => setConfigValue("shuffle", true)} onDisable={() => setConfigValue("shuffle", false)}/> : null}
 
+        {type === "SA" ? <ToggleRow label="Tolerate typos" value={document.items[item].config.tolerate_typos}
+                                                     onEnable={() => setConfigValue("tolerate_typos", true)} onDisable={() => setConfigValue("tolerate_typos", false)}/> : null}
 
     </div>}
     />)

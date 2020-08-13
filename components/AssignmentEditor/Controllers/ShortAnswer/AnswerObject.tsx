@@ -48,7 +48,7 @@ const AnswerObject = ({active, choice, answerIndex, item}) => {
                 <div className="w-full">
                     <label htmlFor="answer_choice" className="sr-only">Acceptable Answer {answerIndex + 1}</label>
                     <div className="relative rounded-md shadow-sm">
-                        <input id="answer_choice" className={"border rounded-lg pl-4 focus:outline-none focus:shadow-outline focus:border-blue-400 block p-3 w-full sm:text-lg sm:leading-5 placeholder-gray-200 text-gray-700 " + (active ? "border-gray-300" : "border-gray-100")}
+                        <input id="answer_choice" className={"border rounded-lg pl-4 focus:outline-none focus:shadow-outline focus:border-blue-400 block p-3 w-full sm:text-lg sm:leading-5 placeholder-gray-200 text-gray-700 " + (active ? "border-gray-200" : "border-gray-100")}
                                placeholder="Acceptable answer" onChange={event => saveChoiceContent(event.target.value)} value={currentChoice.content}/>
                     </div>
                 </div>
