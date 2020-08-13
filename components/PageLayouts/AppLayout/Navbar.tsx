@@ -2,9 +2,7 @@ import React, {useState} from "react";
 import Transition from "../../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import NewAssignmentModal from "../../Modals/NewAssignmentModal";
-import Link from 'next/link'
 import NewClassModal from "../../Modals/NewClassModal";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import SearchInput from "./SearchInput";
 
 
@@ -24,16 +22,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
     const [newDropdown, toggleNewDropdown] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
     const [createClassDialog, toggleCreateClassDialog] = useState(false);
-    const [searchDropdown, toggleSearchDropdown] = useState(false);
-    const [searchValue, setSearchValue] = useState("");
 
-    const handleOnChange = event => {
-        const value = event.target.value
-        if (!searchDropdown) {
-            toggleSearchDropdown(true)
-        }
-        setSearchValue(value)
-    }
 
     return (<div>
         <NewClassModal onCancel={() => toggleCreateClassDialog(false)} isOpen={createClassDialog} session={session}/>
@@ -166,9 +155,9 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                                 className="flex text-sm rounded-full text-white focus:outline-none focus:shadow-solid transition duration-150 ease-in-out"
                                                 id="user-menu" aria-label="User menu" aria-haspopup="true">
                                                 {/*// @ts-ignore*/}
-                                                <img className="h-8 w-8 rounded-full"
+                                                <img className="h-8 w-8 rounded-full bg-teal-400"
                                                     // @ts-ignore
-                                                     src={session.picture ? session.picture : "https://lh3.googleusercontent.com/proxy/Ge8IjXjwr-9jS3f5_gnxcIyi1OFQ-IMWCvHtmpCze2EeQi2TqNgtMx1oVZoFhiHATpISTmeXCZ_uQfiiauO2R6uEBFFLwI86huh6RNZjXn2csWFM6GIhulXwJ50oXU2Jb3I"}
+                                                     src={session.picture}
                                                      alt=""/>
                                             </button>
                                         </div>

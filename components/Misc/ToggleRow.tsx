@@ -1,6 +1,8 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
+import {nanoid} from "nanoid";
 
 const ToggleRow = ({label, onEnable, onDisable, value}) => {
+    const [uniqueId] = useState(nanoid(8))
 
     function handleEnable () {
         onEnable()
@@ -19,10 +21,10 @@ const ToggleRow = ({label, onEnable, onDisable, value}) => {
     }
 
     return (<div className="flex justify-between items-center mt-6">
-        <label htmlFor="sectionCalculator" className="font-medium text-gray-700">{label}</label>
+        <label htmlFor={uniqueId} className="font-medium text-gray-700">{label}</label>
         {/*// <!-- On: "bg-indigo-600", Off: "bg-gray-200" -->*/}
 
-        <span role="checkbox" tabIndex={0} aria-checked={value} id="sectionCalculator" onClick={toggleSwitch} onKeyPress={(e) => {
+        <span role="checkbox" tabIndex={0} aria-checked={value} id={uniqueId} onClick={toggleSwitch} onKeyPress={(e) => {
             if (e.key === ' ' || e.key === 'Spacebar') {
                 toggleSwitch()
             }

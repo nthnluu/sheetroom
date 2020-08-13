@@ -96,8 +96,6 @@ const InviteFetch = ({joinCode, session}) => {
                             </div>
                             <h2 className="font-light">has invited you to join</h2>
                             <h2 className="font-semibold text-3xl">{data.classes_class[0].title}</h2>
-                            <JsonDebugBox content={data}/>
-
                             {session ? <button type="button" onClick={() => joinClass({
                                 studentId: session.id,
                                 classId: data.classes_class[0].id

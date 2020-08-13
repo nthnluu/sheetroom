@@ -5,43 +5,20 @@ import QuizContext from "../AssignmentEditor/QuizContext";
 import update from "immutability-helper";
 import ToggleRow from "../Misc/ToggleRow";
 
+interface Props {
+    isOpen: boolean;
+    onCancel: any;
+    item: string;
+    type: string;
+}
 
-const ItemOptionsModal = ({isOpen, onCancel, item, type}) => {
-    const [newInviteCode, setInviteCode] = useState(nanoid(8))
-    const [modalStep, setModalStep] = useState(0)
-    const [sharingSetting, setSharingSetting] = useState("public")
-    const [currentValue, setCurrentValue] = useState("https://sheetroom.com/join/" + newInviteCode)
+const ItemOptionsModal: React.FC<Props> = ({isOpen, onCancel, item, type}) => {
     const {aid, setDocument, document} = useContext(QuizContext)
 
     function cancelModal() {
         onCancel();
-        setTimeout(() => {
-            const newId = nanoid(8)
-            setInviteCode(newId)
-            setModalStep(0)
-            // @ts-ignore
-            setCurrentValue("https://sheetroom.com/join/" + newId)
-        }, 150)
-
     }
 
-    const setPoints = (newValue) => {
-        setDocument(prevState => {
-            const newData = update(prevState, {
-                    items: {
-                        [item]: {
-                            config: {
-                                points: {
-                                    $set: newValue
-                                }
-                            }
-                        }
-                    }
-                }
-            )
-            return newData
-        })
-    }
     const setConfigValue = (configValue, value) => {
         setDocument(prevState => {
             const newData = update(prevState, {
@@ -74,14 +51,20 @@ const ItemOptionsModal = ({isOpen, onCancel, item, type}) => {
         {/*@ts-ignore*/}
     </div>} isOpen={isOpen} onCancel={cancelModal} title="Item Options" content={<div>
         <div className="flex justify-between items-center mt-6">
-            <label htmlFor="sectionCalculator" className="font-medium text-gray-700">Points</label>
+            <label htmlFor="points" className="font-medium text-gray-700">Points</label>
             {/*// <!-- On: "bg-indigo-600", Off: "bg-gray-200" -->*/}
             <span>
-                <label htmlFor="email" className="sr-only">Email</label>
                 <div className="relative rounded-md shadow-sm">
-                    <input id="email" className="form-input block w-14 text-center sm:text-sm sm:leading-5"
-                           placeholder="you@example.com" value={document.items[item].config.points}
-                           onChange={event => setPoints(event.target.value)}/>
+                    <input id="points" className="form-input block w-14 text-center sm:text-sm sm:leading-5"
+                           placeholder="0" value={document.items[item].config.points}
+                           onChange={event => {
+                               const value = event.target.value
+
+                               // @ts-ignore
+                               if (!isNaN(value)) {
+                                   setConfigValue("points", event.target.value)
+                               }
+                           }}/>
                 </div>
             </span>
         </div>
@@ -89,10 +72,12 @@ const ItemOptionsModal = ({isOpen, onCancel, item, type}) => {
                    onEnable={() => setConfigValue("extra_credit", true)}
                    onDisable={() => setConfigValue("extra_credit", false)}/>
         {type === "MC" || type === "MA" ? <ToggleRow label="Shuffle Answers" value={document.items[item].config.shuffle}
-                                    onEnable={() => setConfigValue("shuffle", true)} onDisable={() => setConfigValue("shuffle", false)}/> : null}
+                                                     onEnable={() => setConfigValue("shuffle", true)}
+                                                     onDisable={() => setConfigValue("shuffle", false)}/> : null}
 
         {type === "SA" ? <ToggleRow label="Tolerate typos" value={document.items[item].config.tolerate_typos}
-                                                     onEnable={() => setConfigValue("tolerate_typos", true)} onDisable={() => setConfigValue("tolerate_typos", false)}/> : null}
+                                    onEnable={() => setConfigValue("tolerate_typos", true)}
+                                    onDisable={() => setConfigValue("tolerate_typos", false)}/> : null}
 
     </div>}
     />)

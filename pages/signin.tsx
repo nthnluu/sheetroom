@@ -14,7 +14,10 @@ export default function SignIn({providers}) {
                     <h1 className="font-bold text-3xl md:text-4xl text-gray-800">Sign in to Sheetroom</h1>
                     <form onSubmit={event => {
                         event.preventDefault();
+
+                        // @ts-ignore
                         if (event.target.email.value.length > 0) {
+                            // @ts-ignore
                             signIn("email", {email: event.target.email.value, callbackUrl: 'http://localhost:3000/'})
                         }
                     }}>
