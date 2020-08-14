@@ -23,7 +23,8 @@ const Section: React.FC<Props> = ({section, index}) => {
                 className="mb-2 flex justify-start items-center bg-white border border-gray-100 shadow-sm rounded-lg p-4">
                 <div className="w-full">
                     <span
-                        className="px-2 py-1 text-sm uppercase rounded-md font-semibold text-pink-500 bg-pink-50">Section {index + 1} of {document.config.sections.length}</span>
+                        className="px-2 py-1 text-sm uppercase rounded-md font-semibold text-blue-500 bg-blue-50">Section {index + 1} of {document.config.sections.length}</span>
+
                     <div className="my-2 w-full">
                         <label htmlFor="title" className="sr-only">Section Title</label>
                         <div className="relative w-full">
