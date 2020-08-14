@@ -37,7 +37,7 @@ const ItemOptionsModal: React.FC<Props> = ({isOpen, onCancel, item, type}) => {
     }
 
 
-    return (<SimpleModal buttons={<div className="pt-2 sm:mt-4 sm:flex sm:flex-row-reverse sm:justify-between">
+    return (<SimpleModal buttons={<div className="pt-2 mt-6 sm:mt-4 sm:flex sm:flex-row-reverse sm:justify-between">
         <div className="sm:flex sm:flex-row-reverse">
                         <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
         <button type="button" onClick={cancelModal}

@@ -2,14 +2,8 @@ import React, {useContext, useState} from "react";
 import ItemDnd from "./DragAndDrop";
 import QuizContext from "../QuizContext";
 import update from "immutability-helper";
-import {v4 as uuidv4} from 'uuid';
-import AddButton from "../../Editor/AddButton";
 import NewTooltip from "../../Misc/Tooltip";
 import SectionOptionsModal from "../../Modals/SectionOptionsModal";
-import Transition from "../../Transition";
-import {is} from "@babel/types";
-import arrayMove from "array-move";
-import JsonDebugBox from "../../JsonDebugBox";
 
 interface Props {
     section: string;
@@ -17,14 +11,10 @@ interface Props {
 }
 
 const Section: React.FC<Props> = ({section, index}) => {
-    const {setDocument, document, setCurrentItem} = useContext(QuizContext)
+    const {setDocument, document} = useContext(QuizContext)
     const [isCollapsed, toggleIsCollapsed] = useState(false);
     const [settingsOpen, toggleSettingsOpen] = useState(false);
 
-    function color() {
-        const colorObject = ["text-teal-700 bg-teal-100", "text-yellow-700 bg-yellow-100", "text-pink-700 bg-pink-100", "text-green-700 bg-green-100", "text-purple-700 bg-purple-100"]
-        return colorObject[Math.floor(Math.random() * colorObject.length)];
-    }
 
     return (
         <div className="mb-12">
@@ -33,7 +23,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                 className="mb-2 flex justify-start items-center bg-white border border-gray-100 shadow-sm rounded-lg p-4">
                 <div className="w-full">
                     <span
-                        className={"px-2 py-1 text-sm uppercase rounded-full font-semibold text-yellow-500 bg-yellow-100"}>Section {index + 1} of {document.config.sections.length}</span>
+                        className="px-2 py-1 text-sm uppercase rounded-md font-semibold text-pink-500 bg-pink-50">Section {index + 1} of {document.config.sections.length}</span>
                     <div className="my-2 w-full">
                         <label htmlFor="title" className="sr-only">Section Title</label>
                         <div className="relative w-full">

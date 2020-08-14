@@ -140,6 +140,39 @@ const QuestionCardDropdown: React.FC<Props> = ({item}) => {
                     })
                 }
                 break;
+            case("MT"):
+                if (document.items[item].controller_type === "MT") {
+                    return
+                } else {
+                    setDocument(prevState => {
+                        const newId = nanoid(5)
+                        const newData = update(prevState, {
+                            items: {
+                                [item]: {
+                                    controller_type: {
+                                        $set: "MT"
+                                    },
+                                    correct_objects: {
+                                        $set: [newId]
+                                    },
+                                    answer_objects: {
+                                        $set: [newId]
+                                    }
+                                }
+                            },
+                            answer_objects: {
+                                [newId]: {
+                                    $set: {
+                                        content: "f(x)="
+                                    }
+                                }
+                            }
+                        })
+
+                        return newData
+                    })
+                }
+                break;
         }
 
     };

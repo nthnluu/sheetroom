@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import QuizContext from "./QuizContext";
 import Section from "./DragAndDropEditor/Section";
 import ResultPage from "./ResultPage";
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import {DragDropContext} from 'react-beautiful-dnd';
 import update from "immutability-helper";
 import arrayMove from "array-move";
 
@@ -21,13 +21,11 @@ const Content: React.FC<Props> = ({}) => {
 
     const onSortEnd = (result) => {
         const {source, destination} = result;
-        const item = result.draggableId
         const section = source.droppableId
         // dropped outside the list
         if (!destination) {
             return;
         }
-
         if (source.droppableId === destination.droppableId) {
             setDocument(prevState => {
                 const newData = update(prevState, {
@@ -44,23 +42,43 @@ const Content: React.FC<Props> = ({}) => {
 
         } else {
             setDocument(prevState => {
-                    const newData = update(prevState, {
-                        sections: {
-                            [destination.droppableId]: {
-                                items: {
-                                    $splice: [[destination.index, 0, prevState.sections[section].items[source.index]]]
-                                }
-                            },
-                            [section]: {
-                                items: {
-                                    $splice: [[source.index, 1, null]]
+                    let newData;
+                    if (prevState.sections[section].items.length > 1) {
+                        newData = update(prevState, {
+                            sections: {
+                                [destination.droppableId]: {
+                                    items: {
+                                        $splice: [[destination.index, 0, prevState.sections[section].items[source.index]]]
+                                    }
+                                },
+                                [section]: {
+                                    items: {
+                                        $splice: [[source.index, 1]]
+                                    }
                                 }
                             }
-                        }
-                    })
+                        })
+                    } else {
+                        let sectionIndex = prevState.config.sections.findIndex(element => element === section)
+                        newData = update(prevState, {
+                            config: {
+                                sections: {
+                                    $splice: [[sectionIndex, 1]]
+                                }
+                            },
+                            sections: {
+                                [destination.droppableId]: {
+                                    items: {
+                                        $splice: [[destination.index, 0, prevState.sections[section].items[source.index]]]
+                                    }
+                                },
+                                $unset: [section]
+                            }
+                        })
+                    }
+
                     return newData
-                }
-            )
+                })
         }
     }
 
@@ -95,9 +113,9 @@ const Content: React.FC<Props> = ({}) => {
                     </Dialog>
 
                     <DragDropContext onDragEnd={onSortEnd}>
-                    {currentPage === 1 ? document.config.sections.map((sectionId, i) => <Section key={sectionId}
-                                                                                                 section={sectionId}
-                                                                                                 index={i}/>) : null}
+                        {currentPage === 1 ? document.config.sections.map((sectionId, i) => <Section key={sectionId}
+                                                                                                     section={sectionId}
+                                                                                                     index={i}/>) : null}
                     </DragDropContext>
                     {currentPage === 2 ? <ResultPage/> : null}
                 </div>

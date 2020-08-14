@@ -20,7 +20,7 @@ export const ItemDnd: React.FC<Props> = ({section, sectionIndex, collapseSection
 
 
         return (
-            <Droppable droppableId={section} key={"key_" + section}>
+            <Droppable droppableId={section}>
                 {(provided, snapshot) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
                         {document.sections[section].items.map((itemId, index) => <Draggable key={itemId}
