@@ -39,26 +39,30 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                     {/* Logo section */}
                     <div className="flex items-center justify-start w-full">
                         <div className="flex items-center px-2 lg:px-0 w-full h-full" style={{maxWidth: '28.9rem'}}>
-                            {logoLinkDisabled ?  <span
-                                                    className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none active:shadow-outline opacity-75">
+                            {logoLinkDisabled ? <span
+                                className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none active:shadow-outline opacity-75">
                                 <img className="w-auto hidden md:block h-8" src="/light_symbol.svg"
                                      alt="Workflow logo"/>
                                 <img className="w-auto block md:hidden h-8" src="/light_symbol.svg"
                                      alt="Workflow logo"/>
-                            </span> :  <a href="/"
-                                       className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none active:shadow-outline">
-                                <img className={"w-auto hidden md:block " + (session ? "h-8" : "h-6")} src={session ? "/light_symbol.svg": (darkText ? "/sheetroom_logo.svg": "/light_logo.svg")}
+                            </span> : <a href="/"
+                                         className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none active:shadow-outline">
+                                <img className={"w-auto hidden md:block " + (session ? "h-8" : "h-6")}
+                                     src={session ? "/light_symbol.svg" : (darkText ? "/sheetroom_logo.svg" : "/light_logo.svg")}
                                      alt="Workflow logo"/>
-                                <img className={"w-auto block md:hidden " + (session ? "h-8" : "h-6")} src={session ? "/light_symbol.svg": "/light_logo.svg"}
+                                <img className={"w-auto block md:hidden " + (session ? "h-8" : "h-6")}
+                                     src={session ? "/light_symbol.svg" : "/light_logo.svg"}
                                      alt="Workflow logo"/>
                             </a>}
 
-                            {session && !logoOnly ? <><SearchInput session={session}/><div className="flex hidden lg:block text-gray-200 ">
-                                <a href="#"
-                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Workshop</a>
-                                <a href="#"
-                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Learn</a>
-                            </div></> : (!logoOnly ? <div className="flex hidden lg:block">
+                            {session && !logoOnly ? <><SearchInput session={session}/>
+                                <div className="flex hidden lg:block text-gray-200 ">
+                                    <a href="#"
+                                       className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Workshop</a>
+                                    <a href="#"
+                                       className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Learn</a>
+                                </div>
+                            </> : (!logoOnly ? <div className="flex hidden lg:block">
                                 <a href="#"
                                    className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Features</a>
                                 <a href="#"
@@ -72,13 +76,12 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                             </div> : null)}
 
 
-
                         </div>
                         <div className="related"/>
                         <div className="related-focus:bg-gray"/>
 
                     </div>
-                    {!logoOnly ?  <div className="flex lg:hidden">
+                    {!logoOnly ? <div className="flex lg:hidden">
                         {/* Mobile menu button */}
                         <button onClick={() => toggleMobileMenu(!mobileMenu)}
                                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:bg-gray-800 focus:text-white transition duration-150 ease-in-out"
@@ -106,10 +109,11 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                 <div className="relative inline-block text-left mr-6 ml-4">
                                     <div>
                                     <span className="rounded-md shadow-sm">
-                                        <button className="text-gray-100 flex items-center"
-                                                onClick={() => toggleNewDropdown(!newDropdown)}>
-                                            <i className="fas fa-plus mr-1"></i><i
-                                            className="fas fa-caret-down opacity-50"></i>
+                                        <button
+                                            className="text-gray-100 flex items-center focus:outline-none hover:bg-gray-800 focus:bg-gray-800 p-1 rounded"
+                                            onClick={() => toggleNewDropdown(!newDropdown)}>
+                                            <i className="fas fa-plus mr-1"/><i
+                                            className="fas fa-caret-down opacity-50"/>
                                         </button>
                                     </span>
                                     </div>
@@ -186,7 +190,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                             </div>
                                         </Transition>
                                     </div>
-                                </ClickAwayListener></>: (!logoOnly ? <div className="flex justify-between">
+                                </ClickAwayListener></> : (!logoOnly ? <div className="flex justify-between">
                                 <button type="button" onClick={() => window.location.href = "/signin"}
                                         className="inline-flex items-center px-3 py-1 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:text-gray-200 focus:outline-none focus:border-blue-300 focus:bg-gray-800 mr-1 active:text-gray-300 transition ease-in-out duration-150">
                                     Sign in
@@ -212,9 +216,11 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                 <div className="pt-4 pb-3 border-t border-gray-800">
                     {!session ? <div className="mt-3 px-2">
                         <a href="/api/auth/signin"
-                           className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Log in</a>
+                           className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Log
+                            in</a>
                         <a href="/api/auth/signin"
-                           className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Sign up</a>
+                           className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Sign
+                            up</a>
                     </div> : <div className="mt-3 px-2">
                         <a href="#"
                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Your
