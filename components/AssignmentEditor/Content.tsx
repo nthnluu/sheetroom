@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import QuizContext from "./QuizContext";
 import Section from "./DragAndDropEditor/Section";
 import ResultPage from "./ResultPage";
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import {DragDropContext} from 'react-beautiful-dnd';
 import update from "immutability-helper";
 import arrayMove from "array-move";
 
@@ -21,13 +21,11 @@ const Content: React.FC<Props> = ({}) => {
 
     const onSortEnd = (result) => {
         const {source, destination} = result;
-        const item = result.draggableId
         const section = source.droppableId
         // dropped outside the list
         if (!destination) {
             return;
         }
-
         if (source.droppableId === destination.droppableId) {
             setDocument(prevState => {
                 const newData = update(prevState, {
@@ -43,7 +41,6 @@ const Content: React.FC<Props> = ({}) => {
             })
 
         } else {
-
             setDocument(prevState => {
                     let newData;
                     if (prevState.sections[section].items.length > 1) {
@@ -81,8 +78,7 @@ const Content: React.FC<Props> = ({}) => {
                     }
 
                     return newData
-                }
-            )
+                })
         }
     }
 

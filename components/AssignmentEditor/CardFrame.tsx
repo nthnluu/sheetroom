@@ -11,6 +11,7 @@ import InactiveEditor from "../Editor/InactiveEditor";
 import arrayMove from "array-move";
 import ItemOptionsModal from "../Modals/ItemOptionsModal";
 import JsonDebugBox from "../JsonDebugBox";
+import Math from "./Controllers/Math/Math";
 
 
 interface Props {
@@ -31,6 +32,8 @@ const Controller = ({type, item, active}) => {
             return <MultipleAnswersController active={active} item={item}/>
         case("SA"):
             return <ShortAnswerController active={active} item={item}/>
+        case("MT"):
+            return <Math active={active} item={item}/>
         default:
             return <p className="w-full p-3 text-red-600 border border-red-600 rounded-lg"><i
                 className="fas fa-exclamation-circle mr-2"/>Something went wrong rendering this item. Contact
