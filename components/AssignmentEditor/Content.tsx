@@ -43,21 +43,43 @@ const Content: React.FC<Props> = ({}) => {
             })
 
         } else {
+
             setDocument(prevState => {
-                    const newData = update(prevState, {
-                        sections: {
-                            [destination.droppableId]: {
-                                items: {
-                                    $splice: [[destination.index, 0, prevState.sections[section].items[source.index]]]
-                                }
-                            },
-                            [section]: {
-                                items: {
-                                    $splice: [[source.index, 1]]
+                    let newData;
+                    if (prevState.sections[section].items.length > 1) {
+                        newData = update(prevState, {
+                            sections: {
+                                [destination.droppableId]: {
+                                    items: {
+                                        $splice: [[destination.index, 0, prevState.sections[section].items[source.index]]]
+                                    }
+                                },
+                                [section]: {
+                                    items: {
+                                        $splice: [[source.index, 1]]
+                                    }
                                 }
                             }
-                        }
-                    })
+                        })
+                    } else {
+                        let sectionIndex = prevState.config.sections.findIndex(element => element === section)
+                        newData = update(prevState, {
+                            config: {
+                                sections: {
+                                    $splice: [[sectionIndex, 1]]
+                                }
+                            },
+                            sections: {
+                                [destination.droppableId]: {
+                                    items: {
+                                        $splice: [[destination.index, 0, prevState.sections[section].items[source.index]]]
+                                    }
+                                },
+                                $unset: [section]
+                            }
+                        })
+                    }
+
                     return newData
                 }
             )
@@ -95,9 +117,9 @@ const Content: React.FC<Props> = ({}) => {
                     </Dialog>
 
                     <DragDropContext onDragEnd={onSortEnd}>
-                    {currentPage === 1 ? document.config.sections.map((sectionId, i) => <Section key={sectionId}
-                                                                                                 section={sectionId}
-                                                                                                 index={i}/>) : null}
+                        {currentPage === 1 ? document.config.sections.map((sectionId, i) => <Section key={sectionId}
+                                                                                                     section={sectionId}
+                                                                                                     index={i}/>) : null}
                     </DragDropContext>
                     {currentPage === 2 ? <ResultPage/> : null}
                 </div>
