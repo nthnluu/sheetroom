@@ -69,7 +69,6 @@ const AddButton = ({quillRef, isFocused}) => {
                             const range = quillRef.current.editor.getSelection(true);
                             quillRef.current.editor.insertEmbed(range, 'formula', formulaValue)
                             quillRef.current.editor.deleteText(range.index, range.length);
-                            quillRef.current.editor.insertText(range.index + range.length + 1, ' ');
                             quillRef.current.editor.setSelection(range.index + range.length + 1);
                             toggleFormulaMode(false)
                             setFormulaValue("f(x)=")
