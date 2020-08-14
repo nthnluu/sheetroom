@@ -1,21 +1,17 @@
-import Transition from "../Transition";
 import React, {useContext, useState} from "react";
 import QuizContext from "./QuizContext";
 import NewTooltip from "../Misc/Tooltip";
-import Popper from '@material-ui/core/Popper';
 import {Navbar as PageNavbar} from "../PageLayouts/AppLayout/Navbar";
 import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
-import SimpleModal from "../Modals/SimpleModal";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 
 export default function ({session, content, pageData}) {
-    const {saveError, saveStatus, clientId, setSaveStatus, setCurrentPage, currentPage} = useContext(QuizContext);
+    const {clientId, setSaveStatus, setCurrentPage, currentPage} = useContext(QuizContext);
     const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
 
 
     // State for menus
-    const [mobileMenu, toggleMobileMenu] = useState(false);
     const [shareDialog, toggleShareDialog] = useState(false);
 
 
@@ -31,7 +27,7 @@ export default function ({session, content, pageData}) {
     return (
         <div className="w-full z-50">
             <PageNavbar session={session} unfixed/>
-            <div className="w-full navbar sticky top-0 bg-white border-b border-gray-200 shadow-sm">
+            <div className="w-full navbar md:sticky top-0 bg-white border-b border-gray-200 shadow-sm">
                 <nav>
                     <div className="mx-auto px-2 sm:px-4 lg:px-8">
                         <div className="flex justify-between h-16">
