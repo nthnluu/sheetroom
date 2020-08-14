@@ -15,6 +15,23 @@ const Section: React.FC<Props> = ({section, index}) => {
     const [isCollapsed, toggleIsCollapsed] = useState(false);
     const [settingsOpen, toggleSettingsOpen] = useState(false);
 
+    const deleteSection = () => {
+        setDocument(prevState => {
+            const sectionIndex = prevState.config.sections.findIndex(element => element === section)
+            return update(prevState, {
+                items: {
+                    $unset: [prevState.sections[section].items]
+                }, sections: {
+                    $unset: [section]
+                }, config: {
+                    sections: {
+                        $splice: [[sectionIndex, 1]]
+                    }
+                }
+            })
+        })
+    }
+
 
     return (
         <div className="mb-12">
@@ -30,7 +47,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                             <input id="title"
                                    className="rounded-lg border border-transparent w-full font-semibold text-gray-800 hover:border-gray-200 focus:border-blue-500 transition-all duration-150 focus:outline-none p-2 bg-transparent block w-full text-xl sm:leading-5"
                                    placeholder="Untitled Section" value={document.sections[section].title}
-                                   onChange={event =>{
+                                   onChange={event => {
                                        const newValue = event.target.value
                                        setDocument(prevState => {
                                            return update(prevState, {
@@ -92,6 +109,20 @@ const Section: React.FC<Props> = ({section, index}) => {
                                 </svg>
                             </button>
                         </NewTooltip>
+                        {document.config.sections.length > 1 ?
+                            <NewTooltip title="Delete section" placement="bottom" enterDelay={500}
+                                        enterNextDelay={500}>
+                                <span>
+                                <button type="button" onClick={() => deleteSection()}
+                                        className="inline-flex text-center items-center h-8 w-8 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
+                                    <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M6 18L18 6M6 6L18 18" strokeWidth="2" strokeLinecap="round"
+                                              className="stroke-current"
+                                              strokeLinejoin="round"/>
+                                    </svg>
+                                </button></span>
+                            </NewTooltip> : null}
+
                 </span>
 
                 </div>

@@ -1,10 +1,7 @@
-import React, {useContext, useState} from "react";
-import arrayMove from 'array-move';
+import React, {useContext} from "react";
 import QuizContext from "../QuizContext";
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import {Draggable, Droppable} from 'react-beautiful-dnd';
 import ItemCard from "./ItemCard";
-import update from "immutability-helper";
-import JsonDebugBox from "../../JsonDebugBox";
 
 
 interface Props {
@@ -14,18 +11,17 @@ interface Props {
 }
 
 export const ItemDnd: React.FC<Props> = ({section, sectionIndex, collapseSection}) => {
-        const {document, setDocument, currentItem, setCurrentItem} = useContext(QuizContext)
+        const {document, currentItem, setCurrentItem} = useContext(QuizContext)
 
 
 
 
         return (
             <Droppable droppableId={section}>
-                {(provided, snapshot) => (
+                {(provided) => (
                     <div {...provided.droppableProps} ref={provided.innerRef}>
                         {document.sections[section].items.map((itemId, index) => <Draggable key={itemId}
-                                                                                            draggableId={itemId}
-                                                                                            index={index}>
+                                                                                            draggableId={itemId} index={index}>
                             {(provided, snapshot) => <div ref={provided.innerRef}
                                                           {...provided.draggableProps}>
                                 <ItemCard
