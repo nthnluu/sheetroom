@@ -84,7 +84,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                                      value={document.answer_objects[choice].content} active={active} placeholder="Option"/>}
 
                 </span>
-                <div className="flex justify-between space-x-3 items-center">
+                <div className="flex justify-between space-x-3 items-start">
                     {(active && !isCorrect && document.items[item].answer_objects.length > 1) ?
                         <NewTooltip title="Delete answer choice" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
