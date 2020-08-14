@@ -3,6 +3,9 @@ import QuizContext from "../../QuizContext";
 import NewTooltip from "../../../Misc/Tooltip";
 import update from "immutability-helper";
 import QuillEditor from "../../../Editor/QuillEditor";
+import {EditableMathField} from "react-mathquill";
+import MathField from "../../../Editor/MathField";
+import {value} from "popmotion";
 
 
 const AnswerObject = ({active, choice, answerIndex, item}) => {
@@ -47,9 +50,10 @@ const AnswerObject = ({active, choice, answerIndex, item}) => {
             <div className="flex justify-start items-center h-full">
                 <div className="w-full">
                     <label htmlFor="answer_choice" className="sr-only">Acceptable Answer {answerIndex + 1}</label>
-                    <div className="relative rounded-md shadow-sm">
-                        <input id="answer_choice" className={"border rounded-lg pl-4 focus:outline-none focus:shadow-outline focus:border-blue-400 block p-3 w-full sm:text-lg sm:leading-5 placeholder-gray-200 text-gray-700 " + (active ? "border-gray-200" : "border-gray-100")}
-                               placeholder="Acceptable answer" autoComplete="none" onChange={event => saveChoiceContent(event.target.value)} value={currentChoice.content}/>
+                    <div className={"relative rounded-md " + (active ? "opacity-100" : "opacity-75")}>
+                        <MathField value={currentChoice.content} onChange={value => saveChoiceContent(value.latex())}/>
+                        {/*<input id="answer_choice" className={"border rounded-lg pl-4 focus:outline-none focus:shadow-outline focus:border-blue-400 block p-3 w-full sm:text-lg sm:leading-5 placeholder-gray-200 text-gray-700 " + (active ? "border-gray-200" : "border-gray-100")}*/}
+                        {/*       placeholder="Acceptable answer" autoComplete="none" onChange={event => saveChoiceContent(event.target.value)} value={currentChoice.content}/>*/}
                     </div>
                 </div>
 

@@ -25,7 +25,7 @@ export const Math: React.FC<Props> = ({active, item}) => {
                     }, answer_objects: {
                         $merge: {
                             [newId]: {
-                                content: "Option"
+                                content: "f(x)="
                             }
                         }
                     }
