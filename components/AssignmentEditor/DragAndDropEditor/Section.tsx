@@ -24,6 +24,7 @@ const Section: React.FC<Props> = ({section, index}) => {
                 <div className="w-full">
                     <span
                         className="px-2 py-1 text-sm uppercase rounded-md font-semibold text-blue-500 bg-blue-50">Section {index + 1} of {document.config.sections.length}</span>
+
                     <div className="my-2 w-full">
                         <label htmlFor="title" className="sr-only">Section Title</label>
                         <div className="relative w-full">
