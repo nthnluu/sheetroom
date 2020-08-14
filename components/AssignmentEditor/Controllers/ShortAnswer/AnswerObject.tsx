@@ -41,7 +41,7 @@ const AnswerObject = ({active, choice, answerIndex, item}) => {
     return (
 
         <div
-            key={"key1" + choice}
+            key={choice}
             className='mb-2 bg-white '
         >
             <div className="flex justify-start items-center h-full">

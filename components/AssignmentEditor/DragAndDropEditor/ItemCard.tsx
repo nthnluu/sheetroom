@@ -58,7 +58,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     }, sections: {
                         [newSectionId]: {
                             $set: {
-                                title: prevState.sections.length + 1,
+                                title: "Untitled Section",
                                 items: [newId]
                             }
                         }

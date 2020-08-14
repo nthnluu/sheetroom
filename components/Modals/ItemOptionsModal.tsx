@@ -1,6 +1,5 @@
 import SimpleModal from "./SimpleModal";
-import React, {useContext, useState} from "react";
-import {nanoid} from "nanoid";
+import React, {useContext} from "react";
 import QuizContext from "../AssignmentEditor/QuizContext";
 import update from "immutability-helper";
 import ToggleRow from "../Misc/ToggleRow";

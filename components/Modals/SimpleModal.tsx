@@ -40,7 +40,7 @@ const SimpleModal = ({isOpen, onCancel, title, content, buttons}) => {
                                     className="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150"
                                     aria-label="Close">
                                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                           d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
