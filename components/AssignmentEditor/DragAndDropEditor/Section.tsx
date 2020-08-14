@@ -6,6 +6,8 @@ import {v4 as uuidv4} from 'uuid';
 import AddButton from "../../Editor/AddButton";
 import NewTooltip from "../../Misc/Tooltip";
 import SectionOptionsModal from "../../Modals/SectionOptionsModal";
+import Transition from "../../Transition";
+import {is} from "@babel/types";
 
 interface Props {
     section: string;
@@ -17,94 +19,26 @@ const Section: React.FC<Props> = ({section, index}) => {
     const [isCollapsed, toggleIsCollapsed] = useState(false);
     const [settingsOpen, toggleSettingsOpen] = useState(false);
 
-    const addMcItem = () => {
-
-        setDocument(prevState => {
-            const newId = uuidv4()
-            const newObjectId = uuidv4()
-            const newData = update(prevState, {
-                    items: {
-                        [newId]: {
-                            $set: {
-                                content: "<p>Option</p>",
-                                controller_type: "MC",
-                                answer_objects: [newObjectId],
-                                correct_objects: [newObjectId]
-                            }
-                        }
-                    }, sections: {
-                        [section]: {
-                            items: {
-                                $unshift: [newId]
-                            }
-                        }
-                    },
-                    answer_objects: {
-                        [newObjectId]: {
-                            $set: {
-                                content: "<p><br/></p>"
-                            }
-                        }
-                    }
-                }
-            )
-            setCurrentItem(newId)
-            return newData
-        })
-    }
-
-    const addSection = () => {
-
-        setDocument(prevState => {
-            const newSectionId = uuidv4()
-            const newId = uuidv4()
-            const newObjectId = uuidv4()
-            const newData = update(prevState, {
-                    config: {
-                        sections: {
-                            $splice: [[index + 1, 0, newSectionId]]
-                        }
-
-                    },
-                    items: {
-                        [newId]: {
-                            $set: {
-                                content: "<p>Option</p>",
-                                controller_type: "MC",
-                                answer_objects: [newObjectId],
-                                correct_objects: [newObjectId]
-                            }
-                        }
-                    }, sections: {
-                        [newSectionId]: {
-                            $set: {
-                                title: prevState.sections.length + 1,
-                                items: [newId]
-                            }
-                        }
-                    },
-                    answer_objects: {
-                        [newObjectId]: {
-                            $set: {
-                                content: "<p><br/></p>"
-                            }
-                        }
-                    }
-                }
-            )
-            setCurrentItem(newId)
-            return newData
-        })
+    function color () {
+        const colorObject = ["text-teal-700 bg-teal-100", "text-yellow-700 bg-yellow-100", "text-pink-700 bg-pink-100", "text-green-700 bg-green-100", "text-purple-700 bg-purple-100"]
+        return colorObject[Math.floor(Math.random() * colorObject.length)];
     }
 
     return (
-        <div className="mb-8">
+        <div className="mb-12">
             <SectionOptionsModal isOpen={settingsOpen} onCancel={() => toggleSettingsOpen(false)}/>
-            <div className="mb-4 flex justify-start items-center">
-                <h1 className="text-2xl text-gray-800 font-semibold mr-1">Section {index + 1}</h1>
-                <span
-                    className="text-gray-300 mx-2 space-x-2">
-
+            <div className="mb-2 flex justify-start items-center bg-white border border-gray-100 shadow-sm rounded-lg p-4">
+                <div>
+                    <span className={"px-2 py-1 text-sm uppercase rounded-full font-semibold text-yellow-500 bg-yellow-100"}>Section {index + 1} of {document.config.sections.length}</span>
+                    <div className="my-2">
+                        <label htmlFor="title" className="sr-only">Section Title</label>
+                        <div className="relative">
+                            <input id="title" className="rounded-lg border border-transparent font-semibold text-gray-800 hover:border-gray-200 focus:border-blue-500 transition-all duration-150 focus:shadow-outline focus:outline-none p-2 bg-transparent block w-full text-xl sm:leading-5"
+                                   placeholder="Untitled Section" value={document.sections[section].title}/>
+                        </div>
+                    </div>
+                    <span
+                        className="text-gray-300 mx-2 space-x-2">
                     {isCollapsed ?
                         <NewTooltip title="Expand" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
@@ -127,8 +61,8 @@ const Section: React.FC<Props> = ({section, index}) => {
                         </NewTooltip>
                     }
 
-                    <NewTooltip title="Section options" placement="bottom" enterDelay={500}
-                                enterNextDelay={500}>
+                        <NewTooltip title="Section options" placement="bottom" enterDelay={500}
+                                    enterNextDelay={500}>
                             <button type="button" onClick={() => toggleSettingsOpen(true)}
                                     className="inline-flex text-center items-center h-8 w-8 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200 focus:outline-none focus:shadow-outline transition ease-in-out duration-150">
                                 <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
@@ -147,13 +81,15 @@ const Section: React.FC<Props> = ({section, index}) => {
                         </NewTooltip>
                 </span>
 
+                </div>
+
 
             </div>
-            {!isCollapsed ?
-                <ItemDnd section={section} sectionIndex={index} collapseSection={() => toggleIsCollapsed(true)}/> :
+            {!isCollapsed ? <ItemDnd section={section} sectionIndex={index} collapseSection={() => toggleIsCollapsed(true)}/>
+                 :
                 <button onClick={() => toggleIsCollapsed(false)}
-                        className="bg-white border border-gray-300 mb-2 px-4 py-4 rounded-lg focus:outline-none w-full text-left">
-                    <h2 className="text-lg font-semibold text-gray-800">{document.sections[section].items.length} items</h2>
+                        className="bg-gray-200 opacity-50 mb-2 px-6 py-2 rounded-lg focus:outline-none w-full text-left">
+                    <h2 className="font-medium text-black">{document.sections[section].items.length} items</h2>
                 </button>}
         </div>
     )

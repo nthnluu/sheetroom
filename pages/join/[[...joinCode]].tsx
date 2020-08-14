@@ -10,6 +10,7 @@ import {getInviteByJoinCode} from "../../lib/graphql/Invites";
 import JsonDebugBox from "../../components/JsonDebugBox";
 import AssignmentCard from "../../components/JoinScreen/AssignmentCard";
 import ReactGA from "react-ga";
+import ClassCard from "../../components/JoinScreen/ClassCard";
 
 
 const InviteFetch = ({joinCode, session}) => {
@@ -40,8 +41,7 @@ const InviteFetch = ({joinCode, session}) => {
     }
 
     // @ts-ignore
-    const queryObject = inviteType(joinCode).query
-    const [result] = useQuery(queryObject)
+    const [result] = useQuery(inviteType(joinCode).query)
 
     // @ts-ignore
     const [joinClassResult, joinClass] = useMutation(createStudentProfile)
@@ -67,79 +67,46 @@ const InviteFetch = ({joinCode, session}) => {
             </div>
         </div>)
     } else {
-        if (data.classes_class) {
-            const studentsInClass = data.classes_class[0].studentProfiles.map(profile => (profile.user.id))
-            if (studentsInClass.includes(session.id) || data.classes_class[0].created_by === session.id) {
-                return (
-                    <div className="text-center px-8">
-                        <img src="/a-ok-monochrome.svg" className="h-64 md:h-96 mb-8 mx-auto"/>
-                        <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800">You've already
-                            joined {data.classes_class[0].title}</h1>
-                        <h2 className="text-sm sm:text-lg md:text-xl font-light text-gray-600 max-w-md mx-auto">You're
-                            signed in as {session.email}.<br/> If this isn't you, you can <a href="#"
-                                                                                             className="underline text-gray-700 hover:text-blue-600 font-semibold">switch
-                                accounts.</a></h2>
-                        <button type="button"
-                                onClick={() => window.location.href = "/class/" + data.classes_class[0].id}
-                                className="inline-flex mt-4 items-center px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                            Continue
-                        </button>
-                    </div>
-                )
-            } else {
-                return (
-                    <>
-                        {data.classes_class ? <div
-                            className="border border-gray-200 bg-white rounded-lg shadow-sm h-64 p-12 w-full text-center">
-                            <div>
-                                <h2 className="font-medium text-lg">{data.classes_class[0].user.name}</h2>
-                            </div>
-                            <h2 className="font-light">has invited you to join</h2>
-                            <h2 className="font-semibold text-3xl">{data.classes_class[0].title}</h2>
-                            {session ? <button type="button" onClick={() => joinClass({
-                                studentId: session.id,
-                                classId: data.classes_class[0].id
-                            })
-                                .then((result) => {
-                                    console.log(result)
-                                    // window.location.href = "/class/" + data.classes_class[0].id
-                                    // ReactGA.event({
-                                    //     category: 'User',
-                                    //     action: 'Joined a class (GraphQL MUTATION)',
-                                    //     // @ts-ignore
-                                    //     label: `${data.classes_class[0].title}(data.classes_class[0].id)`
-                                    // })
-                                })
-                                .catch(() => ReactGA.exception({
-                                    description: joinClassResult.error,
-                                    fatal: true
-                                }))}
-                                               className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                                Continue
-                            </button> : <div>
-                                <label htmlFor="email"
-                                       className="block text-sm font-medium leading-5 text-gray-700">Email</label>
-                                <div className="mt-1 relative rounded-md shadow-sm">
-                                    <input id="email" className="form-input block w-full sm:text-sm sm:leading-5"
-                                           placeholder="you@example.com"/>
+
+        switch (joinCode.length) {
+            case(9):
+                if (data.classes_class[0]) {
+                    if (session) {
+                        const studentsInClass = data.classes_class[0].studentProfiles.map(profile => (profile.user ? profile.user.id : null))
+                        if (studentsInClass.includes(session ? session.id : null) || data.classes_class[0].created_by === session.id) {
+                            return (
+                                <div className="text-center px-8">
+                                    <img src="/a-ok-monochrome.svg" className="h-64 md:h-96 mb-8 mx-auto"/>
+                                    <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800">You've
+                                        already
+                                        joined {data.classes_class[0].title}</h1>
+                                    <h2 className="text-sm sm:text-lg md:text-xl font-light text-gray-600 max-w-md mx-auto">You're
+                                        signed in as {session.email}.<br/> If this isn't you, you can <a href="#"
+                                                                                                         className="underline text-gray-700 hover:text-blue-600 font-semibold">switch
+                                            accounts.</a></h2>
+                                    <button type="button"
+                                            onClick={() => window.location.href = "/class/" + data.classes_class[0].id}
+                                            className="inline-flex mt-4 items-center px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                                        Continue
+                                    </button>
                                 </div>
-                            </div>
-                            }
+                            )
+                        } else {
+                            return (<ClassCard course={data.classes_class}/>)
+                        }
+                    } else {
+                        return <ClassCard course={data.classes_class[0]}/>
+                    }
+                }
+            case(8):
+                if (data.assignments_invite[0]) {
+                    return <AssignmentCard assignment={data.assignments_invite[0].assignmentByAssignment}/>
+                } else {
+                    return <JoinCode session={session}/>
+                }
 
-                        </div> : <JoinCode session={session}/>}
-
-                    </>
-                )
-            }
-        } else {
-            if (data.assignments_invite.length > 0) {
-                return <div className="w-full">
-                    <AssignmentCard assignment={data.assignments_invite[0].assignmentByAssignment}/>
-                </div>
-            } else {
+            default:
                 return <JoinCode session={session}/>
-            }
-
 
         }
 
