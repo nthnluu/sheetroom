@@ -7,6 +7,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import QuizContext from "./QuizContext";
 import Section from "./DragAndDropEditor/Section";
 import ResultPage from "./ResultPage";
+import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
+import update from "immutability-helper";
+import arrayMove from "array-move";
 
 interface Props {
 
@@ -16,6 +19,50 @@ interface Props {
 const Content: React.FC<Props> = ({}) => {
     const {invalidSession, document, setDocument, aid, currentPage} = useContext(QuizContext)
 
+    const onSortEnd = (result) => {
+        const {source, destination} = result;
+        const item = result.draggableId
+        const section = source.droppableId
+        // dropped outside the list
+        if (!destination) {
+            return;
+        }
+
+        if (source.droppableId === destination.droppableId) {
+            setDocument(prevState => {
+                const newData = update(prevState, {
+                        sections: {
+                            [section]: {
+                                items:
+                                    {$set: arrayMove(prevState.sections[section].items, source.index, destination.index)}
+                            }
+                        }
+                    }
+                )
+                return newData
+            })
+
+        } else {
+            setDocument(prevState => {
+                    const newData = update(prevState, {
+                        sections: {
+                            [destination.droppableId]: {
+                                items: {
+                                    $splice: [[destination.index, 0, prevState.sections[section].items[source.index]]]
+                                }
+                            },
+                            [section]: {
+                                items: {
+                                    $splice: [[source.index, 1, null]]
+                                }
+                            }
+                        }
+                    })
+                    return newData
+                }
+            )
+        }
+    }
 
     return (<main className="pt-0">
         <div className="max-w-5xl mx-auto sm:px-6 lg:px-8">
@@ -46,9 +93,12 @@ const Content: React.FC<Props> = ({}) => {
 
 
                     </Dialog>
+
+                    <DragDropContext onDragEnd={onSortEnd}>
                     {currentPage === 1 ? document.config.sections.map((sectionId, i) => <Section key={sectionId}
                                                                                                  section={sectionId}
                                                                                                  index={i}/>) : null}
+                    </DragDropContext>
                     {currentPage === 2 ? <ResultPage/> : null}
                 </div>
             </div>

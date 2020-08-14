@@ -8,6 +8,8 @@ import NewTooltip from "../../Misc/Tooltip";
 import SectionOptionsModal from "../../Modals/SectionOptionsModal";
 import Transition from "../../Transition";
 import {is} from "@babel/types";
+import arrayMove from "array-move";
+import JsonDebugBox from "../../JsonDebugBox";
 
 interface Props {
     section: string;
@@ -19,7 +21,7 @@ const Section: React.FC<Props> = ({section, index}) => {
     const [isCollapsed, toggleIsCollapsed] = useState(false);
     const [settingsOpen, toggleSettingsOpen] = useState(false);
 
-    function color () {
+    function color() {
         const colorObject = ["text-teal-700 bg-teal-100", "text-yellow-700 bg-yellow-100", "text-pink-700 bg-pink-100", "text-green-700 bg-green-100", "text-purple-700 bg-purple-100"]
         return colorObject[Math.floor(Math.random() * colorObject.length)];
     }
@@ -27,14 +29,32 @@ const Section: React.FC<Props> = ({section, index}) => {
     return (
         <div className="mb-12">
             <SectionOptionsModal isOpen={settingsOpen} onCancel={() => toggleSettingsOpen(false)}/>
-            <div className="mb-2 flex justify-start items-center bg-white border border-gray-100 shadow-sm rounded-lg p-4">
-                <div>
-                    <span className={"px-2 py-1 text-sm uppercase rounded-full font-semibold text-yellow-500 bg-yellow-100"}>Section {index + 1} of {document.config.sections.length}</span>
-                    <div className="my-2">
+            <div
+                className="mb-2 flex justify-start items-center bg-white border border-gray-100 shadow-sm rounded-lg p-4">
+                <div className="w-full">
+                    <span
+                        className={"px-2 py-1 text-sm uppercase rounded-full font-semibold text-yellow-500 bg-yellow-100"}>Section {index + 1} of {document.config.sections.length}</span>
+                    <div className="my-2 w-full">
                         <label htmlFor="title" className="sr-only">Section Title</label>
-                        <div className="relative">
-                            <input id="title" className="rounded-lg border border-transparent font-semibold text-gray-800 hover:border-gray-200 focus:border-blue-500 transition-all duration-150 focus:shadow-outline focus:outline-none p-2 bg-transparent block w-full text-xl sm:leading-5"
-                                   placeholder="Untitled Section" value={document.sections[section].title}/>
+                        <div className="relative w-full">
+                            <input id="title"
+                                   className="rounded-lg border border-transparent w-full font-semibold text-gray-800 hover:border-gray-200 focus:border-blue-500 transition-all duration-150 focus:outline-none p-2 bg-transparent block w-full text-xl sm:leading-5"
+                                   placeholder="Untitled Section" value={document.sections[section].title}
+                                   onChange={event =>{
+                                       const newValue = event.target.value
+                                       setDocument(prevState => {
+                                           return update(prevState, {
+                                               sections: {
+                                                   [section]: {
+                                                       title: {
+                                                           $set: newValue
+                                                       }
+                                                   }
+                                               }
+
+                                           })
+                                       })
+                                   }}/>
                         </div>
                     </div>
                     <span
@@ -45,7 +65,9 @@ const Section: React.FC<Props> = ({section, index}) => {
                             <button type="button" onClick={() => toggleIsCollapsed(false)}
                                     className="inline-flex text-center items-center h-8 w-8 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200 focus:outline-none focus:shadow-outline transition ease-in-out duration-150">
                                 <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
-                                    <path d="M3 4H16M3 8H12M3 12H12M17 8V20M17 20L13 16M17 20L21 16" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M3 4H16M3 8H12M3 12H12M17 8V20M17 20L13 16M17 20L21 16"
+                                          stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"
+                                          strokeLinejoin="round"/>
                                 </svg>
                             </button>
                         </NewTooltip>
@@ -55,7 +77,8 @@ const Section: React.FC<Props> = ({section, index}) => {
                             <button type="button" onClick={() => toggleIsCollapsed(true)}
                                     className="inline-flex text-center items-center h-8 w-8 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-100 focus:bg-gray-100 active:bg-gray-200  focus:outline-none focus:shadow-outline transition ease-in-out duration-150">
                                 <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
-                                    <path d="M3 4H16M3 8H12M3 12H9M13 12L17 8M17 8L21 12M17 8V20" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M3 4H16M3 8H12M3 12H9M13 12L17 8M17 8L21 12M17 8V20" stroke="currentColor"
+                                          strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                             </button>
                         </NewTooltip>
@@ -85,8 +108,9 @@ const Section: React.FC<Props> = ({section, index}) => {
 
 
             </div>
-            {!isCollapsed ? <ItemDnd section={section} sectionIndex={index} collapseSection={() => toggleIsCollapsed(true)}/>
-                 :
+            {!isCollapsed ?
+                <ItemDnd section={section} sectionIndex={index} collapseSection={() => toggleIsCollapsed(true)}/>
+                :
                 <button onClick={() => toggleIsCollapsed(false)}
                         className="bg-gray-200 opacity-50 mb-2 px-6 py-2 rounded-lg focus:outline-none w-full text-left">
                     <h2 className="font-medium text-black">{document.sections[section].items.length} items</h2>
