@@ -40,7 +40,7 @@ export const ShortAnswerController: React.FC<Props> = ({active, item}) => {
             {active ? <div>
                 <div className="space-y-2">
                     <div className="pb-2">
-                        {document.items[item].answer_objects.map((objectId, index) => <AnswerObject active={true} choice={objectId} item={item} answerIndex={index}/>)}
+                        {document.items[item].answer_objects.map((objectId, index) => <AnswerObject active={true} choice={objectId} item={item} answerIndex={index} key={objectId}/>)}
                     </div>
                 </div>
 
@@ -55,7 +55,7 @@ export const ShortAnswerController: React.FC<Props> = ({active, item}) => {
                     </div>
                 </div>
             </div> : <div className="space-y-4">
-                {document.items[item].answer_objects.map((objectId, index) => <AnswerObject active={false} choice={objectId} item={item} answerIndex={index}/>)}
+                {document.items[item].answer_objects.map((objectId, index) => <AnswerObject active={false} choice={objectId} item={item} answerIndex={index} key={objectId}/>)}
             </div>}
         </div>
 

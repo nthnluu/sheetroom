@@ -89,8 +89,9 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                 {/*</span> : null}*/}
 
                 <div className="flex justify-between space-x-3">
-                    {isCorrect ? <button onClick={() => markAsWrong()}><i
-                        className="fas fa-check-square text-xl text-blue-600 table-cell"/></button> : (active ?
+                    {isCorrect ? (active ? <button onClick={() => markAsWrong()}><i
+                        className="fas fa-check-square text-xl text-blue-600 table-cell"/></button> : <i
+                        className="fas fa-check-square text-xl text-blue-600 table-cell"/>) : (active ?
                         <NewTooltip title="Set as correct answer" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                             <button onClick={() => markAsCorrect()}><i
