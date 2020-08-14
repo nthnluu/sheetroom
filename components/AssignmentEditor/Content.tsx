@@ -53,7 +53,7 @@ const Content: React.FC<Props> = ({}) => {
                             },
                             [section]: {
                                 items: {
-                                    $splice: [[source.index, 1, null]]
+                                    $splice: [[source.index, 1]]
                                 }
                             }
                         }

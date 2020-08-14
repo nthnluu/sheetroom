@@ -197,8 +197,8 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
     }
 
     return (
-        <div className="relative">
-            <motion.div whileTap={!active ? {scale: 0.98} : null} className="pb-2 relative" key={item}>
+        <div className="relative" key={item}>
+            <motion.div whileTap={!active ? {scale: 0.98} : null} className="pb-2 relative">
                 {active ? <div className="bg-white rounded-lg border border-gray-200 shadow pt-2 md:pt-0 relative">
                     <div className="w-full text-center z-50 hidden md:block"><DragHandle provided={provided}/></div>
                     <ActiveContent item={item} itemIndex={itemIndex} section={section} condensed={snapshot.isDragging}
