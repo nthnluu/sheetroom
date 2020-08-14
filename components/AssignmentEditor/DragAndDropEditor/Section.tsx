@@ -4,6 +4,7 @@ import QuizContext from "../QuizContext";
 import update from "immutability-helper";
 import NewTooltip from "../../Misc/Tooltip";
 import SectionOptionsModal from "../../Modals/SectionOptionsModal";
+import JsonDebugBox from "../../JsonDebugBox";
 
 interface Props {
     section: string;
@@ -18,12 +19,16 @@ const Section: React.FC<Props> = ({section, index}) => {
     const deleteSection = () => {
         setDocument(prevState => {
             const sectionIndex = prevState.config.sections.findIndex(element => element === section)
+            const answerObjects = prevState.sections[section].items.map(item => prevState.items[item].answer_objects).flat()
             return update(prevState, {
                 items: {
                     $unset: [prevState.sections[section].items]
                 }, sections: {
                     $unset: [section]
-                }, config: {
+                }, answer_objects: {
+                    $unset: [answerObjects]
+                },
+                config: {
                     sections: {
                         $splice: [[sectionIndex, 1]]
                     }
@@ -37,7 +42,7 @@ const Section: React.FC<Props> = ({section, index}) => {
         <div className="mb-12">
             <SectionOptionsModal isOpen={settingsOpen} onCancel={() => toggleSettingsOpen(false)}/>
             <div
-                className="mb-2 flex justify-start items-center bg-white border border-gray-100 shadow-sm rounded-lg p-4">
+                className="mb-2 flex justify-start items-center bg-white border border-gray-200 shadow-sm rounded-lg p-4">
                 <div className="w-full">
                     <span
                         className="px-2 py-1 text-sm uppercase rounded-full font-semibold text-blue-500 bg-blue-50">Section {index + 1} of {document.config.sections.length}</span>
