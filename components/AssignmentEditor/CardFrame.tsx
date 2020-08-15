@@ -65,6 +65,9 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
         if (document.sections[section].items.length === 1) {
             setDocument(prevState => {
                 return update(prevState, {
+                    answer_objects: {
+                        $unset: [prevState.items[item].answer_objects]
+                    },
                     items: {
                         $unset: [item]
                     }, sections: {
@@ -79,6 +82,9 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
         } else {
             setDocument(prevState => {
                 return update(prevState, {
+                    answer_objects: {
+                        $unset: [prevState.items[item].answer_objects]
+                    },
                     items: {
                         $unset: [item]
                     }, sections: {

@@ -1,4 +1,5 @@
 import {v4 as uuidv4} from 'uuid';
+import {nanoid} from "nanoid";
 
 export const blankMCItem = (newId, answerId) => ({
     "id": newId,
@@ -43,10 +44,10 @@ export const initialDocumentContent = {
         {
             "items": [
                 {
-                    "id": uuidv4(),
+                    "id": uuidv4(5),
                     "answer_controller": [
                         {
-                            "id": uuidv4(),
+                            "id": uuidv4(5),
                             "is_correct": true,
                             "content": [{"children": [{"text": "Option 1"}], "type": "paragraph"}]
                         }
@@ -63,9 +64,9 @@ export const initialDocumentContent = {
 }
 
 export const newInitialDocumentContent = () => {
-    const itemId = uuidv4()
-    const answerObjectId = uuidv4()
-    const sectionId = uuidv4()
+    const itemId = nanoid(6)
+    const answerObjectId = nanoid(6)
+    const sectionId = nanoid(6)
 
     return ({
         config: {
