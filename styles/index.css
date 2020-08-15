@@ -13,25 +13,28 @@ code {
 }
 
 .examCard {
-    @apply bg-white overflow-hidden rounded-lg my-8 border border-gray-300 shadow-sm
+    @apply bg-white overflow-hidden rounded-lg my-8
 }
 
 .card {
     display: table;
     white-space: normal;
-    @apply rounded-lg border p-4 mb-3 transition-all duration-100 w-full text-left
+    @apply rounded-lg mb-1 p-3 transition-all duration-100 w-full text-left text-lg
+}
+.card:hover {
+    @apply bg-gray-50
 }
 .card:active {
-    @apply shadow-outline outline-none
+    @apply bg-gray-100
 }
 .card:focus {
     @apply shadow-outline outline-none
 }
 
-.unselectedCard {
-    @apply border-gray-200 shadow-sm
+/*.unselectedCard {*/
+/*    @apply border-gray-200 shadow-sm*/
 
-}
+/*}*/
 .unselectedCard:hover {
     @apply border-gray-300
 }
