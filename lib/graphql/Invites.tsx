@@ -5,9 +5,11 @@ export const getInviteByJoinCode = gql`
 assignments_invite(limit: 1, where: {join_code: {
   _eq: $joinCode
 }}) {
+id
   is_public
   assignmentByAssignment {
     title
+    content
     user {
     name
     }

@@ -7,3 +7,13 @@ assignments_submission_by_pk(id: $submissionId) {
   }
 }
 `;
+
+export const createSubmission = gql`
+  mutation CreateSubmission($assignmentCopy: json!, $studentProfile: uuid!, $inviteId: uuid!) {
+insert_assignments_submission_one(object: {content: $assignmentCopy, student_profile: $studentProfile, invite: $inviteId}) {
+id
+}
+}
+`;
+
+
