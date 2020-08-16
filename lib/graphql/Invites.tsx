@@ -17,6 +17,17 @@ assignments_invite(limit: 1, where: {join_code: {
 }
 `;
 
+export const getInviteByPk = gql`
+  query InviteByPk($inviteId: uuid!) {
+assignments_invite_by_pk(id: $inviteId) {
+    assignmentByAssignment {
+      title
+      content
+    }
+  }
+}
+`;
+
 
 export const createInvite = gql`
 mutation CreateNewInvite($code: String!, $userId: Int!, $assignmentId: uuid!, $isPublic: Boolean!){

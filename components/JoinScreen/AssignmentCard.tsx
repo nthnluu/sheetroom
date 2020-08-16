@@ -6,6 +6,10 @@ interface Props {
 }
 
 const AssignmentCard: React.FC<Props> = ({assignment}) => {
+    const startAssignment = () => {
+
+    }
+
     return <div className="bg-white border border-gray-200 shadow-lg w-full p-8 rounded-lg">
         <div>
             <h1 className="text-2xl font-bold text-gray-800">{assignment.title}</h1>
