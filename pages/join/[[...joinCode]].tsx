@@ -10,7 +10,7 @@ import {getInviteByJoinCode} from "../../lib/graphql/Invites";
 import AssignmentCard from "../../components/JoinScreen/AssignmentCard";
 import ReactGA from "react-ga";
 import ClassCard from "../../components/JoinScreen/ClassCard";
-import {createSubmission} from "../../lib/graphql/Submissions";
+import {prepareSubmission} from "../../lib/graphql/Submissions";
 import JsonDebugBox from "../../components/JsonDebugBox";
 
 
@@ -34,7 +34,7 @@ const InviteFetch = ({joinCode, session}) => {
                         variables: {
                             joinCode: joinCode
                         }
-                    }, mutation: createSubmission
+                    }, mutation: prepareSubmission
                 }
             default:
                 return "invalid"
@@ -100,12 +100,16 @@ const InviteFetch = ({joinCode, session}) => {
                 }
             case(8):
                 if (data.assignments_invite[0]) {
-                    return <><JsonDebugBox content={data}/><AssignmentCard
-                        assignment={data.assignments_invite[0].assignmentByAssignment} onStart={() => joinClass({
-                        assignmentCopy: undefined,
-                        studentProfile: undefined,
-                        inviteId: undefined
-                    })}/></>
+                    return <><AssignmentCard
+                        assignment={data.assignments_invite[0].assignmentByAssignment} onStart={() => {
+                        joinClass({
+                            inviteId: data.assignments_invite[0].id,
+                            userId: session.id
+                        })
+                            .then(result => window.location.href = "/view/" + result.data.prepareSubmission.id)
+                    }
+
+                    }/></>
                 } else {
                     return <JoinCode session={session}/>
                 }
@@ -124,7 +128,11 @@ const JoinCode = ({session}) => {
     return (<div className="text-center max-w-sm mx-auto">
         <h1 className="text-4xl font-bold text-gray-800">Enter your join code</h1>
         {/*//@ts-ignore*/}
-        <form onSubmit={event => {event.preventDefault(); window.location.href = '/join/' + event.target.joincode.value}}>
+        <form onSubmit={event => {
+            event.preventDefault();
+            //@ts-ignore
+            window.location.href = '/join/' + event.target.joincode.value
+        }}>
             <div>
                 <label htmlFor="joincode" className="sr-only">Join Code</label>
                 <div className="relative rounded-lg shadow-sm mt-4">
