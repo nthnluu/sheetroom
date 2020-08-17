@@ -5,7 +5,6 @@ import React, {useState} from "react";
 import {getSubmissionByPk} from "../../lib/graphql/Submissions";
 import {GetServerSideProps} from "next";
 import {getSession} from "next-auth/client";
-import JsonDebugBox from "../../components/JsonDebugBox";
 import {useRouter} from "next/router";
 
 const PageContent = ({pageData}) => {

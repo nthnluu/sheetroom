@@ -2,7 +2,6 @@ import InactiveQuillEditor from "../Editor/InactiveQuillEditor";
 import MultipleChoice from "./Controllers/MultipleChoice";
 import {useContext} from "react";
 import AssignmentViewerContext from "./AssignmentViewerContext";
-import JsonDebugBox from "../JsonDebugBox";
 
 const Controller = ({item}) => {
     const {document} = useContext(AssignmentViewerContext)

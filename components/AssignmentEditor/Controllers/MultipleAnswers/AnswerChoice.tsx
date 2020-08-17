@@ -102,8 +102,8 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                     {active ? <QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
                                            value={document.answer_objects[choice].content} active={active}
                                            placeholder="Option"/> :
-                        <InactiveEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
-                                        value={document.answer_objects[choice].content} active={active}
+                        <InactiveEditor uniqueKey={choice}
+                                        value={document.answer_objects[choice].content}
                                         placeholder="Option"/>}
 
                 </span>

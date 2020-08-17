@@ -10,7 +10,6 @@ import {ShortAnswerController} from "./Controllers/ShortAnswer/ShortAnswer";
 import InactiveEditor from "../Editor/InactiveEditor";
 import arrayMove from "array-move";
 import ItemOptionsModal from "../Modals/ItemOptionsModal";
-import JsonDebugBox from "../JsonDebugBox";
 import Math from "./Controllers/Math/Math";
 
 

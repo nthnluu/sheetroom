@@ -80,8 +80,8 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                 <span className={"table-cell w-full pointer-events-auto p-1 pl-2"}>
                     {active ? <QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
                                            value={document.answer_objects[choice].content} active={active} placeholder="Option"/> :
-                        <InactiveEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
-                                     value={document.answer_objects[choice].content} active={active} placeholder="Option"/>}
+                        <InactiveEditor uniqueKey={choice}
+                                     value={document.answer_objects[choice].content} placeholder="Option"/>}
 
                 </span>
                 <div className="flex justify-between space-x-3 items-start">
