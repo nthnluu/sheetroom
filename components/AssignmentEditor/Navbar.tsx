@@ -7,7 +7,7 @@ import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 
 export default function ({session, content, pageData}) {
-    const {clientId, setSaveStatus, setCurrentPage, currentPage} = useContext(QuizContext);
+    const {clientId, setSaveStatus, setCurrentPage, currentPage, aid} = useContext(QuizContext);
     const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
 
 
@@ -121,7 +121,7 @@ export default function ({session, content, pageData}) {
                 </nav>
             </div>
             <div className="h-full">
-                <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session}/>
+                <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session} assignmentId={aid}/>
                 {content}
             </div>
 

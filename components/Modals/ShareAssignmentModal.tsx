@@ -1,11 +1,8 @@
 import SimpleModal from "./SimpleModal";
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import {nanoid} from "nanoid";
 import {useMutation, useQuery} from "urql";
 import {createInvite, getAssignmentInvites} from "../../lib/graphql/Invites";
-import {newInitialDocumentContent} from "../AssignmentEditor/Templates";
-import QuizContext from "../AssignmentEditor/QuizContext";
-import JsonDebugBox from "../JsonDebugBox";
 import moment from "moment";
 
 
@@ -22,23 +19,25 @@ const ExistingInvitesSection = ({aid}) => {
 
     if (fetching) return <p>loading</p>
     return (
-        <ul>
-            {data.assignments_invite.map(invite => <li>
-                <h1 className="font-medium text-gray-700 text-md">{moment(invite.created_at).format("dddd, MMMM Do YYYY")} ({invite.join_code})</h1>
-                <p className="text-sm text-gray-500">{invite.is_public ? "Public" : `Assigned to ${invite.classByClass.title}`}</p>
-            </li>)}
+        <>
+            <ul className="rounded-lg border border-gray-300 overflow-y-scroll my-2 text-left" style={{maxHeight: '11.15rem'}}>
+                {data.assignments_invite.map(invite => <li className="p-3 border-b border-gray-300 leading-tight">
+                    <h1 className="font-medium text-gray-700 text-sm">{moment(invite.created_at).format("dddd, MMMM Do YYYY")} ({invite.join_code})</h1>
+                    <p className="text-sm text-gray-500">{invite.is_public ? "Public" : `Assigned to ${invite.classByClass.title}`}</p>
+                </li>)}
 
-        </ul>
+            </ul>
+        </>
     )
 }
 
-const ShareAssignmentModal = ({isOpen, onCancel, session}) => {
+const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
     const [newInviteCode, setInviteCode] = useState(nanoid(8))
     const [modalStep, setModalStep] = useState(0)
     const [sharingSetting, setSharingSetting] = useState("public")
     const [currentValue, setCurrentValue] = useState("https://sheetroom.com/join/" + newInviteCode)
     const [createInviteResult, createNewInvite] = useMutation(createInvite);
-    const {aid} = useContext(QuizContext)
+
 
     function cancelModal() {
         onCancel();
@@ -61,7 +60,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session}) => {
                 createNewInvite({
                     code: newInviteCode,
                     userId: session.id,
-                    assignmentId: aid,
+                    assignmentId: assignmentId,
                     isPublic: sharingSetting === "public"
                 })
                     .then(() => setModalStep(1))
@@ -84,15 +83,10 @@ const ShareAssignmentModal = ({isOpen, onCancel, session}) => {
 
         </div>
 
-        <span className={"mt-3 w-full rounded-md sm:mt-0 sm:w-auto hidden " + (modalStep === 0 ? " sm:flex" : null)}>
-        <button type="button" onClick={cancelModal}
-                className="inline-flex justify-center w-full rounded-md px-4 py-2 bg-white text-base leading-6 font-medium text-gray-400 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-          View previous invites
-        </button>
-      </span>
-
     </div>} isOpen={isOpen} onCancel={cancelModal} title="Share Assignment" content={modalStep === 0 ? <>
-        <ExistingInvitesSection aid={aid}/>
+        <ExistingInvitesSection aid={assignmentId}/>
+
+        <h2 className="font-medium text-gray-700 mt-4">Create New Invite</h2>
         {/*@ts-ignore*/}
         <fieldset onChange={(e) => setSharingSetting(e.target.value)}>
             <div className="my-4 text-left">

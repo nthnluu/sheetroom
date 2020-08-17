@@ -22,7 +22,7 @@ const SimpleModal = ({isOpen, onCancel, title, content, buttons}) => {
             <Transition show={isOpen} appear={isOpen} enter="ease-out duration-300" enterFrom="opacity-0"
                         enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
                 <div className="fixed inset-0 transition-opacity">
-                    <div className="absolute inset-0 bg-gray-500 opacity-75" onClick={onCancel}></div>
+                    <div className="absolute inset-0 bg-gray-500 opacity-75" onClick={onCancel}/>
                 </div>
             </Transition>
 
@@ -50,7 +50,7 @@ const SimpleModal = ({isOpen, onCancel, title, content, buttons}) => {
                                 <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
                                     {title}
                                 </h3>
-                                <div className="mt-2 w-full">
+                                <div className="mt-4 w-full">
                                     {content}
                                 </div>
                             </div>
