@@ -51,6 +51,7 @@ const InviteFetch = ({joinCode, session}) => {
     const {fetching, data, error} = result
 
     if (error) {
+        console.log(error)
         ReactGA.event({
             category: 'Error',
             action: 'Join Code Fetch Error (GraphQL QUERY)',
@@ -102,10 +103,7 @@ const InviteFetch = ({joinCode, session}) => {
                 if (data.assignments_invite[0]) {
                     return <><AssignmentCard
                         assignment={data.assignments_invite[0].assignmentByAssignment} onStart={() => {
-                        joinClass({
-                            inviteId: data.assignments_invite[0].id,
-                            userId: session.id
-                        })
+                        joinClass({inviteId: data.assignments_invite[0].id})
                             .then(result => window.location.href = "/view/" + result.data.prepareSubmission.id)
                     }
 

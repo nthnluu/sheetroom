@@ -9,8 +9,8 @@ assignments_submission_by_pk(id: $submissionId) {
 `;
 
 export const prepareSubmission = gql`
-mutation PrepareSubmission($inviteId: uuid!, $userId: Int!){
-  prepareSubmission(inviteId: $inviteId, userId: $userId) {
+mutation PrepareSubmission($inviteId: uuid!){
+  prepareSubmission(inviteId: $inviteId) {
     id
   }
 }
