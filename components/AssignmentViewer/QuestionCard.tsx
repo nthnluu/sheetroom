@@ -19,7 +19,7 @@ const QuestionCard = ({item}) => {
     const {document} = useContext(AssignmentViewerContext)
     const currentItem = document.items[item]
 
-    return (<div className="border rounded-lg p-6 border-gray-200 shadow-sm bg-white">
+    return (<div className="border rounded-lg p-8 border-gray-200 shadow-sm bg-white">
         <section className="mb-6">
             <h1 className="font-semibold text-lg">Question 1</h1>
             <InactiveQuillEditor value={currentItem.question}/>

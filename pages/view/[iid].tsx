@@ -25,7 +25,7 @@ const PageContent = ({pageData}) => {
                     </button>
                 </div>
                 <div className="mx-auto max-w-4xl pt-20 px-4 space-y-4">
-                    {document.sections["2ab8decd-b38e-4348-a8bb-92f3b6f400d3"].items.map(item => (<QuestionCard item={item}/>))}
+                    {document.sections[document.config.sections[0]].items.map(item => (<QuestionCard item={item}/>))}
 
                 </div>
             </div>

@@ -20,7 +20,7 @@ function AnswerChoice({selected, onClick, value, radioName, choice}) {
     }
 
     return (
-        <>
+        <div className="-ml-3">
             <input id={inputId} aria-labelledby={labelId} aria-selected={selected} type="radio"
                    defaultChecked={selected} name={radioName} value={choice}
                    onClick={() => onClick()} className="absolute mt-6 ml-5 opacity-0" onFocus={() => setFocus(true)}
@@ -32,7 +32,7 @@ function AnswerChoice({selected, onClick, value, radioName, choice}) {
                     <InactiveQuillEditor value={currentChoice.content}/>
                 </span>
             </label>
-        </>
+        </div>
     )
 
 }
