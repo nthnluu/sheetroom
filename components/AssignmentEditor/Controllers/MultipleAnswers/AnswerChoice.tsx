@@ -6,7 +6,8 @@ import QuillEditor from "../../../Editor/QuillEditor";
 import InactiveEditor from "../../../Editor/InactiveEditor";
 
 
-const AnswerChoice = ({active, choice, answerIndex, item, isCorrect}) => {
+const AnswerChoice:React.FC<{active: boolean; choice: string; answerIndex: number; item: string; isCorrect: boolean;}> =
+    ({active, choice, answerIndex, item, isCorrect}) => {
     const {document, setDocument} = useContext(QuizContext);
 
 
