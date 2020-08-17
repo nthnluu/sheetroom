@@ -6,27 +6,24 @@ import QuillEditor from "../../../Editor/QuillEditor";
 import InactiveEditor from "../../../Editor/InactiveEditor";
 
 
-const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect}) => {
+const AnswerChoice = ({active, choice, answerIndex, item, isCorrect}) => {
     const {document, setDocument} = useContext(QuizContext);
-    const currentChoice = document.answer_objects[choice]
-
 
     const saveChoiceContent = (newValue) => {
         setDocument(prevState => {
-            const newData = update(prevState, {
+            return update(prevState, {
                 answer_objects: {
                     [choice]: {
                         content: {$set: newValue}
                     }
                 }
             })
-            return newData
         })
     }
 
     const deleteAnswerChoice = () => {
         setDocument(prevState => {
-            const newData = update(prevState, {
+            return update(prevState, {
                 items: {
                     [item]: {
                         answer_objects: {$splice: [[answerIndex, 1]]}
@@ -37,21 +34,19 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                 }
 
             })
-            return newData
         })
 
     }
 
     const markAsCorrect = () => {
         setDocument(prevState => {
-            const newData = update(prevState, {
+            return update(prevState, {
                 items: {
                     [item]: {
                         correct_objects: {$set: [choice]}
                     }
                 }
             })
-            return newData
         })
 
     }
@@ -63,10 +58,7 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                 key={"key1" + choice}
                 className={isCorrect ? 'editor-card editor-unselectedCard cursor-pointer z-30 flex-grow flex items-center bg-white ' : 'flex-grow editor-card bg-white editor-unselectedCard '}
             >
-                {/*{active ? <span*/}
-                {/*    className="text-gray-200 active:text-blue-400 mr-4">*/}
-                {/*    {dragHandler}*/}
-                {/*</span> : null}*/}
+
 
                 <div className="flex justify-between space-x-3">
                     {isCorrect ? <i
@@ -79,9 +71,10 @@ const AnswerChoice = ({active, choice, dragHandler, answerIndex, item, isCorrect
                 </div>
                 <span className={"table-cell w-full pointer-events-auto p-1 pl-2"}>
                     {active ? <QuillEditor uniqueKey={choice} onChange={(value) => saveChoiceContent(value)}
-                                           value={document.answer_objects[choice].content} active={active} placeholder="Option"/> :
+                                           value={document.answer_objects[choice].content} active={active}
+                                           placeholder="Option"/> :
                         <InactiveEditor uniqueKey={choice}
-                                     value={document.answer_objects[choice].content} placeholder="Option"/>}
+                                        value={document.answer_objects[choice].content} placeholder="Option"/>}
 
                 </span>
                 <div className="flex justify-between space-x-3 items-start">
