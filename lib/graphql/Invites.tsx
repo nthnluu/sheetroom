@@ -9,6 +9,7 @@ id
   is_public
   submissions(where: {_and: {studentProfile: {student: {_eq: $userId}}, is_submitted: {_eq: false}}}) {
     id
+    created_at
   }
   assignmentByAssignment {
     title
