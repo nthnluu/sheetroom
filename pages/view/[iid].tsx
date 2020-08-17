@@ -25,10 +25,10 @@ const PageContent = ({pageData}) => {
                     </button>
                 </div>
                 <div className="mx-auto max-w-4xl pt-20 px-4 space-y-4">
-                    <div className="flex justify-start items-center">
-                        <h1 className="text-3xl font-semibold text-gray-800 mr-2">{document.sections[currentSection].title}</h1>
+                    <div>
                         <span
-                            className="px-2 py-1 text-sm uppercase rounded-full font-semibold text-blue-500 bg-blue-50">Section {document.config.sections.findIndex(element => element === currentSection) + 1} of {document.config.sections.length}</span>
+                            className="text-sm uppercase rounded-full font-semibold text-blue-500">Section {document.config.sections.findIndex(element => element === currentSection) + 1} of {document.config.sections.length}</span>
+                        <h1 className="text-3xl font-semibold text-gray-800 mr-2">{document.sections[currentSection].title}</h1>
                     </div>
                     {document.sections[currentSection].items.map(item => (<QuestionCard item={item}/>))}
 
@@ -58,8 +58,8 @@ const ExamViewer = ({session}) => {
 
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-    const session = await getSession({ req });
+export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+    const session = await getSession({req});
 
     if (!session) {
         return {
