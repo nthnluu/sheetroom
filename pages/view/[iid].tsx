@@ -24,14 +24,27 @@ const PageContent = ({pageData}) => {
                         Submit
                     </button>
                 </div>
-                <div className="mx-auto max-w-4xl pt-20 px-4 space-y-4">
-                    <div>
+                <div className="mx-auto max-w-4xl pt-20 px-4 space-y-4 mb-16">
+                    <div className="leading-tight">
                         <span
-                            className="text-sm uppercase rounded-full font-semibold text-blue-500">Section {document.config.sections.findIndex(element => element === currentSection) + 1} of {document.config.sections.length}</span>
+                            className="text-sm uppercase rounded-full font-semibold text-gray-400">Section {document.config.sections.findIndex(element => element === currentSection) + 1} of {document.config.sections.length}</span>
                         <h1 className="text-3xl font-semibold text-gray-800 mr-2">{document.sections[currentSection].title}</h1>
                     </div>
                     {document.sections[currentSection].items.map(item => (<QuestionCard item={item}/>))}
-
+                    <div className="flex-row sm:flex justify-between items-center mt-4">
+                        <span className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
+                            <svg className="h-5 inline mr-1" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            You can't return to this section.</span>
+                        <button type="button"
+                                className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                            Continue
+                        </button>
+                    </div>
                 </div>
             </div>
         </AssignmentViewerContext.Provider>)

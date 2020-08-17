@@ -2,10 +2,7 @@ import React, {useContext} from "react";
 import QuizContext from "../../QuizContext";
 import NewTooltip from "../../../Misc/Tooltip";
 import update from "immutability-helper";
-import QuillEditor from "../../../Editor/QuillEditor";
-import {EditableMathField} from "react-mathquill";
 import MathField from "../../../Editor/MathField";
-import {value} from "popmotion";
 
 
 const AnswerObject = ({active, choice, answerIndex, item}) => {
