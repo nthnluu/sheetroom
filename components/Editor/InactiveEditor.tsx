@@ -21,7 +21,6 @@ const InactiveEditor: React.FC<Props> = ({value, placeholder, border}) => {
         <div
             className={"font-sans text-gray-700 w-full z-40 pointer-events-none " + (border ? "border rounded-lg p-4 " : "p-0")}>
             <ReactQuill
-                tabIndex={0}
                 key={"key" + uniqueKey}
                 id={uniqueKey + "xxxxx_myPropertyUsingQuill"}
                 readOnly={true}
