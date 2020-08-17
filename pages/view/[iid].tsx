@@ -1,7 +1,7 @@
 import QuestionCard from "../../components/AssignmentViewer/QuestionCard";
 import {useQuery} from "urql";
 import AssignmentViewerContext from "../../components/AssignmentViewer/AssignmentViewerContext";
-import {useState} from "react";
+import React, {useState} from "react";
 import {getSubmissionByPk} from "../../lib/graphql/Submissions";
 import {GetServerSideProps} from "next";
 import {getSession} from "next-auth/client";
@@ -11,6 +11,7 @@ import {useRouter} from "next/router";
 const PageContent = ({pageData}) => {
 
     const [document, setDocument] = useState(pageData.content);
+    const [currentSection, setCurrentSection] = useState(document.config.sections[0])
 
 
     return (
@@ -25,7 +26,12 @@ const PageContent = ({pageData}) => {
                     </button>
                 </div>
                 <div className="mx-auto max-w-4xl pt-20 px-4 space-y-4">
-                    {document.sections[document.config.sections[0]].items.map(item => (<QuestionCard item={item}/>))}
+                    <div className="flex justify-start items-center">
+                        <h1 className="text-3xl font-semibold text-gray-800 mr-2">{document.sections[currentSection].title}</h1>
+                        <span
+                            className="px-2 py-1 text-sm uppercase rounded-full font-semibold text-blue-500 bg-blue-50">Section {document.config.sections.findIndex(element => element === currentSection) + 1} of {document.config.sections.length}</span>
+                    </div>
+                    {document.sections[currentSection].items.map(item => (<QuestionCard item={item}/>))}
 
                 </div>
             </div>

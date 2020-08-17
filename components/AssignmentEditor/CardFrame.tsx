@@ -143,9 +143,7 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
                                                onChange={(value) => saveItemContent(value)} value={currentItem.question}
                                                active={active} placeholder="Question"/> :
                             <div className="px-4"><InactiveEditor border={active} uniqueKey={item + "question"}
-                                                                  onChange={(value) => saveItemContent(value)}
-                                                                  value={currentItem.question}
-                                                                  active={active} placeholder="Question"/></div>}
+                                                                  value={currentItem.question} placeholder="Question"/></div>}
 
                     </div>
                     {!condensed ? <Controller active={active} type={currentItem.controller_type} item={item}/> : null}
