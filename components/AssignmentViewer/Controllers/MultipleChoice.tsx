@@ -4,7 +4,7 @@ import AssignmentViewerContext from "../AssignmentViewerContext";
 import {nanoid} from "nanoid";
 
 
-function AnswerChoice({selected, onClick, radioName, choice}) {
+const AnswerChoice: React.FC<{selected: boolean; onClick: any; radioName: string; choice: string;}> = ({selected, onClick, radioName, choice}) => {
     const [focused, setFocus] = useState(false);
     const {document} = useContext(AssignmentViewerContext)
     const currentChoice = document.answer_objects[choice]

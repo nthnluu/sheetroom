@@ -66,5 +66,6 @@
     "patch-package": "^6.2.2",
     "postinstall-prepare": "^1.0.1",
     "typescript": "^3.9.7"
-  }
+  },
+  "cacheDirectories": [".next/cache"]
 }
