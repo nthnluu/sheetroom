@@ -50,14 +50,18 @@ const ExamViewer = ({session}) => {
     if (error) return <h2>{JSON.stringify(error)}</h2>
 
     return <PageContent pageData={data.assignments_submission_by_pk.content}/>
+    // return <JsonDebugBox content={data}/>
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     const session = await getSession({ req });
 
     if (!session) {
-        res.writeHead(301, {location: '/'})
-        res.end()
+        return {
+            props: {
+                session: null
+            },
+        };
     }
 
     return {

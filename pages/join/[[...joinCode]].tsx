@@ -32,7 +32,8 @@ const InviteFetch = ({joinCode, session}) => {
                     type: "assignment_invite_code", query: {
                         query: getInviteByJoinCode,
                         variables: {
-                            joinCode: joinCode
+                            joinCode: joinCode,
+                            userId: session.id
                         }
                     }, mutation: prepareSubmission
                 }
@@ -102,7 +103,7 @@ const InviteFetch = ({joinCode, session}) => {
             case(8):
                 if (data.assignments_invite[0]) {
                     return <><AssignmentCard
-                        assignment={data.assignments_invite[0].assignmentByAssignment} onStart={() => {
+                        data={data.assignments_invite[0]} onStart={() => {
                         joinClass({inviteId: data.assignments_invite[0].id})
                             .then(result => window.location.href = "/view/" + result.data.prepareSubmission.id)
                     }
