@@ -44,7 +44,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     items: {
                         [newId]: {
                             $set: {
-                                content: "<p>Option</p>",
+                                question: "<p><br/></p>",
                                 controller_type: "MC",
                                 answer_objects: [newObjectId],
                                 correct_objects: [newObjectId],
@@ -86,7 +86,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     items: {
                         [newId]: {
                             $set: {
-                                content: "<p>Option</p>",
+                                question: "<p><br/></p>",
                                 controller_type: "MC",
                                 answer_objects: [newObjectId],
                                 correct_objects: [newObjectId],
@@ -125,7 +125,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     items: {
                         [newId]: {
                             $set: {
-                                content: "<p>Option</p>",
+                                question: "<p><br/></p>",
                                 controller_type: "MA",
                                 answer_objects: [newObjectId],
                                 correct_objects: [newObjectId],
@@ -164,7 +164,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     items: {
                         [newId]: {
                             $set: {
-                                content: "<p>Option</p>",
+                                question: "<p><br/></p>",
                                 controller_type: "SA",
                                 answer_objects: [newObjectId],
                                 correct_objects: [newObjectId],
@@ -204,7 +204,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     items: {
                         [newId]: {
                             $set: {
-                                content: "<p>Option</p>",
+                                question: "<p><br/></p>",
                                 controller_type: "MT",
                                 answer_objects: [newObjectId],
                                 correct_objects: [newObjectId],

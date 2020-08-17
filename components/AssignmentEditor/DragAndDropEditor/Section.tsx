@@ -4,7 +4,6 @@ import QuizContext from "../QuizContext";
 import update from "immutability-helper";
 import NewTooltip from "../../Misc/Tooltip";
 import SectionOptionsModal from "../../Modals/SectionOptionsModal";
-import JsonDebugBox from "../../JsonDebugBox";
 
 interface Props {
     section: string;

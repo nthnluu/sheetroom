@@ -7,10 +7,11 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {useMutation, useQuery} from "urql";
 import {classByJoinCode, createStudentProfile} from "../../lib/graphql/Class";
 import {getInviteByJoinCode} from "../../lib/graphql/Invites";
-import JsonDebugBox from "../../components/JsonDebugBox";
 import AssignmentCard from "../../components/JoinScreen/AssignmentCard";
 import ReactGA from "react-ga";
 import ClassCard from "../../components/JoinScreen/ClassCard";
+import {prepareSubmission} from "../../lib/graphql/Submissions";
+import JsonDebugBox from "../../components/JsonDebugBox";
 
 
 const InviteFetch = ({joinCode, session}) => {
@@ -31,9 +32,10 @@ const InviteFetch = ({joinCode, session}) => {
                     type: "assignment_invite_code", query: {
                         query: getInviteByJoinCode,
                         variables: {
-                            joinCode: joinCode
+                            joinCode: joinCode,
+                            userId: session.id
                         }
-                    }, mutation: createStudentProfile
+                    }, mutation: prepareSubmission
                 }
             default:
                 return "invalid"
@@ -44,12 +46,13 @@ const InviteFetch = ({joinCode, session}) => {
     const [result] = useQuery(inviteType(joinCode).query)
 
     // @ts-ignore
-    const [joinClassResult, joinClass] = useMutation(createStudentProfile)
+    const [joinClassResult, joinClass] = useMutation(inviteType(joinCode).mutation)
 
 
     const {fetching, data, error} = result
 
     if (error) {
+        console.log(error)
         ReactGA.event({
             category: 'Error',
             action: 'Join Code Fetch Error (GraphQL QUERY)',
@@ -67,7 +70,6 @@ const InviteFetch = ({joinCode, session}) => {
             </div>
         </div>)
     } else {
-
         switch (joinCode.length) {
             case(9):
                 if (data.classes_class[0]) {
@@ -100,7 +102,13 @@ const InviteFetch = ({joinCode, session}) => {
                 }
             case(8):
                 if (data.assignments_invite[0]) {
-                    return <AssignmentCard assignment={data.assignments_invite[0].assignmentByAssignment}/>
+                    return <><AssignmentCard
+                        data={data.assignments_invite[0]} onStart={() => {
+                        joinClass({inviteId: data.assignments_invite[0].id})
+                            .then(result => window.location.href = "/view/" + result.data.prepareSubmission.id)
+                    }
+
+                    }/></>
                 } else {
                     return <JoinCode session={session}/>
                 }
@@ -118,18 +126,26 @@ const InviteFetch = ({joinCode, session}) => {
 const JoinCode = ({session}) => {
     return (<div className="text-center max-w-sm mx-auto">
         <h1 className="text-4xl font-bold text-gray-800">Enter your join code</h1>
-        <div>
-            <label htmlFor="join-code" className="sr-only">Join Code</label>
-            <div className="relative rounded-lg shadow-sm mt-4">
-                <input id="join-code"
-                       className="form-input block w-full text-xl sm:text-2xl sm:leading-5 p-3 text-center placeholder-gray-200"
-                       placeholder="42069RAWRXD"/>
+        {/*//@ts-ignore*/}
+        <form onSubmit={event => {
+            event.preventDefault();
+            //@ts-ignore
+            window.location.href = '/join/' + event.target.joincode.value
+        }}>
+            <div>
+                <label htmlFor="joincode" className="sr-only">Join Code</label>
+                <div className="relative rounded-lg shadow-sm mt-4">
+                    <input id="joincode"
+                           className="form-input block w-full text-xl sm:text-2xl sm:leading-5 p-3 text-center placeholder-gray-200"
+                           placeholder="42069RAWRXD"/>
+                </div>
             </div>
-        </div>
-        <button type="button"
-                className="items-center w-full mt-6 px-3 py-3 border border-transparent leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-            Continue
-        </button>
+            <button type="submit"
+                    className="items-center w-full mt-6 px-3 py-3 border border-transparent leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                Continue
+            </button>
+        </form>
+
 
     </div>)
 }

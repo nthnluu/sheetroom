@@ -1,11 +1,16 @@
 import gql from "graphql-tag";
 
 export const getInviteByJoinCode = gql`
-  query InviteByJoinCode($joinCode: String!) {
+  query InviteByJoinCode($joinCode: String!, $userId: Int) {
 assignments_invite(limit: 1, where: {join_code: {
   _eq: $joinCode
 }}) {
+id
   is_public
+  submissions(where: {_and: {studentProfile: {student: {_eq: $userId}}, is_submitted: {_eq: false}}}) {
+    id
+    created_at
+  }
   assignmentByAssignment {
     title
     user {
@@ -14,6 +19,17 @@ assignments_invite(limit: 1, where: {join_code: {
   }
   __typename
 }
+}
+`;
+
+export const getInviteByPk = gql`
+  query InviteByPk($inviteId: uuid!) {
+assignments_invite_by_pk(id: $inviteId) {
+    assignmentByAssignment {
+      title
+      content
+    }
+  }
 }
 `;
 
