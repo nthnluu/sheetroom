@@ -2,8 +2,9 @@ import {motion} from "framer-motion"
 import {useEffect, useState} from "react";
 import {EditableMathField} from 'react-mathquill'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import React from 'react';
 
-const AddButton = ({quillRef, isFocused}) => {
+const AddButton:React.FC<{quillRef: any; isFocused: boolean;}> = ({quillRef, isFocused}) => {
     const [isOpen, setIsOpen] = useState(false)
     const [isVisible, setIsVisible] = useState(false);
     const [formulaMode, toggleFormulaMode] = useState(false)
