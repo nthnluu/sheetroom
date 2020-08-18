@@ -3,7 +3,6 @@ import ActiveContent from "./ActiveContent";
 import InactiveContent from "./InactiveContent";
 import {motion} from "framer-motion"
 import update from "immutability-helper";
-import {v4 as uuidv4} from 'uuid';
 import QuizContext from "../QuizContext";
 import NewTooltip from "../../Misc/Tooltip";
 import {nanoid} from "nanoid";
