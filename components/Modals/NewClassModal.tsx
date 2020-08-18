@@ -6,7 +6,7 @@ import {createClass} from "../../lib/graphql/Class";
 import {nanoid} from "nanoid";
 
 
-const NewClassModal = ({isOpen, onCancel, session}) => {
+const NewClassModal:React.FC<{isOpen: boolean; onCancel: any; session: any;}> = ({isOpen, onCancel, session}) => {
     const [createClassResult, createNewClass] = useMutation(createClass);
     const [currentValue, setNewValue] = useState("Untitled Class");
 
