@@ -7,7 +7,7 @@ import {newInitialDocumentContent} from "../AssignmentEditor/Templates";
 import QuizContext from "../AssignmentEditor/QuizContext";
 
 
-const ShareAssignmentModal = ({isOpen, onCancel, session}) => {
+const ShareAssignmentModal:React.FC<{isOpen: boolean; onCancel: any; session: any;}> = ({isOpen, onCancel, session}) => {
     const [newInviteCode, setInviteCode] = useState(nanoid(8))
     const [modalStep, setModalStep] = useState(0)
     const [sharingSetting, setSharingSetting] = useState("public")
