@@ -4,7 +4,7 @@ import Transition from "../Transition";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 
-const ClassCard = ({course}) => {
+const ClassCard:React.FC<{course: any;}> = ({course}) => {
     const [dropdown, toggleDropdown] = useState(false);
 
     const {title, id, color} = course
