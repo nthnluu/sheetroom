@@ -7,7 +7,7 @@ import {nanoid} from "nanoid";
 import ReactGA from "react-ga";
 
 
-const NewAssignmentModal = ({isOpen, onCancel, session}) => {
+const NewAssignmentModal:React.FC<{isOpen: any; onCancel: any; session: any;}> = ({isOpen, onCancel, session}) => {
     const [createAssignmentResult, createNewAssignment] = useMutation(createAssignment);
     const [currentValue, setNewValue] = useState("Untitled Assignment");
 
