@@ -4,7 +4,7 @@ import {nanoid} from "nanoid";
 import QuizContext from "../AssignmentEditor/QuizContext";
 
 
-const SectionOptionsModal = ({isOpen, onCancel}) => {
+const SectionOptionsModal:React.FC<{isOpen: boolean; onCancel: any;}> = ({isOpen, onCancel}) => {
     const [newInviteCode, setInviteCode] = useState(nanoid(8))
     const [modalStep, setModalStep] = useState(0)
     const [sharingSetting, setSharingSetting] = useState("public")
