@@ -2,7 +2,7 @@ import Transition from "../Transition";
 import {useEffect} from "react";
 import FocusTrap from "focus-trap-react";
 
-const SimpleModal = ({isOpen, onCancel, title, content, buttons}) => {
+const SimpleModal:React.FC<{isOpen: boolean; onCancel: any; title: string; content: any; buttons: any;}> = ({isOpen, onCancel, title, content, buttons}) => {
 
     useEffect(() => {
         function keyListener(e) {
