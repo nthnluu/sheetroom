@@ -6,7 +6,7 @@ import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 
-export default function ({session, content, pageData}) {
+    const NavBar:React.FC<{session: any; content: any, pageData: any}> = ({session, content, pageData}) => {
     const {clientId, setSaveStatus, setCurrentPage, currentPage} = useContext(QuizContext);
     const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
 
@@ -129,3 +129,5 @@ export default function ({session, content, pageData}) {
     )
 
 }
+
+export default NavBar
