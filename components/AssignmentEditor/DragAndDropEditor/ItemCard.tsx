@@ -29,11 +29,10 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
 
 
     const addSection = () => {
-
         setDocument(prevState => {
-            const newSectionId = uuidv4()
-            const newId = uuidv4()
-            const newObjectId = uuidv4()
+            const newSectionId = nanoid(5)
+            const newId = nanoid(6)
+            const newObjectId = nanoid(6)
             const newData = update(prevState, {
                     config: {
                         sections: {
@@ -78,10 +77,9 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
         })
     }
     const addMcItem = () => {
-
         setDocument(prevState => {
-            const newId = uuidv4()
-            const newObjectId = uuidv4()
+            const newId = nanoid(5)
+            const newObjectId = nanoid(6)
             const newData = update(prevState, {
                     items: {
                         [newId]: {
@@ -197,8 +195,8 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
     }
     const addMtItem = () => {
         setDocument(prevState => {
-            const newId = nanoid(7)
-            const newObjectId = nanoid(8)
+            const newId = nanoid(6)
+            const newObjectId = nanoid(5)
             const newData = update(prevState, {
                     items: {
                         [newId]: {
