@@ -57,7 +57,10 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                         [newSectionId]: {
                             $set: {
                                 title: "Untitled Section",
-                                items: [newId]
+                                items: [newId],
+                                config: {
+                                    timing: undefined
+                                }
                             }
                         }
                     },

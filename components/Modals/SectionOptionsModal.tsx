@@ -2,14 +2,34 @@ import SimpleModal from "./SimpleModal";
 import React, {useContext, useState} from "react";
 import {nanoid} from "nanoid";
 import QuizContext from "../AssignmentEditor/QuizContext";
+import ToggleRow from "../Misc/ToggleRow";
+import update from "immutability-helper";
 
 
-const SectionOptionsModal = ({isOpen, onCancel}) => {
+const SectionOptionsModal = ({isOpen, onCancel, section}) => {
     const [newInviteCode, setInviteCode] = useState(nanoid(8))
     const [modalStep, setModalStep] = useState(0)
     const [sharingSetting, setSharingSetting] = useState("public")
     const [currentValue, setCurrentValue] = useState("https://sheetroom.com/join/" + newInviteCode)
-    const {aid} = useContext(QuizContext)
+    const {aid, document, setDocument} = useContext(QuizContext)
+
+    const setConfigValue = (configValue, value) => {
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                    sections: {
+                        [section]: {
+                            config: {
+                                [configValue]: {
+                                    $set: value
+                                }
+                            }
+                        }
+                    }
+                }
+            )
+            return newData
+        })
+    }
 
     function cancelModal() {
         onCancel();
@@ -67,6 +87,7 @@ const SectionOptionsModal = ({isOpen, onCancel}) => {
                       className="translate-x-0 inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200"></span>
             </span>
         </div>
+        <ToggleRow label="Time Limit" desc="Enable per-section timing to set a time limit." value={document.sections[section].config['time_limit']} onEnable={() => setConfigValue("time_limit", true)} onDisable={() => setConfigValue("time_limit", false)}/>
 
         <div className="flex justify-between items-center my-6">
             <div className="text-left">

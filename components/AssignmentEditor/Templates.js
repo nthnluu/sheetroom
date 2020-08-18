@@ -14,7 +14,10 @@ export const newInitialDocumentContent = () => {
         sections: {
             [sectionId]: {
                 "title": "Untitled Section",
-                "items": [itemId]
+                "items": [itemId],
+                "config": {
+                    timing: undefined
+                }
             }
         },
         items: {
