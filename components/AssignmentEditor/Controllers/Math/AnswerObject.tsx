@@ -8,7 +8,7 @@ import MathField from "../../../Editor/MathField";
 import {value} from "popmotion";
 
 
-const AnswerObject = ({active, choice, answerIndex, item}) => {
+const AnswerObject:React.FC<{active:boolean; choice: string; answerIndex: number; item: string;}> = ({active, choice, answerIndex, item}) => {
     const {document, setDocument} = useContext(QuizContext);
     const currentChoice = document.answer_objects[choice]
 
