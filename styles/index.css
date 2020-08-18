@@ -114,10 +114,8 @@ code {
     z-index: 30 !important;
 }
 
-
-
 .modalOverlay {
-    z-index: 4000 !important;
+    z-index: 8000 !important;
 }
 
 .cornerNotification {

@@ -7,11 +7,12 @@ assignments_invite(limit: 1, where: {join_code: {
 }}) {
 id
   is_public
+  user {
+    first_name
+    last_name
+    }
   assignmentByAssignment {
     title
-    user {
-    name
-    }
   }
   __typename
 }
@@ -25,14 +26,15 @@ assignments_invite(limit: 1, where: {join_code: {
 }}) {
 id
   is_public
-  submissions(where: {_and: {studentProfile: {student: {_eq: $userId}}, is_submitted: {_eq: false}}}) {
+  submissions(where: {_and: {studentProfile: {student: {_eq: $userId}}, is_complete: {_eq: false}}}) {
     id
     created_at
   }
   assignmentByAssignment {
     title
     user {
-    name
+    first_name
+    last_name
     }
   }
   __typename

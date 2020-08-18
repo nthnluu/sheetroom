@@ -14,7 +14,6 @@ import AssignmentCard from "../../components/JoinScreen/AssignmentCard";
 import ReactGA from "react-ga";
 import ClassCard from "../../components/JoinScreen/ClassCard";
 import {prepareSubmission} from "../../lib/graphql/Submissions";
-import JsonDebugBox from "../../components/JsonDebugBox";
 
 
 const InviteFetch = ({joinCode, session}) => {
@@ -31,7 +30,7 @@ const InviteFetch = ({joinCode, session}) => {
                     }, mutation: createStudentProfile
                 }
             case(8):
-                if (session) {
+                if (session.id) {
                     return {
                         type: "assignment_invite_code", query: {
                             query: getInviteByJoinCodeWithSession,
@@ -93,7 +92,7 @@ const InviteFetch = ({joinCode, session}) => {
                         if (studentsInClass.includes(session ? session.id : null) || data.classes_class[0].created_by === session.id) {
                             return (
                                 <div className="text-center px-8">
-                                    <img src="/a-ok-monochrome.svg" className="h-64 md:h-96 mb-8 mx-auto"/>
+                                    <img src="/a-ok-monochrome.svg" className="h-64 md:h-96 mb-8 mx-auto" alt=""/>
                                     <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800">You've
                                         already
                                         joined {data.classes_class[0].title}</h1>
@@ -116,8 +115,9 @@ const InviteFetch = ({joinCode, session}) => {
                     }
                 }
             case(8):
+                let element;
                 if (data.assignments_invite[0]) {
-                    return <><AssignmentCard
+                    element = <><AssignmentCard
                         data={data.assignments_invite[0]} onStart={() => {
                         joinClass({inviteId: data.assignments_invite[0].id})
                             .then(result => window.location.href = "/view/" + result.data.prepareSubmission.id)
@@ -125,9 +125,9 @@ const InviteFetch = ({joinCode, session}) => {
 
                     }/></>
                 } else {
-                    return <JoinCode session={session}/>
+                    element = <JoinCode session={session}/>
                 }
-
+                return element
             default:
                 return <JoinCode session={session}/>
 
@@ -168,8 +168,6 @@ const JoinCode = ({session}) => {
 const JoinPage = ({session}) => {
     const router = useRouter()
     const {joinCode} = router.query
-
-    const [isSearching, toggleIsSearching] = useState(false);
 
     return (<div className="h-screen bg-gray-100">
         <Navbar session={session}/>
