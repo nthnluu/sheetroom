@@ -2,8 +2,13 @@ import InactiveQuillEditor from "../Editor/InactiveQuillEditor";
 import MultipleChoice from "./Controllers/MultipleChoice";
 import {useContext} from "react";
 import AssignmentViewerContext from "./AssignmentViewerContext";
+import React from 'react';
 
-const Controller = ({item}) => {
+interface Props {
+    item: string;
+}
+
+const Controller:React.FC<Props> = ({item}) => {
     const {document} = useContext(AssignmentViewerContext)
 
     switch(document.items[item].controller_type) {
@@ -14,7 +19,7 @@ const Controller = ({item}) => {
     }
 }
 
-const QuestionCard = ({item}) => {
+const QuestionCard:React.FC<Props> = ({item}) => {
     const {document} = useContext(AssignmentViewerContext)
     const currentItem = document.items[item]
 
