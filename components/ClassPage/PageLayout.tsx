@@ -5,7 +5,7 @@ import StudentPage from "./StudentPage";
 
 
 
-const PageLayout = ({session, course}) => {
+const PageLayout:React.FC<{session: any; course: string;}> = ({session, course}) => {
     const [currentPage, setCurrentPage] = useState(1);
 
 
