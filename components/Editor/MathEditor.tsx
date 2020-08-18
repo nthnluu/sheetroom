@@ -1,7 +1,7 @@
 import {EditableMathField} from "react-mathquill";
 import React from "react";
 
-const MathEditor = ({value, onChange}) => {
+const MathEditor:React.FC<{value: string; onChange: any;}> = ({value, onChange}) => {
     return <div className="border border-gray-200 rounded-lg p-3 pr-8"><EditableMathField config={{
         autoCommands: 'pi theta sqrt sum int',
         substituteTextarea: function () {
