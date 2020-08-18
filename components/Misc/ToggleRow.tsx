@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import {nanoid} from "nanoid";
 
-const ToggleRow = ({label, onEnable, onDisable, value}) => {
+const ToggleRow:React.FC<{label: string; onEnable: any; onDisable: any; value: any;}> = ({label, onEnable, onDisable, value}) => {
     const [uniqueId] = useState(nanoid(8))
 
     function handleEnable () {
