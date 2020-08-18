@@ -1,4 +1,23 @@
+import {useContext} from "react";
+import QuizContext from "./QuizContext";
+import update from "immutability-helper";
+
 const SettingsPage = () => {
+    const {aid, setDocument, document} = useContext(QuizContext)
+
+    const setConfigValue = (configValue, value) => {
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                    config: {
+                        [configValue]: {
+                            $set: value
+                        }
+                    }
+                }
+            )
+            return newData
+        })
+    }
     return (<div>
         <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
@@ -17,22 +36,22 @@ const SettingsPage = () => {
                         </label>
                         <div className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 space-x-2">
                             <span className="inline-flex rounded-md shadow-sm">
-                                <button type="button"
-                                        className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                                <button type="button" onClick={() => setConfigValue("timing", 0)}
+                                        className={(document.config['timing'] === 0 ? "text-blue-500 border-blue-500 hover:text-blue-400 active:text-blue-500":"border-gray-300 text-gray-700 hover:text-gray-500 active:text-gray-700") + " inline-flex items-center px-3 py-2 border text-sm leading-4 font-medium rounded-md  bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150"}>
                                     Untimed
                                 </button>
                             </span>
 
                             <span className="inline-flex rounded-md shadow-sm">
-                                <button type="button"
-                                        className="inline-flex items-center px-3 py-2 border border-blue-500 text-sm leading-4 font-medium rounded-md text-blue-500 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                                <button type="button" onClick={() => setConfigValue("timing", 1)}
+                                        className={(document.config['timing'] === 1 ? "text-blue-500 border-blue-500 hover:text-blue-400 active:text-blue-500":"border-gray-300 text-gray-700 hover:text-gray-500 active:text-gray-700") + " inline-flex items-center px-3 py-2 border text-sm leading-4 font-medium rounded-md  bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150"}>
                                     Per-section
                                 </button>
                             </span>
 
                             <span className="inline-flex rounded-md shadow-sm">
-                                <button type="button"
-                                        className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                                <button type="button" onClick={() => setConfigValue("timing", 2)}
+                                        className={(document.config['timing'] === 2 ? "text-blue-500 border-blue-500 hover:text-blue-400 active:text-blue-500":"border-gray-300 text-gray-700 hover:text-gray-500 active:text-gray-700") + " inline-flex items-center px-3 py-2 border text-sm leading-4 font-medium rounded-md  bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150"}>
                                     Global
                                 </button>
                             </span>

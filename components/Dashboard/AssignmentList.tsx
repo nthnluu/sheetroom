@@ -31,7 +31,6 @@ const LoadingPlaceholder = () => {
 const AssignmentListItem = ({item, session}) => {
     const [shareDialog, toggleShareDialog] = useState(false)
     return (<li
-        key={item.id}
         className="relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
         <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session} assignmentId={item.id}/>
         <div className="flex items-center justify-between space-x-4">
@@ -49,7 +48,7 @@ const AssignmentListItem = ({item, session}) => {
                             </h2>
                           </span>
                 </div>
-                <button onClick={() => toggleShareDialog(true)} className="relative group flex items-center space-x-2.5">
+                <button onClick={() => toggleShareDialog(true)} className="relative group flex items-center space-x-2.5 focus:outline-none focus:shadow-outline rounded">
                     <svg className="flex-shrink-0 w-5 h-5 text-gray-400 group-hover:text-gray-500"
                          viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -129,7 +128,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
     } else {
         return (<>
             <ul className="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
-                {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem item={item} session={session}/> ) : <></>}
+                {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem item={item} key={item.id} session={session}/> ) : <></>}
             </ul>
         </>)
     }

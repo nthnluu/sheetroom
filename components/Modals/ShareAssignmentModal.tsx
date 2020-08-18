@@ -4,6 +4,7 @@ import {nanoid} from "nanoid";
 import {useMutation, useQuery} from "urql";
 import {createInvite, getAssignmentInvites} from "../../lib/graphql/Invites";
 import moment from "moment";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 const ExistingInvitesSection = ({aid}) => {
@@ -17,16 +18,26 @@ const ExistingInvitesSection = ({aid}) => {
 
     const {fetching, data, error} = result
 
-    if (fetching) return <p>loading</p>
+    if (fetching) return (
+        <>
+            <ul className="rounded-lg border border-gray-300 overflow-y-scroll my-2 text-left flex justify-center items-center" style={{height: '11.1rem'}}>
+                <div className="mx-auto">
+                    <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>
+                </div>
+            </ul>
+        </>
+    )
+
     return (
         <>
-            <ul className="rounded-lg border border-gray-300 overflow-y-scroll my-2 text-left" style={{maxHeight: '11.15rem'}}>
-                {data.assignments_invite.map(invite => <li className="p-3 border-b border-gray-300 leading-tight">
+            {data.assignments_invite.length > 0 ? <><ul className="rounded-lg border border-gray-300 overflow-y-scroll my-2 text-left" style={{maxHeight: '11.1rem'}}>
+                {data.assignments_invite.map((invite, index) => <li key={invite.id} className={"p-3 border-gray-300 leading-tight " + (index === (data.assignments_invite.length - 1) ? null : "border-b")}>
                     <h1 className="font-medium text-gray-700 text-sm">{moment(invite.created_at).format("dddd, MMMM Do YYYY")} ({invite.join_code})</h1>
                     <p className="text-sm text-gray-500">{invite.is_public ? "Public" : `Assigned to ${invite.classByClass.title}`}</p>
                 </li>)}
+            </ul><h2 className="font-medium text-gray-700 mt-4">Create New Invite</h2></> : null}
 
-            </ul>
+
         </>
     )
 }
@@ -86,7 +97,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
     </div>} isOpen={isOpen} onCancel={cancelModal} title="Share Assignment" content={modalStep === 0 ? <>
         <ExistingInvitesSection aid={assignmentId}/>
 
-        <h2 className="font-medium text-gray-700 mt-4">Create New Invite</h2>
+
         {/*@ts-ignore*/}
         <fieldset onChange={(e) => setSharingSetting(e.target.value)}>
             <div className="my-4 text-left">
