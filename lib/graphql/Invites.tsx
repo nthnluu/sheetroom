@@ -43,3 +43,17 @@ mutation CreateNewInvite($code: String!, $userId: Int!, $assignmentId: uuid!, $i
 }
 `;
 
+export const getAssignmentInvites = gql`
+query GetAssignmentInvites($assignmentId: uuid!) {
+  assignments_invite(where: {assignment: {_eq: $assignmentId}}) {
+    id
+    join_code
+    created_at
+    is_public
+    classByClass {
+      title
+      __typename
+    }
+    __typename
+  }
+}`

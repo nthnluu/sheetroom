@@ -1,4 +1,3 @@
-
 import React, {useState} from "react";
 import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
 import update from "immutability-helper";

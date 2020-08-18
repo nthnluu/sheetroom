@@ -195,7 +195,6 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
             return newData
         })
     }
-
     const addMtItem = () => {
         setDocument(prevState => {
             const newId = nanoid(7)
@@ -235,6 +234,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
             return newData
         })
     }
+
     return (
         <div className="relative" key={item}>
             <motion.div whileTap={!active ? {scale: 0.98} : null} className="pb-2 relative">

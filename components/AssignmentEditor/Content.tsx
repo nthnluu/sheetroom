@@ -10,6 +10,7 @@ import ResultPage from "./ResultPage";
 import {DragDropContext} from 'react-beautiful-dnd';
 import update from "immutability-helper";
 import arrayMove from "array-move";
+import SettingsPage from "./SettingsPage";
 
 interface Props {
 
@@ -118,6 +119,7 @@ const Content: React.FC<Props> = ({}) => {
                                                                                                      index={i}/>) : null}
                     </DragDropContext>
                     {currentPage === 2 ? <ResultPage/> : null}
+                    {currentPage === 4 ? <SettingsPage/> : null}
                 </div>
             </div>
         </div>

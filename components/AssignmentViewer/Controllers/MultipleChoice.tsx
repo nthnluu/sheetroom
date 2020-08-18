@@ -2,9 +2,10 @@ import React, {useContext, useEffect, useMemo, useState} from "react";
 import InactiveQuillEditor from "../../Editor/InactiveQuillEditor";
 import AssignmentViewerContext from "../AssignmentViewerContext";
 import {nanoid} from "nanoid";
+import update from "immutability-helper";
 
 
-const AnswerChoice: React.FC<{selected: boolean; onClick: any; radioName: string; choice: string;}> = ({selected, onClick, radioName, choice}) => {
+const AnswerChoice: React.FC<{selected: boolean; onClick: any; radioName: string; choice: string; item: string;}> = ({selected, onClick, radioName, choice, item}) => {
     const [focused, setFocus] = useState(false);
     const {document} = useContext(AssignmentViewerContext)
     const currentChoice = document.answer_objects[choice]
@@ -39,9 +40,25 @@ const AnswerChoice: React.FC<{selected: boolean; onClick: any; radioName: string
 
 
 export default function ({item}) {
-    const {document} = useContext(AssignmentViewerContext)
+    const {document, setDocument} = useContext(AssignmentViewerContext)
     const currentItem = document.items[item]
-    const [selected, setSelected] = useState();
+    const selected = document.items[item].student_input
+
+    const setConfigValue = (value) => {
+        setDocument(prevState => {
+            const newData = update(prevState, {
+                    items: {
+                        [item]: {
+                            student_input: {
+                                $set: value
+                            }
+                        }
+                    }
+                }
+            )
+            return newData
+        })
+    }
 
 
     return (
@@ -49,7 +66,7 @@ export default function ({item}) {
             <form>
                 <fieldset className="pt-2" role="radiogroup">
                     <legend className="font-semibold text-gray-800">Select one:</legend>
-                    {currentItem.answer_objects.map((choice, index) => <AnswerChoice choice={choice} selected={selected === choice} onClick={() => setSelected(choice)} radioName={currentItem.id}/>)}
+                    {currentItem.answer_objects.map((choice, index) => <AnswerChoice key={choice} choice={choice} selected={selected === choice} item={item} onClick={() => setConfigValue(choice)} radioName={currentItem.id}/>)}
                 </fieldset>
             </form>
         </>
