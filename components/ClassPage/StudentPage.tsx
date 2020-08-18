@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const NoStudentsPlaceholder = ({joinCode}) => {
+const NoStudentsPlaceholder:React.FC<{joinCode: string;}> = ({joinCode}) => {
     return (<div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         <div className="text-center overflow-x-scroll">
             <img src="/holding-phone-monochrome.svg" className="h-64 mx-auto mb-2"/>
@@ -13,7 +13,7 @@ const NoStudentsPlaceholder = ({joinCode}) => {
 }
 
 
-const StudentPage = ({course}) => {
+const StudentPage:React.FC<{course: any;}> = ({course}) => {
     return (
         <>
             {course.studentProfiles.length > 0 ? <>
