@@ -7,7 +7,7 @@ import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 
-const Navbar =  ({session, content, title, currentPage, setCurrentPage})  => {
+const Navbar:React.FC<{session: any; content: any; title: any; currentPage: any; setCurrentPage: any;}> =  ({session, content, title, currentPage, setCurrentPage})  => {
     const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
 
 
