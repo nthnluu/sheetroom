@@ -1,6 +1,24 @@
 import gql from "graphql-tag";
 
-export const getInviteByJoinCode = gql`
+export const getInviteByJoinCodeWithoutSession = gql`
+  query InviteByJoinCode($joinCode: String!) {
+assignments_invite(limit: 1, where: {join_code: {
+  _eq: $joinCode
+}}) {
+id
+  is_public
+  assignmentByAssignment {
+    title
+    user {
+    name
+    }
+  }
+  __typename
+}
+}
+`;
+
+export const getInviteByJoinCodeWithSession = gql`
   query InviteByJoinCode($joinCode: String!, $userId: Int) {
 assignments_invite(limit: 1, where: {join_code: {
   _eq: $joinCode

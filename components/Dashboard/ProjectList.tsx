@@ -29,7 +29,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
                         <h1 className="flex-1 text-lg leading-7 font-medium">Classes</h1>
                         <div className="relative">
                             <button id="sort-menu"  type="button" onClick={() => toggleCreateClassDialog(true)}
-                                    className="inline-flex ml-2 justify-center w-full rounded-md border border-blue-600 px-3 py-2 bg-blue-600 text-sm leading-5 font-medium text-white hover:text-white focus:outline-none focus:border-blue-500 focus:shadow-outline active:bg-blue-400 transition ease-in-out duration-150"
+                                    className="inline-flex ml-2 justify-center w-full rounded-md border border-blue-600 px-1 py-2 bg-blue-600 text-sm leading-5 font-medium text-white hover:text-white focus:outline-none focus:border-blue-500 focus:shadow-outline active:bg-blue-400 transition ease-in-out duration-150"
                                     aria-haspopup="true" aria-expanded="false">
                                 <svg className="mr-1 h-5 w-5 text-white" viewBox="0 0 24 24" stroke="currentColor">
                                     <path
@@ -106,7 +106,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
 
                     {/*</ClickAwayListener>*/}
                         <button id="sort-menu" onClick={() => toggleCreateAssignmentDialog(true)} type="button"
-                                className="inline-flex ml-2 justify-center w-full rounded-md border border-blue-600 px-4 py-2 bg-blue-600 text-sm leading-5 font-medium text-white hover:text-white focus:outline-none focus:border-blue-500 focus:shadow-outline active:bg-blue-400 transition ease-in-out duration-150"
+                                className="inline-flex ml-2 justify-center w-full rounded-md border border-blue-600 px-2 py-2 bg-blue-600 text-sm leading-5 font-medium text-white hover:text-white focus:outline-none focus:border-blue-500 focus:shadow-outline active:bg-blue-400 transition ease-in-out duration-150"
                                 aria-haspopup="true" aria-expanded="false">
                             <svg className="mr-1 h-5 w-5 text-white" viewBox="0 0 24 24" stroke="currentColor">
                                 <path

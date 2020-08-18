@@ -6,7 +6,10 @@ import React, {useState} from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useMutation, useQuery} from "urql";
 import {classByJoinCode, createStudentProfile} from "../../lib/graphql/Class";
-import {getInviteByJoinCode} from "../../lib/graphql/Invites";
+import {
+    getInviteByJoinCodeWithoutSession,
+    getInviteByJoinCodeWithSession
+} from "../../lib/graphql/Invites";
 import AssignmentCard from "../../components/JoinScreen/AssignmentCard";
 import ReactGA from "react-ga";
 import ClassCard from "../../components/JoinScreen/ClassCard";
@@ -28,15 +31,27 @@ const InviteFetch = ({joinCode, session}) => {
                     }, mutation: createStudentProfile
                 }
             case(8):
-                return {
-                    type: "assignment_invite_code", query: {
-                        query: getInviteByJoinCode,
-                        variables: {
-                            joinCode: joinCode,
-                            userId: session.id
-                        }
-                    }, mutation: prepareSubmission
+                if (session) {
+                    return {
+                        type: "assignment_invite_code", query: {
+                            query: getInviteByJoinCodeWithSession,
+                            variables: {
+                                joinCode: joinCode,
+                                userId: session.id
+                            }
+                        }, mutation: prepareSubmission
+                    }
+                } else {
+                    return {
+                        type: "assignment_invite_code", query: {
+                            query: getInviteByJoinCodeWithoutSession,
+                            variables: {
+                                joinCode: joinCode
+                            }
+                        }, mutation: prepareSubmission
+                    }
                 }
+
             default:
                 return "invalid"
         }
