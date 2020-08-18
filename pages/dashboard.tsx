@@ -3,6 +3,7 @@ import {getSession} from 'next-auth/client'
 import {GetServerSideProps} from "next";
 import PageContent from "../components/Dashboard/Content";
 import AppLayout from "../components/PageLayouts/AppLayout/AppLayout";
+import JsonDebugBox from "../components/JsonDebugBox";
 
 interface Props {
     session: string;
@@ -13,8 +14,7 @@ const Dashboard: React.FC<Props> = ({session}) => {
     return (
         <>
             <AppLayout session={session}
-                       content={
-                <PageContent session={session}/>
+                       content={<PageContent session={session}/>
             }
             />
         </>
