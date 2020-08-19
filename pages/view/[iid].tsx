@@ -54,11 +54,11 @@ const PageContent = ({pageRawData, iid}) => {
                 </div>
 
                 {/*Section Page*/}
-                <div className="mx-auto max-w-4xl pt-24 px-4 space-y-4 mb-16">
+                <div className="mx-auto max-w-4xl pt-20 px-4 space-y-6 mb-16">
                     <div className="leading-tight">
                         {document.config.sections.length > 1 ? <span
                             className="font-medium text-gray-400 text-sm">{document.config.sections.findIndex(element => element === sectionId) + 1} of {document.config.sections.length}</span> : null}
-                        <h1 className="text-2xl font-semibold text-gray-800 mr-2">{document.sections[sectionId].title}</h1>
+                        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 mr-2">{document.sections[sectionId].title}</h1>
                     </div>
                     {document.sections[sectionId].items.map(item => (<QuestionCard item={item} key={item}/>))}
                     <div className="flex-row sm:flex items-center justify-between mt-4">
