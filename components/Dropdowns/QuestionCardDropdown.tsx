@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Divider, Select} from "@material-ui/core";
+import {Chip, Divider, Select} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import QuizContext from "../AssignmentEditor/QuizContext";
@@ -194,7 +194,10 @@ const QuestionCardDropdown: React.FC<Props> = ({item}) => {
                 <Divider/>
                 <MenuItem value="SA" disableRipple>Short Answer</MenuItem>
                 <Divider/>
-                <MenuItem value="MT" disableRipple>Math</MenuItem>
+                <MenuItem value="MT" disableRipple>
+                    <div ><span>Math</span><span
+                        className="p-1 border border-gray-300 text-gray-500 rounded-md ml-2 text-xs font-semibold uppercase">Beta</span></div>
+                </MenuItem>
             </Select>
         </FormControl>
     )

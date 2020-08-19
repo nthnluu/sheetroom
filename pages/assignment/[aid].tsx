@@ -23,7 +23,6 @@ const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({page
     //Stores the current state of the document
     // const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
     const [document, setDocument] = useState(pageData.assignments_assignment_by_pk.content);
-    const [documentHistory, setDocumentHistory] = useState([pageData.assignments_assignment_by_pk.content]);
     const [currentItem, setCurrentItem] = useState(document.sections[document.config.sections[0]] ? document.sections[document.config.sections[0]].items[0] : null);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -31,12 +30,9 @@ const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({page
     const [saveStatus, setSaveStatus] = useState(0);
     const [invalidSession, setInvalidSession] = useState(false);
 
-    const [prevClientId, setPrevClientId] = useState(pageData.assignments_assignment_by_pk.last_edited_by);
     const [mutateAssignmentResult, mutateAssignment] = useMutation(updateAssignmentContent)
-
     const saveAssignment = (newDocument) => {
         if (!invalidSession) {
-            setDocumentHistory([document, ...documentHistory])
             setSaveStatus(1)
             mutateAssignment({clientId: clientId, id: aid, content: newDocument})
                 .then(() => setSaveStatus(0))
@@ -51,21 +47,6 @@ const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({page
         delayedMutation(document)
     }, [document])
 
-    //Checks if  session is expired
-    useEffect(() => {
-        if (prevClientId !== pageData.assignments_assignment_by_pk.last_edited_by) {
-            if (prevClientId === clientId) {
-                setPrevClientId(clientId)
-            } else {
-                setInvalidSession(false)
-            }
-        } else {
-            setPrevClientId(pageData.assignments_assignment_by_pk.last_edited_by)
-        }
-
-    }, [pageData])
-
-
     // If the document is saving, prevents the window from navigating away
     useEffect(() => {
         window.addEventListener('beforeunload', handleWindowClose);
@@ -73,14 +54,11 @@ const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({page
             window.removeEventListener('beforeunload', handleWindowClose);
         };
     }, []);
-
-
     const handleWindowClose = (e) => {
         if (saveStatus !== 0) {
             e.preventDefault();
             return e.returnValue = 'You have unsaved changes - are you sure you wish to close?';
         }
-
     };
 
 

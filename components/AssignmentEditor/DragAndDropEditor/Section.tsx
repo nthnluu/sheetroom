@@ -39,7 +39,7 @@ const Section: React.FC<Props> = ({section, index}) => {
 
     return (
         <div className="mb-12">
-            <SectionOptionsModal isOpen={settingsOpen} onCancel={() => toggleSettingsOpen(false)}/>
+            <SectionOptionsModal isOpen={settingsOpen} onCancel={() => toggleSettingsOpen(false)} section={section}/>
             <div
                 className="mb-2 flex justify-start items-center bg-white border border-gray-200 shadow-sm rounded-lg p-4">
                 <div className="w-full">

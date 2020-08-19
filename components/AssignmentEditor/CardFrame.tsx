@@ -156,7 +156,8 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
                             <NewTooltip title="Delete item" placement="bottom" enterDelay={500}
                                         enterNextDelay={500}>
                                 <span>
-                                <button type="button" onClick={() => deleteItem()}
+                                    <label htmlFor={"del_" + item} className="sr-only">Delete Item</label>
+                                <button type="button" onClick={() => deleteItem()} id={"del_" + item}
                                         className="inline-flex text-center items-center h-8 w-8 ml-4 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
                                     <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M6 18L18 6M6 6L18 18" strokeWidth="2" strokeLinecap="round"
@@ -165,10 +166,11 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
                                     </svg>
                                 </button></span>
                             </NewTooltip> : null}
-                        <NewTooltip title="Item settings" placement="bottom" enterDelay={500}
+                        <NewTooltip title="Item options" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                             <span>
-                                <button type="button" onClick={() => toggleSettingsOpen(true)}
+                                 <label htmlFor={"set_" + item} className="sr-only">Item Options</label>
+                                <button id={"set_" + item} type="button" onClick={() => toggleSettingsOpen(true)}
                                         className="inline-flex text-center items-center h-8 w-8 ml-2 border border-transparent text-base leading-6 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-50 focus:outline-none focus:bg-gray-50 focus:shadow-outline active:bg-gray-100 transition ease-in-out duration-150">
                                 <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none">
                                     <path
@@ -195,7 +197,9 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
                         <NewTooltip title="Move up" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                             <span>
-                                <button type="button" onClick={() => {
+                                 <label htmlFor={"miu_" + item} className="sr-only">Move Item Up</label>
+                                <button id={"miu_" + item} type="button" disabled={itemIndex <= 0}
+                                        onClick={() => {
                                     if (itemIndex > 0) {
                                         moveItemUp()
                                     }
@@ -212,7 +216,8 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
                         <NewTooltip title="Move down" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                             <span>
-                            <button type="button" onClick={() => {
+                                <label htmlFor={"mid_" + item} className="sr-only">Move Item Down</label>
+                            <button type="button" id={"mid_" + item} disabled={itemIndex === (document.sections[section].items.length - 1)} onClick={() => {
                                 if (itemIndex !== (document.sections[section].items.length - 1))
                                     moveItemDown()
                             }}

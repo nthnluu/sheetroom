@@ -29,10 +29,6 @@ const options = {
                 }
             },
             from: process.env.EMAIL_FROM
-        }),
-        Providers.GitHub({
-            clientId: "7acf870d9c90d729eb81",
-            clientSecret: "55505558a1d8785347d8d02e9cb5eeeb86f616fd"
         })
     ],
     database: {
@@ -43,20 +39,9 @@ const options = {
             rejectUnauthorized: false
         }
     },
-    // database: {
-    //     type: 'postgres',
-    //     host: "ec2-52-72-65-76.compute-1.amazonaws.com",
-    //     port: 5432,
-    //     username: "rkofrjdyqoidnj",
-    //     password: "5e700ce4e559ae08a4306f70d66e203c9d6933b4afa5990f5766f31b26666c85",
-    //     database: "d2rnd6jboqu0mq",
-    //     synchronize: true,
-    //     ssl: {
-    //         rejectUnauthorized: false
-    //     }
-    // },
     callbacks: {
         session: async (session: ISession, user: IUser) => {
+            //@ts-ignore
             return Promise.resolve(user);
         },
         jwt: async (token: iToken, user: IUser) => {
@@ -64,6 +49,8 @@ const options = {
 
             if (!isSignIn) {
                 token.id = user.id
+                //@ts-ignore
+                token.name = `${user.firstName} ${user.lastName}`
                 token['X-Hasura-User-Id'] = user.id.toString()
                 token['X-Hasura-Role'] = "user"
                 token['X-Hasura-Allowed-Roles'] = ["user"]

@@ -16,7 +16,7 @@ const ExistingInvitesSection = ({aid}) => {
         }
     });
 
-    const {fetching, data, error} = result
+    const {fetching, data} = result
 
     if (fetching) return (
         <>
@@ -48,17 +48,19 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
     const [sharingSetting, setSharingSetting] = useState("public")
     const [currentValue, setCurrentValue] = useState("https://sheetroom.com/join/" + newInviteCode)
     const [createInviteResult, createNewInvite] = useMutation(createInvite);
+    const [isLoading, toggleLoading] = useState(false);
 
 
     function cancelModal() {
         onCancel();
+        toggleLoading(false)
         setTimeout(() => {
             const newId = nanoid(8)
             setInviteCode(newId)
             setModalStep(0)
             // @ts-ignore
             setCurrentValue("https://sheetroom.com/join/" + newId)
-        }, 150)
+        }, 200)
 
     }
 
@@ -68,6 +70,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                         <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
         <button type="button" onClick={() => {
             if (modalStep === 0) {
+                toggleLoading(true)
                 createNewInvite({
                     code: newInviteCode,
                     userId: session.id,
@@ -81,8 +84,8 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                 cancelModal()
             }
         }}
-                className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-          {modalStep === 0 ? "Create Invite" : "Done"}
+                className="inline-flex items-center justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+          {isLoading && modalStep === 0 ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null} {modalStep === 0 ? "Create Invite" : "Done"}
         </button>
       </span>
             {modalStep === 0 ? <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">

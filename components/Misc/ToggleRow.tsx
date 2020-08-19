@@ -1,8 +1,8 @@
 import React, {useRef, useState} from "react";
 import {nanoid} from "nanoid";
 
-const ToggleRow = ({label, onEnable, onDisable, value}) => {
-    const [uniqueId] = useState(nanoid(8))
+const ToggleRow: React.FC<{label:string; onEnable: any; onDisable: any; value: boolean; desc?: string;}> = ({label, onEnable, onDisable, value, desc}) => {
+    const [uniqueId] = useState(nanoid(4))
 
     function handleEnable () {
         onEnable()
@@ -21,10 +21,14 @@ const ToggleRow = ({label, onEnable, onDisable, value}) => {
     }
 
     return (<div className="flex justify-between items-center mt-6">
-        <label htmlFor={uniqueId} className="font-medium text-gray-700">{label}</label>
+        <div className="text-left">
+            <label htmlFor={uniqueId} className="font-medium text-gray-700">{label}</label>
+            <p className="text-gray-400 text-sm">{desc}</p>
+        </div>
+
         {/*// <!-- On: "bg-indigo-600", Off: "bg-gray-200" -->*/}
 
-        <span role="checkbox" tabIndex={0} aria-checked={value} id={uniqueId} onClick={toggleSwitch} onKeyPress={(e) => {
+        <span role="checkbox" tabIndex={0} aria-checked={value} id={uniqueId} aria-label={label} onClick={toggleSwitch} onKeyPress={(e) => {
             if (e.key === ' ' || e.key === 'Spacebar') {
                 toggleSwitch()
             }
