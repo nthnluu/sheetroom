@@ -3,6 +3,7 @@ import MultipleChoice from "./Controllers/MultipleChoice";
 import {useContext} from "react";
 import AssignmentViewerContext from "./AssignmentViewerContext";
 import MultipleAnswers from "./Controllers/MultipleAnswers";
+import ShortAnswer from "./Controllers/ShortAnswer";
 
 const Controller = ({item}) => {
     const {document} = useContext(AssignmentViewerContext)
@@ -12,6 +13,8 @@ const Controller = ({item}) => {
             return <MultipleChoice item={item}/>
         case('MA'):
             return <MultipleAnswers item={item}/>
+        case('SA'):
+            return <ShortAnswer item={item}/>
         default:
             return <h1>hi</h1>
     }
