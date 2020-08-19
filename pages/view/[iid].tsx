@@ -7,13 +7,11 @@ import {GetServerSideProps} from "next";
 import {getSession} from "next-auth/client";
 import {useRouter} from "next/router";
 import {debounce} from 'lodash'
-import update from "immutability-helper";
 import Timer from "../../components/Misc/Timer";
-import JsonDebugBox from "../../components/JsonDebugBox";
 
 const PageContent = ({pageRawData, iid}) => {
 
-    const [pageData, setPageData] = useState(pageRawData)
+    const [pageData] = useState(pageRawData)
     const [document, setDocument] = useState(pageData.content);
     const [currentSection, setCurrentSection] = useState(0)
     const sectionId = document.config.sections[currentSection]
@@ -64,7 +62,7 @@ const PageContent = ({pageRawData, iid}) => {
                     </div>
                     {document.sections[sectionId].items.map(item => (<QuestionCard item={item} key={item}/>))}
                     <div className="flex-row sm:flex items-center justify-between mt-4">
-                        {document.config['timing'] === 1 ? <span className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
+                        {(document.config['timing'] === 1 && (parseInt(document.sections[sectionId].config.hours) + parseInt(document.sections[sectionId].config.mins) > 0)) ? <span className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
                             <svg className="h-5 inline mr-1" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
