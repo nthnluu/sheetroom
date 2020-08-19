@@ -31,7 +31,7 @@ const DesktopGraphic = () => {
                             }} src="/landing_page/desktop/Cube.png"
                             className="absolute z-40 h-24 md:h-38 lg:h-40"
                             style={{opacity: 0.9, right: '23rem', bottom: '3.5rem'}}/>
-                <motion.img src="/landing_page/desktop/Sphere.png" animate={{scale: 0.95}}
+                <motion.img src="/landing_page/desktop/Sphere.png" animate={{scale: 0.9}}
                             transition={{
                                 yoyo: Infinity,
                                 ease: "linear",

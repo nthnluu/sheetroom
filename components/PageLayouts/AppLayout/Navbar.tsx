@@ -42,17 +42,17 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                             {logoLinkDisabled ? <span
                                 className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none active:shadow-outline opacity-75">
                                 <img className="w-auto hidden md:block h-8" src="/light_symbol.svg"
-                                     alt="Workflow logo"/>
+                                     alt="Sheetroom logo"/>
                                 <img className="w-auto block md:hidden h-8" src="/light_symbol.svg"
-                                     alt="Workflow logo"/>
+                                     alt="Sheetroom logo"/>
                             </span> : <a href="/"
-                                         className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none active:shadow-outline">
+                                         className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none focus:opacity-75 active:shadow-outline">
                                 <img className={"w-auto hidden md:block " + (session ? "h-8" : "h-6")}
                                      src={session ? "/light_symbol.svg" : (darkText ? "/sheetroom_logo.svg" : "/light_logo.svg")}
-                                     alt="Workflow logo"/>
+                                     alt="Sheetroom logo"/>
                                 <img className={"w-auto block md:hidden " + (session ? "h-8" : "h-6")}
-                                     src={session ? "/light_symbol.svg" : "/light_logo.svg"}
-                                     alt="Workflow logo"/>
+                                     src={session ? "/light_symbol.svg" : (darkText ? "/sheetroom_logo.svg" : "/light_logo.svg")}
+                                     alt="Sheetroom logo"/>
                             </a>}
 
                             {session && !logoOnly ? <><SearchInput session={session}/>
@@ -64,15 +64,15 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                 </div>
                             </> : (!logoOnly ? <div className="flex hidden lg:block">
                                 <a href="#"
-                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Features</a>
+                                   className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Features</a>
                                 <a href="#"
-                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Institutions</a>
+                                   className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Institutions</a>
                                 <a href="#"
-                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Explore</a>
+                                   className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Explore</a>
                                 <a href="#"
-                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Blog</a>
+                                   className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Blog</a>
                                 <a href="#"
-                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-gray-200 hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Pricing</a>
+                                   className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Pricing</a>
                             </div> : null)}
 
 
@@ -192,11 +192,11 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                     </div>
                                 </ClickAwayListener></> : (!logoOnly ? <div className="flex justify-between">
                                 <button type="button" onClick={() => window.location.href = "/signin"}
-                                        className="inline-flex items-center px-3 py-1 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:text-gray-200 focus:outline-none focus:border-blue-300 focus:bg-gray-800 mr-1 active:text-gray-300 transition ease-in-out duration-150">
+                                        className={(darkText ? "text-gray-800 hover:opacity-75 focus:text-gray-700 active:text-gray-800" : "text-white hover:text-gray-200 active:text-gray-300") + " inline-flex items-center mr-1 px-3 py-1 text-base leading-6 font-medium rounded-md bg-transparent focus:outline-none focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150"}>
                                     Sign in
                                 </button>
                                 <button type="button" onClick={() => window.location.href = "/api/auth/signin"}
-                                        className="inline-flex items-center px-3 py-1 border border-gray-300 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:text-gray-200 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150">
+                                        className={(darkText ? "border-gray-800 text-gray-800 hover:opacity-75 focus:border-gray-700 focus:text-gray-700 active:text-gray-800" : "border-gray-300 text-white hover:text-gray-200 focus:border-blue-300 active:text-gray-300") + " inline-flex items-center px-3 py-1 border text-base leading-6 font-medium rounded-md bg-transparent focus:outline-none focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150"}>
                                     Join Sheetroom
                                 </button>
 
