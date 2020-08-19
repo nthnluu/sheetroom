@@ -6,7 +6,8 @@ const DesktopGraphic = () => {
     return <ParallaxProvider>
         <Parallax className="custom-class" y={[-20, 10]} tagOuter="figure">
             <div className="relative">
-                <motion.img src="/landing_page/desktop/Graph.png" animate={{y: 14}}
+
+                <motion.img src="/landing_page/desktop/webp/Graph.webp" animate={{y: 14}}
                             transition={{
                                 yoyo: Infinity,
                                 ease: "anticipate",
@@ -15,7 +16,7 @@ const DesktopGraphic = () => {
                             className="absolute h-24 md:h-36 lg:h-64 left-0 -ml-10 lg:-ml-20 top-0 lg:top-40 z-50"/>
 
 
-                <motion.img src="/landing_page/desktop/Image.png" animate={{y: -14}}
+                <motion.img src="/landing_page/desktop/webp/Image.webp" animate={{y: -14}}
                             transition={{
                                 yoyo: Infinity,
                                 ease: "anticipate",
@@ -28,7 +29,7 @@ const DesktopGraphic = () => {
                                 yoyo: Infinity,
                                 ease: "linear",
                                 duration: 4
-                            }} src="/landing_page/desktop/Cube.png"
+                            }} src="/landing_page/desktop/webp/Cube.webp"
                             className="absolute z-40 h-24 md:h-38 lg:h-40"
                             style={{opacity: 0.9, right: '23rem', bottom: '3.5rem'}}/>
                 <motion.img src="/landing_page/desktop/Sphere.png" animate={{scale: 0.9}}
@@ -38,13 +39,13 @@ const DesktopGraphic = () => {
                                 duration: 3
                             }}
                             className="absolute h-16 md:h-32 lg:h-40 right-10 md:right-20 lg:right-40 top-5 md:top-20 z-40"/>
-                <img src="/landing_page/desktop/Window.png" className="z-30 relative"/>
+                <img src="/landing_page/desktop/webp/Window.webp" className="z-30 relative"/>
                 <motion.img animate={{scale: 1.1}}
                             transition={{
                                 yoyo: Infinity,
                                 ease: "anticipate",
                                 duration: 3
-                            }} src="/landing_page/desktop/BgSphere.png"
+                            }} src="/landing_page/desktop/webp/BgSphere.webp"
                             className="absolute h-24 md:h-36 lg:h-64 left-0 bottom-20 z-10"/>
             </div>
         </Parallax>
