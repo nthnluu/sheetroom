@@ -25,6 +25,7 @@ const Sidebar: React.FC<Props> = ({session}) => {
                             </div>
 
                             <div className="space-y-1">
+                                {/*//@ts-ignore*/}
                                 <div className="text-sm leading-5 font-medium text-gray-900 truncate">{session.name}</div>
                                 <a href="#" className="group flex items-center space-x-2.5">
                                     {/*<svg className="w-5 h-5 text-gray-400 group-hover:text-gray-500"*/}
