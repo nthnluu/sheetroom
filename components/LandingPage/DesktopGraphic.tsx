@@ -52,9 +52,9 @@ const DesktopGraphic = () => {
         </motion.picture>
 
         <picture className="z-30 relative">
-            <source srcSet="/landing_page/desktop/webp/Window.webp" type="image/webp"/>
-            <source srcSet="/landing_page/desktop/Window.png" type="image/png"/>
-            <img  src="/landing_page/desktop/Window.png"/>
+            <source className="z-30 relative" srcSet="/landing_page/desktop/webp/Window.webp" type="image/webp"/>
+            <source className="z-30 relative" srcSet="/landing_page/desktop/Window.png" type="image/png"/>
+            <img  className="z-30 relative" src="/landing_page/desktop/Window.png"/>
         </picture>
 
 
