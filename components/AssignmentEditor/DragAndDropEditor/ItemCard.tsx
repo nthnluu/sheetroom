@@ -262,7 +262,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     <NewTooltip title="Multiple Choice" placement="bottom" enterDelay={100}
                                 enterNextDelay={100}>
                         <>
-                            <label htmlFor={"addmc_" + item} className="sr-only">Add Multiple Choice Item</label>
+
                             <button id={"addmc_" + item}
                                     className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100"
                                     onClick={() => addMcItem()}>
@@ -296,13 +296,14 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                     </g>
                                 </svg>
                             </button>
+                            <label htmlFor={"addmc_" + item} className="sr-only">Add Multiple Choice Item</label>
                         </>
                     </NewTooltip>
 
                     <NewTooltip title="Multiple Answers" placement="bottom" enterDelay={100}
                                 enterNextDelay={100}>
                         <>
-                            <label htmlFor={"addma_" + item} className="sr-only">Add Multiple Answers Item</label>
+                            <label htmlFor={"addma_" + item} className="sr-only w-0">Add Multiple Answers Item</label>
                             <button onClick={() => addMaItem()} id={"addma_" + item}
                                     className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">

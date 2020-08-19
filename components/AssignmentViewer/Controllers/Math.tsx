@@ -4,7 +4,7 @@ import update from "immutability-helper";
 import {EditableMathField} from "react-mathquill";
 import MathField from "../../Editor/MathField";
 
-export default function ({item}) {
+export default function Math({item}) {
     const {document, setDocument} = useContext(AssignmentViewerContext)
 
     const setConfigValue = (value) => {

@@ -69,7 +69,7 @@ const AnswerChoice: React.FC<{ selected: boolean; onClickTrue: any; onClickFalse
 }
 
 
-export default function ({item}) {
+export default function MultipleAnswers({item}) {
     const {document, setDocument} = useContext(AssignmentViewerContext)
     const currentItem = document.items[item]
     const selected = document.items[item].student_input

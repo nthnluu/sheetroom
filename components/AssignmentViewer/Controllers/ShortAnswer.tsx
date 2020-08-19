@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import AssignmentViewerContext from "../AssignmentViewerContext";
 import update from "immutability-helper";
 
-export default function ({item}) {
+export default function ShortAnswer({item}) {
     const {document, setDocument} = useContext(AssignmentViewerContext)
 
     const setConfigValue = (value) => {

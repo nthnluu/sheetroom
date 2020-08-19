@@ -39,7 +39,7 @@ const AnswerChoice: React.FC<{selected: boolean; onClick: any; radioName: string
 }
 
 
-export default function ({item}) {
+export default function MultipleChoice({item}) {
     const {document, setDocument} = useContext(AssignmentViewerContext)
     const currentItem = document.items[item]
     const selected = document.items[item].student_input
