@@ -27,7 +27,7 @@ const AnswerChoice: React.FC<{selected: boolean; onClick: any; radioName: string
                    onFocus={() => setFocus(true)}
                    onBlur={() => setFocus(false)}/>
             <label id={uniqueId.label} htmlFor={uniqueId.input} onClick={() => onClick()}
-                   className={selected ? 'card selectedCard cursor-pointer ' : 'card unselectedCard cursor-pointer ' + checkFocus()} tabIndex={-1}>
+                   className={(selected ? 'card selectedCard cursor-pointer ' : 'card unselectedCard cursor-pointer ') + checkFocus()} tabIndex={-1}>
                 {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
                 <span className="table-cell pl-2 w-full">
                     <InactiveQuillEditor value={currentChoice.content}/>

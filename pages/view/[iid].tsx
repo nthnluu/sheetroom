@@ -7,13 +7,11 @@ import {GetServerSideProps} from "next";
 import {getSession} from "next-auth/client";
 import {useRouter} from "next/router";
 import {debounce} from 'lodash'
-import update from "immutability-helper";
 import Timer from "../../components/Misc/Timer";
-import JsonDebugBox from "../../components/JsonDebugBox";
 
 const PageContent = ({pageRawData, iid}) => {
 
-    const [pageData, setPageData] = useState(pageRawData)
+    const [pageData] = useState(pageRawData)
     const [document, setDocument] = useState(pageData.content);
     const [currentSection, setCurrentSection] = useState(0)
     const sectionId = document.config.sections[currentSection]
@@ -56,15 +54,15 @@ const PageContent = ({pageRawData, iid}) => {
                 </div>
 
                 {/*Section Page*/}
-                <div className="mx-auto max-w-4xl pt-24 px-4 space-y-4 mb-16">
+                <div className="mx-auto max-w-4xl pt-20 px-4 space-y-6 mb-16">
                     <div className="leading-tight">
                         {document.config.sections.length > 1 ? <span
                             className="font-medium text-gray-400 text-sm">{document.config.sections.findIndex(element => element === sectionId) + 1} of {document.config.sections.length}</span> : null}
-                        <h1 className="text-2xl font-semibold text-gray-800 mr-2">{document.sections[sectionId].title}</h1>
+                        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 mr-2">{document.sections[sectionId].title}</h1>
                     </div>
                     {document.sections[sectionId].items.map(item => (<QuestionCard item={item} key={item}/>))}
                     <div className="flex-row sm:flex items-center justify-between mt-4">
-                        {document.config['timing'] === 1 ? <span className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
+                        {(document.config['timing'] === 1 && (parseInt(document.sections[sectionId].config.hours) + parseInt(document.sections[sectionId].config.mins) > 0)) ? <span className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
                             <svg className="h-5 inline mr-1" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
