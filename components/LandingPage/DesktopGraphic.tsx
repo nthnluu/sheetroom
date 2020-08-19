@@ -4,7 +4,7 @@ import React from "react";
 
 const DesktopGraphic = () => {
     return <ParallaxProvider>
-        <Parallax className="custom-class" y={[-20, 10]} tagOuter="figure">
+        <Parallax className="custom-class" y={[-25, 10]} tagOuter="figure">
             <div className="relative">
 
                 <motion.img src="/landing_page/desktop/webp/Graph.webp" animate={{y: 14}}
