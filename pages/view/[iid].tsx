@@ -1,14 +1,15 @@
 import QuestionCard from "../../components/AssignmentViewer/QuestionCard";
-import {useMutation, useQuery, useSubscription} from "urql";
+import {useMutation, useSubscription} from "urql";
 import AssignmentViewerContext from "../../components/AssignmentViewer/AssignmentViewerContext";
 import React, {useCallback, useEffect, useState} from "react";
 import {getSubmissionByPk, updateSubmissionContent} from "../../lib/graphql/Submissions";
 import {GetServerSideProps} from "next";
 import {getSession} from "next-auth/client";
 import {useRouter} from "next/router";
-import {assignmentSubscription, updateAssignmentContent} from "../../lib/graphql/Assignments";
-import JsonDebugBox from "../../components/JsonDebugBox";
 import {debounce} from 'lodash'
+import update from "immutability-helper";
+import Timer from "../../components/Misc/Timer";
+import JsonDebugBox from "../../components/JsonDebugBox";
 
 const PageContent = ({pageRawData, iid}) => {
 
@@ -37,24 +38,33 @@ const PageContent = ({pageRawData, iid}) => {
     }, [document])
 
 
-
-
     return (
         <AssignmentViewerContext.Provider value={{document, setDocument}}>
             <div className="min-h-screen text-gray-800">
+
+                {/*//Navbar*/}
                 <div
-                    className="py-3 px-4 md:px-8 bg-white shadow flex justify-between items-center fixed w-full navbar">
+                    className="py-3 px-4 lg:px-8 bg-white shadow flex justify-between items-center fixed w-full navbar">
                     <h1 className="text-lg font-semibold text-gray-800">{pageData.title}</h1>
+
+                    {/*Per-section Timer*/}
+                    {document.config.timing === 1 && document.sections[sectionId].config['time_limit'] && (parseInt(document.sections[sectionId].config['mins']) > 0 || parseInt(document.sections[sectionId].config['hours']) > 0) ? <Timer section={sectionId} onFinish={() => alert("times up!")} onNegative={() => console.log('null')}/> : null}
+
+                    {/*Global Timer*/}
+                    {/*@ts-ignore*/}
+                    {document.config.timing === 2 ? <Timer onFinish={() => alert("times up!")} onNegative={() => console.log('null')}/> : null}
                 </div>
-                <div className="mx-auto max-w-4xl pt-20 px-4 space-y-4 mb-16">
+
+                {/*Section Page*/}
+                <div className="mx-auto max-w-4xl pt-24 px-4 space-y-4 mb-16">
                     <div className="leading-tight">
-                        <span
-                            className="text-sm uppercase rounded-full font-semibold text-gray-400">Section {document.config.sections.findIndex(element => element === sectionId) + 1} of {document.config.sections.length}</span>
-                        <h1 className="text-3xl font-semibold text-gray-800 mr-2">{document.sections[sectionId].title}</h1>
+                        {document.config.sections.length > 1 ? <span
+                            className="font-medium text-gray-400 text-sm">{document.config.sections.findIndex(element => element === sectionId) + 1} of {document.config.sections.length}</span> : null}
+                        <h1 className="text-2xl font-semibold text-gray-800 mr-2">{document.sections[sectionId].title}</h1>
                     </div>
                     {document.sections[sectionId].items.map(item => (<QuestionCard item={item} key={item}/>))}
                     <div className="flex-row sm:flex items-center justify-between mt-4">
-                        {document.config['timing'] !== 1 ? <span className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
+                        {document.config['timing'] === 1 ? <span className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
                             <svg className="h-5 inline mr-1" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -62,7 +72,6 @@ const PageContent = ({pageRawData, iid}) => {
                                     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                             You can't return to this section.</span> : <div/>}
-
                             <div className="flex-row-reverse">
                                 {currentSection !== 0 ? <button type="button" onClick={() => {window.scrollTo(0, 0);
                                 setCurrentSection(currentSection - 1)}}
@@ -70,13 +79,22 @@ const PageContent = ({pageRawData, iid}) => {
                                     Previous
                                 </button> : null}
 
-                                <button type="button" onClick={() => setCurrentSection(prevState => {if (prevState !== document.config.sections.length -1) {
+                                {currentSection === document.config.sections.length - 1 ? <button type="button" onClick={() => setCurrentSection(prevState => {if (prevState !== document.config.sections.length -1) {
                                     window.scrollTo(0, 0);
                                     return currentSection + 1
                                 }})}
-                                        className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                                                                                                  className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                                    <svg className="h-6 mr-1 inline-block -mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg> Submit
+                                </button> : <button type="button" onClick={() => setCurrentSection(prevState => {if (prevState !== document.config.sections.length -1) {
+                                    window.scrollTo(0, 0);
+                                    return currentSection + 1
+                                }})}
+                                    className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                                     Continue
-                                </button>
+                                    </button>}
+
                             </div>
 
                     </div>
