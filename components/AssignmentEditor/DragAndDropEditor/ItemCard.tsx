@@ -299,7 +299,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     <NewTooltip title="Multiple Answers" placement="bottom" enterDelay={100}
                                 enterNextDelay={100}>
                         <button onClick={() => addMaItem()}
-                            className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
+                                className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
                                 <defs>
                                     <clipPath id="a">
@@ -335,28 +335,31 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
 
                     <NewTooltip title="Short Answer" placement="bottom" enterDelay={100}
                                 enterNextDelay={100}>
-                        <button onClick={() => addSaItem()}
-                            className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
-                                <defs>
-                                    <clipPath id="a">
-                                        <path fill="none" d="M0 0h100v100H0z"/>
-                                    </clipPath>
-                                </defs>
-                                <g clipPath="url(#a)">
-                                    <path fill="#fff" d="M0 0h100v100H0z"/>
-                                    <g fill="none">
-                                        <rect width="100" height="100" rx="13"/>
-                                        <rect x="4" y="4" width="92" height="92" rx="9" stroke="currentColor"
-                                              strokeWidth="8"/>
+                        <>
+                            <label htmlFor={"addsa_"+ item} className="sr-only">Add Short Answer Item</label>
+                            <button onClick={() => addSaItem()} id={"addsa_"+ item}
+                                    className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
+                                    <defs>
+                                        <clipPath id="a">
+                                            <path fill="none" d="M0 0h100v100H0z"/>
+                                        </clipPath>
+                                    </defs>
+                                    <g clipPath="url(#a)">
+                                        <path fill="#fff" d="M0 0h100v100H0z"/>
+                                        <g fill="none">
+                                            <rect width="100" height="100" rx="13"/>
+                                            <rect x="4" y="4" width="92" height="92" rx="9" stroke="currentColor"
+                                                  strokeWidth="8"/>
+                                        </g>
+                                        <g fill="currentColor">
+                                            <path
+                                                d="M38.88 66v-4.06l4.27-.46-1.88-5.41H28.38l-1.82 5.41 4.1.46V66h-14.5v-4.06l2.28-.57c.63-.15 1.1-.36 1.3-1l11.39-32h9.21l11.33 32.12c.21.62.63.73 1.25.88l2.39.57V66zm-3.8-29.69h-.31L30 50.45h9.72zM74.29 66l-.52-2.81h-.26a11.72 11.72 0 01-8.73 3.48c-6.56 0-7.6-4.47-7.6-7.69 0-5.2 3.23-7.59 9.73-8l6-.42v-2.92c0-2.44-.26-4.1-3.49-4.1-2.49 0-3.79.36-3.79 3.48l-7.33-.62c0-7 6.39-8 11.18-8 7.9 0 11.07 2.13 11.07 9.41v12.63c0 .83 0 .93.83 1l2.5.41V66zm-1.4-11.18l-3.54.26c-3.07.21-4.16 1-4.16 3.07s1.25 2.86 3 2.86a8.6 8.6 0 004.73-1.87z"/>
+                                        </g>
                                     </g>
-                                    <g fill="currentColor">
-                                        <path
-                                            d="M38.88 66v-4.06l4.27-.46-1.88-5.41H28.38l-1.82 5.41 4.1.46V66h-14.5v-4.06l2.28-.57c.63-.15 1.1-.36 1.3-1l11.39-32h9.21l11.33 32.12c.21.62.63.73 1.25.88l2.39.57V66zm-3.8-29.69h-.31L30 50.45h9.72zM74.29 66l-.52-2.81h-.26a11.72 11.72 0 01-8.73 3.48c-6.56 0-7.6-4.47-7.6-7.69 0-5.2 3.23-7.59 9.73-8l6-.42v-2.92c0-2.44-.26-4.1-3.49-4.1-2.49 0-3.79.36-3.79 3.48l-7.33-.62c0-7 6.39-8 11.18-8 7.9 0 11.07 2.13 11.07 9.41v12.63c0 .83 0 .93.83 1l2.5.41V66zm-1.4-11.18l-3.54.26c-3.07.21-4.16 1-4.16 3.07s1.25 2.86 3 2.86a8.6 8.6 0 004.73-1.87z"/>
-                                    </g>
-                                </g>
-                            </svg>
-                        </button>
+                                </svg>
+                            </button>
+                        </>
                     </NewTooltip>
 
                     {/*<NewTooltip title="Paragraph" placement="bottom" enterDelay={100}*/}
@@ -391,7 +394,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                     <NewTooltip title="Math" placement="bottom" enterDelay={100}
                                 enterNextDelay={100}>
                         <button onClick={() => addMtItem()}
-                            className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
+                                className="text-gray-500 hover:text-gray-400 focus:text-gray-400 transition-color duration-100">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="h-6">
                                 <defs>
                                     <clipPath id="a">

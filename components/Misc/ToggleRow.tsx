@@ -2,7 +2,7 @@ import React, {useRef, useState} from "react";
 import {nanoid} from "nanoid";
 
 const ToggleRow: React.FC<{label:string; onEnable: any; onDisable: any; value: boolean; desc?: string;}> = ({label, onEnable, onDisable, value, desc}) => {
-    const [uniqueId] = useState(nanoid(8))
+    const [uniqueId] = useState(nanoid(4))
 
     function handleEnable () {
         onEnable()
@@ -28,7 +28,7 @@ const ToggleRow: React.FC<{label:string; onEnable: any; onDisable: any; value: b
 
         {/*// <!-- On: "bg-indigo-600", Off: "bg-gray-200" -->*/}
 
-        <span role="checkbox" tabIndex={0} aria-checked={value} id={uniqueId} onClick={toggleSwitch} onKeyPress={(e) => {
+        <span role="checkbox" tabIndex={0} aria-checked={value} id={uniqueId} aria-label={label} onClick={toggleSwitch} onKeyPress={(e) => {
             if (e.key === ' ' || e.key === 'Spacebar') {
                 toggleSwitch()
             }

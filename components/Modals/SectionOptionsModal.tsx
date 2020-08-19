@@ -11,7 +11,7 @@ const SectionOptionsModal = ({isOpen, onCancel, section}) => {
     const [modalStep, setModalStep] = useState(0)
     const [sharingSetting, setSharingSetting] = useState("public")
     const [currentValue, setCurrentValue] = useState("https://sheetroom.com/join/" + newInviteCode)
-    const {aid, document, setDocument} = useContext(QuizContext)
+    const {aid, document, setDocument, setCurrentPage} = useContext(QuizContext)
 
 
     const setConfigValue = (configValue, value) => {
@@ -56,7 +56,8 @@ const SectionOptionsModal = ({isOpen, onCancel, section}) => {
 
         {/*@ts-ignore*/}
     </div>} isOpen={isOpen} onCancel={cancelModal} title="Section Options" content={<div className="mb-4">
-        <ToggleRow label="Time Limit" desc={document.config.timing !== 1 ? "Enable per-section timing to set a time limit." : null} value={document.sections[section].config['time_limit'] && document.config.timing === 1} onEnable={() => setConfigValue("time_limit", true)} onDisable={() => setConfigValue("time_limit", false)}/>
+        {/*@ts-ignore*/}
+        <ToggleRow label="Time Limit" desc={document.config.timing !== 1 ? <><a className="underline cursor-pointer focus:text-blue-600 focus:outline-none" tabIndex={0} onClick={() => {cancelModal(); setCurrentPage(4);}}>Enable per-section timing</a> to set a time limit.</>: null} value={document.sections[section].config['time_limit'] && document.config.timing === 1} onEnable={() => setConfigValue("time_limit", true)} onDisable={() => setConfigValue("time_limit", false)}/>
         {document.config.timing === 1 && document.sections[section].config['time_limit'] ? <span className="inline-flex items-center rounded-md space-x-1 mt-2">
                                 <span>
                                     <label htmlFor="timing_hours" className="sr-only">Hours</label>
