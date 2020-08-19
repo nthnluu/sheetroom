@@ -4,46 +4,71 @@ import React from "react";
 const DesktopGraphic = () => {
     return (<div className="relative">
 
-        <motion.img src="/landing_page/desktop/webp/Graph.webp" animate={{y: 14}}
-                    transition={{
-                        yoyo: Infinity,
-                        ease: "anticipate",
-                        duration: 2
-                    }}
-                    className="absolute h-24 md:h-36 lg:h-64 left-0 -ml-10 lg:-ml-20 top-0 lg:top-40 z-50"/>
+        <motion.picture className="absolute left-0 -ml-10 lg:-ml-20 top-0 lg:top-40 z-50" animate={{y: 14}}
+                        transition={{
+                            yoyo: Infinity,
+                            ease: "anticipate",
+                            duration: 2
+                        }} >
+            <source className="h-24 md:h-36 lg:h-64" srcSet="/landing_page/desktop/webp/Graph.webp" type="image/webp"/>
+            <source className="h-24 md:h-36 lg:h-64" srcSet="/landing_page/desktop/Graph.png" type="image/png"/>
+            <img className="h-24 md:h-36 lg:h-64" src="/landing_page/desktop/Graph.png"/>
+        </motion.picture>
+
+        <motion.picture className="absolute right-0 -mr-10 lg:-mr-20 top-40 lg:top-80 z-50" animate={{y: -14}}
+                        transition={{
+                            yoyo: Infinity,
+                            ease: "anticipate",
+                            duration: 2
+                        }} >
+            <source className="h-24 md:h-36 lg:h-64" srcSet="/landing_page/desktop/webp/Image.webp" type="image/webp"/>
+            <source className="h-24 md:h-36 lg:h-64" srcSet="/landing_page/desktop/Image.png" type="image/png"/>
+            <img className="h-24 md:h-36 lg:h-64" src="/landing_page/desktop/Image.png"/>
+        </motion.picture>
+
+        <motion.picture className="absolute z-40"
+                        style={{opacity: 0.9, right: '23rem', bottom: '3.5rem'}} animate={{y: 14, x: -12, rotate: -10, opacity: 0.8}}
+                        transition={{
+                            yoyo: Infinity,
+                            ease: "linear",
+                            duration: 4
+                        }} >
+            <source className="h-24 md:h-38 lg:h-40" srcSet="/landing_page/desktop/webp/Cube.webp" type="image/webp"/>
+            <source className="h-24 md:h-38 lg:h-40" srcSet="/landing_page/desktop/Cube.png" type="image/png"/>
+            <img className="h-24 md:h-38 lg:h-40" src="/landing_page/desktop/Cube.png"/>
+        </motion.picture>
 
 
-        <motion.img src="/landing_page/desktop/webp/Image.webp" animate={{y: -14}}
-                    transition={{
-                        yoyo: Infinity,
-                        ease: "anticipate",
-                        duration: 2
-                    }}
-                    className="absolute h-24 md:h-36 lg:h-64 right-0 -mr-10 md:-mr-20 top-40 md:top-80 z-40"/>
+        <motion.picture animate={{scale: 0.9}}
+                        transition={{
+                            yoyo: Infinity,
+                            ease: "linear",
+                            duration: 3
+                        }}
+                        className="absolute right-10 md:right-20 lg:right-40 top-5 md:top-20 z-40">
+            <source className="h-16 md:h-32 lg:h-40 " srcSet="/landing_page/desktop/webp/Sphere.webp" type="image/webp"/>
+            <source className="h-16 md:h-32 lg:h-40 " srcSet="/landing_page/desktop/Sphere.png" type="image/png"/>
+            <img className="h-16 md:h-32 lg:h-40 " src="/landing_page/desktop/Sphere.png"/>
+        </motion.picture>
 
-        <motion.img animate={{y: 14, x: -12, opacity: 0.8}}
-                    transition={{
-                        yoyo: Infinity,
-                        ease: "linear",
-                        duration: 4
-                    }} src="/landing_page/desktop/webp/Cube.webp"
-                    className="absolute z-40 h-24 md:h-38 lg:h-40"
-                    style={{opacity: 0.9, right: '23rem', bottom: '3.5rem'}}/>
-        <motion.img src="/landing_page/desktop/Sphere.png" animate={{scale: 0.9}}
-                    transition={{
-                        yoyo: Infinity,
-                        ease: "linear",
-                        duration: 3
-                    }}
-                    className="absolute h-16 md:h-32 lg:h-40 right-10 md:right-20 lg:right-40 top-5 md:top-20 z-40"/>
-        <img src="/landing_page/desktop/webp/Window.webp" className="z-30 relative"/>
-        <motion.img animate={{scale: 1.1}}
-                    transition={{
-                        yoyo: Infinity,
-                        ease: "anticipate",
-                        duration: 3
-                    }} src="/landing_page/desktop/webp/BgSphere.webp"
-                    className="absolute h-24 md:h-36 lg:h-64 left-0 bottom-20 z-10"/>
+        <picture className="z-30 relative">
+            <source srcSet="/landing_page/desktop/webp/Window.webp" type="image/webp"/>
+            <source srcSet="/landing_page/desktop/Window.png" type="image/png"/>
+            <img  src="/landing_page/desktop/Window.png"/>
+        </picture>
+
+
+        <motion.picture animate={{scale: 1.1}}
+                        transition={{
+                            yoyo: Infinity,
+                            ease: "anticipate",
+                            duration: 3
+                        }}
+                        className="absolute left-0 bottom-20 z-10">
+            <source className="h-24 md:h-36 lg:h-64 " srcSet="/landing_page/desktop/webp/BgSphere.webp" type="image/webp"/>
+            <source className="h-24 md:h-36 lg:h-64 " srcSet="/landing_page/desktop/BgSphere.png" type="image/png"/>
+            <img className="h-24 md:h-36 lg:h-64 " src="/landing_page/desktop/BgSphere.png"/>
+        </motion.picture>
     </div>)
 }
 
