@@ -73,7 +73,7 @@ const PageContent = ({pageRawData, iid}) => {
                             </svg>
                             You can't return to this section.</span> : <div/>}
                             <div className="flex-row-reverse">
-                                {currentSection !== 0 ? <button type="button" onClick={() => {window.scrollTo(0, 0);
+                                {currentSection !== 0 && document.config.timing !== 1 ? <button type="button" onClick={() => {window.scrollTo(0, 0);
                                 setCurrentSection(currentSection - 1)}}
                                                                 className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 mr-2 border border-transparent text-base leading-6 font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-50 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-gray-200 transition ease-in-out duration-150">
                                     Previous

@@ -26,6 +26,7 @@ export const newInitialDocumentContent = () => {
                 "controller_type": "MC",
                 "question": "<p>Question</p>",
                 "correct_objects": [answerObjectId],
+                "student_input": [],
                 "config": {
                     points: 10
                 }

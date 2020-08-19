@@ -50,7 +50,7 @@ export default function ({item}) {
                     items: {
                         [item]: {
                             student_input: {
-                                $set: value
+                                $splice: [[0, 1, value]]
                             }
                         }
                     }
@@ -66,7 +66,7 @@ export default function ({item}) {
             <form>
                 <fieldset className="pt-2" role="radiogroup">
                     <legend className="font-semibold text-gray-800">Select one:</legend>
-                    {currentItem.answer_objects.map((choice, index) => <AnswerChoice key={choice} choice={choice} selected={selected === choice} item={item} onClick={() => setConfigValue(choice)} radioName={currentItem.id}/>)}
+                    {currentItem.answer_objects.map((choice, index) => <AnswerChoice key={choice} choice={choice} selected={selected.includes(choice)} item={item} onClick={() => setConfigValue(choice)} radioName={currentItem.id}/>)}
                 </fieldset>
             </form>
         </>
