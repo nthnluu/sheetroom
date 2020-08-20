@@ -45,7 +45,7 @@ const actions = [
     {icon: <FavoriteIcon/>, name: 'Section'},
 ];
 
-export default function SpeedDials() {
+    const SpeedDials = () => {
     const classes = useStyles();
     const [direction, setDirection] = React.useState<SpeedDialProps['direction']>('up');
     const [open, setOpen] = React.useState(false);
@@ -93,3 +93,5 @@ export default function SpeedDials() {
         </div>
     );
 }
+
+export default SpeedDials;
