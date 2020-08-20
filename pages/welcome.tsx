@@ -130,7 +130,7 @@ const WelcomePage: InferGetServerSidePropsType<typeof getServerSideProps> = ({se
 
             <div>
                 <div className="max-w-xl mx-auto h-screen flex items-center">
-                    <div className="w-full p-4 md:p-6 text-center">
+                    <div className="w-full p-4 md:p-6 text-center text-gray-800">
                         <OnboardingPages pageNumber={currentPage} setCurrentPage={value => setCurrentPage(value)}/>
                     </div>
 
