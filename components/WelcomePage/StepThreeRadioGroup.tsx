@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useRef, useState} from "react";
 import JsonDebugBox from "../JsonDebugBox";
 import {v4 as uuidv4} from 'uuid';
 
-function AnswerChoice({title, desc, onClick, radioName, selected, value}) {
+    const AnswerChoice:React.FC<{title: string; desc: string; onClick: any; radioName: string; selected: any; value: number;}> = ({title, desc, onClick, radioName, selected, value}) => {
     const [focused, setFocus] = useState(false);
 
 
