@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import {v4 as uuidv4} from 'uuid';
 
-function AnswerChoice({title, desc, onClick, radioName, selected, value}) {
+    const AnswerChoice:React.FC<{title: string; desc: string; onClick: any; radioName: string; selected: any; value: number;}> = ({title, desc, onClick, radioName, selected, value}) => {
     const [focused, setFocus] = useState(false);
 
 
@@ -37,7 +37,7 @@ function AnswerChoice({title, desc, onClick, radioName, selected, value}) {
 
 
 
-export default function StepOneRadioGroup () {
+    const StepOneRadioGroup = () => {
     const [selected, setSelected] = useState(null);
 
     function shuffle(a) {
@@ -62,3 +62,5 @@ export default function StepOneRadioGroup () {
     )
 
 }
+
+export default StepOneRadioGroup;
