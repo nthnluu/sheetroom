@@ -16,7 +16,7 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
     return (
         <>
             <AppLayout session={session}
-                       content={<><PageContent session={session}/></>
+                       content={<><PageContent session={session} profile={profileData}/></>
                        }
             />
 
@@ -38,29 +38,29 @@ query Me($userId: Int!) {
   }
 }
 `;
-
+    let profileData;
     if (!session) {
-        res.writeHead(301, {location: '/'})
+        res.writeHead(302, {location: '/'})
         res.end()
+    } else {
+        profileData = await fetch('https://api.sheetroom.com/v1/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-hasura-admin-secret': 'HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS'
+            },
+            body: JSON.stringify({query: me, variables: {userId: session.id}}),
+        })
+            .then(response => response.json())
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        if (profileData.data.users_by_pk.account_type === "new") {
+            res.writeHead(302, {location: '/welcome'})
+            res.end()
+        }
     }
 
-    const profileData = await fetch('https://api.sheetroom.com/v1/graphql', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-hasura-admin-secret': 'HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS'
-        },
-        body: JSON.stringify({query: me, variables: {userId: session.id}}),
-    })
-        .then(response => response.json())
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-
-    if (profileData.data.users_by_pk.account_type === "new") {
-        res.writeHead(301, {location: '/welcome'})
-        res.end()
-    }
 
 
     return {

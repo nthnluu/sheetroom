@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
 
 
     if (session) {
-        res.writeHead(301, {location: '/dashboard'})
+        res.writeHead(302, {location: '/dashboard'})
         res.end()
     }
 

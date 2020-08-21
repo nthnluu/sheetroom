@@ -1,14 +1,10 @@
-import React, {useEffect, useMemo, useRef, useState} from "react";
-import {v4 as uuidv4} from 'uuid';
-import {nanoid} from "nanoid";
+import React, {useState} from "react";
 
 function AnswerChoice({title, desc, onClick, radioName, selected, value}) {
     const [focused, setFocus] = useState(false);
 
-
-    const uniqueId = useMemo(() => nanoid(4), [])
-    const inputId = 'input-' + uniqueId;
-    const labelId = 'label-' + uniqueId;
+    const inputId = 'input-' + radioName;
+    const labelId = 'label-' + radioName;
 
 
     function checkFocus() {
@@ -42,13 +38,13 @@ export default function StepOneRadioGroup ({onChange, value}) {
 
     return (
         <>
-            <form>
+            <div>
                 <fieldset className="pt-2" role="radiogroup">
-                    <AnswerChoice radioName="welcome1" onClick={() => onChange(1)} value={"student"} selected={value === 1} title="Student" desc="I plan on joining classes and submitting assignments."/>
-                    <AnswerChoice radioName="welcome1" onClick={() => onChange(2)}  value={"teacher"} selected={value === 2} title="Teacher" desc="I plan on writing assignments and managing classes."/>
-                    <AnswerChoice radioName="welcome1" onClick={() => onChange(3)}  value={"both"} selected={value === 3} title="Both" desc="I plan on doing all of the above."/>
+                    <AnswerChoice radioName="welcome1" onClick={() => onChange("student")} value={"student"} selected={value === "student"} title="Student" desc="I plan on joining classes and submitting assignments."/>
+                    <AnswerChoice radioName="welcome2" onClick={() => onChange("teacher")}  value={"teacher"} selected={value === "teacher"} title="Teacher" desc="I plan on writing assignments and managing classes."/>
+                    <AnswerChoice radioName="welcome3" onClick={() => onChange("both")}  value={"both"} selected={value === "both"} title="Both" desc="I plan on doing all of the above."/>
                 </fieldset>
-            </form>
+            </div>
         </>
 
     )
