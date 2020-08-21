@@ -4,12 +4,14 @@ import StepThreeRadioGroup from "../components/WelcomePage/StepThreeRadioGroup";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {getSession} from "next-auth/client";
 import getEditDistance from "../lib/getEditDistance";
+import {useMutation} from "urql";
+import {onboardUser} from "../lib/graphql/User";
 
-const StepOne: React.FC<{ onContinue }> = ({onContinue}) => {
+const StepOne: React.FC<{ onContinue, currentValue, onChange }> = ({onContinue, currentValue, onChange}) => {
     return (<div>
         <h1 className="text-4xl font-bold">👋 Welcome to Sheetroom</h1>
         <h2 className="text-xl font-light mb-8">First, which option best describes you?</h2>
-        <StepOneRadioGroup/>
+        <StepOneRadioGroup value={currentValue} onChange={value => onChange(value)}/>
         <button type="button" onClick={() => onContinue()}
                 className="w-full mt-8 text-center items-center p-2 border border-transparent text-base leading-6 font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline active:bg-blue-700 transition ease-in-out duration-150">
             Continue
@@ -18,40 +20,25 @@ const StepOne: React.FC<{ onContinue }> = ({onContinue}) => {
     </div>)
 }
 
-const StepTwo: React.FC<{ onContinue, onBack }> = ({onContinue, onBack}) => {
-    const [currentValueA, setCurrentValueA] = useState("")
-    const [currentValueB, setCurrentValueB] = useState("")
+const StepTwo: React.FC<{ onContinue, onBack, firstName, lastName, setFirstName, setLastName }> = ({onContinue, onBack, firstName, lastName, setFirstName, setLastName}) => {
     return (<div>
         <h1 className="text-4xl font-bold">⚡️ Now let's get to know you</h1>
         <h2 className="text-xl font-light mb-8">What is your name?</h2>
-        <div>
-            <label htmlFor="fname" className="sr-only">Input A</label>
-            <div className="relative rounded-lg shadow-sm">
-                <input id="fname" name="fname" className="form-input p-4 block w-full sm:text-lg sm:leading-5"
-                       placeholder="Input A" value={currentValueA} onChange={event => setCurrentValueA(event.target.value)}/>
-            </div>
-        </div>
-        <div>
-            <label htmlFor="fname" className="sr-only">Input B</label>
-            <div className="relative rounded-lg shadow-sm">
-                <input id="fname" name="fname" className="form-input p-4 block w-full sm:text-lg sm:leading-5"
-                       placeholder="Input B" value={currentValueB} onChange={event => setCurrentValueB(event.target.value)}/>
-            </div>
-        </div>
-        <p>{getEditDistance(currentValueA, currentValueB)}</p>
         <form autoComplete="on">
             <div>
                 <label htmlFor="fname" className="sr-only">First Name</label>
                 <div className="relative rounded-lg shadow-sm">
                     <input id="fname" name="fname" className="form-input p-4 block w-full sm:text-lg sm:leading-5"
-                           placeholder="First Name"/>
+                           placeholder="First Name" value={firstName}
+                           onChange={event => setFirstName(event.target.value)}/>
                 </div>
             </div>
             <div className="mt-4">
                 <label htmlFor="lname" className="sr-only">Last Name</label>
                 <div className="relative rounded-lg shadow-sm">
                     <input id="lname" name="lname" className="form-input p-4 block w-full sm:text-lg sm:leading-5"
-                           placeholder="Last Name"/>
+                           placeholder="Last Name" value={lastName}
+                           onChange={event => setLastName(event.target.value)}/>
                 </div>
             </div>
 
@@ -104,43 +91,41 @@ const StepFour: React.FC<{ onContinue, onBack }> = ({onContinue, onBack}) => {
     </div>)
 }
 
-const OnboardingPages = ({pageNumber, setCurrentPage}) => {
-    switch (pageNumber) {
-        case(1):
-            return <StepOne onContinue={() => setCurrentPage(2)}/>
-            break;
-        case(2):
-            return <StepTwo onContinue={() => setCurrentPage(3)} onBack={() => setCurrentPage(1)}/>
-            break;
-        case(3):
-            return <StepThree onContinue={() => setCurrentPage(4)} onBack={() => setCurrentPage(2)}/>
-            break;
-        case(4):
-            return <StepFour onContinue={() => setCurrentPage(3)} onBack={() => setCurrentPage(3)}/>
-            break;
-    }
-}
-
 
 const WelcomePage: InferGetServerSidePropsType<typeof getServerSideProps> = ({session}) => {
     const [currentPage, setCurrentPage] = useState(1)
+    const [roleSelection, setRoleSelection] = useState()
+    const [firstName, setFirstName] = useState()
+    const [lastName, setLastName] = useState()
 
+    const [mutateUserResult, mutateResult] = useMutation(onboardUser)
 
     return (
 
-            <div>
-                <div className="max-w-xl mx-auto h-screen flex items-center">
-                    <div className="w-full p-4 md:p-6 text-center text-gray-800">
-                        <OnboardingPages pageNumber={currentPage} setCurrentPage={value => setCurrentPage(value)}/>
-                    </div>
-
+        <div>
+            <div className="max-w-xl mx-auto h-screen flex items-center">
+                <div className="w-full p-4 md:p-6 text-center text-gray-800">
+                    {currentPage === 1 ? <StepOne onContinue={() => setCurrentPage(2)} currentValue={roleSelection}
+                                                  onChange={setRoleSelection}/> : null}
+                    {currentPage === 2 ? <StepTwo onContinue={() => setCurrentPage(3)} onBack={() => setCurrentPage(1)}
+                                                  lastName={lastName} firstName={firstName} setFirstName={setFirstName}
+                                                  setLastName={setLastName}/> : null}
+                    {currentPage === 3 ?
+                        <StepThree onContinue={() => setCurrentPage(4)} onBack={() => setCurrentPage(2)}/> : null}
+                    {currentPage === 4 ? <StepFour onContinue={() => {
+                        mutateResult({firstName: firstName, lastName: lastName, role: roleSelection})
+                            .then(() => window.location.href = '/')
+                            .catch((error) => console.log(error))
+                    }} onBack={() => setCurrentPage(3)}/> : null}
                 </div>
+
             </div>
+        </div>
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-    const session = await getSession({ req });
+export const getServerSideProps: GetServerSideProps = async ({req}) => {
+    const session = await getSession({req});
 
     return {
         props: {

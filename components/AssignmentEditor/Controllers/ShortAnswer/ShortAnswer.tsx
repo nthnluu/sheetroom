@@ -1,10 +1,8 @@
 import React, {useContext} from "react";
-import arrayMove from 'array-move';
 import AnswerObject from "./AnswerObject";
 import QuizContext from "../../QuizContext";
-import {v4 as uuidv4} from 'uuid';
-import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import update from "immutability-helper";
+import {nanoid} from "nanoid";
 
 interface Props {
     active: boolean;
@@ -17,7 +15,7 @@ export const ShortAnswerController: React.FC<Props> = ({active, item}) => {
     const answerObjects = document.items[item].answer_objects.map(objectId => document.answer_objects[objectId])
 
     const addAnswerObject = () => {
-        const newId = uuidv4()
+        const newId = nanoid(5)
         setDocument(prevState => {
             const newData = update(prevState, {
                     items: {

@@ -39,6 +39,11 @@ query Me($userId: Int!) {
 }
 `;
 
+    if (!session) {
+        res.writeHead(301, {location: '/'})
+        res.end()
+    }
+
     const profileData = await fetch('https://api.sheetroom.com/v1/graphql', {
         method: 'POST',
         headers: {
@@ -51,12 +56,6 @@ query Me($userId: Int!) {
         .catch((error) => {
             console.error('Error:', error);
         });
-
-
-    if (!session) {
-        res.writeHead(301, {location: '/'})
-        res.end()
-    }
 
     if (profileData.data.users_by_pk.account_type === "new") {
         res.writeHead(301, {location: '/welcome'})
