@@ -24,3 +24,24 @@ mutation UpdateAssignmentSubmission($submissionId: uuid!, $content: json!) {
     __typename
   }
 }`
+
+export const scoreAssignment = gql`
+mutation ScoreAssignment($submissionId: uuid!) {
+  scoreSubmission(submissionId: $submissionId) {
+    scoreReportId
+  }
+}`
+
+export const getSubmissionWithScore = gql`
+query GetSubmission($submissionId: uuid!){
+  assignments_submission_by_pk(id: $submissionId) {
+    score_reports {
+      earned_points
+      total_points
+      __typename
+    }
+  }
+}
+`;
+
+

@@ -2,7 +2,7 @@ import QuestionCard from "../../components/AssignmentViewer/QuestionCard";
 import {useMutation, useSubscription} from "urql";
 import AssignmentViewerContext from "../../components/AssignmentViewer/AssignmentViewerContext";
 import React, {useCallback, useEffect, useState} from "react";
-import {getSubmissionByPk, updateSubmissionContent} from "../../lib/graphql/Submissions";
+import {getSubmissionByPk, scoreAssignment, updateSubmissionContent} from "../../lib/graphql/Submissions";
 import {GetServerSideProps} from "next";
 import {getSession} from "next-auth/client";
 import {useRouter} from "next/router";
@@ -18,9 +18,9 @@ const PageContent = ({pageRawData, iid}) => {
     const [saveStatus, setSaveStatus] = useState(0)
 
     const [mutateSubmissionResult, mutateSubmission] = useMutation(updateSubmissionContent)
+    const [scoreSubmissionResult, scoreSubmissionMutate] = useMutation(scoreAssignment)
 
     const saveAssignment = (newDocument) => {
-        console.log(newDocument)
         setSaveStatus(1)
         mutateSubmission({submissionId: iid, content: newDocument})
             .then((result) => console.log(result))
@@ -31,10 +31,15 @@ const PageContent = ({pageRawData, iid}) => {
     //Autosave Logic
     const delayedMutation = useCallback(debounce(newDocument => saveAssignment(newDocument), 1000), []);
     useEffect(() => {
-        console.log({content: document, ...pageData})
         delayedMutation({content: document, title: pageData.title})
     }, [document])
 
+    const submitAssignment = () => {
+        scoreSubmissionMutate({submissionId: iid})
+            .then(() => window.location.href = '/results/' + iid)
+            .catch(error => console.log(scoreSubmissionResult.error));
+
+    }
 
     return (
         <AssignmentViewerContext.Provider value={{document, setDocument}}>
@@ -77,10 +82,7 @@ const PageContent = ({pageRawData, iid}) => {
                                     Previous
                                 </button> : null}
 
-                                {currentSection === document.config.sections.length - 1 ? <button type="button" onClick={() => setCurrentSection(prevState => {if (prevState !== document.config.sections.length -1) {
-                                    window.scrollTo(0, 0);
-                                    return currentSection + 1
-                                }})}
+                                {currentSection === document.config.sections.length - 1 ? <button type="button" onClick={submitAssignment}
                                                                                                   className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                                     <svg className="h-6 mr-1 inline-block -mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>

@@ -13,7 +13,7 @@ const AnswerChoice: React.FC<{selected: boolean; onClick: any; radioName: string
 
     function checkFocus() {
         if (focused) {
-            return ' shadow-outline';
+            return ' shadow-outline-blue';
         } else {
 
         }
