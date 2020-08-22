@@ -8,6 +8,8 @@ import {getSession} from "next-auth/client";
 import {useRouter} from "next/router";
 import {debounce} from 'lodash'
 import Timer from "../../components/Misc/Timer";
+import Head from "next/head";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const PageContent = ({pageRawData, iid}) => {
 
@@ -55,7 +57,7 @@ const PageContent = ({pageRawData, iid}) => {
 
                     {/*Global Timer*/}
                     {/*@ts-ignore*/}
-                    {document.config.timing === 2 ? <Timer onFinish={() => alert("times up!")} onNegative={() => console.log('null')}/> : null}
+                    {document.config.timing === 2 ? <Timer onFinish={submitAssignment} onNegative={() => console.log('null')}/> : null}
                 </div>
 
                 {/*Section Page*/}
@@ -121,7 +123,16 @@ const ExamViewer = ({session}) => {
     }, handleSubscription);
 
     const {data, fetching, error} = res
-    if (!data) return <h1>loading</h1>
+    if (!data) return (<div className="pt-56">
+        <Head>
+            <title>Sheetroom</title>
+        </Head>
+        <div className="mx-auto">
+            <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>
+            <h1 className="text-center text-gray-400 mt-4">Hang on, we're loading this page</h1>
+        </div>
+
+    </div>)
 
     if (error) return <h2>{JSON.stringify(error)}</h2>
 
