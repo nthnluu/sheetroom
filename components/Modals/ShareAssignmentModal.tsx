@@ -54,9 +54,13 @@ const InviteSettingsSection = () => {
     const [ipAddressValue, setIpAddressValue] = useState("")
 
     return (<div className="w-full">
+        {/*@ts-ignore*/}
         <ToggleRow label="Due date" onEnable="" onDisable=""/>
+        {/*@ts-ignore*/}
         <ToggleRow label="Collect student info" onEnable="" onDisable=""/>
+        {/*@ts-ignore*/}
         <ToggleRow label="Allow multiple attempts" onEnable="" onDisable=""/>
+        {/*@ts-ignore*/}
         <ToggleRow label="Hide student responses" onEnable="" onDisable=""/>
         <ToggleRow label="Restrict IP address" value={ipAddress} onEnable={() => setIpAddress(true)}
                    onDisable={() => setIpAddress(false)}/>
