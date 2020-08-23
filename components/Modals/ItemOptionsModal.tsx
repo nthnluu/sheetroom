@@ -74,6 +74,10 @@ const ItemOptionsModal: React.FC<Props> = ({isOpen, onCancel, item, type}) => {
                                                      onEnable={() => setConfigValue("shuffle", true)}
                                                      onDisable={() => setConfigValue("shuffle", false)}/> : null}
 
+        {type === "SA" ? <ToggleRow label="Case sensitive" value={document.items[item].config.case_sensitive}
+                                    onEnable={() => setConfigValue("case_sensitive", true)}
+                                    onDisable={() => setConfigValue("case_sensitive", false)}/> : null}
+
         {type === "SA" ? <ToggleRow label="Tolerate typos" value={document.items[item].config.tolerate_typos}
                                     onEnable={() => setConfigValue("tolerate_typos", true)}
                                     onDisable={() => setConfigValue("tolerate_typos", false)}/> : null}

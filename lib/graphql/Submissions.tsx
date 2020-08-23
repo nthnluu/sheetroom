@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 export const getSubmissionByPk = gql`
   subscription SubmissionByPk($submissionId: uuid!) {
 assignments_submission_by_pk(id: $submissionId) {
+is_complete
     content
   }
 }

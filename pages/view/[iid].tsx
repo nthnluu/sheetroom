@@ -40,7 +40,6 @@ const PageContent = ({pageRawData, iid}) => {
         scoreSubmissionMutate({submissionId: iid})
             .then(() => window.location.href = '/results/' + iid + '?status=success')
             .catch(error => console.log(scoreSubmissionResult.error));
-
     }
 
     return (
@@ -136,8 +135,12 @@ const ExamViewer = ({session}) => {
 
     if (error) return <h2>{JSON.stringify(error)}</h2>
 
-    return <PageContent pageRawData={data.assignments_submission_by_pk.content} iid={iid}/>
-
+    if (data.assignments_submission_by_pk.is_complete) {
+        window.location.href = '/results/' + iid
+        return null
+    } else {
+        return <PageContent pageRawData={data.assignments_submission_by_pk.content} iid={iid}/>
+    }
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {

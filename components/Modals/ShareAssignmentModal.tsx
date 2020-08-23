@@ -50,8 +50,15 @@ const ExistingInvitesSection = ({aid}) => {
 }
 
 const InviteSettingsSection = () => {
+    const [restrictResults, toggleRestrictResults] = useState(false);
+    const [hideUntilLastAttempt, setHideUntilLastAttempt] = useState(false);
+    const [multipleAttempts, setMultipleAttempts] = useState(false)
+
+
     const [ipAddress, setIpAddress] = useState(false)
     const [ipAddressValue, setIpAddressValue] = useState("")
+
+
 
     return (<div className="w-full">
         {/*@ts-ignore*/}
@@ -59,20 +66,61 @@ const InviteSettingsSection = () => {
         {/*@ts-ignore*/}
         <ToggleRow label="Collect student info" onEnable="" onDisable=""/>
         {/*@ts-ignore*/}
-        <ToggleRow label="Allow multiple attempts" onEnable="" onDisable=""/>
+        <ToggleRow label="Allow multiple attempts" value={multipleAttempts} onEnable={() => setMultipleAttempts(true)}
+                   onDisable={() => setMultipleAttempts(false)}/>
+        {multipleAttempts ? <div className="grid grid-cols-2 gap-4 text-left">
+                <div className="flex-row justify-start items-center mt-2">
+                    <label htmlFor="keepScore" className="block text-xs uppercase leading-5 text-gray-400">
+                        Keep
+                    </label>
+                    <div className="mt-1 rounded-md shadow-sm">
+                        <select id="keepScore"
+                                className="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            <option>Highest score</option>
+                            <option>Latest score</option>
+                            <option>Average of all attempts</option>
+                        </select>
+                    </div>
+                </div>
+                <div className="flex-row justify-start items-center mt-2">
+                    <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
+                        Allowed attempts
+                    </label>
+                    <div className="mt-1 relative rounded-md shadow-sm">
+                        <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
+                               placeholder="Unlimited" autoComplete="none"/>
+                    </div>
+                </div>
+            </div>
+            : null}
+
         {/*@ts-ignore*/}
-        <ToggleRow label="Hide student responses" onEnable="" onDisable=""/>
+        <ToggleRow label="Restrict results" value={restrictResults}
+                   onEnable={() => toggleRestrictResults(true)}
+                   onDisable={() => toggleRestrictResults(false)}/>
+        {restrictResults && multipleAttempts ? <div className="grid grid-cols-2 gap-4 mt-4">
+            <button type="button" onClick={() => setHideUntilLastAttempt(true)}
+                    className={hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                Hide until final attempt
+            </button>
+            <button type="button" onClick={() => setHideUntilLastAttempt(false)}
+                    className={!hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                Hide results
+            </button>
+        </div> : null}
         <ToggleRow label="Restrict IP address" value={ipAddress} onEnable={() => setIpAddress(true)}
                    onDisable={() => setIpAddress(false)}/>
         {ipAddress ? <div>
-            <label htmlFor="ipAddress" className="sr-only">Enter a comma-seperated list of allowed IP addresses</label>
+            <label htmlFor="ipAddress" className="sr-only">Enter a comma-seperated list of allowed IP
+                addresses</label>
             <div className="relative rounded-md shadow-sm mt-3">
-                <input id="ipAddress" className="form-input block w-full sm:text-sm sm:leading-5" autoComplete="none"
+                <input id="ipAddress" className="form-input block w-full sm:text-sm sm:leading-5"
+                       autoComplete="none"
                        placeholder="Enter a comma-seperated list of allowed IP addresses" value={ipAddressValue}
                        onChange={event => setIpAddressValue(event.target.value)}/>
             </div>
             <button className="text-sm text-gray-400">Current IP Address</button>
-        </div> :  null}
+        </div> : null}
 
     </div>)
 }
@@ -135,37 +183,45 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
 
         </div>
 
-    </div>} isOpen={isOpen} onCancel={cancelModal} title="Share Assignment" content={modalStep === 0 ? <>
-        <ExistingInvitesSection aid={assignmentId}/>
-        {/*@ts-ignore*/}
-        <fieldset onChange={(e) => setSharingSetting(e.target.value)}>
-            <div className="my-4 text-left">
-                <div className="flex items-start">
-                    <div className="flex items-center h-5">
-                        <input id="comments" type="radio" name="form-input share_scope" value="public"
-                               className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
-                               defaultChecked/>
-                    </div>
-                    <div className="ml-3 text-sm leading-5">
-                        <label htmlFor="comments" className="font-medium text-gray-700">Public</label>
-                        <p className="text-gray-500">Anyone with the link can view and submit this assignment.</p>
-                    </div>
-                </div>
-                <div className="mt-4">
-                    <div className="flex items-start">
-                        <div className="flex items-center h-5">
-                            <input id="candidates" type="radio" name="form-input share_scope" value="class"
-                                   className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"/>
-                        </div>
-                        <div className="ml-3 text-sm leading-5">
-                            <label htmlFor="candidates" className="font-medium text-gray-700">Assign to class</label>
-                            <p className="text-gray-500">Only class members can view and submit this assignment.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-    </> : (modalStep === 1 ? <InviteSettingsSection/> : null)}
+    </div>} isOpen={isOpen} onCancel={cancelModal}
+                         title={modalStep === 0 || modalStep === 2 ? "Share Assignment" : "Invite Options"}
+                         content={modalStep === 0 ? <>
+                             <ExistingInvitesSection aid={assignmentId}/>
+                             {/*@ts-ignore*/}
+                             <fieldset onChange={(e) => setSharingSetting(e.target.value)}>
+                                 <div className="my-4 text-left">
+                                     <div className="flex items-start">
+                                         <div className="flex items-center h-5">
+                                             <input id="comments" type="radio" name="form-input share_scope"
+                                                    value="public"
+                                                    className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
+                                                    defaultChecked/>
+                                         </div>
+                                         <div className="ml-3 text-sm leading-5">
+                                             <label htmlFor="comments"
+                                                    className="font-medium text-gray-700">Public</label>
+                                             <p className="text-gray-500">Anyone with the link can view and submit this
+                                                 assignment.</p>
+                                         </div>
+                                     </div>
+                                     <div className="mt-4">
+                                         <div className="flex items-start">
+                                             <div className="flex items-center h-5">
+                                                 <input id="candidates" type="radio" name="form-input share_scope"
+                                                        value="class"
+                                                        className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"/>
+                                             </div>
+                                             <div className="ml-3 text-sm leading-5">
+                                                 <label htmlFor="candidates" className="font-medium text-gray-700">Assign
+                                                     to class</label>
+                                                 <p className="text-gray-500">Only class members can view and submit
+                                                     this assignment.</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </fieldset>
+                         </> : (modalStep === 1 ? <InviteSettingsSection/> : null)}
     />)
 }
 
