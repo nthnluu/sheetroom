@@ -46,4 +46,30 @@ export const updateAssignmentTitle = gql`
 }
 `;
 
+export const getSubmissionsForAssignment = gql`
+query ResultsPage($assignmentId: uuid!) {
+  assignments_assignment_by_pk(id: $assignmentId) {
+    invites {
+    is_public
+    join_code
+    created_at
+      submissions {
+        id
+        studentProfile {
+          user {
+            first_name
+            last_name
+          }
+        }
+        scoreReportByScoreReport {
+        created_at
+          total_points
+          earned_points
+        }
+      }
+    }
+  }
+}
+`;
+
 

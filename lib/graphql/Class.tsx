@@ -36,6 +36,7 @@ query AllClasses($userId: Int!) {
     title
     id
     color
+    join_code
     studentProfiles {
       __typename
     }

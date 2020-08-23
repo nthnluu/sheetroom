@@ -35,13 +35,18 @@ mutation ScoreAssignment($submissionId: uuid!) {
 export const getSubmissionWithScore = gql`
 query GetSubmission($submissionId: uuid!){
   assignments_submission_by_pk(id: $submissionId) {
-    score_reports {
+    scoreReportByScoreReport {
       earned_points
       total_points
+      created_at
       __typename
     }
   }
 }
 `;
+
+
+
+
 
 

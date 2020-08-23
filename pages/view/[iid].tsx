@@ -38,7 +38,7 @@ const PageContent = ({pageRawData, iid}) => {
 
     const submitAssignment = () => {
         scoreSubmissionMutate({submissionId: iid})
-            .then(() => window.location.href = '/results/' + iid)
+            .then(() => window.location.href = '/results/' + iid + '?status=success')
             .catch(error => console.log(scoreSubmissionResult.error));
 
     }
