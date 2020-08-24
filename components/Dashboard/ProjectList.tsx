@@ -26,11 +26,11 @@ const ProjectList: React.FC<Props> = ({session}) => {
                                 session={session}/>
             <div className="border-b border-gray-200 pb-8">
                 <div
-                    className="pl-4 pr-6 pt-4 pb-4 border-b border-t border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:pt-6 xl:border-t-0">
+                    className="pl-4 pr-4 pt-4 pb-4 border-b border-t border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:pt-6 xl:border-t-0">
                     <div className="flex items-center">
                         <h1 className="flex-1 text-lg leading-7 font-medium">Classes</h1>
                         <div>
-                            <NewTooltip title="Create new class" placement="bottom" enterDelay={500}
+                            <NewTooltip title="New class" placement="bottom" enterDelay={500}
                                         enterNextDelay={500}>
 
                                 <button type="button" onClick={() => toggleCreateClassDialog(true)}

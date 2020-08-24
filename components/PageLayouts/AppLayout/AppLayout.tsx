@@ -24,7 +24,7 @@ const AppLayout: React.FC<Props> = ({content, session}) => {
                     {content}
                 </div>
                 {/* Activity feed */}
-                <ActivityFeed/>
+                <ActivityFeed session={session}/>
             </div>
         </div>
     </div>)

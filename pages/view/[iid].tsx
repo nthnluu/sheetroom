@@ -56,11 +56,17 @@ const PageContent = ({pageRawData, iid}) => {
                     <h1 className="text-lg font-semibold text-gray-800">{pageData.title}</h1>
 
                     {/*Per-section Timer*/}
-                    {document.config.timing === 1 && document.sections[sectionId].config['time_limit'] && (parseInt(document.sections[sectionId].config['mins']) > 0 || parseInt(document.sections[sectionId].config['hours']) > 0) ? <Timer section={sectionId} onFinish={() => alert("times up!")} onNegative={() => console.log('null')}/> : null}
+                    {document.config.timing === 1 && document.sections[sectionId].config['time_limit'] && (parseInt(document.sections[sectionId].config['mins']) > 0 || parseInt(document.sections[sectionId].config['hours']) > 0) ? <Timer section={sectionId} onFinish={() => {
+                        if (currentSection === (document.config.sections.length - 1)) {
+                            submitAssignment()
+                        } else {
+                            setCurrentSection(currentSection + 1)
+                        }
+                    }} onNegative={() => console.log('Stop fucking around, your assignment is already submitted. You lost. GG.')}/> : null}
 
                     {/*Global Timer*/}
                     {/*@ts-ignore*/}
-                    {document.config.timing === 2 ? <Timer onFinish={submitAssignment} onNegative={() => console.log('null')}/> : null}
+                    {document.config.timing === 2 ? <Timer global onFinish={submitAssignment} onNegative={() => console.log('null')}/> : null}
                 </div>
 
                 {/*Section Page*/}
