@@ -7,21 +7,13 @@ import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleRow from "../Misc/ToggleRow";
 
-const Tabs = ({setActiveTab, activeTab}) => {
-    const tabs = ["General", "Visibility", "Results", "Advanced"]
+const Tabs = ({setActiveTab, activeTab, tabs}) => {
     return (<div>
-            {/*// <!-- Dropdown menu on small screens -->*/}
-            <div className="sm:hidden">
-                <select aria-label="Selected tab" value={activeTab} onChange={event => setActiveTab(parseInt(event.target.value))}
-                        className="form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5 transition ease-in-out duration-150">
-                    {tabs.map((tab, index) => <option value={index} key={index}>{tab}</option>)}
-                </select>
-            </div>
             {/*// <!-- Tabs at small breakpoint and up -->*/}
-            <div className="hidden sm:block">
+            <div className="block">
                 <nav className="-mb-px flex justify-between space-x-8">
                     {tabs.map((tab, index) => <button key={index} onClick={() => setActiveTab(index)}
-                        className={activeTab === index ? "whitespace-no-wrap pb-3 w-full px-1 border-b-2 border-blue-500 font-medium text-sm leading-5 text-blue-600 focus:outline-none focus:text-blue-800 focus:border-blue-700": "whitespace-no-wrap w-full pb-3 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"}>
+                                                      className={activeTab === index ? "whitespace-no-wrap pb-3 w-full px-1 border-b-2 border-blue-500 font-medium text-sm leading-5 text-blue-600 focus:outline-none focus:text-blue-800 focus:border-blue-700" : "whitespace-no-wrap w-full pb-3 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"}>
                         {tab}
                     </button>)}
                 </nav>
@@ -74,7 +66,7 @@ const ExistingInvitesSection = ({aid}) => {
 const InviteSettingsSection = () => {
     const [currentTab, setCurrentTab] = useState(0)
     const [dueDate, toggleDueDate] = useState(false);
-    const [dueDateValue, setDueDateValue] = useState();
+    const [dueDateValue, setDueDateValue] = useState(Date.now);
 
     const [restrictResults, toggleRestrictResults] = useState(false);
     const [hideUntilLastAttempt, setHideUntilLastAttempt] = useState(false);
@@ -85,91 +77,91 @@ const InviteSettingsSection = () => {
     const [ipAddressValue, setIpAddressValue] = useState("")
 
 
-
     return (<div className="w-full">
-        <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}/>
-        {/*@ts-ignore*/}
-        <ToggleRow label="Due date" value={dueDate}
-                   onEnable={() => toggleDueDate(true)}
-                   onDisable={() => toggleDueDate(false)}/>
-        {dueDate ? <div className="grid grid-cols-2 gap-4 text-left">
-            <div className="flex-row justify-start items-center mt-2">
-                <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
-                    Start
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                    <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
-                           placeholder="Unlimited" autoComplete="none" type="datetime-local"/>
-                </div>
-            </div>
-            <div className="flex-row justify-start items-center mt-2">
-                <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
-                    End
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                    <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
-                           placeholder="Unlimited" autoComplete="none" type="datetime-local"/>
-                </div>
-            </div>
-        </div> : null}
-        {/*@ts-ignore*/}
-        <ToggleRow label="Collect student info" onEnable="" onDisable=""/>
-        {/*@ts-ignore*/}
-        <ToggleRow label="Allow multiple attempts" value={multipleAttempts} onEnable={() => setMultipleAttempts(true)}
-                   onDisable={() => setMultipleAttempts(false)}/>
-        {multipleAttempts ? <div className="grid grid-cols-2 gap-4 text-left">
+        <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)} tabs={["General", "Visibility", "Advanced"]}/>
+        {currentTab === 0 ? <>
+            {/*@ts-ignore*/}
+            <ToggleRow label="Due date" value={dueDate}
+                       onEnable={() => toggleDueDate(true)}
+                       onDisable={() => toggleDueDate(false)}/>
+            {dueDate ? <div className="grid grid-cols-1 gap-4 text-left">
                 <div className="flex-row justify-start items-center mt-2">
-                    <label htmlFor="keepScore" className="block text-xs uppercase leading-5 text-gray-400">
-                        Keep
-                    </label>
-                    <div className="mt-1 rounded-md shadow-sm">
-                        <select id="keepScore"
-                                className="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                            <option>Highest score</option>
-                            <option>Latest score</option>
-                            <option>Average of all attempts</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="flex-row justify-start items-center mt-2">
-                    <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
-                        Allowed attempts
+                    <label htmlFor="allowedAttempts" className="sr-only">
+                        DUE AT
                     </label>
                     <div className="mt-1 relative rounded-md shadow-sm">
                         <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
-                               placeholder="Unlimited" autoComplete="none"/>
+                               placeholder="Unlimited" value={dueDateValue} onChange={event => setDueDateValue(event.target.value)} autoComplete="none" type="datetime-local"/>
                     </div>
                 </div>
-            </div>
-            : null}
+            </div> : null}
+            {/*@ts-ignore*/}
+            <ToggleRow label="Collect student info" onEnable="" onDisable=""/>
+            {/*@ts-ignore*/}
+            <ToggleRow label="Allow multiple attempts" value={multipleAttempts}
+                       onEnable={() => setMultipleAttempts(true)}
+                       onDisable={() => setMultipleAttempts(false)}/>
+            {multipleAttempts ? <div className="grid grid-cols-2 gap-4 text-left">
+                    <div className="flex-row justify-start items-center mt-2">
+                        <label htmlFor="keepScore" className="block text-xs uppercase leading-5 text-gray-400">
+                            Keep
+                        </label>
+                        <div className="mt-1 rounded-md shadow-sm">
+                            <select id="keepScore"
+                                    className="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <option>Highest score</option>
+                                <option>Latest score</option>
+                                <option>Average of all attempts</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="flex-row justify-start items-center mt-2">
+                        <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
+                            Allowed attempts
+                        </label>
+                        <div className="mt-1 relative rounded-md shadow-sm">
+                            <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
+                                   placeholder="Unlimited" autoComplete="none"/>
+                        </div>
+                    </div>
+                </div>
+                : null}
+        </> : null}
 
-        {/*@ts-ignore*/}
-        <ToggleRow label="Restrict results" value={restrictResults}
-                   onEnable={() => toggleRestrictResults(true)}
-                   onDisable={() => toggleRestrictResults(false)}/>
-        {restrictResults && multipleAttempts ? <div className="grid grid-cols-2 gap-4 mt-4">
-            <button type="button" onClick={() => setHideUntilLastAttempt(true)}
-                    className={hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                Hide until final attempt
-            </button>
-            <button type="button" onClick={() => setHideUntilLastAttempt(false)}
-                    className={!hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                Hide results
-            </button>
-        </div> : null}
-        <ToggleRow label="Restrict IP address" value={ipAddress} onEnable={() => setIpAddress(true)}
-                   onDisable={() => setIpAddress(false)}/>
-        {ipAddress ? <div>
-            <label htmlFor="ipAddress" className="sr-only">Enter a comma-seperated list of allowed IP
-                addresses</label>
-            <div className="relative rounded-md shadow-sm mt-3">
-                <input id="ipAddress" className="form-input block w-full sm:text-sm sm:leading-5"
-                       autoComplete="none"
-                       placeholder="Enter a comma-seperated list of allowed IP addresses" value={ipAddressValue}
-                       onChange={event => setIpAddressValue(event.target.value)}/>
-            </div>
-            <button className="text-sm text-gray-400">Current IP Address</button>
-        </div> : null}
+        {currentTab === 1 ? <>
+            {/*@ts-ignore*/}
+            <ToggleRow label="Restrict results" value={restrictResults}
+                       onEnable={() => toggleRestrictResults(true)}
+                       onDisable={() => toggleRestrictResults(false)}/>
+            {restrictResults && multipleAttempts ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">
+                <button type="button" onClick={() => setHideUntilLastAttempt(true)}
+                        className={hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                    Hide until final attempt
+                </button>
+                <button type="button" onClick={() => setHideUntilLastAttempt(false)}
+                        className={!hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                    Hide results
+                </button>
+            </div> : null}
+        </> : null}
+
+        {currentTab === 2 ? <><ToggleRow label="Restrict IP address" value={ipAddress} onEnable={() => setIpAddress(true)}
+                                         onDisable={() => setIpAddress(false)}/>
+            {ipAddress ? <div>
+                <label htmlFor="ipAddress" className="sr-only">Enter a comma-seperated list of allowed IP
+                    addresses</label>
+                <div className="relative rounded-md shadow-sm mt-3">
+                    <input id="ipAddress" className="form-input block w-full sm:text-sm sm:leading-5"
+                           autoComplete="none"
+                           placeholder="Enter a comma-seperated list of allowed IP addresses" value={ipAddressValue}
+                           onChange={event => setIpAddressValue(event.target.value)}/>
+                </div>
+                <button className="text-sm text-gray-400">Current IP Address</button>
+            </div> : null}</>:null}
+
+
+
+
 
     </div>)
 }

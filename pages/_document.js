@@ -11,7 +11,7 @@ class MyDocument extends Document {
             <Html>
                 <Head>
                     {/*Inter Font*/}
-                    <link rel="stylesheet" href="https://rsms.me/inter/inter.css"/>
+                    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin preconnect/>
                     <style id="react-mathquill-styles"/>
 
                     {/*Font Awesome Icons*/}
