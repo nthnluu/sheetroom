@@ -100,9 +100,10 @@ const AssignmentListItem = ({item, session}) => {
 
 interface AssignmentListProps {
     session: string;
+    openDialog: any;
 }
 
-const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
+const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog}) => {
     const [result] = useQuery({
         query: ASSIGNMENTS,
         variables: {
@@ -128,7 +129,10 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session}) => {
     } else {
         return (<>
             <ul className="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
-                {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem item={item} key={item.id} session={session}/> ) : <></>}
+                {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem item={item} key={item.id} session={session}/> ) : <div className="my-8 text-center">
+                    <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
+                    <button className="text-center text-light opacity-25" onClick={openDialog}>Create new assignment</button>
+                </div>}
             </ul>
         </>)
     }

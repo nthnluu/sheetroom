@@ -7,6 +7,8 @@ import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleRow from "../Misc/ToggleRow";
 import Datetime from 'react-datetime'
+import JsonDebugBox from "../JsonDebugBox";
+import {is} from "@babel/types";
 
 const Tabs = ({setActiveTab, activeTab, tabs}) => {
     return (<div>
@@ -64,7 +66,7 @@ const ExistingInvitesSection = ({aid}) => {
     )
 }
 
-const InviteSettingsSection = () => {
+const InviteSettingsSection = ({isPublic}) => {
     const [currentTab, setCurrentTab] = useState(0)
     const [dueDate, toggleDueDate] = useState(false);
     const [dueDateValue, setDueDateValue] = useState(() => (new Date()));
@@ -88,6 +90,31 @@ const InviteSettingsSection = () => {
         <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
               tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
+            {/*@ts-ignore*/}
+            {isPublic ? <><ToggleRow label="Collect student info" value={collectStudentInfo}
+                                      onEnable={() => toggleCollectStudentInfo(true)}
+                                      onDisable={() => toggleCollectStudentInfo(false)}/>
+                {collectStudentInfo ? <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-2 mt-4">
+                        <button type="button" onClick={() => toggleCollectName(!collectName)}
+                                className={collectName ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                            <i className={"fas fa-check mr-1.5 " + (collectName ? "inline" : "hidden")}/>Name
+                        </button>
+                        <button type="button" onClick={() => toggleCollectEmail(!collectEmail)}
+                                className={collectEmail ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                            <i className={"fas fa-check mr-1.5 " + (collectEmail ? "inline" : "hidden")}/>Email
+                        </button>
+                        <button type="button" onClick={() => toggleCollectId(!collectId)}
+                                className={collectId ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                            <i className={"fas fa-check mr-1.5 " + (collectId ? "inline" : "hidden")}/>ID
+                        </button>
+                    </div>
+                    : null}</> : <div className="mt-6">
+                <label htmlFor="email" className="sr-only">Assign to</label>
+                <div className="relative rounded-md shadow-sm">
+                    <input id="email" className="form-input block w-full sm:text-sm sm:leading-5" placeholder="Assign to class or student"/>
+                </div>
+            </div>
+                }
             {/*@ts-ignore*/}
             <ToggleRow label="Due date" value={dueDate}
                        onEnable={() => toggleDueDate(true)}
@@ -116,25 +143,7 @@ const InviteSettingsSection = () => {
 
                 </div>
             </div> : null}
-            {/*@ts-ignore*/}
-            <ToggleRow label="Collect student info" value={collectStudentInfo}
-                       onEnable={() => toggleCollectStudentInfo(true)}
-                       onDisable={() => toggleCollectStudentInfo(false)}/>
-            {collectStudentInfo ? <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-2 mt-4">
-                    <button type="button" onClick={() => toggleCollectName(!collectName)}
-                            className={collectName ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                        <i className={"fas fa-check mr-1.5 " + (collectName ? "inline" : "hidden")}/>Name
-                    </button>
-                    <button type="button" onClick={() => toggleCollectEmail(!collectEmail)}
-                            className={collectEmail ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                        <i className={"fas fa-check mr-1.5 " + (collectEmail ? "inline" : "hidden")}/>Email
-                    </button>
-                    <button type="button" onClick={() => toggleCollectId(!collectId)}
-                            className={collectId ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                        <i className={"fas fa-check mr-1.5 " + (collectId ? "inline" : "hidden")}/>ID
-                    </button>
-                </div>
-                : null}
+
 
 
             {/*@ts-ignore*/}
@@ -267,40 +276,42 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                          content={modalStep === 0 ? <>
                              <ExistingInvitesSection aid={assignmentId}/>
                              {/*@ts-ignore*/}
-                             <fieldset onChange={(e) => setSharingSetting(e.target.value)}>
-                                 <div className="my-4 text-left">
-                                     <div className="flex items-start">
-                                         <div className="flex items-center h-5">
-                                             <input id="comments" type="radio" name="form-input share_scope"
-                                                    value="public"
-                                                    className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
-                                                    defaultChecked/>
-                                         </div>
-                                         <div className="ml-3 text-sm leading-5">
-                                             <label htmlFor="comments"
-                                                    className="font-medium text-gray-700">Public</label>
-                                             <p className="text-gray-500">Anyone with the link can view and submit this
-                                                 assignment.</p>
-                                         </div>
-                                     </div>
-                                     <div className="mt-4">
+                             <form onChange={(e) => setSharingSetting(e.target.value)} >
+                                 <fieldset>
+                                     <div className="my-4 text-left">
                                          <div className="flex items-start">
                                              <div className="flex items-center h-5">
-                                                 <input id="candidates" type="radio" name="form-input share_scope"
-                                                        value="class"
+                                                 <input id="comments" type="radio" name="form-input share_scope"
+                                                        value="public" defaultChecked={sharingSetting === "public"}
                                                         className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"/>
                                              </div>
                                              <div className="ml-3 text-sm leading-5">
-                                                 <label htmlFor="candidates" className="font-medium text-gray-700">Assign
-                                                     to class</label>
-                                                 <p className="text-gray-500">Only class members can view and submit
-                                                     this assignment.</p>
+                                                 <label htmlFor="comments"
+                                                        className="font-medium text-gray-700">Public</label>
+                                                 <p className="text-gray-500">Anyone with the link can view and submit this
+                                                     assignment.</p>
+                                             </div>
+                                         </div>
+                                         <div className="mt-4">
+                                             <div className="flex items-start">
+                                                 <div className="flex items-center h-5">
+                                                     <input id="candidates" type="radio" name="form-input share_scope"
+                                                            value="class" defaultChecked={sharingSetting !== "public"}
+                                                            className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"/>
+                                                 </div>
+                                                 <div className="ml-3 text-sm leading-5">
+                                                     <label htmlFor="candidates" className="font-medium text-gray-700">Assign
+                                                         to class</label>
+                                                     <p className="text-gray-500">Only class members can view and submit
+                                                         this assignment.</p>
+                                                 </div>
                                              </div>
                                          </div>
                                      </div>
-                                 </div>
-                             </fieldset>
-                         </> : (modalStep === 1 ? <InviteSettingsSection/> : null)}
+                                 </fieldset>
+                             </form>
+
+                         </> : (modalStep === 1 ? <InviteSettingsSection isPublic={sharingSetting === "public"}/> : null)}
     />)
 }
 
