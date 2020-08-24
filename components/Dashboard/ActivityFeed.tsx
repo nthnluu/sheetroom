@@ -1,10 +1,7 @@
 import React from "react";
-import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useQuery} from "urql";
-import {getSubmissionsForAssignment} from "../../lib/graphql/Assignments";
 import {getActivityObjects} from "../../lib/graphql/Notifications";
-import JsonDebugBox from "../JsonDebugBox";
 
 
 const LoadingPlaceholder: React.FC = () => {

@@ -7,7 +7,29 @@ import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleRow from "../Misc/ToggleRow";
 
+const Tabs = ({setActiveTab, activeTab}) => {
+    const tabs = ["General", "Visibility", "Results", "Advanced"]
+    return (<div>
+            {/*// <!-- Dropdown menu on small screens -->*/}
+            <div className="sm:hidden">
+                <select aria-label="Selected tab" value={activeTab} onChange={event => setActiveTab(parseInt(event.target.value))}
+                        className="form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5 transition ease-in-out duration-150">
+                    {tabs.map((tab, index) => <option value={index} key={index}>{tab}</option>)}
+                </select>
+            </div>
+            {/*// <!-- Tabs at small breakpoint and up -->*/}
+            <div className="hidden sm:block">
+                <nav className="-mb-px flex justify-between space-x-8">
+                    {tabs.map((tab, index) => <button key={index} onClick={() => setActiveTab(index)}
+                        className={activeTab === index ? "whitespace-no-wrap pb-3 w-full px-1 border-b-2 border-blue-500 font-medium text-sm leading-5 text-blue-600 focus:outline-none focus:text-blue-800 focus:border-blue-700": "whitespace-no-wrap w-full pb-3 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"}>
+                        {tab}
+                    </button>)}
+                </nav>
+            </div>
+        </div>
 
+    )
+}
 const ExistingInvitesSection = ({aid}) => {
     const [result] = useQuery({
         query: getAssignmentInvites,
@@ -50,6 +72,7 @@ const ExistingInvitesSection = ({aid}) => {
 }
 
 const InviteSettingsSection = () => {
+    const [currentTab, setCurrentTab] = useState(0)
     const [dueDate, toggleDueDate] = useState(false);
     const [dueDateValue, setDueDateValue] = useState();
 
@@ -64,6 +87,7 @@ const InviteSettingsSection = () => {
 
 
     return (<div className="w-full">
+        <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}/>
         {/*@ts-ignore*/}
         <ToggleRow label="Due date" value={dueDate}
                    onEnable={() => toggleDueDate(true)}
