@@ -2,7 +2,7 @@ import React from "react";
 
 interface Props {
     course: any;
-    onStart: any;
+    onStart?: any;
 }
 const ClassCard: React.FC<Props> = ({course, onStart}) => {
     return <div className="bg-white border border-gray-200 shadow-lg w-full p-8 rounded-lg">

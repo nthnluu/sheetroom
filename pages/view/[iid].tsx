@@ -56,6 +56,7 @@ const PageContent = ({pageRawData, iid}) => {
                     <h1 className="text-lg font-semibold text-gray-800">{pageData.title}</h1>
 
                     {/*Per-section Timer*/}
+                    {/*@ts-ignore*/}
                     {document.config.timing === 1 && document.sections[sectionId].config['time_limit'] && (parseInt(document.sections[sectionId].config['mins']) > 0 || parseInt(document.sections[sectionId].config['hours']) > 0) ? <Timer section={sectionId} onFinish={() => {
                         if (currentSection === (document.config.sections.length - 1)) {
                             submitAssignment()
