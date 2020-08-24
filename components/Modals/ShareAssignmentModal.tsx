@@ -73,6 +73,11 @@ const InviteSettingsSection = () => {
     const [hideUntilLastAttempt, setHideUntilLastAttempt] = useState(false);
     const [multipleAttempts, setMultipleAttempts] = useState(false)
 
+    const [collectStudentInfo, toggleCollectStudentInfo] = useState(false);
+    const [collectName, toggleCollectName] = useState(false);
+    const [collectEmail, toggleCollectEmail] = useState(false);
+    const [collectId, toggleCollectId] = useState(false);
+
 
     const [ipAddress, setIpAddress] = useState(false)
     const [ipAddressValue, setIpAddressValue] = useState("")
@@ -101,8 +106,8 @@ const InviteSettingsSection = () => {
                         <div>
                             <label htmlFor="email" className="sr-only">Email</label>
                             <div className="relative rounded-md shadow-sm">
-                                <input id="email" type="datetime-local" value={dueDateValue} onChange={event => setDueDateValue(event.target.value)} className="form-input block w-full sm:text-sm sm:leading-5"
-                                       placeholder="you@example.com"/>
+                                {/*// @ts-ignore*/}
+                                <Datetime value={dueDateValue} open={false} onChange={setDueDateValue} inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                             </div>
                         </div>
 
@@ -112,7 +117,26 @@ const InviteSettingsSection = () => {
                 </div>
             </div> : null}
             {/*@ts-ignore*/}
-            <ToggleRow label="Collect student info" onEnable="" onDisable=""/>
+            <ToggleRow label="Collect student info" value={collectStudentInfo}
+                       onEnable={() => toggleCollectStudentInfo(true)}
+                       onDisable={() => toggleCollectStudentInfo(false)}/>
+            {collectStudentInfo ? <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-2 mt-4">
+                    <button type="button" onClick={() => toggleCollectName(!collectName)}
+                            className={collectName ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                        <i className={"fas fa-check mr-1.5 " + (collectName ? "inline" : "hidden")}/>Name
+                    </button>
+                    <button type="button" onClick={() => toggleCollectEmail(!collectEmail)}
+                            className={collectEmail ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                        <i className={"fas fa-check mr-1.5 " + (collectEmail ? "inline" : "hidden")}/>Email
+                    </button>
+                    <button type="button" onClick={() => toggleCollectId(!collectId)}
+                            className={collectId ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                        <i className={"fas fa-check mr-1.5 " + (collectId ? "inline" : "hidden")}/>ID
+                    </button>
+                </div>
+                : null}
+
+
             {/*@ts-ignore*/}
             <ToggleRow label="Allow multiple attempts" value={multipleAttempts}
                        onEnable={() => setMultipleAttempts(true)}
@@ -152,11 +176,11 @@ const InviteSettingsSection = () => {
             {restrictResults && multipleAttempts ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">
                 <button type="button" onClick={() => setHideUntilLastAttempt(true)}
                         className={hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                    Hide until final attempt
+                    <i className={"fas fa-check mr-1.5 " + (hideUntilLastAttempt ? "inline" : "hidden")}/>Hide until final attempt
                 </button>
                 <button type="button" onClick={() => setHideUntilLastAttempt(false)}
                         className={!hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                    Hide results
+                    <i className={"fas fa-check mr-1.5 " + (!hideUntilLastAttempt ? "inline" : "hidden")}/>Hide results
                 </button>
             </div> : null}
         </> : null}
