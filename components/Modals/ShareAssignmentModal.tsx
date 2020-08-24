@@ -7,8 +7,6 @@ import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleRow from "../Misc/ToggleRow";
 import Datetime from 'react-datetime'
-import JsonDebugBox from "../JsonDebugBox";
-import {is} from "@babel/types";
 
 const Tabs = ({setActiveTab, activeTab, tabs}) => {
     return (<div>
@@ -56,7 +54,7 @@ const ExistingInvitesSection = ({aid}) => {
                                                                         className={"p-3 border-gray-300 leading-tight " + (index === (data.assignments_invite.length - 1) ? null : "border-b")}>
                         <h1 className="font-medium text-gray-700 text-sm">{moment(invite.created_at).format("dddd, MMMM Do YYYY")} ({invite.join_code})</h1>
                         <p className="text-sm text-gray-400">{invite.is_public ? <><i
-                            className="fas fa-globe-americas mr-1"/>Public</> : `Assigned to ${invite.classByClass.title}`}</p>
+                            className="fas fa-globe-americas mr-1"/>Public</> : `Assigned to ${invite.classByClass ? invite.classByClass.title : "a class"}`}</p>
                     </li>)}
                 </ul>
                 <h2 className="font-medium text-gray-700 mt-4">Create New Invite</h2></> : null}

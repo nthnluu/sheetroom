@@ -1,13 +1,13 @@
-import {useContext} from "react";
+import React, {useContext} from "react";
 import QuizContext from "./QuizContext";
 import update from "immutability-helper";
 
 const SettingsPage = () => {
-    const {aid, setDocument, document} = useContext(QuizContext)
+    const {setDocument, document} = useContext(QuizContext)
 
     const setConfigValue = (configValue, value) => {
         setDocument(prevState => {
-            const newData = update(prevState, {
+            return update(prevState, {
                     config: {
                         [configValue]: {
                             $set: value
@@ -15,7 +15,6 @@ const SettingsPage = () => {
                     }
                 }
             )
-            return newData
         })
     }
     return (<div>
@@ -34,31 +33,37 @@ const SettingsPage = () => {
                         <label className="text-sm leading-5 font-medium text-gray-700">
                             Timing
                         </label>
-                        <div className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 space-x-2 justify-between flex">
+                        <div
+                            className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 space-x-2 justify-between flex">
                             <span className="space-x-2">
                                 <span className="inline-flex rounded-md shadow-sm">
                                 <button type="button" onClick={() => setConfigValue("timing", 0)}
                                         className={(document.config['timing'] === 0 ? "text-blue-500 border-blue-500 hover:text-blue-400 active:text-blue-500" : "border-gray-300 text-gray-700 hover:text-gray-500 active:text-gray-700") + " inline-flex items-center px-3 py-2 border text-sm leading-4 font-medium rounded-md  bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150"}>
-                                    Untimed
+                                    <i className={"fas fa-check mr-1.5 " + (document.config['timing'] === 0 ? "inline" : "hidden")}/>Untimed
                                 </button>
                             </span>
                                 <span className="inline-flex rounded-md shadow-sm">
                                 <button type="button" onClick={() => setConfigValue("timing", 1)}
                                         className={(document.config['timing'] === 1 ? "text-blue-500 border-blue-500 hover:text-blue-400 active:text-blue-500" : "border-gray-300 text-gray-700 hover:text-gray-500 active:text-gray-700") + " inline-flex items-center px-3 py-2 border text-sm leading-4 font-medium rounded-md  bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150"}>
-                                    Per-section
+                                    <i className={"fas fa-check mr-1.5 " + (document.config['timing'] === 1 ? "inline" : "hidden")}/>Per-section
                                 </button>
                             </span>
                                 <span className="inline-flex rounded-md shadow-sm">
                                 <button type="button" onClick={() => setConfigValue("timing", 2)}
                                         className={(document.config['timing'] === 2 ? "text-blue-500 border-blue-500 hover:text-blue-400 active:text-blue-500" : "border-gray-300 text-gray-700 hover:text-gray-500 active:text-gray-700") + " inline-flex items-center px-3 py-2 border text-sm leading-4 font-medium rounded-md  bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150"}>
-                                    Global
+                                    <i className={"fas fa-check mr-1.5 " + (document.config['timing'] === 2 ? "inline" : "hidden")}/>Global
                                 </button>
                             </span>
                             </span>
-                            {document.config.timing === 2 ? <span className="inline-flex items-center rounded-md space-x-1">
+                            {document.config.timing === 2 ?
+                                <span className="inline-flex items-center rounded-md space-x-1">
                                 <span className="text-gray-300 mr-2">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                            stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                                            strokeLinejoin="round"/>
                                     </svg>
                                 </span>
                                 <span>
@@ -98,6 +103,7 @@ const SettingsPage = () => {
                         </div>
 
                     </li>
+
                     <li className="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5 sm:border-t sm:border-gray-200">
                         <label className="text-sm leading-5 font-medium text-gray-700">
                             Calculator
@@ -125,9 +131,27 @@ const SettingsPage = () => {
                             </span>
                         </div>
                     </li>
+
+                    <li className="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5 sm:border-t sm:border-gray-200">
+                        <label className="text-sm leading-5 font-medium text-gray-700">
+                            Display Item Numbers
+                        </label>
+                        <div className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 space-x-2">
+                            <span role="checkbox" tabIndex={0} aria-checked="false" onClick={() => setConfigValue("item_numbers", !document.config['item_numbers'])} onKeyPress={(e) => {
+                                if (e.key === ' ' || e.key === 'Spacebar') {
+                                    setConfigValue("item_numbers", !document.config['item_numbers'])
+                                }
+                            }}
+                                  className={(document.config['item_numbers'] ? "bg-blue-600" : "bg-gray-200") + " relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline"}>
+                                <span aria-hidden="true"
+                                      className={(document.config['item_numbers'] ? "translate-x-5" : "translate-x-0") + " inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200"}/>
+                            </span>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
+
 
         <div className="bg-white shadow sm:rounded-lg mt-6">
             <div className="px-4 py-5 sm:p-6">
