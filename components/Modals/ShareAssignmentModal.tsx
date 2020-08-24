@@ -6,7 +6,6 @@ import {createInvite, getAssignmentInvites} from "../../lib/graphql/Invites";
 import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleRow from "../Misc/ToggleRow";
-import { DatePicker } from "baseui/datepicker";
 
 
 const ExistingInvitesSection = ({aid}) => {
