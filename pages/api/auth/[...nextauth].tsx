@@ -51,6 +51,8 @@ const options = {
                 token.id = user.id
                 //@ts-ignore
                 token.name = `${user.firstName} ${user.lastName}`
+                //@ts-ignore
+                token.accountType = user.accountType
                 token['X-Hasura-User-Id'] = user.id.toString()
                 token['X-Hasura-Role'] = "user"
                 token['X-Hasura-Allowed-Roles'] = ["user"]

@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 export const getSubmissionByPk = gql`
   subscription SubmissionByPk($submissionId: uuid!) {
 assignments_submission_by_pk(id: $submissionId) {
+is_complete
     content
   }
 }
@@ -24,3 +25,29 @@ mutation UpdateAssignmentSubmission($submissionId: uuid!, $content: json!) {
     __typename
   }
 }`
+
+export const scoreAssignment = gql`
+mutation ScoreAssignment($submissionId: uuid!) {
+  scoreSubmission(submissionId: $submissionId) {
+    scoreReportId
+  }
+}`
+
+export const getSubmissionWithScore = gql`
+query GetSubmission($submissionId: uuid!){
+  assignments_submission_by_pk(id: $submissionId) {
+    scoreReportByScoreReport {
+      earned_points
+      total_points
+      created_at
+      __typename
+    }
+  }
+}
+`;
+
+
+
+
+
+

@@ -10,7 +10,7 @@ const NewClassModal = ({isOpen, onCancel, session}) => {
     const [createClassResult, createNewClass] = useMutation(createClass);
     const [currentValue, setNewValue] = useState("Untitled Class");
 
-    const colors = ["teal", "pink", "green", "orange", "purple", "red"]
+    const colors = ["teal", "green", "red", "pink", "orange", "purple", "red"]
 
     function closeModal () {
         onCancel();

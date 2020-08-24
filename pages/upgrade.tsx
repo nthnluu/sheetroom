@@ -61,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
     const session = await getSession({req});
 
     if (!session) {
-        res.writeHead(301, {location: '/'})
+        res.writeHead(302, {location: '/'})
         res.end()
     }
 

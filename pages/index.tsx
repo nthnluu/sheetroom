@@ -3,6 +3,8 @@ import React from 'react';
 import {getSession} from 'next-auth/client';
 import {GetServerSideProps} from "next";
 import DesktopGraphic from "../components/LandingPage/DesktopGraphic";
+import JsonDebugBox from "../components/JsonDebugBox";
+import gql from "graphql-tag";
 
 
 const Index: React.FC<{ session: any }> = ({session}) => {
@@ -21,8 +23,19 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                     </header>
                     <DesktopGraphic/>
                 </div>
-
             </div>
+            <section className="w-full bg-white">
+                <div className="mx-auto max-w-7xl py-24 px-4 space-y-36">
+                    <div className="flex justify-between">
+                        <div className="max-w-2xl">
+                            <h1 className="text-3xl font-bold text-gray-800">A simple, yet powerful assignment editor</h1>
+                            <h2 className="text-lg text-gray-600">Focus on writing content instead of wrestling with formatting or buggy LMS quizzes. Muliple Choice, Multiple Answers, Short Answer, and so on — it's what you're already familiar with.</h2>
+                        </div>
+                    </div>
+                </div>
+
+
+            </section>
         </div>
     )
 };
@@ -31,14 +44,15 @@ const Index: React.FC<{ session: any }> = ({session}) => {
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
     const session = await getSession({req});
 
+
     if (session) {
-        res.writeHead(301, {location: '/dashboard'})
+        res.writeHead(302, {location: '/dashboard'})
         res.end()
     }
 
     return {
         props: {
-            session,
+            session
         },
     };
 };

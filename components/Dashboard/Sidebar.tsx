@@ -1,12 +1,14 @@
 import React from "react";
+import JsonDebugBox from "../JsonDebugBox";
 
 
 interface Props {
     session: string;
+    profile: any;
 }
 
 
-const Sidebar: React.FC<Props> = ({session}) => {
+const Sidebar: React.FC<Props> = ({session, profile}) => {
     return (
         <>
         <div className="xl:flex-shrink-0 xl:w-64 xl:border-r xl:border-gray-200 bg-white">
@@ -26,7 +28,7 @@ const Sidebar: React.FC<Props> = ({session}) => {
 
                             <div className="space-y-1">
                                 {/*//@ts-ignore*/}
-                                <div className="text-sm leading-5 font-medium text-gray-900 truncate">{session.name}</div>
+                                <div className="text-sm leading-5 font-medium text-gray-900 truncate">{`${profile.data.users_by_pk.first_name} ${profile.data.users_by_pk.last_name}`}</div>
                                 <a href="#" className="group flex items-center space-x-2.5">
                                     {/*<svg className="w-5 h-5 text-gray-400 group-hover:text-gray-500"*/}
                                     {/*     viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">*/}

@@ -1,6 +1,7 @@
 import '../styles/index.css'
 import "katex/dist/katex.min.css";
 import '../styles/quill.bubble.css'
+import '../styles/datetimepicker.css'
 import {Provider as NextAuthProvider} from "next-auth/client";
 import type {AppContext, AppProps /*, AppContext */} from 'next/app'
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
@@ -8,6 +9,7 @@ import React, {useEffect} from "react";
 import WithGraphQL from "../lib/with-graphql";
 import {useAnalytics} from "../components/useAnalytics";
 import {Router} from "next/router";
+
 
 const MuiTheme = createMuiTheme({
     palette: {

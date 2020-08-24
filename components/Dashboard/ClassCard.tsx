@@ -2,12 +2,14 @@ import React, {useState} from "react";
 import getInitials from "../../lib/getInitials";
 import Transition from "../Transition";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import JoinCodeModal from "../Modals/JoinCodeModal";
 
 
 const ClassCard = ({course}) => {
     const [dropdown, toggleDropdown] = useState(false);
+    const [joinCodeModal, toggleJoinCodeModal] = useState(false);
 
-    const {title, id, color} = course
+    const {title, id, color, join_code} = course
     const colorObject = (inputColor) => {
         switch (inputColor) {
             case('red'):
@@ -28,7 +30,9 @@ const ClassCard = ({course}) => {
     }
 
 
-    return (<li className="relative col-span-1 flex shadow-sm rounded-md">
+    return (<>
+        <JoinCodeModal isOpen={joinCodeModal} joinCode={join_code} title={title} onCancel={() => toggleJoinCodeModal(false)}/>
+        <li className="relative col-span-1 flex shadow-sm rounded-md">
         <div
             className={"flex-shrink-0 flex items-center justify-center w-16 text-white text-sm leading-5 font-medium rounded-l-md " + colorObject(color).bg}>
             {getInitials(title)}
@@ -63,9 +67,12 @@ const ClassCard = ({course}) => {
                             <div className="rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical"
                                  aria-labelledby="pinned-project-options-menu-0">
                                 <div className="py-1">
-                                    <a href="#"
-                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                       role="menuitem">Show join code</a>
+                                    <button onClick={() => {
+                                        toggleDropdown(false)
+                                        toggleJoinCodeModal(true)
+                                    }}
+                                       className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                       role="menuitem">Show join code</button>
                                 </div>
                                 <div className="py-1">
                                     <a href="#"
@@ -80,7 +87,7 @@ const ClassCard = ({course}) => {
                 </div>
             </ClickAwayListener>
         </div>
-    </li>)
+    </li></>)
 }
 
 export default ClassCard

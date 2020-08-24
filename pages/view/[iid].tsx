@@ -2,12 +2,16 @@ import QuestionCard from "../../components/AssignmentViewer/QuestionCard";
 import {useMutation, useSubscription} from "urql";
 import AssignmentViewerContext from "../../components/AssignmentViewer/AssignmentViewerContext";
 import React, {useCallback, useEffect, useState} from "react";
-import {getSubmissionByPk, updateSubmissionContent} from "../../lib/graphql/Submissions";
+import {getSubmissionByPk, scoreAssignment, updateSubmissionContent} from "../../lib/graphql/Submissions";
 import {GetServerSideProps} from "next";
 import {getSession} from "next-auth/client";
 import {useRouter} from "next/router";
 import {debounce} from 'lodash'
 import Timer from "../../components/Misc/Timer";
+import Head from "next/head";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import {me} from "../../lib/graphql/User";
+import CheckForUser from "../../lib/CheckForUser";
 
 const PageContent = ({pageRawData, iid}) => {
 
@@ -18,9 +22,10 @@ const PageContent = ({pageRawData, iid}) => {
     const [saveStatus, setSaveStatus] = useState(0)
 
     const [mutateSubmissionResult, mutateSubmission] = useMutation(updateSubmissionContent)
+    const [scoreSubmissionResult, scoreSubmissionMutate] = useMutation(scoreAssignment)
+    const [isLoading, toggleIsLoading] = useState(false);
 
     const saveAssignment = (newDocument) => {
-        console.log(newDocument)
         setSaveStatus(1)
         mutateSubmission({submissionId: iid, content: newDocument})
             .then((result) => console.log(result))
@@ -31,10 +36,15 @@ const PageContent = ({pageRawData, iid}) => {
     //Autosave Logic
     const delayedMutation = useCallback(debounce(newDocument => saveAssignment(newDocument), 1000), []);
     useEffect(() => {
-        console.log({content: document, ...pageData})
         delayedMutation({content: document, title: pageData.title})
     }, [document])
 
+    const submitAssignment = () => {
+        toggleIsLoading(true)
+        scoreSubmissionMutate({submissionId: iid})
+            .then(() => window.location.href = '/results/' + iid + '?status=success')
+            .catch(error => console.log(scoreSubmissionResult.error));
+    }
 
     return (
         <AssignmentViewerContext.Provider value={{document, setDocument}}>
@@ -46,11 +56,17 @@ const PageContent = ({pageRawData, iid}) => {
                     <h1 className="text-lg font-semibold text-gray-800">{pageData.title}</h1>
 
                     {/*Per-section Timer*/}
-                    {document.config.timing === 1 && document.sections[sectionId].config['time_limit'] && (parseInt(document.sections[sectionId].config['mins']) > 0 || parseInt(document.sections[sectionId].config['hours']) > 0) ? <Timer section={sectionId} onFinish={() => alert("times up!")} onNegative={() => console.log('null')}/> : null}
+                    {document.config.timing === 1 && document.sections[sectionId].config['time_limit'] && (parseInt(document.sections[sectionId].config['mins']) > 0 || parseInt(document.sections[sectionId].config['hours']) > 0) ? <Timer section={sectionId} onFinish={() => {
+                        if (currentSection === (document.config.sections.length - 1)) {
+                            submitAssignment()
+                        } else {
+                            setCurrentSection(currentSection + 1)
+                        }
+                    }} onNegative={() => console.log('Stop fucking around, your assignment is already submitted. You lost. GG.')}/> : null}
 
                     {/*Global Timer*/}
                     {/*@ts-ignore*/}
-                    {document.config.timing === 2 ? <Timer onFinish={() => alert("times up!")} onNegative={() => console.log('null')}/> : null}
+                    {document.config.timing === 2 ? <Timer global onFinish={submitAssignment} onNegative={() => console.log('null')}/> : null}
                 </div>
 
                 {/*Section Page*/}
@@ -77,14 +93,11 @@ const PageContent = ({pageRawData, iid}) => {
                                     Previous
                                 </button> : null}
 
-                                {currentSection === document.config.sections.length - 1 ? <button type="button" onClick={() => setCurrentSection(prevState => {if (prevState !== document.config.sections.length -1) {
-                                    window.scrollTo(0, 0);
-                                    return currentSection + 1
-                                }})}
-                                                                                                  className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                                    <svg className="h-6 mr-1 inline-block -mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                                    </svg> Submit
+                                {currentSection === document.config.sections.length - 1 ? <button type="button" onClick={submitAssignment}
+                                                                                                  className={"w-full sm:w-auto mt-2 sm:mt-0 flex px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150 " + (isLoading ? "items-center" : "items-end")}>
+                                      {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto inline-block"/> : <svg className="h-6 mr-1 inline-block -mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                                      </svg>} {isLoading ? "Submitting" : "Submit"}
                                 </button> : <button type="button" onClick={() => setCurrentSection(prevState => {if (prevState !== document.config.sections.length -1) {
                                     window.scrollTo(0, 0);
                                     return currentSection + 1
@@ -119,30 +132,29 @@ const ExamViewer = ({session}) => {
     }, handleSubscription);
 
     const {data, fetching, error} = res
-    if (!data) return <h1>loading</h1>
+    if (!data) return (<div className="pt-56">
+        <Head>
+            <title>Sheetroom</title>
+        </Head>
+        <div className="mx-auto">
+            <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>
+            <h1 className="text-center text-gray-400 mt-4">Hang on, we're loading this page</h1>
+        </div>
+
+    </div>)
 
     if (error) return <h2>{JSON.stringify(error)}</h2>
 
-    return <PageContent pageRawData={data.assignments_submission_by_pk.content} iid={iid}/>
-
+    if (data.assignments_submission_by_pk.is_complete) {
+        window.location.href = '/results/' + iid
+        return null
+    } else {
+        return <PageContent pageRawData={data.assignments_submission_by_pk.content} iid={iid}/>
+    }
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
-    const session = await getSession({req});
-
-    if (!session) {
-        return {
-            props: {
-                session: null
-            },
-        };
-    }
-
-    return {
-        props: {
-            session,
-        },
-    };
+    return CheckForUser(req, res)
 };
 
 export default ExamViewer

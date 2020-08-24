@@ -2,9 +2,9 @@ import React, {useContext} from "react";
 import arrayMove from 'array-move';
 import AnswerChoice from "./AnswerChoice";
 import QuizContext from "../../QuizContext";
-import {v4 as uuidv4} from 'uuid';
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import update from "immutability-helper";
+import {nanoid} from "nanoid";
 
 const DragHandle = ({provided, active}) => (<div {...provided.dragHandleProps}
                                                  className={"fas fa-grip-lines-vertical text-center z-50 cursor-move text-gray-200 active:text-blue-400 focus:text-blue-400 py-2 px-1 sm:py-0 sm:px-0 " + (!active ? "hidden" : "block")}/>);
@@ -36,7 +36,7 @@ export const MultipleChoiceController = ({active, item}) => {
     }
 
     const addAnswerChoice = () => {
-        const newId = uuidv4()
+        const newId = nanoid(5)
         setDocument(prevState => {
             const newData = update(prevState, {
                     items: {
