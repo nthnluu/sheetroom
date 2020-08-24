@@ -33,7 +33,7 @@ const SimpleModal = ({isOpen, onCancel, title, content, buttons}) => {
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                 <FocusTrap>
                     <div
-                        className="bg-white rounded-lg px-4 pt-5 pb-4 overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-5"
+                        className="bg-white rounded-lg px-4 pt-5 pb-4 shadow-xl transform transition-all sm:max-w-lg sm:w-full sm:p-5"
                         role="dialog" aria-modal="true" aria-labelledby="modal-headline">
                         <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                             <button type="button" onClick={onCancel}

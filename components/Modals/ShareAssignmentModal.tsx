@@ -6,6 +6,7 @@ import {createInvite, getAssignmentInvites} from "../../lib/graphql/Invites";
 import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleRow from "../Misc/ToggleRow";
+import Datetime from 'react-datetime'
 
 const Tabs = ({setActiveTab, activeTab, tabs}) => {
     return (<div>
@@ -66,7 +67,7 @@ const ExistingInvitesSection = ({aid}) => {
 const InviteSettingsSection = () => {
     const [currentTab, setCurrentTab] = useState(0)
     const [dueDate, toggleDueDate] = useState(false);
-    const [dueDateValue, setDueDateValue] = useState(Date.now);
+    const [dueDateValue, setDueDateValue] = useState(() => (new Date()));
 
     const [restrictResults, toggleRestrictResults] = useState(false);
     const [hideUntilLastAttempt, setHideUntilLastAttempt] = useState(false);
@@ -77,8 +78,10 @@ const InviteSettingsSection = () => {
     const [ipAddressValue, setIpAddressValue] = useState("")
 
 
+
     return (<div className="w-full">
-        <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)} tabs={["General", "Visibility", "Advanced"]}/>
+        <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
+              tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
             {/*@ts-ignore*/}
             <ToggleRow label="Due date" value={dueDate}
@@ -89,10 +92,23 @@ const InviteSettingsSection = () => {
                     <label htmlFor="allowedAttempts" className="sr-only">
                         DUE AT
                     </label>
-                    <div className="mt-1 relative rounded-md shadow-sm">
-                        <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
-                               placeholder="Unlimited" value={dueDateValue} onChange={event => setDueDateValue(event.target.value)} autoComplete="none" type="datetime-local"/>
+                    <div className="hidden sm:block">
+                        {/*// @ts-ignore*/}
+                        <Datetime value={dueDateValue} onChange={setDueDateValue} inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                     </div>
+                    <div className="block sm:hidden">
+                        {/*// @ts-ignore*/}
+                        <div>
+                            <label htmlFor="email" className="sr-only">Email</label>
+                            <div className="relative rounded-md shadow-sm">
+                                <input id="email" type="datetime-local" value={dueDateValue} onChange={event => setDueDateValue(event.target.value)} className="form-input block w-full sm:text-sm sm:leading-5"
+                                       placeholder="you@example.com"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+
                 </div>
             </div> : null}
             {/*@ts-ignore*/}
@@ -145,7 +161,8 @@ const InviteSettingsSection = () => {
             </div> : null}
         </> : null}
 
-        {currentTab === 2 ? <><ToggleRow label="Restrict IP address" value={ipAddress} onEnable={() => setIpAddress(true)}
+        {currentTab === 2 ? <><ToggleRow label="Restrict IP address" value={ipAddress}
+                                         onEnable={() => setIpAddress(true)}
                                          onDisable={() => setIpAddress(false)}/>
             {ipAddress ? <div>
                 <label htmlFor="ipAddress" className="sr-only">Enter a comma-seperated list of allowed IP
@@ -157,10 +174,7 @@ const InviteSettingsSection = () => {
                            onChange={event => setIpAddressValue(event.target.value)}/>
                 </div>
                 <button className="text-sm text-gray-400">Current IP Address</button>
-            </div> : null}</>:null}
-
-
-
+            </div> : null}</> : null}
 
 
     </div>)
