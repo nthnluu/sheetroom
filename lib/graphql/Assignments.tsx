@@ -49,11 +49,11 @@ export const updateAssignmentTitle = gql`
 export const getSubmissionsForAssignment = gql`
 query ResultsPage($assignmentId: uuid!) {
   assignments_assignment_by_pk(id: $assignmentId) {
-    invites {
+    invites(order_by: {created_at: desc}) {
     is_public
     join_code
     created_at
-      submissions {
+      submissions(where: {score_report: {_is_null: false}}, order_by: {scoreReportByScoreReport: {created_at: desc}}) {
         id
         studentProfile {
           user {

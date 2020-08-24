@@ -17,7 +17,8 @@ subscription ClassByPk($classId: uuid!) {
     join_code
     studentProfiles {
       user {
-        name
+        first_name
+        last_name
         image
         email
       }
@@ -66,7 +67,8 @@ query ClassByJoinCode($joinCode: String!) {
       }
     }
     user {
-      name
+      first_name
+      last_name
     }
     __typename
   }

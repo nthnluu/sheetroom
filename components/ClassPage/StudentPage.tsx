@@ -24,7 +24,7 @@ const StudentPage = ({course}) => {
                         <div className="w-full flex items-center justify-between p-6 space-x-6">
                             <div className="flex-1 truncate">
                                 <div className="flex items-center space-x-3">
-                                    <h3 className="text-gray-900 text-sm leading-5 font-medium truncate">{student.user.name}</h3>
+                                    <h3 className="text-gray-900 text-sm leading-5 font-medium truncate">{`${student.user.first_name} ${student.user.last_name}`}</h3>
                                     <span
                                         className="flex-shrink-0 inline-block px-2 py-0.5 text-pink-800 text-xs leading-4 font-medium bg-pink-100 rounded-full">Student</span>
                                 </div>

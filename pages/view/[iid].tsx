@@ -10,6 +10,8 @@ import {debounce} from 'lodash'
 import Timer from "../../components/Misc/Timer";
 import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {me} from "../../lib/graphql/User";
+import CheckForUser from "../../lib/CheckForUser";
 
 const PageContent = ({pageRawData, iid}) => {
 
@@ -21,6 +23,7 @@ const PageContent = ({pageRawData, iid}) => {
 
     const [mutateSubmissionResult, mutateSubmission] = useMutation(updateSubmissionContent)
     const [scoreSubmissionResult, scoreSubmissionMutate] = useMutation(scoreAssignment)
+    const [isLoading, toggleIsLoading] = useState(false);
 
     const saveAssignment = (newDocument) => {
         setSaveStatus(1)
@@ -37,6 +40,7 @@ const PageContent = ({pageRawData, iid}) => {
     }, [document])
 
     const submitAssignment = () => {
+        toggleIsLoading(true)
         scoreSubmissionMutate({submissionId: iid})
             .then(() => window.location.href = '/results/' + iid + '?status=success')
             .catch(error => console.log(scoreSubmissionResult.error));
@@ -84,10 +88,10 @@ const PageContent = ({pageRawData, iid}) => {
                                 </button> : null}
 
                                 {currentSection === document.config.sections.length - 1 ? <button type="button" onClick={submitAssignment}
-                                                                                                  className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                                    <svg className="h-6 mr-1 inline-block -mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                                    </svg> Submit
+                                                                                                  className={"w-full sm:w-auto mt-2 sm:mt-0 flex px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150 " + (isLoading ? "items-center" : "items-end")}>
+                                      {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto inline-block"/> : <svg className="h-6 mr-1 inline-block -mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                                      </svg>} {isLoading ? "Submitting" : "Submit"}
                                 </button> : <button type="button" onClick={() => setCurrentSection(prevState => {if (prevState !== document.config.sections.length -1) {
                                     window.scrollTo(0, 0);
                                     return currentSection + 1
@@ -144,21 +148,7 @@ const ExamViewer = ({session}) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
-    const session = await getSession({req});
-
-    if (!session) {
-        return {
-            props: {
-                session: null
-            },
-        };
-    }
-
-    return {
-        props: {
-            session,
-        },
-    };
+    return CheckForUser(req, res)
 };
 
 export default ExamViewer

@@ -2,7 +2,7 @@ import Navbar from "../../components/PageLayouts/AppLayout/Navbar";
 import {GetServerSideProps} from "next";
 import {getSession} from "next-auth/client";
 import {useRouter} from 'next/router'
-import React, {useState} from "react";
+import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useMutation, useQuery} from "urql";
 import {classByJoinCode, createStudentProfile} from "../../lib/graphql/Class";
@@ -108,7 +108,7 @@ const InviteFetch = ({joinCode, session}) => {
                                 </div>
                             )
                         } else {
-                            return (<ClassCard course={data.classes_class}/>)
+                            return (<ClassCard course={data.classes_class} onStart={() => joinClass({studentId: session.id, classId:data.classes_class[0].id })}/>)
                         }
                     } else {
                         return <ClassCard course={data.classes_class[0]}/>

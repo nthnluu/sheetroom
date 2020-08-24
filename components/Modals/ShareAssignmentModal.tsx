@@ -6,6 +6,7 @@ import {createInvite, getAssignmentInvites} from "../../lib/graphql/Invites";
 import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleRow from "../Misc/ToggleRow";
+import { DatePicker } from "baseui/datepicker";
 
 
 const ExistingInvitesSection = ({aid}) => {
@@ -50,6 +51,9 @@ const ExistingInvitesSection = ({aid}) => {
 }
 
 const InviteSettingsSection = () => {
+    const [dueDate, toggleDueDate] = useState(false);
+    const [dueDateValue, setDueDateValue] = useState();
+
     const [restrictResults, toggleRestrictResults] = useState(false);
     const [hideUntilLastAttempt, setHideUntilLastAttempt] = useState(false);
     const [multipleAttempts, setMultipleAttempts] = useState(false)
@@ -62,7 +66,29 @@ const InviteSettingsSection = () => {
 
     return (<div className="w-full">
         {/*@ts-ignore*/}
-        <ToggleRow label="Due date" onEnable="" onDisable=""/>
+        <ToggleRow label="Due date" value={dueDate}
+                   onEnable={() => toggleDueDate(true)}
+                   onDisable={() => toggleDueDate(false)}/>
+        {dueDate ? <div className="grid grid-cols-2 gap-4 text-left">
+            <div className="flex-row justify-start items-center mt-2">
+                <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
+                    Start
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                    <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
+                           placeholder="Unlimited" autoComplete="none" type="datetime-local"/>
+                </div>
+            </div>
+            <div className="flex-row justify-start items-center mt-2">
+                <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
+                    End
+                </label>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                    <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
+                           placeholder="Unlimited" autoComplete="none" type="datetime-local"/>
+                </div>
+            </div>
+        </div> : null}
         {/*@ts-ignore*/}
         <ToggleRow label="Collect student info" onEnable="" onDisable=""/>
         {/*@ts-ignore*/}

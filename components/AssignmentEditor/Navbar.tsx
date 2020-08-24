@@ -14,6 +14,8 @@ export default function ({session, content, pageData}) {
     // State for menus
     const [shareDialog, toggleShareDialog] = useState(false);
 
+    const [isLoading, toggleIsLoading] = useState(false);
+
 
     // Popper Shit
     const [anchorEl, setAnchorEl] = React.useState(null);

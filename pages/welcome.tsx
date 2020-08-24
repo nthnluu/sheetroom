@@ -4,7 +4,7 @@ import StepThreeRadioGroup from "../components/WelcomePage/StepThreeRadioGroup";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {getSession} from "next-auth/client";
 import {useMutation} from "urql";
-import {onboardUser} from "../lib/graphql/User";
+import {me, onboardUser} from "../lib/graphql/User";
 
 const StepOne: React.FC<{ onContinue, currentValue, onChange }> = ({onContinue, currentValue, onChange}) => {
     return (<div>
@@ -170,7 +170,7 @@ const WelcomePage: InferGetServerSidePropsType<typeof getServerSideProps> = ({se
                     {/*{currentPage === 3 ?*/}
                     {/*    <StepThree onContinue={() => setCurrentPage(4)} onBack={() => setCurrentPage(2)}/> : null}*/}
                     {currentPage === 3 ? <StepFour onContinue={() => {
-                        mutateResult({firstName: firstName, lastName: lastName, role: roleSelection})
+                        mutateResult({firstName: firstName, lastName: lastName, role: roleSelection, userId: session.id})
                             .then(() => window.location.href = '/')
                             .catch((error) => console.log(error))
                     }} onBack={() => setCurrentPage(2)}/> : null}
@@ -183,18 +183,6 @@ const WelcomePage: InferGetServerSidePropsType<typeof getServerSideProps> = ({se
 
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
     const session = await getSession({req});
-
-
-    const me = `
-query Me($userId: Int!) {
-  users_by_pk(id: $userId) {
-    first_name
-    last_name
-    account_type
-    __typename
-  }
-}
-`;
 
     if (!session) {
         res.writeHead(301, {location: '/'})
