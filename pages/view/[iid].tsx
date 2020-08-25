@@ -13,14 +13,17 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {me} from "../../lib/graphql/User";
 import CheckForUser from "../../lib/CheckForUser";
 import JsonDebugBox from "../../components/JsonDebugBox";
+import moment from "moment";
 
 const PageContent = ({pageRawData, iid}) => {
 
     const [pageData] = useState(pageRawData)
     const [document, setDocument] = useState(pageData.content);
     const [currentSection, setCurrentSection] = useState(0)
-    const sectionId = document.config.sections[currentSection]
+    const sectionArray = document.timing === 1 ? document.config.sections.filter(element => (document.sections[element].config.end_time ? moment(document.sections[element].config.end_time).isAfter(moment(Date.now())) : false)) : document.config.sections
+    const sectionId = sectionArray[currentSection]
     const [saveStatus, setSaveStatus] = useState(0)
+
 
     const [mutateSubmissionResult, mutateSubmission] = useMutation(updateSubmissionContent)
     const [scoreSubmissionResult, scoreSubmissionMutate] = useMutation(scoreAssignment)
@@ -58,7 +61,17 @@ const PageContent = ({pageRawData, iid}) => {
 
                     {/*Per-section Timer*/}
                     {/*@ts-ignore*/}
-                    <Timer section={sectionId}/>
+                    {document.config.timing !== 0 ? <Timer global={document.config.timing === 2} section={sectionId} onFinish={() => { if (document.config.timing === 2) {
+                        submitAssignment()
+                    } else {
+                        if (currentSection === sectionArray.length - 1) {
+                            submitAssignment()
+                        } else {
+                            setCurrentSection(currentSection + 1)
+                        }
+                    }
+                    }}/> : null}
+
                 </div>
 
                 {/*Section Page*/}
