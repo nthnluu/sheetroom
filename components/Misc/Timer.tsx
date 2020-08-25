@@ -2,131 +2,20 @@ import React, {useContext, useEffect, useState} from "react";
 import update from "immutability-helper";
 import AssignmentViewerContext from "../AssignmentViewer/AssignmentViewerContext";
 
-const Timer = ({onFinish, onNegative, section, global}) => {
+const Timer = ({onFinish, section, global}) => {
     const {document, setDocument} = useContext(AssignmentViewerContext)
-    const [et, setEndTime] = useState(() => {
-        const endingTime = section ? document.sections[section].config.end_time : document.config.end_time
-        let endtime;
-        if (endingTime) {
-            endtime = new Date(endingTime);
-        } else {
-            let currentConfig;
-            let newEndTime = new Date();
+    const [timer, setTimer] = useState("00:00")
 
-        if (global) {
-            currentConfig = document.config
-            const hours = parseInt(currentConfig['hours']);
-            const mins = parseInt(currentConfig['mins']);
-            newEndTime.setSeconds(newEndTime.getSeconds() + (hours > 0 ? (hours * 60 * 60) : 0) + (mins > 0 ? (mins * 60) : 0));
-
-            setDocument(prevState => {
-                return update(prevState, {
-                        config: {
-                            end_time: {
-                                $set: newEndTime
-                            }
-                        }
-                    }
-                )
-            })
-
-            endtime = newEndTime
-
-        } else {
+    const calculateEndTime = () => {
+        if (document.config['timing'] === 1) {
             // Per-section timing
-            currentConfig = document.sections[section].config
-            const hours = parseInt(currentConfig['hours']);
-            const mins = parseInt(currentConfig['mins']);
-            newEndTime.setSeconds(newEndTime.getSeconds() + (hours > 0 ? (hours * 60 * 60) : 0) + (mins > 0 ? (mins * 60) : 0));
-
-
-            setDocument(prevState => {
-                return update(prevState, {
-                        sections: {
-                            [section]: {
-                                config: {
-                                    end_time: {
-                                        $set: newEndTime
-                                    }
-                                }
-                            }
-                        }
-                    }
-                )
-            })
-
-            endtime = newEndTime
-        }
-    }
-
-        return endtime
-    })
-
-    const [timer, setTimer] = useState()
-
-    const refreshId = window.setInterval(function () {
-        const now = new Date().getTime()
-        // @ts-ignore
-        const distance = et.getTime() - now
-
-        if (distance >= 0) {
-            if (distance === 0) {
-                onFinish()
+            if (document.sections[section].config['end_time']) {
+                //an end time has been set; resume timer
+                return new Date(document.sections[section].config['end_time'])
             } else {
-                // @ts-ignore
-                setTimer(distance)
-            }
-        } else {
-            onFinish()
-            clearInterval(refreshId)
-        }
-    }, 500);
-
-
-    function formatNumber(number) {
-        return ("0" + number).slice(-2)
-    }
-
-    useEffect(() => setEndTime(() => {
-        if (section) {
-
-        }
-        clearInterval(refreshId)
-        const endingTime = section ? document.sections[section].config.end_time : document.config.end_time
-        let endtime;
-        if (endingTime) {
-            endtime = new Date(endingTime);
-        } else {
-            let currentConfig;
-            let newEndTime = new Date();
-
-            if (global) {
-                currentConfig = document.config
-                const hours = parseInt(currentConfig['hours']);
-                const mins = parseInt(currentConfig['mins']);
-                newEndTime.setSeconds(newEndTime.getSeconds() + (hours > 0 ? (hours * 60 * 60) : 0) + (mins > 0 ? (mins * 60) : 0));
-
-                setDocument(prevState => {
-                    return update(prevState, {
-                            config: {
-                                end_time: {
-                                    $set: newEndTime
-                                }
-                            }
-                        }
-                    )
-                })
-
-                endtime = newEndTime
-
-            } else {
-                // Per-section timing
-                currentConfig = document.sections[section].config
-                const hours = parseInt(currentConfig['hours']);
-                const mins = parseInt(currentConfig['mins']);
-                newEndTime.setSeconds(newEndTime.getSeconds() + (hours > 0 ? (hours * 60 * 60) : 0) + (mins > 0 ? (mins * 60) : 0));
-
-
+                //the timer hasn't been started, start the timer
+                let newEndTime = new Date()
+                newEndTime.setSeconds(newEndTime.getSeconds() + (document.sections[section].config['hours'] * 60) + (document.sections[section].config['mins'] * 60 * 60))
                 setDocument(prevState => {
                     return update(prevState, {
                             sections: {
@@ -142,13 +31,55 @@ const Timer = ({onFinish, onNegative, section, global}) => {
                     )
                 })
 
-                endtime = newEndTime
+                return newEndTime;
+            }
+        } else {
+            // Global timing
+            if (document.config['end_time']) {
+                //an end time has been set; resume timer
+                return new Date(document.config['end_time'])
+
+            } else {
+                //the timer hasn't been started, start the timer
+                let newEndTime = new Date()
+                newEndTime.setSeconds(newEndTime.getSeconds() + (document.config['hours'] * 60) + (document.config['mins'] * 60 * 60))
+                setDocument(prevState => {
+                    return update(prevState, {
+                            config: {
+                                end_time: {
+                                    $set: newEndTime
+                                }
+                            }
+                        }
+                    )
+                })
+                return newEndTime;
             }
         }
+    }
+    const [endTime, setEndTime] = useState(calculateEndTime())
 
-        return endtime
-    }), [section])
+    const formattedNumber = (number) => (("0" + number).slice(-2))
 
+    useEffect(() => {
+
+        setEndTime(calculateEndTime())
+        const timerInterval = setInterval(() => {
+            console.log(endTime)
+            const now = new Date().getTime()
+            const distance = endTime.getTime() - now
+
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            setTimer(`${formattedNumber(hours)}:${formattedNumber(minutes)}:${formattedNumber(seconds)}`)
+
+        }, 1000);
+
+        return () => clearInterval(timerInterval);
+
+    }, [section])
 
     return (<span className="text-lg font-bold flex justify-between items-center text-gray-700">
                         <svg className="h-6 mr-1 text-gray-300" viewBox="0 0 24 24" fill="none"
@@ -158,7 +89,7 @@ const Timer = ({onFinish, onNegative, section, global}) => {
                                 stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
         {/*// @ts-ignore*/}
-        {timer ? `${formatNumber(Math.floor((timer % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))) !== "00" ? formatNumber(Math.floor((timer % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))) + ":" : ""}${formatNumber(Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60)))}:${formatNumber(Math.floor((timer % (1000 * 60)) / 1000))}` : "00:00"}
+        {timer ? timer : "00:00"}
                     </span>)
 }
 

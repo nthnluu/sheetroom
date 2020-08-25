@@ -12,6 +12,7 @@ import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {me} from "../../lib/graphql/User";
 import CheckForUser from "../../lib/CheckForUser";
+import JsonDebugBox from "../../components/JsonDebugBox";
 
 const PageContent = ({pageRawData, iid}) => {
 
@@ -57,17 +58,7 @@ const PageContent = ({pageRawData, iid}) => {
 
                     {/*Per-section Timer*/}
                     {/*@ts-ignore*/}
-                    {document.config.timing === 1 && document.sections[sectionId].config['time_limit'] && (parseInt(document.sections[sectionId].config['mins']) > 0 || parseInt(document.sections[sectionId].config['hours']) > 0) ? <Timer section={sectionId} onFinish={() => {
-                        if (currentSection === (document.config.sections.length - 1)) {
-                            submitAssignment()
-                        } else {
-                            setCurrentSection(currentSection + 1)
-                        }
-                    }} onNegative={() => console.log('Stop fucking around, your assignment is already submitted. You lost. GG.')}/> : null}
-
-                    {/*Global Timer*/}
-                    {/*@ts-ignore*/}
-                    {document.config.timing === 2 ? <Timer global onFinish={submitAssignment} onNegative={() => console.log('null')}/> : null}
+                    <Timer section={sectionId}/>
                 </div>
 
                 {/*Section Page*/}
