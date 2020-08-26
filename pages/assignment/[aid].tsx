@@ -15,6 +15,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import {assignmentSubscription, updateAssignmentContent} from "../../lib/graphql/Assignments";
 import ReactGA from "react-ga";
+import CheckForUser from "../../lib/CheckForUser";
 
 const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({pageData, aid, session}) => {
     // A client ID to identify the current user working on the project
@@ -185,14 +186,8 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
     )
 };
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
-    const session = await getSession({req});
-
-    return {
-        props: {
-            session,
-        },
-    };
+export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+    return CheckForUser(req, res, true)
 };
 
 

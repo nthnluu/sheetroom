@@ -23,7 +23,8 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
-    return CheckForUser(req, res)
+    return CheckForUser(req, res, true)
 };
+
 
 export default Dashboard;

@@ -10,6 +10,7 @@ import Navbar from "../../components/PageLayouts/AppLayout/Navbar";
 import moment from "moment";
 import JsonDebugBox from "../../components/JsonDebugBox";
 import ItemCard from "../../components/ResultsPage/ItemCard";
+import CheckForUser from "../../lib/CheckForUser";
 
 const PageLayout: React.FC<{ session, data, status }> = ({session, data, status}) => {
     return (
@@ -82,14 +83,9 @@ const ClassPage = ({session}) => {
 }
 
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
-    const session = await getSession({req});
-
-    return {
-        props: {
-            session,
-        },
-    };
+export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+    return CheckForUser(req, res)
 };
+
 
 export default ClassPage

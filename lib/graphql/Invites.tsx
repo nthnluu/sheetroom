@@ -7,12 +7,12 @@ assignments_invite(limit: 1, where: {join_code: {
 }}) {
 id
   is_public
-  user {
+  assignmentByAssignment {
+    title
+    user {
     first_name
     last_name
     }
-  assignmentByAssignment {
-    title
   }
   __typename
 }

@@ -14,6 +14,7 @@ import AssignmentCard from "../../components/JoinScreen/AssignmentCard";
 import ReactGA from "react-ga";
 import ClassCard from "../../components/JoinScreen/ClassCard";
 import {prepareSubmission} from "../../lib/graphql/Submissions";
+import CheckForUser from "../../lib/CheckForUser";
 
 
 const InviteFetch = ({joinCode, session}) => {
@@ -179,15 +180,10 @@ const JoinPage = ({session}) => {
     </div>)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
-    const session = await getSession({req});
-
-    return {
-        props: {
-            session,
-        },
-    };
+export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+    return CheckForUser(req, res)
 };
+
 
 
 export default JoinPage

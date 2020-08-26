@@ -1,9 +1,8 @@
 import {getSession} from "next-auth/client";
 import {me} from "./graphql/User";
 
-const CheckForUser = async (req, res, privatePage) => {
-    const session = await getSession({req});
-    const anonymousUser = "anon"
+const CheckForUser = async (req, res, privatePage = false) => {
+    let session = await getSession({req});
     let profileData;
 
     if (!session) {
@@ -11,8 +10,9 @@ const CheckForUser = async (req, res, privatePage) => {
             res.writeHead(302, {location: '/'})
             res.end()
         } else {
+            session = null
             return {
-                props: {anonymousUser}
+                props: {session}
             }
         }
     } else {
