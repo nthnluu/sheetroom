@@ -20,15 +20,8 @@ const PageContent = ({pageRawData, iid}) => {
 
     const [pageData] = useState(pageRawData)
     const [document, setDocument] = useState(pageData.content);
-    const [currentSection, setCurrentSection] = useState(0)
-    const sectionArray = document.config.sections.filter(element => {
-        if (document.sections[element].config.end_time) {
-            return document.sections[element].config.end_time > Date.now();
-        } else {
-            return true
-        }
-    })
-    const sectionId = sectionArray[currentSection]
+    const [currentSection, setCurrentSection] = useState(document.config.current_section ? document.config.current_section : 0)
+    const sectionId = document.config.sections[currentSection]
     const [saveStatus, setSaveStatus] = useState(0)
 
 
@@ -58,9 +51,15 @@ const PageContent = ({pageRawData, iid}) => {
     }
 
     const handleContinue = () => {
+        setCurrentSection(currentSection + 1)
         if (document.config.timing === 1) {
             setDocument(prevState => {
                 return update(prevState, {
+                        config: {
+                            current_section: {
+                                $set: currentSection + 1
+                            }
+                        },
                         sections: {
                             [sectionId]: {
                                 config: {
@@ -91,8 +90,6 @@ const PageContent = ({pageRawData, iid}) => {
                     {document.config.timing !== 0 ? <Timer global={document.config.timing === 2} section={sectionId}
                                                            onFinish={document.config.timing === 2 ? () => submitAssignment() : () => null}/> : null}
                 </div>
-                <JsonDebugBox content={document}/>
-
                 {/*Section Page*/}
                 <div className="mx-auto max-w-4xl pt-20 px-4 space-y-6 mb-16">
                     <div className="leading-tight">
@@ -122,7 +119,7 @@ const PageContent = ({pageRawData, iid}) => {
                                     Previous
                                 </button> : null}
 
-                            {currentSection === sectionArray.length - 1 || sectionArray.length === 1 ?
+                            {currentSection === document.config.sections.length - 1 || document.config.sections.length === 1 ?
                                 <button type="button" onClick={submitAssignment}
                                         className={"w-full text-center sm:w-auto mt-2 sm:mt-0 flex px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150 " + (isLoading ? "items-center" : "items-end")}>
                                       <span className="mx-auto">
