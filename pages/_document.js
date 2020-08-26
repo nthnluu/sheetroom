@@ -11,7 +11,9 @@ class MyDocument extends Document {
             <Html>
                 <Head>
                     {/*Inter Font*/}
-                    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossorigin preconnect/>
+                    {/*<link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin/>*/}
+                    {/*<link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet"/>*/}
+                    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossOrigin/>
                     <style id="react-mathquill-styles"/>
 
                     {/*Font Awesome Icons*/}
@@ -24,8 +26,8 @@ class MyDocument extends Document {
                           integrity="sha384-qCEsSYDSH0x5I45nNW4oXemORUZnYFtPy/FqB/OjqxabTMW5HVaaH9USK4fN3goV"
                           crossOrigin="anonymous"/>
                     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.js"
-                            integrity="sha384-YFVvRUwgqxkAVN9bmAVLsKilmOKfQLyUx0ZlmDNs0aBUTsvMLnRxE3Km0NrZa0i9"
-                            crossOrigin="anonymous"></script>
+    integrity="sha384-YFVvRUwgqxkAVN9bmAVLsKilmOKfQLyUx0ZlmDNs0aBUTsvMLnRxE3Km0NrZa0i9"
+    crossOrigin="anonymous"/>
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css"
                           integrity="sha512-vPg9GqsZZ4LHv9BkFfZSXt7y4D7YaARPU2JFmpZug4EgtJJrumytMAFZkNSk2LSyqWir0TNbh2tBq7UJIMxvlA=="
                           crossOrigin="anonymous"/>

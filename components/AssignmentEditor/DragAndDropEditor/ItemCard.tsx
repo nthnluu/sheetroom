@@ -46,6 +46,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
                                 controller_type: "MC",
                                 answer_objects: [newObjectId],
                                 correct_objects: [newObjectId],
+                                student_input: [],
                                 config: {
                                     points: 10,
                                     shuffle: false,
