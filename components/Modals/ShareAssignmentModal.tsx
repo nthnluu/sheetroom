@@ -165,12 +165,15 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
             {isPublic ? <><ToggleRow label="Collect student info" value={settingsObject.collectStudentInfo}
                                      onEnable={() => setConfigValue("collectStudentInfo", true)}
                                      onDisable={() => setConfigValue("collectStudentInfo", false)}/>
-                {settingsObject.collectStudentInfo ? <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-2 mt-4">
-                        <button type="button" onClick={() => setConfigValue("collectStudentName", !settingsObject.collectStudentName)}
+                {settingsObject.collectStudentInfo ?
+                    <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-2 mt-4">
+                        <button type="button"
+                                onClick={() => setConfigValue("collectStudentName", !settingsObject.collectStudentName)}
                                 className={settingsObject.collectStudentName ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
                             <i className={"fas fa-check mr-1.5 " + (settingsObject.collectStudentName ? "inline" : "hidden")}/>Name
                         </button>
-                        <button type="button" onClick={() => setConfigValue("collectEmail", !settingsObject.collectEmail)}
+                        <button type="button"
+                                onClick={() => setConfigValue("collectEmail", !settingsObject.collectEmail)}
                                 className={settingsObject.collectEmail ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
                             <i className={"fas fa-check mr-1.5 " + (settingsObject.collectEmail ? "inline" : "hidden")}/>Email
                         </button>
@@ -398,9 +401,10 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                              <div className="relative">
                                  <label htmlFor="newinvitelink" className="sr-only">Link to this invite</label>
                                  <div className="relative rounded-md shadow-sm">
-                                     {/*@ts-ignore*/}
+
                                      <input id="newinvitelink"
                                             className="form-input block w-full sm:text-sm sm:leading-5"
+                                         //@ts-ignore
                                             onClick={event => event.target.select()}
                                             placeholder="https://sheetroom.com/join/" readOnly
                                             value={`https://sheetroom.com/join/${newInviteCode}`} autoComplete="off"/>

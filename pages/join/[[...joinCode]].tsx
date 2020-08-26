@@ -30,7 +30,7 @@ const InviteFetch = ({joinCode, session}) => {
                     }, mutation: createStudentProfile
                 }
             case(8):
-                if (session.id) {
+                if (session) {
                     return {
                         type: "assignment_invite_code", query: {
                             query: getInviteByJoinCodeWithSession,
@@ -173,7 +173,7 @@ const JoinPage = ({session}) => {
         <Navbar session={session}/>
         <div className="h-full flex justify-center items-center max-w-3xl mx-auto px-4 md:px-0">
             <div className="w-full">
-                {joinCode.length === 8 || joinCode.length === 9  ? <InviteFetch joinCode={joinCode[0]} session={session}/> : <JoinCode session={session}/>}
+                {(joinCode[0].length === 8 || joinCode[0].length === 9)  ? <InviteFetch joinCode={joinCode[0]} session={session}/> : <JoinCode session={session}/>}
             </div>
         </div>
     </div>)
