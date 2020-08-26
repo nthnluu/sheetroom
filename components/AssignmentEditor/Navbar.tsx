@@ -6,7 +6,7 @@ import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 
-export default function ({session, content, pageData}) {
+const Navbar = ({session, content, pageData}) => {
     const {clientId, setSaveStatus, setCurrentPage, currentPage, aid} = useContext(QuizContext);
     const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
 
@@ -56,7 +56,7 @@ export default function ({session, content, pageData}) {
                             </div>
                             <div className="hidden sm:ml-6 xl:flex">
                                 <button onClick={() => setCurrentPage(1)}
-                                   className={currentPage === 1 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out" : "inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
+                                        className={currentPage === 1 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out" : "inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
                                     <i className="far fa-edit mr-2"/>Edit
                                 </button>
                                 <button onClick={() => setCurrentPage(2)}
@@ -64,7 +64,7 @@ export default function ({session, content, pageData}) {
                                     <i className="fas fa-poll mr-2"/>Results
                                 </button>
                                 <button onClick={() => setCurrentPage(3)}
-                                    className={currentPage === 3 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out ml-8" : "ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
+                                        className={currentPage === 3 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out ml-8" : "ml-8 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
                                     <i className="fas fa-chart-area mr-2"/>Insights
                                 </button>
                                 <button onClick={() => setCurrentPage(4)}
@@ -93,7 +93,14 @@ export default function ({session, content, pageData}) {
                                     </div>
                                     <button type="button" onClick={() => toggleShareDialog(true)}
                                             className="inline-flex items-center px-3 h-10 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                                        <i className="fas fa-users mr-2 hidden sm:inline-block"/>Share
+                                        <svg className="h-5 mr-1.5 hidden sm:inline-block" viewBox="0 0 24 24"
+                                             fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M8.68387 13.3419C8.88616 12.9381 9 12.4824 9 12C9 11.5176 8.88616 11.0619 8.68387 10.6581M8.68387 13.3419C8.19134 14.3251 7.17449 15 6 15C4.34315 15 3 13.6569 3 12C3 10.3431 4.34315 9 6 9C7.17449 9 8.19134 9.67492 8.68387 10.6581M8.68387 13.3419L15.3161 16.6581M8.68387 10.6581L15.3161 7.34193M15.3161 7.34193C15.8087 8.32508 16.8255 9 18 9C19.6569 9 21 7.65685 21 6C21 4.34315 19.6569 3 18 3C16.3431 3 15 4.34315 15 6C15 6.48237 15.1138 6.93815 15.3161 7.34193ZM15.3161 16.6581C15.1138 17.0619 15 17.5176 15 18C15 19.6569 16.3431 21 18 21C19.6569 21 21 19.6569 21 18C21 16.3431 19.6569 15 18 15C16.8255 15 15.8087 15.6749 15.3161 16.6581Z"
+                                                stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                                strokeLinejoin="round"/>
+                                        </svg>
+                                        Share
                                     </button>
                                 </div>
 
@@ -104,26 +111,27 @@ export default function ({session, content, pageData}) {
                 <nav>
                     <div className="flex sm:ml-6 xl:hidden px-4 h-12">
                         <button onClick={() => setCurrentPage(1)}
-                           className={currentPage === 1 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out":"inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
+                                className={currentPage === 1 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out" : "inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
                             Edit
                         </button>
                         <button onClick={() => setCurrentPage(2)}
-                                className={currentPage === 2 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out ml-4":"ml-4 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
+                                className={currentPage === 2 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out ml-4" : "ml-4 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
                             Results
                         </button>
                         <button onClick={() => setCurrentPage(3)}
-                                className={currentPage === 3 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out ml-4":"ml-4 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
+                                className={currentPage === 3 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out ml-4" : "ml-4 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
                             Insights
                         </button>
                         <button onClick={() => setCurrentPage(4)}
-                                className={currentPage === 4 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out ml-4":"ml-4 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
+                                className={currentPage === 4 ? "inline-flex items-center px-1 pt-1 border-b-4 border-blue-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-blue-700 transition duration-150 ease-in-out ml-4" : "ml-4 inline-flex items-center px-1 pt-1 border-b-4 border-transparent text-sm font-medium leading-5 text-gray-400 hover:text-gray-500 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"}>
                             Settings
                         </button>
                     </div>
                 </nav>
             </div>
             <div className="h-full">
-                <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session} assignmentId={aid}/>
+                <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session}
+                                      assignmentId={aid}/>
                 {content}
             </div>
 
@@ -131,3 +139,5 @@ export default function ({session, content, pageData}) {
     )
 
 }
+
+export default Navbar

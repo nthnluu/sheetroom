@@ -6,8 +6,23 @@ import {createInvite, getAssignmentInvites} from "../../lib/graphql/Invites";
 import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleRow from "../Misc/ToggleRow";
+import Datetime from 'react-datetime'
 
+const Tabs = ({setActiveTab, activeTab, tabs}) => {
+    return (<div>
+            {/*// <!-- Tabs at small breakpoint and up -->*/}
+            <div className="block">
+                <nav className="-mb-px flex justify-between space-x-8">
+                    {tabs.map((tab, index) => <button key={index} onClick={() => setActiveTab(index)}
+                                                      className={activeTab === index ? "whitespace-no-wrap pb-3 w-full px-1 border-b-2 border-blue-500 font-medium text-sm leading-5 text-blue-600 focus:outline-none focus:text-blue-800 focus:border-blue-700" : "whitespace-no-wrap w-full pb-3 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"}>
+                        {tab}
+                    </button>)}
+                </nav>
+            </div>
+        </div>
 
+    )
+}
 const ExistingInvitesSection = ({aid}) => {
     const [result] = useQuery({
         query: getAssignmentInvites,
@@ -39,7 +54,7 @@ const ExistingInvitesSection = ({aid}) => {
                                                                         className={"p-3 border-gray-300 leading-tight " + (index === (data.assignments_invite.length - 1) ? null : "border-b")}>
                         <h1 className="font-medium text-gray-700 text-sm">{moment(invite.created_at).format("dddd, MMMM Do YYYY")} ({invite.join_code})</h1>
                         <p className="text-sm text-gray-400">{invite.is_public ? <><i
-                            className="fas fa-globe-americas mr-1"/>Public</> : `Assigned to ${invite.classByClass.title}`}</p>
+                            className="fas fa-globe-americas mr-1"/>Public</> : `Assigned to ${invite.classByClass ? invite.classByClass.title : "a class"}`}</p>
                     </li>)}
                 </ul>
                 <h2 className="font-medium text-gray-700 mt-4">Create New Invite</h2></> : null}
@@ -49,13 +64,19 @@ const ExistingInvitesSection = ({aid}) => {
     )
 }
 
-const InviteSettingsSection = () => {
+const InviteSettingsSection = ({isPublic}) => {
+    const [currentTab, setCurrentTab] = useState(0)
     const [dueDate, toggleDueDate] = useState(false);
-    const [dueDateValue, setDueDateValue] = useState();
+    const [dueDateValue, setDueDateValue] = useState(() => (new Date()));
 
     const [restrictResults, toggleRestrictResults] = useState(false);
     const [hideUntilLastAttempt, setHideUntilLastAttempt] = useState(false);
     const [multipleAttempts, setMultipleAttempts] = useState(false)
+
+    const [collectStudentInfo, toggleCollectStudentInfo] = useState(false);
+    const [collectName, toggleCollectName] = useState(false);
+    const [collectEmail, toggleCollectEmail] = useState(false);
+    const [collectId, toggleCollectId] = useState(false);
 
 
     const [ipAddress, setIpAddress] = useState(false)
@@ -64,88 +85,128 @@ const InviteSettingsSection = () => {
 
 
     return (<div className="w-full">
-        {/*@ts-ignore*/}
-        <ToggleRow label="Due date" value={dueDate}
-                   onEnable={() => toggleDueDate(true)}
-                   onDisable={() => toggleDueDate(false)}/>
-        {dueDate ? <div className="grid grid-cols-2 gap-4 text-left">
-            <div className="flex-row justify-start items-center mt-2">
-                <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
-                    Start
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                    <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
-                           placeholder="Unlimited" autoComplete="none" type="datetime-local"/>
-                </div>
-            </div>
-            <div className="flex-row justify-start items-center mt-2">
-                <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
-                    End
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                    <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
-                           placeholder="Unlimited" autoComplete="none" type="datetime-local"/>
-                </div>
-            </div>
-        </div> : null}
-        {/*@ts-ignore*/}
-        <ToggleRow label="Collect student info" onEnable="" onDisable=""/>
-        {/*@ts-ignore*/}
-        <ToggleRow label="Allow multiple attempts" value={multipleAttempts} onEnable={() => setMultipleAttempts(true)}
-                   onDisable={() => setMultipleAttempts(false)}/>
-        {multipleAttempts ? <div className="grid grid-cols-2 gap-4 text-left">
-                <div className="flex-row justify-start items-center mt-2">
-                    <label htmlFor="keepScore" className="block text-xs uppercase leading-5 text-gray-400">
-                        Keep
-                    </label>
-                    <div className="mt-1 rounded-md shadow-sm">
-                        <select id="keepScore"
-                                className="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                            <option>Highest score</option>
-                            <option>Latest score</option>
-                            <option>Average of all attempts</option>
-                        </select>
+        <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
+              tabs={["General", "Visibility", "Advanced"]}/>
+        {currentTab === 0 ? <>
+            {/*@ts-ignore*/}
+            {isPublic ? <><ToggleRow label="Collect student info" value={collectStudentInfo}
+                                      onEnable={() => toggleCollectStudentInfo(true)}
+                                      onDisable={() => toggleCollectStudentInfo(false)}/>
+                {collectStudentInfo ? <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-2 mt-4">
+                        <button type="button" onClick={() => toggleCollectName(!collectName)}
+                                className={collectName ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                            <i className={"fas fa-check mr-1.5 " + (collectName ? "inline" : "hidden")}/>Name
+                        </button>
+                        <button type="button" onClick={() => toggleCollectEmail(!collectEmail)}
+                                className={collectEmail ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                            <i className={"fas fa-check mr-1.5 " + (collectEmail ? "inline" : "hidden")}/>Email
+                        </button>
+                        <button type="button" onClick={() => toggleCollectId(!collectId)}
+                                className={collectId ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                            <i className={"fas fa-check mr-1.5 " + (collectId ? "inline" : "hidden")}/>ID
+                        </button>
                     </div>
-                </div>
-                <div className="flex-row justify-start items-center mt-2">
-                    <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
-                        Allowed attempts
-                    </label>
-                    <div className="mt-1 relative rounded-md shadow-sm">
-                        <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
-                               placeholder="Unlimited" autoComplete="none"/>
-                    </div>
+                    : null}</> : <div className="mt-6">
+                <label htmlFor="email" className="sr-only">Assign to</label>
+                <div className="relative rounded-md shadow-sm">
+                    <input id="email" className="form-input block w-full sm:text-sm sm:leading-5" placeholder="Assign to class or student"/>
                 </div>
             </div>
-            : null}
+                }
+            {/*@ts-ignore*/}
+            <ToggleRow label="Due date" value={dueDate}
+                       onEnable={() => toggleDueDate(true)}
+                       onDisable={() => toggleDueDate(false)}/>
+            {dueDate ? <div className="grid grid-cols-1 gap-4 text-left">
+                <div className="flex-row justify-start items-center mt-2">
+                    <label htmlFor="allowedAttempts" className="sr-only">
+                        DUE AT
+                    </label>
+                    <div className="hidden sm:block">
+                        {/*// @ts-ignore*/}
+                        <Datetime value={dueDateValue} onChange={setDueDateValue} inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
+                    </div>
+                    <div className="block sm:hidden">
+                        {/*// @ts-ignore*/}
+                        <div>
+                            <label htmlFor="email" className="sr-only">Email</label>
+                            <div className="relative rounded-md shadow-sm">
+                                {/*// @ts-ignore*/}
+                                <Datetime value={dueDateValue} open={false} onChange={setDueDateValue} inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
+                            </div>
+                        </div>
 
-        {/*@ts-ignore*/}
-        <ToggleRow label="Restrict results" value={restrictResults}
-                   onEnable={() => toggleRestrictResults(true)}
-                   onDisable={() => toggleRestrictResults(false)}/>
-        {restrictResults && multipleAttempts ? <div className="grid grid-cols-2 gap-4 mt-4">
-            <button type="button" onClick={() => setHideUntilLastAttempt(true)}
-                    className={hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                Hide until final attempt
-            </button>
-            <button type="button" onClick={() => setHideUntilLastAttempt(false)}
-                    className={!hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                Hide results
-            </button>
-        </div> : null}
-        <ToggleRow label="Restrict IP address" value={ipAddress} onEnable={() => setIpAddress(true)}
-                   onDisable={() => setIpAddress(false)}/>
-        {ipAddress ? <div>
-            <label htmlFor="ipAddress" className="sr-only">Enter a comma-seperated list of allowed IP
-                addresses</label>
-            <div className="relative rounded-md shadow-sm mt-3">
-                <input id="ipAddress" className="form-input block w-full sm:text-sm sm:leading-5"
-                       autoComplete="none"
-                       placeholder="Enter a comma-seperated list of allowed IP addresses" value={ipAddressValue}
-                       onChange={event => setIpAddressValue(event.target.value)}/>
-            </div>
-            <button className="text-sm text-gray-400">Current IP Address</button>
-        </div> : null}
+                    </div>
+
+
+                </div>
+            </div> : null}
+
+
+
+            {/*@ts-ignore*/}
+            <ToggleRow label="Allow multiple attempts" value={multipleAttempts}
+                       onEnable={() => setMultipleAttempts(true)}
+                       onDisable={() => setMultipleAttempts(false)}/>
+            {multipleAttempts ? <div className="grid grid-cols-2 gap-4 text-left">
+                    <div className="flex-row justify-start items-center mt-2">
+                        <label htmlFor="keepScore" className="block text-xs uppercase leading-5 text-gray-400">
+                            Keep
+                        </label>
+                        <div className="mt-1 rounded-md shadow-sm">
+                            <select id="keepScore"
+                                    className="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                <option>Highest score</option>
+                                <option>Latest score</option>
+                                <option>Average of all attempts</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="flex-row justify-start items-center mt-2">
+                        <label htmlFor="allowedAttempts" className="block text-xs uppercase leading-5 text-gray-400">
+                            Allowed attempts
+                        </label>
+                        <div className="mt-1 relative rounded-md shadow-sm">
+                            <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
+                                   placeholder="Unlimited" autoComplete="none"/>
+                        </div>
+                    </div>
+                </div>
+                : null}
+        </> : null}
+
+        {currentTab === 1 ? <>
+            {/*@ts-ignore*/}
+            <ToggleRow label="Restrict results" value={restrictResults}
+                       onEnable={() => toggleRestrictResults(true)}
+                       onDisable={() => toggleRestrictResults(false)}/>
+            {restrictResults && multipleAttempts ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">
+                <button type="button" onClick={() => setHideUntilLastAttempt(true)}
+                        className={hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                    <i className={"fas fa-check mr-1.5 " + (hideUntilLastAttempt ? "inline" : "hidden")}/>Hide until final attempt
+                </button>
+                <button type="button" onClick={() => setHideUntilLastAttempt(false)}
+                        className={!hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                    <i className={"fas fa-check mr-1.5 " + (!hideUntilLastAttempt ? "inline" : "hidden")}/>Hide results
+                </button>
+            </div> : null}
+        </> : null}
+
+        {currentTab === 2 ? <><ToggleRow label="Restrict IP address" value={ipAddress}
+                                         onEnable={() => setIpAddress(true)}
+                                         onDisable={() => setIpAddress(false)}/>
+            {ipAddress ? <div>
+                <label htmlFor="ipAddress" className="sr-only">Enter a comma-seperated list of allowed IP
+                    addresses</label>
+                <div className="relative rounded-md shadow-sm mt-3">
+                    <input id="ipAddress" className="form-input block w-full sm:text-sm sm:leading-5"
+                           autoComplete="none"
+                           placeholder="Enter a comma-seperated list of allowed IP addresses" value={ipAddressValue}
+                           onChange={event => setIpAddressValue(event.target.value)}/>
+                </div>
+                <button className="text-sm text-gray-400">Current IP Address</button>
+            </div> : null}</> : null}
+
 
     </div>)
 }
@@ -213,40 +274,42 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                          content={modalStep === 0 ? <>
                              <ExistingInvitesSection aid={assignmentId}/>
                              {/*@ts-ignore*/}
-                             <fieldset onChange={(e) => setSharingSetting(e.target.value)}>
-                                 <div className="my-4 text-left">
-                                     <div className="flex items-start">
-                                         <div className="flex items-center h-5">
-                                             <input id="comments" type="radio" name="form-input share_scope"
-                                                    value="public"
-                                                    className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
-                                                    defaultChecked/>
-                                         </div>
-                                         <div className="ml-3 text-sm leading-5">
-                                             <label htmlFor="comments"
-                                                    className="font-medium text-gray-700">Public</label>
-                                             <p className="text-gray-500">Anyone with the link can view and submit this
-                                                 assignment.</p>
-                                         </div>
-                                     </div>
-                                     <div className="mt-4">
+                             <form onChange={(e) => setSharingSetting(e.target.value)} >
+                                 <fieldset>
+                                     <div className="my-4 text-left">
                                          <div className="flex items-start">
                                              <div className="flex items-center h-5">
-                                                 <input id="candidates" type="radio" name="form-input share_scope"
-                                                        value="class"
+                                                 <input id="comments" type="radio" name="form-input share_scope"
+                                                        value="public" defaultChecked={sharingSetting === "public"}
                                                         className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"/>
                                              </div>
                                              <div className="ml-3 text-sm leading-5">
-                                                 <label htmlFor="candidates" className="font-medium text-gray-700">Assign
-                                                     to class</label>
-                                                 <p className="text-gray-500">Only class members can view and submit
-                                                     this assignment.</p>
+                                                 <label htmlFor="comments"
+                                                        className="font-medium text-gray-700">Public</label>
+                                                 <p className="text-gray-500">Anyone with the link can view and submit this
+                                                     assignment.</p>
+                                             </div>
+                                         </div>
+                                         <div className="mt-4">
+                                             <div className="flex items-start">
+                                                 <div className="flex items-center h-5">
+                                                     <input id="candidates" type="radio" name="form-input share_scope"
+                                                            value="class" defaultChecked={sharingSetting !== "public"}
+                                                            className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"/>
+                                                 </div>
+                                                 <div className="ml-3 text-sm leading-5">
+                                                     <label htmlFor="candidates" className="font-medium text-gray-700">Assign
+                                                         to class</label>
+                                                     <p className="text-gray-500">Only class members can view and submit
+                                                         this assignment.</p>
+                                                 </div>
                                              </div>
                                          </div>
                                      </div>
-                                 </div>
-                             </fieldset>
-                         </> : (modalStep === 1 ? <InviteSettingsSection/> : null)}
+                                 </fieldset>
+                             </form>
+
+                         </> : (modalStep === 1 ? <InviteSettingsSection isPublic={sharingSetting === "public"}/> : null)}
     />)
 }
 

@@ -161,7 +161,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                                 {/*// @ts-ignore*/}
                                                 <img className="h-8 w-8 rounded-full bg-teal-400"
                                                     // @ts-ignore
-                                                     src={session.picture}
+                                                     src={session.picture ? session.picture : "/profile.jpg"}
                                                      alt=""/>
                                             </button>
                                         </div>

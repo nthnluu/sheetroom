@@ -34,8 +34,9 @@ const QuestionCard = ({item}) => {
     }
 
     return (<div className="border rounded-lg p-8 border-gray-200 shadow-sm bg-white">
-        <section className="mb-6">
-            <h1 className="font-semibold text-lg">Question {itemNumber(item)}</h1>
+        <section className="mb-8">
+            {document.config['item_numbers'] ?  <h1 className="font-semibold text-xs text-gray-400 uppercase mb-2">Question {itemNumber(item)}</h1> : null}
+            {/*@ts-ignore*/}
             <InactiveQuillEditor value={currentItem.question}/>
         </section>
         <div>

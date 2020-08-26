@@ -1,139 +1,45 @@
 import React, {useContext, useEffect, useState} from "react";
 import update from "immutability-helper";
 import AssignmentViewerContext from "../AssignmentViewer/AssignmentViewerContext";
+import Countdown from 'react-countdown';
 
-const Timer = ({onFinish, onNegative, section, global}) => {
+const Timer = ({section, global, onFinish}) => {
     const {document, setDocument} = useContext(AssignmentViewerContext)
-    const [et, setEndTime] = useState(() => {
-        const endingTime = section ? document.sections[section].config.end_time : document.config.end_time
-        let endtime;
-        if (endingTime) {
-            endtime = new Date(endingTime);
-        } else {
-            let currentConfig;
-            let newEndTime = new Date();
+    const [timer, setTimer] = useState(Date.now())
 
+    useEffect(() => {
         if (global) {
-            currentConfig = document.config
-            const hours = parseInt(currentConfig['hours']);
-            const mins = parseInt(currentConfig['mins']);
-            newEndTime.setSeconds(newEndTime.getSeconds() + (hours > 0 ? (hours * 60 * 60) : 0) + (mins > 0 ? (mins * 60) : 0));
-
-            setDocument(prevState => {
-                return update(prevState, {
-                        config: {
-                            end_time: {
-                                $set: newEndTime
-                            }
-                        }
-                    }
-                )
-            })
-
-            endtime = newEndTime
-
-        } else {
-            // Per-section timing
-            currentConfig = document.sections[section].config
-            const hours = parseInt(currentConfig['hours']);
-            const mins = parseInt(currentConfig['mins']);
-            newEndTime.setSeconds(newEndTime.getSeconds() + (hours > 0 ? (hours * 60 * 60) : 0) + (mins > 0 ? (mins * 60) : 0));
-
-
-            setDocument(prevState => {
-                return update(prevState, {
-                        sections: {
-                            [section]: {
-                                config: {
-                                    end_time: {
-                                        $set: newEndTime
-                                    }
-                                }
-                            }
-                        }
-                    }
-                )
-            })
-
-            endtime = newEndTime
-        }
-    }
-
-        return endtime
-    })
-
-    const [timer, setTimer] = useState()
-
-    const refreshId = window.setInterval(function () {
-        const now = new Date().getTime()
-        // @ts-ignore
-        const distance = et.getTime() - now
-
-        if (distance >= 0) {
-            if (distance === 0) {
-                onFinish()
+            if (document.config.end_time) {
+                setTimer(document.config.end_time)
+                console.log(document.config.end_time)
             } else {
-                // @ts-ignore
-                setTimer(distance)
-            }
-        } else {
-            onFinish()
-            clearInterval(refreshId)
-        }
-    }, 500);
-
-
-    function formatNumber(number) {
-        return ("0" + number).slice(-2)
-    }
-
-    useEffect(() => setEndTime(() => {
-        if (section) {
-
-        }
-        clearInterval(refreshId)
-        const endingTime = section ? document.sections[section].config.end_time : document.config.end_time
-        let endtime;
-        if (endingTime) {
-            endtime = new Date(endingTime);
-        } else {
-            let currentConfig;
-            let newEndTime = new Date();
-
-            if (global) {
-                currentConfig = document.config
-                const hours = parseInt(currentConfig['hours']);
-                const mins = parseInt(currentConfig['mins']);
-                newEndTime.setSeconds(newEndTime.getSeconds() + (hours > 0 ? (hours * 60 * 60) : 0) + (mins > 0 ? (mins * 60) : 0));
-
+                const timeOffset = (document.config.hours ? parseInt(document.config.hours) * 3600000 : 0) + (document.config.mins ? parseInt(document.config.mins) * 60000 : 0)
+                setTimer(Date.now() + timeOffset)
+                console.log(timeOffset)
                 setDocument(prevState => {
                     return update(prevState, {
                             config: {
                                 end_time: {
-                                    $set: newEndTime
+                                    $set: Date.now() + timeOffset
                                 }
                             }
                         }
                     )
                 })
-
-                endtime = newEndTime
-
+            }
+        } else {
+            if (document.sections[section].config.end_time) {
+                setTimer(document.sections[section].config.end_time)
             } else {
-                // Per-section timing
-                currentConfig = document.sections[section].config
-                const hours = parseInt(currentConfig['hours']);
-                const mins = parseInt(currentConfig['mins']);
-                newEndTime.setSeconds(newEndTime.getSeconds() + (hours > 0 ? (hours * 60 * 60) : 0) + (mins > 0 ? (mins * 60) : 0));
-
-
+                const timeOffset = (document.sections[section].config.hours ? parseInt(document.sections[section].config.hours) * 3600000: 0) + (document.sections[section].config.mins ? parseInt(document.sections[section].config.mins) * 60000 : 0)
+                setTimer(Date.now() + timeOffset)
                 setDocument(prevState => {
                     return update(prevState, {
                             sections: {
                                 [section]: {
                                     config: {
                                         end_time: {
-                                            $set: newEndTime
+                                            $set: Date.now() + timeOffset
                                         }
                                     }
                                 }
@@ -141,14 +47,13 @@ const Timer = ({onFinish, onNegative, section, global}) => {
                         }
                     )
                 })
-
-                endtime = newEndTime
             }
         }
+    }, [section])
 
-        return endtime
-    }), [section])
-
+    function formatNumber(number) {
+        return ("0" + number).slice(-2)
+    }
 
     return (<span className="text-lg font-bold flex justify-between items-center text-gray-700">
                         <svg className="h-6 mr-1 text-gray-300" viewBox="0 0 24 24" fill="none"
@@ -156,9 +61,9 @@ const Timer = ({onFinish, onNegative, section, global}) => {
                             <path
                                 d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
                                 stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-        {/*// @ts-ignore*/}
-        {timer ? `${formatNumber(Math.floor((timer % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))) !== "00" ? formatNumber(Math.floor((timer % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))) + ":" : ""}${formatNumber(Math.floor((timer % (1000 * 60 * 60)) / (1000 * 60)))}:${formatNumber(Math.floor((timer % (1000 * 60)) / 1000))}` : "00:00"}
+                        </svg><Countdown date={timer} onComplete={onFinish}
+                                         renderer={props => `${props.hours ? formatNumber(props.hours) + ":" : ""}${formatNumber(props.minutes)}:${formatNumber(props.seconds)}`}
+    />
                     </span>)
 }
 

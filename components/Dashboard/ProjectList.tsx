@@ -46,7 +46,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
                 </div>
                 <div className="px-4 mt-6 sm:px-6 lg:px-6">
                     {/*@ts-ignore*/}
-                    <ClassGrid session={session}/>
+                    <ClassGrid session={session} openDialog={() => toggleCreateClassDialog(true)}/>
                 </div>
             </div>
 
@@ -123,7 +123,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
                     </div>
                 </div>
             </div>
-            <AssignmentList session={session}/>
+            <AssignmentList session={session} openDialog={() => toggleCreateAssignmentDialog(true)}/>
         </div>)
 }
 

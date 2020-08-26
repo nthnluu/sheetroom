@@ -1,17 +1,14 @@
 import React from "react";
-import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useQuery} from "urql";
-import {getSubmissionsForAssignment} from "../../lib/graphql/Assignments";
 import {getActivityObjects} from "../../lib/graphql/Notifications";
-import JsonDebugBox from "../JsonDebugBox";
 
 
 const LoadingPlaceholder: React.FC = () => {
     return (
-        <div className="pt-12">
+        <div className="py-12">
             <div className="mx-auto">
-                <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>
+                <div className="mx-auto w-full text-center"><CircularProgress size={30} color="secondary"/></div>
             </div>
 
         </div>
@@ -38,7 +35,7 @@ const ActivityFeed: React.FC<{session}> = ({session}) => {
             </div>
             <div>
                 <ul className="divide-y divide-gray-200">
-                {fetching ? <LoadingPlaceholder/> : data.notifications_activity_object.map(notification => <li className="py-4">
+                {fetching ? <LoadingPlaceholder/> : data.notifications_activity_object.map(notification => <li className="py-4" key={notification.id}>
                     <div className="flex space-x-3">
                         <img className="h-6 w-6 rounded-full" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80" alt="" />
                         <div className="flex-1 space-y-1">

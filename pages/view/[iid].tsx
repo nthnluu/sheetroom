@@ -12,14 +12,18 @@ import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {me} from "../../lib/graphql/User";
 import CheckForUser from "../../lib/CheckForUser";
+import JsonDebugBox from "../../components/JsonDebugBox";
+import moment from "moment";
+import update from "immutability-helper";
 
 const PageContent = ({pageRawData, iid}) => {
 
     const [pageData] = useState(pageRawData)
     const [document, setDocument] = useState(pageData.content);
-    const [currentSection, setCurrentSection] = useState(0)
+    const [currentSection, setCurrentSection] = useState(document.config.current_section ? document.config.current_section : 0)
     const sectionId = document.config.sections[currentSection]
     const [saveStatus, setSaveStatus] = useState(0)
+
 
     const [mutateSubmissionResult, mutateSubmission] = useMutation(updateSubmissionContent)
     const [scoreSubmissionResult, scoreSubmissionMutate] = useMutation(scoreAssignment)
@@ -46,6 +50,34 @@ const PageContent = ({pageRawData, iid}) => {
             .catch(error => console.log(scoreSubmissionResult.error));
     }
 
+    const handleContinue = () => {
+        setCurrentSection(currentSection + 1)
+        if (document.config.timing === 1) {
+            setDocument(prevState => {
+                return update(prevState, {
+                        config: {
+                            current_section: {
+                                $set: currentSection + 1
+                            }
+                        },
+                        sections: {
+                            [sectionId]: {
+                                config: {
+                                    end_time: {
+                                        $set: Date.now()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                )
+            })
+        } else {
+            setCurrentSection(currentSection + 1)
+        }
+    }
+
+
     return (
         <AssignmentViewerContext.Provider value={{document, setDocument}}>
             <div className="min-h-screen text-gray-800">
@@ -54,22 +86,10 @@ const PageContent = ({pageRawData, iid}) => {
                 <div
                     className="py-3 px-4 lg:px-8 bg-white shadow flex justify-between items-center fixed w-full navbar">
                     <h1 className="text-lg font-semibold text-gray-800">{pageData.title}</h1>
-
-                    {/*Per-section Timer*/}
                     {/*@ts-ignore*/}
-                    {document.config.timing === 1 && document.sections[sectionId].config['time_limit'] && (parseInt(document.sections[sectionId].config['mins']) > 0 || parseInt(document.sections[sectionId].config['hours']) > 0) ? <Timer section={sectionId} onFinish={() => {
-                        if (currentSection === (document.config.sections.length - 1)) {
-                            submitAssignment()
-                        } else {
-                            setCurrentSection(currentSection + 1)
-                        }
-                    }} onNegative={() => console.log('Stop fucking around, your assignment is already submitted. You lost. GG.')}/> : null}
-
-                    {/*Global Timer*/}
-                    {/*@ts-ignore*/}
-                    {document.config.timing === 2 ? <Timer global onFinish={submitAssignment} onNegative={() => console.log('null')}/> : null}
+                    {document.config.timing !== 0 ? <Timer global={document.config.timing === 2} section={sectionId}
+                                                           onFinish={document.config.timing === 2 ? () => submitAssignment() : () => null}/> : null}
                 </div>
-
                 {/*Section Page*/}
                 <div className="mx-auto max-w-4xl pt-20 px-4 space-y-6 mb-16">
                     <div className="leading-tight">
@@ -79,7 +99,9 @@ const PageContent = ({pageRawData, iid}) => {
                     </div>
                     {document.sections[sectionId].items.map(item => (<QuestionCard item={item} key={item}/>))}
                     <div className="flex-row sm:flex items-center justify-between mt-4">
-                        {(document.config['timing'] === 1 && (parseInt(document.sections[sectionId].config.hours) + parseInt(document.sections[sectionId].config.mins) > 0)) ? <span className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
+                        {(document.config['timing'] === 1 && (parseInt(document.sections[sectionId].config.hours) + parseInt(document.sections[sectionId].config.mins) > 0)) ?
+                            <span
+                                className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
                             <svg className="h-5 inline mr-1" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -87,27 +109,35 @@ const PageContent = ({pageRawData, iid}) => {
                                     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                             You can't return to this section.</span> : <div/>}
-                            <div className="flex-row-reverse">
-                                {currentSection !== 0 && document.config.timing !== 1 ? <button type="button" onClick={() => {window.scrollTo(0, 0);
-                                setCurrentSection(currentSection - 1)}}
-                                                                className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 mr-2 border border-transparent text-base leading-6 font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-50 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-gray-200 transition ease-in-out duration-150">
+                        <div className="flex-row-reverse sm:flex-row sm:flex">
+                            {currentSection !== 0 && document.config.timing !== 1 ?
+                                <button type="button" onClick={() => {
+                                    window.scrollTo(0, 0);
+                                    setCurrentSection(currentSection - 1)
+                                }}
+                                        className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 mr-2 border border-transparent text-base leading-6 font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-50 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-gray-200 transition ease-in-out duration-150">
                                     Previous
                                 </button> : null}
 
-                                {currentSection === document.config.sections.length - 1 ? <button type="button" onClick={submitAssignment}
-                                                                                                  className={"w-full sm:w-auto mt-2 sm:mt-0 flex px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150 " + (isLoading ? "items-center" : "items-end")}>
-                                      {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto inline-block"/> : <svg className="h-6 mr-1 inline-block -mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                                      </svg>} {isLoading ? "Submitting" : "Submit"}
-                                </button> : <button type="button" onClick={() => setCurrentSection(prevState => {if (prevState !== document.config.sections.length -1) {
-                                    window.scrollTo(0, 0);
-                                    return currentSection + 1
-                                }})}
-                                    className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                                    Continue
-                                    </button>}
+                            {currentSection === document.config.sections.length - 1 || document.config.sections.length === 1 ?
+                                <button type="button" onClick={submitAssignment}
+                                        className={"w-full text-center sm:w-auto mt-2 sm:mt-0 flex px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150 " + (isLoading ? "items-center" : "items-end")}>
+                                      <span className="mx-auto">
+                                           {isLoading ? <CircularProgress color="inherit" size={15}
+                                                                          className="mr-2 h-auto inline-block"/> :
+                                               <svg className="h-6 mr-1 inline-block -mt-1" viewBox="0 0 24 24"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                   <path d="M5 13L9 17L19 7" stroke="currentColor" strokeWidth="3"
+                                                         strokeLinecap="round" strokeLinejoin="round"/>
+                                               </svg>} {isLoading ? "Submitting" : "Submit"}
+                                      </span>
 
-                            </div>
+                                </button> : <button type="button" onClick={handleContinue}
+                                                    className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                                    Continue
+                                </button>}
+
+                        </div>
 
                     </div>
                 </div>
@@ -147,7 +177,7 @@ const ExamViewer = ({session}) => {
     if (error) return <h2>{JSON.stringify(error)}</h2>
 
     if (data.assignments_submission_by_pk.is_complete) {
-        window.location.href = '/results/' + iid
+        window.location.href = '/results/' + iid + '?status=success'
         return null
     } else {
         return <PageContent pageRawData={data.assignments_submission_by_pk.content} iid={iid}/>

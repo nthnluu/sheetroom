@@ -16,9 +16,9 @@ const AppLayout: React.FC<Props> = ({content, session}) => {
         <div className="fixed top-0 right-0 w-1/2 h-full bg-gray-50" />
         <div className="relative min-h-screen flex flex-col">
             {/* Navbar */}
-            <Navbar session={session}/>
+            <Navbar session={session} unfixed/>
             {/* 3 column wrapper */}
-            <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex mt-14">
+            <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex">
                 {/* Left sidebar & main wrapper */}
                 <div className="flex-1 min-w-0 bg-white xl:flex">
                     {content}
