@@ -109,7 +109,7 @@ const PageContent = ({pageRawData, iid}) => {
                                     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                             You can't return to this section.</span> : <div/>}
-                        <div className="flex-row-reverse">
+                        <div className="flex-row-reverse sm:flex-row sm:flex">
                             {currentSection !== 0 && document.config.timing !== 1 ?
                                 <button type="button" onClick={() => {
                                     window.scrollTo(0, 0);
