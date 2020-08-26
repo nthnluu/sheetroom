@@ -13,19 +13,19 @@ const ClassCard = ({course}) => {
     const colorObject = (inputColor) => {
         switch (inputColor) {
             case('red'):
-                return {bg: "bg-red-500"}
+                return {bg: "bg-gradient-to-tr from-orange-500 to-red-600"}
             case('green'):
-                return {bg: "bg-green-500"}
+                return {bg: "bg-gradient-to-tr from-teal-500 to-green-500"}
             case('pink'):
-                return {bg: "bg-pink-500"}
+                return {bg: "bg-gradient-to-tr from-purple-200 to-pink-400"}
             case('teal'):
-                return {bg: "bg-teal-400"}
+                return {bg: "bg-gradient-to-tr from-teal-400 to-blue-500"}
             case('orange'):
-                return {bg: "bg-orange-400"}
+                return {bg: "bg-gradient-to-tr from-yellow-300 to-orange-500"}
             case('purple'):
-                return {bg: "bg-purple-400"}
+                return {bg: "bg-gradient-to-tr from-pink-500 to-purple-600"}
             default:
-                return {bg: "bg-gray-400"}
+                return {bg: "bg-gray-500"}
         }
     }
 
@@ -34,8 +34,8 @@ const ClassCard = ({course}) => {
         <JoinCodeModal isOpen={joinCodeModal} joinCode={join_code} title={title} onCancel={() => toggleJoinCodeModal(false)}/>
         <li className="relative col-span-1 flex shadow-sm rounded-md">
         <div
-            className={"flex-shrink-0 flex items-center justify-center w-16 text-white text-sm leading-5 font-medium rounded-l-md " + colorObject(color).bg}>
-            {getInitials(title)}
+            className={"flex-shrink-0 flex items-center justify-center w-16 text-white text-lg leading-5 font-medium rounded-l-md " + colorObject(color).bg}>
+            {title[0]}
         </div>
         <div
             className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">

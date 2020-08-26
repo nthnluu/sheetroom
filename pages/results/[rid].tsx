@@ -9,6 +9,7 @@ import {getSubmissionWithScore} from "../../lib/graphql/Submissions";
 import Navbar from "../../components/PageLayouts/AppLayout/Navbar";
 import moment from "moment";
 import JsonDebugBox from "../../components/JsonDebugBox";
+import ItemCard from "../../components/ResultsPage/ItemCard";
 
 const PageLayout: React.FC<{ session, data, status }> = ({session, data, status}) => {
     return (
@@ -34,6 +35,12 @@ const PageLayout: React.FC<{ session, data, status }> = ({session, data, status}
                         Submitted at {moment(data.scoreReportByScoreReport.created_at).format("hh:mm A")} on {moment(data.scoreReportByScoreReport.created_at).format("MMM DD, YYYY")}
                     </div>
                 </div>
+
+                <div className="mt-8 space-y-4">
+                    {data.content.content.config.sections.map(section => data.content.content.sections[section].items).flat().map(item => data.content.content.items[item]).map(item => <ItemCard item={item}/>)}
+
+                </div>
+
 
             </div>
 

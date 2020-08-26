@@ -54,7 +54,7 @@
     "react-scroll-parallax": "^2.3.4",
     "react-transition-group": "^4.4.1",
     "subscriptions-transport-ws": "^0.9.16",
-    "tailwindcss": "^1.6.0",
+    "tailwindcss": "^1.7.0",
     "urql": "^1.10.0",
     "uuid": "^8.2.0"
   },
