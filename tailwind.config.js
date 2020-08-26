@@ -4,6 +4,10 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
     theme: {
         extend: {
+            colors: {
+                light: 'rgba(255, 255, 255, 0.065)',
+                frosted: 'rgba(255, 255, 255, 0.1)'
+            },
             spacing: {
                 ...defaultTheme.spacing,
                 '86': '20rem',
@@ -33,5 +37,8 @@ module.exports = {
     },
     plugins: [
         require('@tailwindcss/ui')
-    ]
+    ],
+    experimental: {
+        uniformColorPalette: true,
+    },
 };

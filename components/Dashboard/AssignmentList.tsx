@@ -5,6 +5,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 import ReactGA from "react-ga";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
+import Link from "next/link";
 
 
 const ASSIGNMENTS = gql`
@@ -43,8 +44,9 @@ const AssignmentListItem = ({item, session}) => {
                           </span>
                     <span className="block">
                             <h2 className="text-sm font-medium leading-5">
-                                <a href={"/assignment/" + item.id}>
-                                    <span className="absolute inset-0"/>{item.title}</a>
+                                <Link href={"/assignment/" + item.id}><a>
+                                    <span className="absolute inset-0"/>{item.title}</a></Link>
+
                             </h2>
                           </span>
                 </div>

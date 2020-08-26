@@ -4,6 +4,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import NewAssignmentModal from "../../Modals/NewAssignmentModal";
 import NewClassModal from "../../Modals/NewClassModal";
 import SearchInput from "./SearchInput";
+import Link from "next/link";
 
 
 interface Props {
@@ -14,6 +15,11 @@ interface Props {
     logoOnly?: boolean;
     darkText?: boolean;
     logoLinkDisabled?: boolean;
+}
+
+const MobileMenuItem: React.FC<{label, link, selected?}> = ({label, link, selected}) => {
+    return  <Link href={link}><a className={(selected ? "bg-frosted" : null) + " block px-3 py-2 rounded-md text-base font-medium text-white focus:outline-none focus:text-gray-100 focus:bg-light transition duration-150 ease-in-out"}>{label}</a></Link>
+
 }
 
 export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, logoOnly, darkText, logoLinkDisabled}) => {
@@ -45,7 +51,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                      alt="Sheetroom logo"/>
                                 <img className="w-auto block md:hidden h-8" src="/light_symbol.svg"
                                      alt="Sheetroom logo"/>
-                            </span> : <a href="/"
+                            </span> : <Link href="/"><a
                                          className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none focus:opacity-75 active:shadow-outline">
                                 <img className={"w-auto hidden md:block " + (session ? "h-8" : "h-6")}
                                      src={session ? "/light_symbol.svg" : (darkText ? "/sheetroom_logo.svg" : "/light_logo.svg")}
@@ -53,7 +59,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                 <img className={"w-auto block md:hidden " + (session ? "h-8" : "h-6")}
                                      src={session ? "/light_symbol.svg" : (darkText ? "/sheetroom_logo.svg" : "/light_logo.svg")}
                                      alt="Sheetroom logo"/>
-                            </a>}
+                            </a></Link>}
 
                             {session && !logoOnly ? <><SearchInput session={session}/>
                                 <div className="flex hidden lg:block text-gray-200 ">
@@ -84,7 +90,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                     {!logoOnly ? <div className="flex lg:hidden">
                         {/* Mobile menu button */}
                         <button onClick={() => toggleMobileMenu(!mobileMenu)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 focus:outline-none focus:bg-gray-800 focus:text-white transition duration-150 ease-in-out"
+                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-frosted focus:outline-none focus:bg-light focus:text-white transition duration-150 ease-in-out"
                                 aria-label="Main menu" aria-expanded={mobileMenu}>
                             <svg className={"h-6 w-6 " + (mobileMenu ? "hidden" : "block")} fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor">
@@ -208,28 +214,17 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
             </div>
             {!logoOnly ? <div className={"lg:hidden " + (mobileMenu ? "block" : "hidden")}>
                 <div className="px-2 pt-2 pb-3">
-                    <a href="#"
-                       className="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-800 focus:outline-none focus:text-gray-100 focus:bg-gray-600 transition duration-150 ease-in-out">Dashboard</a>
-                    <a href="#"
-                       className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Support</a>
+                    <MobileMenuItem label="Dashboard" link="/" selected/>
+                    <MobileMenuItem label="Support" link="/"/>
                 </div>
-                <div className="pt-4 pb-3 border-t border-gray-800">
+                <div className="pt-4 pb-3 border-t border-light">
                     {!session ? <div className="mt-3 px-2">
-                        <a href="/api/auth/signin"
-                           className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Log
-                            in</a>
-                        <a href="/api/auth/signin"
-                           className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Sign
-                            up</a>
-                    </div> : <div className="mt-3 px-2">
-                        <a href="#"
-                           className="block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Your
-                            Profile</a>
-                        <a href="#"
-                           className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Settings</a>
-                        <a href="/api/auth/signout"
-                           className="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-200 hover:text-gray-100 hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600 transition duration-150 ease-in-out">Sign
-                            out</a>
+                        <MobileMenuItem label="Sign in" link="/signin"/>
+                        <MobileMenuItem label="Sign up" link="/signin"/>
+                    </div> : <div className="px-2">
+                        <MobileMenuItem label="Profile" link="/signin"/>
+                        <MobileMenuItem label="Settings" link="/settings"/>
+                        <MobileMenuItem label="Sign out" link="/api/auth/signout"/>
                     </div>}
 
                 </div>
