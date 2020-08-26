@@ -74,3 +74,11 @@ query ClassByJoinCode($joinCode: String!) {
   }
 }
 `
+
+export const searchClasses = gql`
+query SearchClasses($searchValue: String!) {
+  classes_class(where: {title: {_ilike: $searchValue}}, limit: 3) {
+    title
+    id
+  }
+}`

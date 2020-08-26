@@ -1,5 +1,5 @@
 import SimpleModal from "./SimpleModal";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {nanoid} from "nanoid";
 import {useMutation, useQuery} from "urql";
 import {createInvite, getAssignmentInvites} from "../../lib/graphql/Invites";
@@ -7,6 +7,7 @@ import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleRow from "../Misc/ToggleRow";
 import Datetime from 'react-datetime'
+import {searchClasses} from "../../lib/graphql/Class";
 
 const Tabs = ({setActiveTab, activeTab, tabs}) => {
     return (<div>
@@ -64,7 +65,65 @@ const ExistingInvitesSection = ({aid}) => {
     )
 }
 
-const InviteSettingsSection = ({isPublic}) => {
+const SearchResults = ({value, setClass}) => {
+    const [result, reexecuteQuery] = useQuery({
+        query: searchClasses,
+        variables: {
+            searchValue: `%${value}%`
+        }
+    });
+
+    const {fetching, data} = result
+
+
+    return (data ?
+        (data.classes_class.length > 0 ?
+            <ul className="bg-white border rounded-md shadow absolute mt-1 overflow-hidden w-full z-50 divide-y">
+                {data.classes_class.map(course =>
+                    <li>
+                        <button onClick={() => setClass({title: course.title, id: course.id})}
+                                className="text-sm text-gray-700 p-2 w-full text-left focus:outline-none focus:bg-gray-50">{course.title}</button>
+                    </li>)}
+            </ul> : null) : null)
+
+
+}
+
+const ClassSearch = ({selectedClass, setSelectedClass}) => {
+    const [searchTerm, setSearchTerm] = useState("")
+    const [dropdownActive, toggleDropdown] = useState(false)
+
+    const handleChange = (event) => {
+        const newValue = event.target.value
+
+        if (searchTerm.length === 0) {
+            toggleDropdown(true)
+            setSearchTerm(newValue)
+        } else {
+            setSearchTerm(newValue)
+        }
+    }
+
+    return <>
+        {selectedClass ? <div className="relative">
+            <label htmlFor="assigned_to" className="sr-only">Assigning to</label>
+            <div className="relative rounded-md shadow-sm">
+                <button id="assigned_to" className="form-input w-full text-left text-sm" onClick={() => setSelectedClass(undefined)}>{selectedClass.title}</button>
+            </div>
+        </div> : <div className="relative">
+            <label htmlFor="assign_to" className="sr-only">Assign to</label>
+            <div className="relative rounded-md shadow-sm">
+                <input id="assign_to" className="form-input block w-full sm:text-sm sm:leading-5"
+                       placeholder="Assign to class" onChange={handleChange} value={searchTerm} autoComplete="off"/>
+            </div>
+            {dropdownActive ? <SearchResults value={searchTerm} setClass={id => setSelectedClass(id)}/> : null}
+        </div>}
+
+    </>
+
+}
+
+const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass}) => {
     const [currentTab, setCurrentTab] = useState(0)
     const [dueDate, toggleDueDate] = useState(false);
     const [dueDateValue, setDueDateValue] = useState(() => (new Date()));
@@ -83,15 +142,14 @@ const InviteSettingsSection = ({isPublic}) => {
     const [ipAddressValue, setIpAddressValue] = useState("")
 
 
-
     return (<div className="w-full">
         <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
               tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
             {/*@ts-ignore*/}
             {isPublic ? <><ToggleRow label="Collect student info" value={collectStudentInfo}
-                                      onEnable={() => toggleCollectStudentInfo(true)}
-                                      onDisable={() => toggleCollectStudentInfo(false)}/>
+                                     onEnable={() => toggleCollectStudentInfo(true)}
+                                     onDisable={() => toggleCollectStudentInfo(false)}/>
                 {collectStudentInfo ? <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-2 mt-4">
                         <button type="button" onClick={() => toggleCollectName(!collectName)}
                                 className={collectName ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
@@ -109,10 +167,10 @@ const InviteSettingsSection = ({isPublic}) => {
                     : null}</> : <div className="mt-6">
                 <label htmlFor="email" className="sr-only">Assign to</label>
                 <div className="relative rounded-md shadow-sm">
-                    <input id="email" className="form-input block w-full sm:text-sm sm:leading-5" placeholder="Assign to class or student"/>
+                    <ClassSearch selectedClass={selectedClass} setSelectedClass={setSelectedClass}/>
                 </div>
             </div>
-                }
+            }
             {/*@ts-ignore*/}
             <ToggleRow label="Due date" value={dueDate}
                        onEnable={() => toggleDueDate(true)}
@@ -124,7 +182,8 @@ const InviteSettingsSection = ({isPublic}) => {
                     </label>
                     <div className="hidden sm:block">
                         {/*// @ts-ignore*/}
-                        <Datetime value={dueDateValue} onChange={setDueDateValue} inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
+                        <Datetime value={dueDateValue} onChange={setDueDateValue}
+                                  inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                     </div>
                     <div className="block sm:hidden">
                         {/*// @ts-ignore*/}
@@ -132,7 +191,8 @@ const InviteSettingsSection = ({isPublic}) => {
                             <label htmlFor="email" className="sr-only">Email</label>
                             <div className="relative rounded-md shadow-sm">
                                 {/*// @ts-ignore*/}
-                                <Datetime value={dueDateValue} open={false} onChange={setDueDateValue} inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
+                                <Datetime value={dueDateValue} open={false} onChange={setDueDateValue}
+                                          inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                             </div>
                         </div>
 
@@ -141,7 +201,6 @@ const InviteSettingsSection = ({isPublic}) => {
 
                 </div>
             </div> : null}
-
 
 
             {/*@ts-ignore*/}
@@ -183,7 +242,8 @@ const InviteSettingsSection = ({isPublic}) => {
             {restrictResults && multipleAttempts ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">
                 <button type="button" onClick={() => setHideUntilLastAttempt(true)}
                         className={hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                    <i className={"fas fa-check mr-1.5 " + (hideUntilLastAttempt ? "inline" : "hidden")}/>Hide until final attempt
+                    <i className={"fas fa-check mr-1.5 " + (hideUntilLastAttempt ? "inline" : "hidden")}/>Hide until
+                    final attempt
                 </button>
                 <button type="button" onClick={() => setHideUntilLastAttempt(false)}
                         className={!hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
@@ -218,11 +278,13 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
     const [currentValue, setCurrentValue] = useState("https://sheetroom.com/join/" + newInviteCode)
     const [createInviteResult, createNewInvite] = useMutation(createInvite);
     const [isLoading, toggleLoading] = useState(false);
+    const [selectedClass, setSelectedClass] = useState(undefined)
 
 
     function cancelModal() {
         onCancel();
         toggleLoading(false)
+        setSelectedClass(undefined);
         setTimeout(() => {
             const newId = nanoid(8)
             setInviteCode(newId)
@@ -237,7 +299,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
     return (<SimpleModal buttons={<div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse sm:justify-between">
         <div className="sm:flex sm:flex-row-reverse">
                         <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-        <button type="button" onClick={() => {
+        <button type="button" disabled={sharingSetting !== "public" && !selectedClass && modalStep === 1} onClick={() => {
             if (modalStep === 0) {
                 setModalStep(1)
             } else if (modalStep === 1) {
@@ -246,7 +308,8 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                     code: newInviteCode,
                     userId: session.id,
                     assignmentId: assignmentId,
-                    isPublic: sharingSetting === "public"
+                    isPublic: sharingSetting === "public",
+                    classId: selectedClass ? selectedClass.id : null
                 })
                     .then(() => setModalStep(2))
                     .catch(() => console.log(createInviteResult.error))
@@ -254,7 +317,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                 cancelModal()
             }
         }}
-                className="inline-flex items-center justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                className={"inline-flex items-center justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 " + (sharingSetting !== "public" && !selectedClass && modalStep === 1 ? "opacity-50 cursor-not-allowed" : "opacity-100")}>
           {isLoading && modalStep === 0 ? <CircularProgress color="inherit" size={15}
                                                             className="mr-2 h-auto"/> : null} {modalStep === 0 ? "Continue" : (modalStep === 1 ? "Create Invite" : "Done")}
         </button>
@@ -274,7 +337,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                          content={modalStep === 0 ? <>
                              <ExistingInvitesSection aid={assignmentId}/>
                              {/*@ts-ignore*/}
-                             <form onChange={(e) => setSharingSetting(e.target.value)} >
+                             <form onChange={(e) => setSharingSetting(e.target.value)}>
                                  <fieldset>
                                      <div className="my-4 text-left">
                                          <div className="flex items-start">
@@ -286,7 +349,8 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                                              <div className="ml-3 text-sm leading-5">
                                                  <label htmlFor="comments"
                                                         className="font-medium text-gray-700">Public</label>
-                                                 <p className="text-gray-500">Anyone with the link can view and submit this
+                                                 <p className="text-gray-500">Anyone with the link can view and submit
+                                                     this
                                                      assignment.</p>
                                              </div>
                                          </div>
@@ -309,7 +373,15 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                                  </fieldset>
                              </form>
 
-                         </> : (modalStep === 1 ? <InviteSettingsSection isPublic={sharingSetting === "public"}/> : null)}
+                         </> : (modalStep === 1 ?
+                             <InviteSettingsSection selectedClass={selectedClass} setSelectedClass={setSelectedClass} isPublic={sharingSetting === "public"}/> : <div className="relative">
+                                 <label htmlFor="newinvitelink" className="sr-only">Link to this invite</label>
+                                 <div className="relative rounded-md shadow-sm">
+                                     {/*@ts-ignore*/}
+                                     <input id="newinvitelink" className="form-input block w-full sm:text-sm sm:leading-5" onClick={event => event.target.select()}
+                                            placeholder="https://sheetroom.com/join/" readOnly value={`https://sheetroom.com/join/${newInviteCode}`} autoComplete="off"/>
+                                 </div>
+                             </div>)}
     />)
 }
 
