@@ -15,7 +15,7 @@ const ClassCard = ({course}) => {
             case('red'):
                 return {bg: "bg-gradient-to-tr from-orange-500 to-red-600"}
             case('green'):
-                return {bg: "bg-gradient-to-tr from-teal-500 to-green-500"}
+                return {bg: "bg-gradient-to-tr from-teal-400 to-green-400"}
             case('pink'):
                 return {bg: "bg-gradient-to-tr from-purple-200 to-pink-400"}
             case('teal'):

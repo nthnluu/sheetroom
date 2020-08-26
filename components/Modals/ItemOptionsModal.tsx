@@ -20,7 +20,7 @@ const ItemOptionsModal: React.FC<Props> = ({isOpen, onCancel, item, type}) => {
 
     const setConfigValue = (configValue, value) => {
         setDocument(prevState => {
-            const newData = update(prevState, {
+            return update(prevState, {
                     items: {
                         [item]: {
                             config: {
@@ -32,7 +32,6 @@ const ItemOptionsModal: React.FC<Props> = ({isOpen, onCancel, item, type}) => {
                     }
                 }
             )
-            return newData
         })
     }
 
