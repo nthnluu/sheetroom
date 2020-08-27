@@ -1,34 +1,18 @@
-import React, {useContext, useEffect, useMemo, useState} from "react";
+import React from "react";
 import InactiveQuillEditor from "../../Editor/InactiveQuillEditor";
-import AssignmentViewerContext from "../AssignmentViewerContext";
-import {nanoid} from "nanoid";
-import update from "immutability-helper";
 
 
-const AnswerChoice: React.FC<{selected: boolean; onClick: any; radioName: string; choice: string; item: string;}> = ({selected, onClick, radioName, choice, item}) => {
-    const [focused, setFocus] = useState(false);
-    const {document} = useContext(AssignmentViewerContext)
-    const currentChoice = document.answer_objects[choice]
-    const uniqueId = useMemo(() => ({input: nanoid(5), label: nanoid(4)}), []);
-
-    function checkFocus() {
-        if (focused) {
-            return ' shadow-outline-blue';
-        } else {
-
-        }
-    }
-
+const AnswerChoice: React.FC<{ data; choice: string; item: string; isCorrect; isWrong; selected; }> = ({isCorrect, data, isWrong, choice, item, selected}) => {
+    const currentChoice = data.content.content.answer_objects[choice]
     return (
         <div className="-ml-3">
-            <input id={uniqueId.input} aria-labelledby={uniqueId.label} aria-selected={selected} type="radio"
-                   defaultChecked={selected} name={radioName} value={choice}
-                   onClick={onClick} className="absolute mt-6 ml-5 opacity-0"
-                   onFocus={() => setFocus(true)}
-                   onBlur={() => setFocus(false)}/>
-            <label id={uniqueId.label} htmlFor={uniqueId.input} onClick={() => onClick()}
-                   className={(selected ? 'card selectedCard cursor-pointer ' : 'card unselectedCard cursor-pointer ') + checkFocus()} tabIndex={-1}>
-                {selected ? <i className="fas fa-check-circle table-cell"/> : <i className="far fa-circle table-cell"/>}
+            {selected ? <p className={(isWrong ? "text-red-500" : "text-blue-500")+" text-xs uppercase font-medium mb-1"}>Your answer</p> : null}
+            <label
+                className={(isCorrect ? 'table rounded-lg mb-1 p-3 transition-all duration-100 w-full text-left text-lg border border-blue-400 shadow-outline-blue ' : (isWrong ? 'table rounded-lg mb-1 p-3 transition-all duration-100 w-full text-left text-lg border border-red-300 shadow-outline-red ' : 'table rounded-lg mb-1 p-3 transition-all duration-100 w-full text-left text-lg '))}
+                >
+                {isCorrect ? <i className="fas fa-check-circle text-blue-500 table-cell"/> : (isWrong ?
+                    <i className="fas fa-minus-circle text-red-500 table-cell"/> :
+                    <i className="far fa-circle table-cell"/>)}
                 <span className="table-cell pl-2 w-full">
                     <InactiveQuillEditor value={currentChoice.content}/>
                 </span>
@@ -39,36 +23,23 @@ const AnswerChoice: React.FC<{selected: boolean; onClick: any; radioName: string
 }
 
 
-export default function MultipleChoice({item}) {
-    const {document, setDocument} = useContext(AssignmentViewerContext)
-    const currentItem = document.items[item]
-    const selected = document.items[item].student_input
-
-    const setConfigValue = (value) => {
-        setDocument(prevState => {
-            const newData = update(prevState, {
-                    items: {
-                        [item]: {
-                            student_input: {
-                                $splice: [[0, 1, value]]
-                            }
-                        }
-                    }
-                }
-            )
-            return newData
-        })
-    }
-
+export default function MultipleChoice({item, data}) {
+    const currentItem = data.content.content.items[item]
+    const selected = data.content.content.items[item].student_input[0]
+    const rightAnswer = data.answer_key.filter(element => element.id === item)[0].correct_objects[0]
 
     return (
         <>
-            <form>
-                <fieldset className="pt-2" role="radiogroup">
-                    <legend className="font-semibold text-gray-800">Select one:</legend>
-                    {currentItem.answer_objects.map((choice, index) => <AnswerChoice key={choice} choice={choice} selected={selected.includes(choice)} item={item} onClick={() => setConfigValue(choice)} radioName={currentItem.id}/>)}
-                </fieldset>
-            </form>
+            <div className="pt-2 space-y-4">
+                {currentItem.answer_objects.map((choice, index) => <AnswerChoice
+                    key={choice} choice={choice}
+                    data={data}
+                    selected={choice === selected}
+                    isWrong={(selected === choice) && selected !== rightAnswer}
+                    isCorrect={choice === rightAnswer}
+                    item={item}/>)}
+            </div>
+
         </>
 
     )

@@ -36,9 +36,10 @@ const PageLayout: React.FC<{ session, data, status }> = ({session, data, status}
                         Submitted at {moment(data.scoreReportByScoreReport.created_at).format("hh:mm A")} on {moment(data.scoreReportByScoreReport.created_at).format("MMM DD, YYYY")}
                     </div>
                 </div>
-
                 <div className="mt-8 space-y-4">
-                    {data.content.content.config.sections.map(section => data.content.content.sections[section].items).flat().map(item => data.content.content.items[item]).map(item => <ItemCard item={item}/>)}
+                    {
+                        data.content.content.config.sections.map(section => data.content.content.sections[section].items).flat().map(itemId => <ItemCard item={itemId} data={data}/>)
+                    }
 
                 </div>
 

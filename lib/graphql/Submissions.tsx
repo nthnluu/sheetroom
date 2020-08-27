@@ -37,6 +37,7 @@ export const getSubmissionWithScore = gql`
 query GetSubmission($submissionId: uuid!){
   assignments_submission_by_pk(id: $submissionId) {
   content
+  answer_key
     scoreReportByScoreReport {
       earned_points
       total_points
