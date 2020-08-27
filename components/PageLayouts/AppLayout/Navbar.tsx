@@ -18,7 +18,7 @@ interface Props {
 }
 
 const MobileMenuItem: React.FC<{label, link, selected?}> = ({label, link, selected}) => {
-    return <a href={link}className={(selected ? "bg-frosted" : null) + " block px-3 py-2 rounded-md text-base font-medium text-white focus:outline-none focus:text-gray-100 focus:bg-light transition duration-150 ease-in-out"}>{label}</a>
+    return <a href={link} className={(selected ? "bg-frosted" : null) + " block px-3 py-2 rounded-md text-base font-medium text-white focus:outline-none focus:text-gray-100 focus:bg-light transition duration-150 ease-in-out"}>{label}</a>
 
 }
 
