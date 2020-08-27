@@ -10,7 +10,6 @@ const CheckForUser = async (req, res, privatePage = false) => {
             res.writeHead(302, {location: '/'})
             res.end()
         } else {
-            session = null
             return {
                 props: {session}
             }
