@@ -41,4 +41,7 @@ module.exports = {
     experimental: {
         uniformColorPalette: true,
     },
+    future: {
+        removeDeprecatedGapUtilities: true,
+    },
 };

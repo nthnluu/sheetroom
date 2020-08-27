@@ -18,7 +18,7 @@ interface Props {
 }
 
 const MobileMenuItem: React.FC<{label, link, selected?}> = ({label, link, selected}) => {
-    return  <Link href={link}><a className={(selected ? "bg-frosted" : null) + " block px-3 py-2 rounded-md text-base font-medium text-white focus:outline-none focus:text-gray-100 focus:bg-light transition duration-150 ease-in-out"}>{label}</a></Link>
+    return <a href={link}className={(selected ? "bg-frosted" : null) + " block px-3 py-2 rounded-md text-base font-medium text-white focus:outline-none focus:text-gray-100 focus:bg-light transition duration-150 ease-in-out"}>{label}</a>
 
 }
 
@@ -51,7 +51,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                      alt="Sheetroom logo"/>
                                 <img className="w-auto block md:hidden h-8" src="/light_symbol.svg"
                                      alt="Sheetroom logo"/>
-                            </span> : <Link href="/"><a
+                            </span> : <a href="/"
                                          className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none focus:opacity-75 active:shadow-outline">
                                 <img className={"w-auto hidden md:block " + (session ? "h-8" : "h-6")}
                                      src={session ? "/light_symbol.svg" : (darkText ? "/sheetroom_logo.svg" : "/light_logo.svg")}
@@ -59,7 +59,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                 <img className={"w-auto block md:hidden " + (session ? "h-8" : "h-6")}
                                      src={session ? "/light_symbol.svg" : (darkText ? "/sheetroom_logo.svg" : "/light_logo.svg")}
                                      alt="Sheetroom logo"/>
-                            </a></Link>}
+                            </a>}
 
                             {session && !logoOnly ? <><SearchInput session={session}/>
                                 <div className="flex hidden lg:block text-gray-200 ">

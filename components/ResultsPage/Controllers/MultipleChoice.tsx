@@ -8,7 +8,7 @@ const AnswerChoice: React.FC<{ data; choice: string; item: string; isCorrect; is
         <div className="-ml-3">
             {selected ? <p className={(isWrong ? "text-red-500" : "text-blue-500")+" text-xs uppercase font-medium mb-1"}>Your answer</p> : null}
             <label
-                className={(isCorrect ? 'table rounded-lg mb-1 p-3 transition-all duration-100 w-full text-left text-lg border border-blue-400 shadow-outline-blue ' : (isWrong ? 'table rounded-lg mb-1 p-3 transition-all duration-100 w-full text-left text-lg border border-red-300 shadow-outline-red ' : 'table rounded-lg mb-1 p-3 transition-all duration-100 w-full text-left text-lg '))}
+                className={(isCorrect ? 'table rounded-lg mb-1 p-3 transition-all duration-100 w-full text-left text-lg border border-blue-200 ' : (isWrong ? 'table rounded-lg mb-1 p-3 transition-all duration-100 w-full text-left text-lg border border-red-400 ' : 'table rounded-lg mb-1 p-3 transition-all duration-100 w-full text-left text-lg '))}
                 >
                 {isCorrect ? <i className="fas fa-check-circle text-blue-500 table-cell"/> : (isWrong ?
                     <i className="fas fa-minus-circle text-red-500 table-cell"/> :
@@ -30,7 +30,7 @@ export default function MultipleChoice({item, data}) {
 
     return (
         <>
-            <div className="pt-2 space-y-4">
+            <div className="pt-2 space-y-2">
                 {currentItem.answer_objects.map((choice, index) => <AnswerChoice
                     key={choice} choice={choice}
                     data={data}

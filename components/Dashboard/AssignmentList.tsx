@@ -44,8 +44,8 @@ const AssignmentListItem = ({item, session}) => {
                           </span>
                     <span className="block">
                             <h2 className="text-sm font-medium leading-5">
-                                <Link href={"/assignment/" + item.id}><a>
-                                    <span className="absolute inset-0"/>{item.title}</a></Link>
+                                <a href={"/assignment/" + item.id}>
+                                    <span className="absolute inset-0"/>{item.title}</a>
 
                             </h2>
                           </span>

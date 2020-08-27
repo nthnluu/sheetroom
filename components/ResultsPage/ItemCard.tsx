@@ -11,14 +11,14 @@ const Controller = ({item, data}) => {
     switch(data.content.content.items[item].controller_type) {
         case('MC'):
             return <MultipleChoice item={item} data={data}/>
-        // case('MA'):
-        //     return <MultipleAnswers item={item}/>
-        // case('SA'):
-        //     return <ShortAnswer item={item}/>
-        // case('MT'):
-        //     return <Math item={item}/>
-        // default:
-        //     return <h1>hi</h1>
+        case('MA'):
+            return <MultipleAnswers item={item} data={data}/>
+        case('SA'):
+            return <ShortAnswer item={item} data={data}/>
+        case('MT'):
+            return <Math item={item} data={data}/>
+        default:
+            return <p className="p-2 rounded-lg border border-red-500 text-red-500">There was a problem loading your responses.</p>
     }
 }
 
