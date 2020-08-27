@@ -5,6 +5,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 import ReactGA from "react-ga";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
+import Link from "next/link";
 
 
 const ASSIGNMENTS = gql`
@@ -45,6 +46,7 @@ const AssignmentListItem = ({item, session}) => {
                             <h2 className="text-sm font-medium leading-5">
                                 <a href={"/assignment/" + item.id}>
                                     <span className="absolute inset-0"/>{item.title}</a>
+
                             </h2>
                           </span>
                 </div>
@@ -131,7 +133,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog}) =>
             <ul className="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
                 {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem item={item} key={item.id} session={session}/> ) : <div className="my-8 text-center">
                     <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
-                    <button className="text-center text-light opacity-25" onClick={openDialog}>Create new assignment</button>
+                    <button className="text-center font-light opacity-25" onClick={openDialog}>Create new assignment</button>
                 </div>}
             </ul>
         </>)

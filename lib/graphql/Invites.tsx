@@ -7,12 +7,12 @@ assignments_invite(limit: 1, where: {join_code: {
 }}) {
 id
   is_public
-  user {
+  assignmentByAssignment {
+    title
+    user {
     first_name
     last_name
     }
-  assignmentByAssignment {
-    title
   }
   __typename
 }
@@ -55,8 +55,8 @@ assignments_invite_by_pk(id: $inviteId) {
 
 
 export const createInvite = gql`
-mutation CreateNewInvite($code: String!, $userId: Int!, $assignmentId: uuid!, $isPublic: Boolean!){
-    insert_assignments_invite_one(object: {join_code: $code, created_by: $userId, assignment: $assignmentId, is_public: $isPublic}) {
+mutation CreateNewInvite($code: String!, $userId: Int!, $assignmentId: uuid!, $isPublic: Boolean!, $classId: uuid){
+    insert_assignments_invite_one(object: {join_code: $code, created_by: $userId, assignment: $assignmentId, is_public: $isPublic, class: $classId}) {
         join_code
         __typename
     }

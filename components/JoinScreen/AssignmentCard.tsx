@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import moment from "moment";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import JsonDebugBox from "../JsonDebugBox";
 
 interface Props {
     onStart: any;
@@ -10,6 +11,7 @@ interface Props {
 const AssignmentCard: React.FC<Props> = ({onStart, data}) => {
     const [isLoading, toggleIsLoading] = useState(false);
 
+    // return <JsonDebugBox content={data}/>
     return <div className="bg-white border border-gray-200 shadow-lg w-full p-8 rounded-lg">
         <div>
             <h1 className="text-2xl font-bold text-gray-800">{data.assignmentByAssignment.title}</h1>

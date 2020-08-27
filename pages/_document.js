@@ -13,7 +13,7 @@ class MyDocument extends Document {
                     {/*Inter Font*/}
                     {/*<link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin/>*/}
                     {/*<link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet"/>*/}
-                    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" crossOrigin/>
+                    <link rel="stylesheet" href="https://rsms.me/inter/inter.css"/>
                     <style id="react-mathquill-styles"/>
 
                     {/*Font Awesome Icons*/}

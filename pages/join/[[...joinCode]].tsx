@@ -14,6 +14,7 @@ import AssignmentCard from "../../components/JoinScreen/AssignmentCard";
 import ReactGA from "react-ga";
 import ClassCard from "../../components/JoinScreen/ClassCard";
 import {prepareSubmission} from "../../lib/graphql/Submissions";
+import CheckForUser from "../../lib/CheckForUser";
 
 
 const InviteFetch = ({joinCode, session}) => {
@@ -30,7 +31,7 @@ const InviteFetch = ({joinCode, session}) => {
                     }, mutation: createStudentProfile
                 }
             case(8):
-                if (session.id) {
+                if (session) {
                     return {
                         type: "assignment_invite_code", query: {
                             query: getInviteByJoinCodeWithSession,
@@ -52,7 +53,7 @@ const InviteFetch = ({joinCode, session}) => {
                 }
 
             default:
-                return "invalid"
+                return {query: null}
         }
     }
 
@@ -173,21 +174,16 @@ const JoinPage = ({session}) => {
         <Navbar session={session}/>
         <div className="h-full flex justify-center items-center max-w-3xl mx-auto px-4 md:px-0">
             <div className="w-full">
-                {joinCode ? <InviteFetch joinCode={joinCode[0]} session={session}/> : <JoinCode session={session}/>}
+                {(joinCode[0].length === 8 || joinCode[0].length === 9)  ? <InviteFetch joinCode={joinCode[0]} session={session}/> : <JoinCode session={session}/>}
             </div>
         </div>
     </div>)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
-    const session = await getSession({req});
-
-    return {
-        props: {
-            session,
-        },
-    };
+export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+    return CheckForUser(req, res)
 };
+
 
 
 export default JoinPage

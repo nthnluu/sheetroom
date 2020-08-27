@@ -67,6 +67,7 @@ const SearchInput = ({session}) => {
     const [searchValue, setSearchValue] = useState("");
 
 
+
     const handleOnChange = event => {
         const value = event.target.value
         if (!searchDropdownMode) {

@@ -1,13 +1,20 @@
 import {getSession} from "next-auth/client";
 import {me} from "./graphql/User";
 
-const CheckForUser = async (req, res) => {
-    const session = await getSession({req});
-
+const CheckForUser = async (req, res, privatePage = false) => {
+    let session = await getSession({req});
     let profileData;
+
     if (!session) {
-        res.writeHead(302, {location: '/'})
-        res.end()
+        if (privatePage) {
+            res.writeHead(302, {location: '/'})
+            res.end()
+        } else {
+            session = null
+            return {
+                props: {session}
+            }
+        }
     } else {
         profileData = await fetch('https://api.sheetroom.com/v1/graphql', {
             method: 'POST',
@@ -24,18 +31,15 @@ const CheckForUser = async (req, res) => {
         if (profileData.data.users_by_pk.account_type === "new") {
             res.writeHead(302, {location: '/welcome'})
             res.end()
+        } else {
+            return {
+                props: {
+                    session,
+                    profileData
+                },
+            };
         }
     }
-
-
-
-    return {
-        props: {
-            session,
-            profileData
-        },
-    };
-
 }
 
 export default CheckForUser
