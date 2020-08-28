@@ -3,6 +3,7 @@ import React from "react";
 import {useQuery} from "urql";
 import {allClasses, allClassesStudent} from "../../lib/graphql/Class";
 import LoadingClassCard from "./LoadingClassCard";
+import JsonDebugBox from "../JsonDebugBox";
 
 const LoadingPlaceholder = () => {
     return (<ul className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-2 mt-3">

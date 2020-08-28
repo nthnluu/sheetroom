@@ -43,7 +43,9 @@ const ClassCard = ({course}) => {
                    className="text-gray-900 font-medium hover:text-gray-600 transition ease-in-out duration-150">
                     {title}
                 </a>
-                <p className="text-gray-500">{course.studentProfiles.length} Member{course.studentProfiles.length !== 1 ? "s" : null}</p>
+                {course.studentProfiles ? <p className="text-gray-500">{course.studentProfiles.length} Member{course.studentProfiles.length !== 1 ? "s" : null}</p> :
+                    <p className="text-gray-500">{course.user.first_name}</p>}
+
             </div>
             <ClickAwayListener onClickAway={() => toggleDropdown(false)}>
                 <div className="flex-shrink-0 pr-2">

@@ -5,6 +5,7 @@ import {useQuery} from "urql";
 import {instructorSearch} from "../../../lib/graphql/Search";
 import JsonDebugBox from "../../JsonDebugBox";
 import {debounce} from 'lodash'
+import {motion} from "framer-motion"
 
 const SearchDropdown = ({value, session}) => {
 
@@ -77,7 +78,7 @@ const SearchInput = ({session}) => {
     }
 
     return (<ClickAwayListener onClickAway={() => setSearchDropdownMde(0)}>
-        <div className="w-full mx-auto px-2 lg:px-2 relative">
+        <div className="w-full px-2 lg:px-2 relative">
             <label htmlFor="search" className="sr-only">Search</label>
             <div className="relative text-gray-300 focus-within:text-gray-400">
                 <div
@@ -89,7 +90,7 @@ const SearchInput = ({session}) => {
                     </svg>
                 </div>
                 <input id="search" autoComplete="off" onChange={handleOnChange}
-                       className="block w-full pl-10 pr-3 py-1.5 border border-transparent rounded-md leading-5 bg-gray-400 bg-opacity-25 text-gray-300 placeholder-gray-300 focus:outline-none focus:bg-white focus:placeholder-gray-400 focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out"
+                       className="block w-full pl-10 pr-3 py-1.5 border border-transparent rounded-md leading-5 bg-frosted bg-opacity-25 text-gray-300 placeholder-gray-300 focus:outline-none focus:bg-white focus:placeholder-gray-400 focus:text-gray-900 sm:text-sm transition duration-150 ease-in-out"
                        placeholder="Search" type="search"/>
             </div>
             {searchDropdownMode === 1 && searchValue.length > 0 ?
