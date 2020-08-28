@@ -67,11 +67,12 @@ const ExistingInvitesSection = ({aid}) => {
     )
 }
 
-const SearchResults = ({value, setClass}) => {
+const SearchResults = ({value, setClass, session}) => {
     const [result, reexecuteQuery] = useQuery({
         query: searchClasses,
         variables: {
-            searchValue: `%${value}%`
+            searchValue: `%${value}%`,
+            userId: session.id
         }
     });
 
@@ -91,7 +92,7 @@ const SearchResults = ({value, setClass}) => {
 
 }
 
-const ClassSearch = ({selectedClass, setSelectedClass}) => {
+const ClassSearch = ({selectedClass, setSelectedClass, session}) => {
     const [searchTerm, setSearchTerm] = useState("")
     const [dropdownActive, toggleDropdown] = useState(false)
 
@@ -119,14 +120,14 @@ const ClassSearch = ({selectedClass, setSelectedClass}) => {
                 <input id="assign_to" className="form-input block w-full sm:text-sm sm:leading-5"
                        placeholder="Assign to class" onChange={handleChange} value={searchTerm} autoComplete="off"/>
             </div>
-            {dropdownActive ? <SearchResults value={searchTerm} setClass={id => setSelectedClass(id)}/> : null}
+            {dropdownActive ? <SearchResults session={session} value={searchTerm} setClass={id => setSelectedClass(id)}/> : null}
         </div>}
 
     </>
 
 }
 
-const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, settingsObject, setSettingsObject}) => {
+const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, settingsObject, setSettingsObject, session}) => {
     const [currentTab, setCurrentTab] = useState(0)
     const [dueDate, toggleDueDate] = useState(false);
     const [dueDateValue, setDueDateValue] = useState(() => (new Date()));
@@ -185,7 +186,7 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                     : null}</> : <div className="mt-6">
                 <label htmlFor="email" className="sr-only">Assign to</label>
                 <div className="relative rounded-md shadow-sm">
-                    <ClassSearch selectedClass={selectedClass} setSelectedClass={setSelectedClass}/>
+                    <ClassSearch session={session} selectedClass={selectedClass} setSelectedClass={setSelectedClass}/>
                 </div>
             </div>
             }
@@ -394,7 +395,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                              </form>
 
                          </> : (modalStep === 1 ?
-                             <InviteSettingsSection settingsObject={settingsObject}
+                             <InviteSettingsSection session={session} settingsObject={settingsObject}
                                                     setSettingsObject={setSettingsObject}
                                                     selectedClass={selectedClass} setSelectedClass={setSelectedClass}
                                                     isPublic={sharingSetting === "public"}/> :

@@ -76,8 +76,8 @@ query ClassByJoinCode($joinCode: String!) {
 `
 
 export const searchClasses = gql`
-query SearchClasses($searchValue: String!) {
-  classes_class(where: {title: {_ilike: $searchValue}}, limit: 3) {
+query SearchClasses($searchValue: String!, $userId: Int!) {
+  classes_class(where: {title: {_ilike: $searchValue}, created_by: {_eq: $userId}}, limit: 3) {
     title
     id
   }
