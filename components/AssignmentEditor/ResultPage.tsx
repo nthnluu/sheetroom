@@ -4,7 +4,6 @@ import React, {useContext} from "react";
 import QuizContext from "./QuizContext";
 import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import JsonDebugBox from "../JsonDebugBox";
 import moment from "moment";
 import NewTooltip from "../Misc/Tooltip";
 
@@ -23,12 +22,9 @@ const LoadingPlaceholder: React.FC = () => {
     )
 };
 
-function isEven(value) {
-    return value % 2 == 0;
-}
 
 const ResultPage = () => {
-    const {invalidSession, document, setDocument, aid, currentPage} = useContext(QuizContext)
+    const {aid} = useContext(QuizContext)
 
     const [result] = useQuery({
         query: getSubmissionsForAssignment,
@@ -43,7 +39,7 @@ const ResultPage = () => {
     if (fetching) return <LoadingPlaceholder/>
 
     return (<div className="space-y-16">
-        {data.assignments_assignment_by_pk.invites.map(invite => <div>
+        {data.assignments_assignment_by_pk.invites.length > 0 ? data.assignments_assignment_by_pk.invites.map(invite => <div>
             <div className="lg:flex lg:items-center lg:justify-between">
                 <div className="flex-1 min-w-0">
                     <h2 className="text-xl font-semibold leading-7 text-gray-800 sm:text-2xl sm:leading-9 sm:truncate">
@@ -119,7 +115,7 @@ const ResultPage = () => {
                                     <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                         Submitted at
                                     </th>
-                                    <th className="px-6 py-3 bg-gray-50"></th>
+                                    <th className="px-6 py-3 bg-gray-50"/>
                                 </tr>
                                 </thead>
                                 <tbody>{invite.submissions.map((submission, index) => {
@@ -167,7 +163,10 @@ const ResultPage = () => {
 
                 </div>
             </div>
-        </div>)}
+        </div>) : <div className="mx-auto opacity-25 m-12">
+            <img src="/paper-plane.svg" className="h-32 mx-auto" alt=""/>
+            <p className="text-center mt-2">There aren't any submissions to display.</p>
+        </div>}
 
 
     </div>)

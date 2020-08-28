@@ -17,7 +17,7 @@ import {assignmentSubscription, updateAssignmentContent} from "../../lib/graphql
 import ReactGA from "react-ga";
 import CheckForUser from "../../lib/CheckForUser";
 
-const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({pageData, aid, session}) => {
+const PageContent: React.FC<{ pageData, aid: string, session: string, profileData; }> = ({pageData, aid, profileData, session}) => {
     // A client ID to identify the current user working on the project
     const [clientId] = useState(uuidv4())
 
@@ -78,7 +78,7 @@ const PageContent: React.FC<{ pageData, aid: string, session: string }> = ({page
             setCurrentPage
         }}>
             {/*// @ts-ignore*/}
-            <EditorLayout aid={aid} pageData={pageData} windowTitle="Sheetroom" session={session}/>
+            <EditorLayout aid={aid} pageData={pageData} windowTitle="Sheetroom" session={session} profileData={profileData}/>
         </QuizContext.Provider>
     )
 };
@@ -122,7 +122,7 @@ const ErrorScreen = () => {
     </div>)
 }
 
-const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({session}) => {
+const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({session, profileData}) => {
 
 //get Quiz ID from URL
     const router = useRouter();
@@ -181,7 +181,7 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
         <div className="min-h-screen bg-gray-50">
             {fetching && !data ? <LoadingPlaceholder/> : ((!data.assignments_assignment_by_pk) ? <ErrorScreen/> :
                 // @ts-ignore
-                <PageContent pageData={data} aid={aid} session={session}/>)}
+                <PageContent pageData={data} aid={aid} session={session} profileData={profileData}/>)}
         </div>
     )
 };
