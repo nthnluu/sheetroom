@@ -4,7 +4,7 @@ import React from "react";
 const NoStudentsPlaceholder = ({joinCode}) => {
     return (<div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         <div className="text-center overflow-x-auto">
-            <img src="/holding-phone-monochrome.svg" className="h-64 mx-auto mb-2"/>
+            <img src="/holding-phone-monochrome.svg" className="h-64 mx-auto mb-2" alt=""/>
             <h1 className="text-lg sm:text-xl text-gray-700 font-medium">Now invite students with this link:</h1>
             <span className="text-lg sm:text-xl md:text-3xl font-light text-gray-400">sheetroom.com/join/</span><span
             className="text-lg sm:text-xl md:text-3xl  font-bold text-gray-800">{joinCode}</span>
@@ -24,29 +24,13 @@ const StudentPage = ({course}) => {
                         <div className="w-full flex items-center justify-between p-6 space-x-6">
                             <div className="flex-1 truncate">
                                 <div className="flex items-center space-x-3">
-                                    <h3 className="text-gray-900 text-sm leading-5 font-medium truncate">{`${student.user.first_name} ${student.user.last_name}`}</h3>
+                                    <h3 className="text-gray-900 leading-5 font-medium truncate">{`${student.user.first_name} ${student.user.last_name}`}</h3>
                                 </div>
                                 <p className="mt-1 text-gray-500 text-sm leading-5 truncate">{student.user.email}</p>
                             </div>
                             <img className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"
                                  src={student.user.image ? student.user.image : "/profile.jpg"}
                                  alt=""/>
-                        </div>
-                        <div className="border-t border-gray-200">
-                            <div className="-mt-px flex">
-                                <div className="w-0 flex-1 flex border-r border-gray-200">
-                                    <a href="#"
-                                       className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-3 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-                                        <span className="ml-3">Assign</span>
-                                    </a>
-                                </div>
-                                <div className="-ml-px w-0 flex-1 flex">
-                                    <a href="#"
-                                       className="relative w-0 flex-1 inline-flex items-center justify-center py-3 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-                                        <span className="ml-3">View Submissions</span>
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </li>)}
 
