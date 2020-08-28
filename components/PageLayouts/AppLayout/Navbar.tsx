@@ -117,12 +117,12 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                         <div className="flex items-center justify-end text-white">
 
                             {/* Profile dropdown */}
-                            <button onClick={() => toggleFeedbackModal(true)}
-                               className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Feedback</button>
-                            <a href="#"
-                               className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Learn</a>
-
-                            {session && !logoOnly ? <><ClickAwayListener onClickAway={() => toggleNewDropdown(false)}>
+                            {session && !logoOnly ? <>
+                                <button onClick={() => toggleFeedbackModal(true)}
+                                        className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Feedback</button>
+                                <a href="#"
+                                   className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Learn</a>
+                                <ClickAwayListener onClickAway={() => toggleNewDropdown(false)}>
                                 <div className="relative inline-block text-left mr-6 ml-4">
                                     <div>
                                     <span className="rounded-md shadow-sm">
