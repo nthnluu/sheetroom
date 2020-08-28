@@ -2,9 +2,12 @@ import React, {useState} from 'react'
 import {providers, signIn} from 'next-auth/client'
 import Navbar from "../components/PageLayouts/AppLayout/Navbar";
 import Divider from '@material-ui/core/Divider';
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 export default function SignIn({providers}) {
     const [currentValue, setCurrentValue] = useState("")
+    const [isLoading, toggleIsLoading] = useState(false)
 
     return (
         <>
@@ -14,6 +17,7 @@ export default function SignIn({providers}) {
                     <h1 className="font-bold text-3xl md:text-4xl text-gray-800">Sign in to Sheetroom</h1>
                     <form onSubmit={event => {
                         event.preventDefault();
+                        toggleIsLoading(true)
 
                         // @ts-ignore
                         if (event.target.email.value.length > 0) {
@@ -28,9 +32,9 @@ export default function SignIn({providers}) {
                                    placeholder="you@example.com" value={currentValue}
                                    onChange={event => setCurrentValue(event.target.value)}/>
                         </div>
-                        <button type="submit"
-                                className="items-center w-full text-center px-6 py-2 mt-2 border border-gray-300 text-base leading-6 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                            Continue
+                        <button type="submit" disabled={currentValue.length <= 0}
+                                className={"items-center w-full text-center px-6 py-2 mt-2 border border-gray-300 text-base leading-6 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 " + (currentValue.length <= 0 ? "opacity-50 bg-gray-100 cursor-not-allowed" : "opacity-100")}>
+                            {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}Continue
                         </button>
                     </form>
                     <div>
