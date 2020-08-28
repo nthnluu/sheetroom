@@ -1,15 +1,16 @@
 import Navbar from "../components/PageLayouts/AppLayout/Navbar";
-import React from 'react';
+import React, {useState} from 'react';
 import {getSession} from 'next-auth/client';
 import {GetServerSideProps} from "next";
 import DesktopGraphic from "../components/LandingPage/DesktopGraphic";
 import Footer from "../components/Misc/Footer";
 
-const InlineButton = ({label}) => {
-    return <button className="px-1 bg-gray-200 rounded-md font-medium mr-1">{label}</button>
+const InlineButton = ({label, onClick, selected}) => {
+    return <button className={"px-1 rounded-md font-medium mr-1 focus:outline-none focus:shadow-outline " + (selected ? "bg-blue-200 text-blue-600" : "bg-gray-200")} onClick={onClick}>{label}</button>
 }
 
 const Index: React.FC<{ session: any }> = ({session}) => {
+    const [itemTypeSelection, setItemTypeSelection] = useState(0)
 
     return (
         <>
@@ -60,9 +61,11 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                                         Focus on writing content
                                     </h4>
                                     <p className="mt-3 text-lg leading-7 text-gray-500">
-                                        Assignments are made up of the question types you already know: <InlineButton
-                                        label="Multiple Choice"/>, <InlineButton
-                                        label="Multiple Answers"/>, <InlineButton label="Short Answer"/>, <InlineButton
+                                        Assignments are made up of the question types you already know: <InlineButton selected={itemTypeSelection === 0} onClick={() => setItemTypeSelection(0)}
+                                        label="Multiple Choice"/>, <InlineButton selected={itemTypeSelection === 1} onClick={() => setItemTypeSelection(1)}
+                                        label="Multiple Answers"/>, <InlineButton selected={itemTypeSelection === 2} onClick={() => setItemTypeSelection(2)} label="Short Answer"/>, <InlineButton
+                                        selected={itemTypeSelection === 3}
+                                        onClick={() => setItemTypeSelection(3)}
                                         label="Math"/>, and so on. Since Sheetroom takes care of formatting and scoring,
                                         you'll spend less time checking work and worrying about how your assignment
                                         looks.
