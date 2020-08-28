@@ -1,5 +1,5 @@
 import SimpleModal from "./SimpleModal";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {nanoid} from "nanoid";
 import {useMutation, useQuery} from "urql";
 import {createInvite, getAssignmentInvites} from "../../lib/graphql/Invites";
@@ -8,7 +8,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import ToggleRow from "../Misc/ToggleRow";
 import Datetime from 'react-datetime'
 import {searchClasses} from "../../lib/graphql/Class";
-import JsonDebugBox from "../JsonDebugBox";
 import update from "immutability-helper";
 
 const Tabs = ({setActiveTab, activeTab, tabs}) => {
@@ -39,7 +38,7 @@ const ExistingInvitesSection = ({aid}) => {
 
     if (fetching) return (
         <>
-            <ul className="rounded-lg border border-gray-300 overflow-y-scroll my-2 text-left flex justify-center items-center"
+            <ul className="rounded-lg border border-gray-300 overflow-y-auto my-2 text-left flex justify-center items-center"
                 style={{height: '11.1rem'}}>
                 <div className="mx-auto">
                     <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>
@@ -68,7 +67,7 @@ const ExistingInvitesSection = ({aid}) => {
 }
 
 const SearchResults = ({value, setClass, session}) => {
-    const [result, reexecuteQuery] = useQuery({
+    const [result] = useQuery({
         query: searchClasses,
         variables: {
             searchValue: `%${value}%`,

@@ -19,7 +19,7 @@ const AppLayout: React.FC<Props> = ({content, profileData, session}) => {
             {/* Navbar */}
             <Navbar session={session} unfixed profileData={profileData}/>
             {/* 3 column wrapper */}
-            <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex">
+            <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex md:min-h-screen bg-white lg:bg-transparent">
                 {/* Left sidebar & main wrapper */}
                 <div className="flex-1 min-w-0 bg-white xl:flex">
                     {content}
