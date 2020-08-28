@@ -4,8 +4,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import NewAssignmentModal from "../../Modals/NewAssignmentModal";
 import NewClassModal from "../../Modals/NewClassModal";
 import SearchInput from "./SearchInput";
-import Link from "next/link";
-import JsonDebugBox from "../../JsonDebugBox";
+import FeedbackModal from "../../Modals/FeedbackModal";
 
 
 interface Props {
@@ -29,6 +28,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
     const [newDropdown, toggleNewDropdown] = useState(false);
+    const [feedbackModal, toggleFeedbackModal] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
     const [createClassDialog, toggleCreateClassDialog] = useState(false);
 
@@ -36,6 +36,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
 
 
     return (<div>
+        <FeedbackModal session={session} title="Feedback" onCancel={() => toggleFeedbackModal(false)} isOpen={feedbackModal}/>
         <NewClassModal onCancel={() => toggleCreateClassDialog(false)} isOpen={createClassDialog} session={session}/>
         <NewAssignmentModal onCancel={() => toggleCreateAssignmentDialog(false)} isOpen={createAssignmentDialog}
                             session={session}/>
@@ -49,7 +50,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                     </a>
                     {/* Logo section */}
                     <div className="flex items-center justify-start w-full">
-                        <div className="flex items-center px-2 lg:px-0 w-full h-full" style={{maxWidth: '28.9rem'}}>
+                        <div className="flex items-center justify-start px-2 lg:px-0 w-full h-full" style={{maxWidth: '28.9rem'}}>
                             {logoLinkDisabled ? <span
                                 className="flex-shrink-0 px-2 h-full -ml-2 h-full focus:outline-none active:shadow-outline opacity-75">
                                 <img className="w-auto hidden md:block h-8" src="/light_symbol.svg"
@@ -67,12 +68,12 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                             </a>}
 
                             {session && !logoOnly ? <>
-                                {accountMode === "teacher" ? <><SearchInput session={session}/>
+                                {accountMode === "teacher" ? <>
+                                    <SearchInput session={session}/>
                                     <div className="flex hidden lg:block text-gray-200 ">
-                                        <a href="#"
-                                           className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Workshop</a>
-                                        <a href="#"
-                                           className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Learn</a>
+
+                                        {/*<a href="#"*/}
+                                        {/*   className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Learn</a>*/}
                                     </div></> : null}
                             </> : (!logoOnly ? <div className="flex hidden lg:block">
                                 <a href="#"
@@ -113,16 +114,20 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
 
                     {/* Links section */}
                     <div className="hidden lg:block lg:w-80 ml-4">
-                        <div className="flex items-center justify-end">
+                        <div className="flex items-center justify-end text-white">
 
                             {/* Profile dropdown */}
+                            <button onClick={() => toggleFeedbackModal(true)}
+                               className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Feedback</button>
+                            <a href="#"
+                               className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Learn</a>
 
                             {session && !logoOnly ? <><ClickAwayListener onClickAway={() => toggleNewDropdown(false)}>
                                 <div className="relative inline-block text-left mr-6 ml-4">
                                     <div>
                                     <span className="rounded-md shadow-sm">
                                         <button
-                                            className="text-gray-100 flex items-center focus:outline-none hover:bg-gray-800 focus:bg-gray-800 p-1 rounded"
+                                            className="text-gray-100 flex items-center focus:outline-none hover:bg-light focus:bg-light p-1 rounded"
                                             onClick={() => toggleNewDropdown(!newDropdown)}>
                                             <i className="fas fa-plus mr-1"/><i
                                             className="fas fa-caret-down opacity-50"/>

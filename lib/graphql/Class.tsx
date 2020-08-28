@@ -52,6 +52,10 @@ query AllClasses($userId: Int!) {
     title
     id
     color
+    user {
+      first_name
+      last_name
+    }
     __typename
   }
 }
