@@ -3,7 +3,7 @@ import React from "react";
 
 const NoStudentsPlaceholder = ({joinCode}) => {
     return (<div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        <div className="text-center overflow-x-scroll">
+        <div className="text-center overflow-x-auto">
             <img src="/holding-phone-monochrome.svg" className="h-64 mx-auto mb-2"/>
             <h1 className="text-lg sm:text-xl text-gray-700 font-medium">Now invite students with this link:</h1>
             <span className="text-lg sm:text-xl md:text-3xl font-light text-gray-400">sheetroom.com/join/</span><span
