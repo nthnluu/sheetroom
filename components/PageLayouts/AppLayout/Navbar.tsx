@@ -4,8 +4,6 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import NewAssignmentModal from "../../Modals/NewAssignmentModal";
 import NewClassModal from "../../Modals/NewClassModal";
 import SearchInput from "./SearchInput";
-import Link from "next/link";
-import JsonDebugBox from "../../JsonDebugBox";
 import FeedbackModal from "../../Modals/FeedbackModal";
 
 
@@ -38,7 +36,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
 
 
     return (<div>
-        <FeedbackModal title="Feedback" onCancel={() => toggleFeedbackModal(false)} isOpen={feedbackModal}/>
+        <FeedbackModal session={session} title="Feedback" onCancel={() => toggleFeedbackModal(false)} isOpen={feedbackModal}/>
         <NewClassModal onCancel={() => toggleCreateClassDialog(false)} isOpen={createClassDialog} session={session}/>
         <NewAssignmentModal onCancel={() => toggleCreateAssignmentDialog(false)} isOpen={createAssignmentDialog}
                             session={session}/>
