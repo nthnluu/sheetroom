@@ -8,10 +8,11 @@ import NewTooltip from "../Misc/Tooltip";
 
 interface Props {
     session: any;
+    profileData: any;
 }
 
 
-const ProjectList: React.FC<Props> = ({session}) => {
+const ProjectList: React.FC<Props> = ({session, profileData}) => {
     const [sortDropdown, toggleSortDropdown] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
     const [createClassDialog, toggleCreateClassDialog] = useState(false);
@@ -46,7 +47,7 @@ const ProjectList: React.FC<Props> = ({session}) => {
                 </div>
                 <div className="px-4 mt-6 sm:px-6 lg:px-6">
                     {/*@ts-ignore*/}
-                    <ClassGrid session={session} openDialog={() => toggleCreateClassDialog(true)}/>
+                    <ClassGrid profileData={profileData} session={session} openDialog={() => toggleCreateClassDialog(true)}/>
                 </div>
             </div>
 

@@ -3,7 +3,6 @@ import {GetServerSideProps} from "next";
 import PageContent from "../components/Dashboard/Content";
 import AppLayout from "../components/PageLayouts/AppLayout/AppLayout";
 import CheckForUser from "../lib/CheckForUser";
-import JsonDebugBox from "../components/JsonDebugBox";
 
 interface Props {
     session: string;
@@ -14,11 +13,9 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
 
     return (
         <>
-            <AppLayout session={session}
-                       content={<><PageContent session={session} profile={profileData}/></>
-                       }
+            <AppLayout session={session} profileData={profileData}
+                       content={<PageContent session={session} profileData={profileData}/>}
             />
-
         </>
     )
 };

@@ -7,9 +7,10 @@ interface Props {
     windowTitle: string;
     session: string;
     pageData: object;
+    profileData;
 }
 
-const EditorLayout: React.FC<Props> = ({windowTitle, session, pageData}) => {
+const EditorLayout: React.FC<Props> = ({windowTitle, session, pageData, profileData}) => {
 
 
 
@@ -21,7 +22,7 @@ const EditorLayout: React.FC<Props> = ({windowTitle, session, pageData}) => {
             </Head>
             {/*// @ts-ignore*/}
 
-            <Navbar  session={session} content={<Content/>} pageData={pageData}/>
+            <Navbar  session={session} content={<Content/>} pageData={pageData} profileData={profileData}/>
 
         </div>
     )

@@ -46,6 +46,17 @@ query AllClasses($userId: Int!) {
 }
 `;
 
+export const allClassesStudent = gql`
+query AllClasses($userId: Int!) {
+  classes_class(where: {studentProfiles: {student: {_eq: $userId}}}) {
+    title
+    id
+    color
+    __typename
+  }
+}
+`;
+
 export const createStudentProfile = gql`
 mutation CreateStudentProfile($studentId: Int!, $classId: uuid!) {
   insert_classes_studentProfile_one(object: {student: $studentId, class: $classId}) {

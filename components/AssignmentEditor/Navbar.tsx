@@ -6,7 +6,7 @@ import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 
-const Navbar = ({session, content, pageData}) => {
+const Navbar = ({session, content, pageData, profileData}) => {
     const {clientId, setSaveStatus, setCurrentPage, currentPage, aid} = useContext(QuizContext);
     const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
 
@@ -28,7 +28,7 @@ const Navbar = ({session, content, pageData}) => {
 
     return (
         <div className="w-full z-50">
-            <PageNavbar session={session} unfixed/>
+            <PageNavbar session={session} unfixed profileData={profileData}/>
             <div className="w-full navbar md:sticky top-0 bg-white border-b border-gray-200 shadow-sm">
                 <nav>
                     <div className="mx-auto px-2 sm:px-4 lg:px-8">

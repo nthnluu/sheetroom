@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import getInitials from "../../lib/getInitials";
 import Transition from "../Transition";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import JoinCodeModal from "../Modals/JoinCodeModal";

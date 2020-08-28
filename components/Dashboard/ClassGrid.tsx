@@ -1,7 +1,7 @@
 import ClassCard from "./ClassCard";
 import React from "react";
 import {useQuery} from "urql";
-import {allClasses} from "../../lib/graphql/Class";
+import {allClasses, allClassesStudent} from "../../lib/graphql/Class";
 import LoadingClassCard from "./LoadingClassCard";
 
 const LoadingPlaceholder = () => {
@@ -14,11 +14,12 @@ const LoadingPlaceholder = () => {
 interface Props {
     session: any;
     openDialog: any;
+    profileData: any;
 }
 
-const ClassGrid: React.FC<Props>  = ({session, openDialog})  => {
+const ClassGrid: React.FC<Props>  = ({session, openDialog, profileData})  => {
     const [result] = useQuery({
-        query: allClasses,
+        query: profileData.data.users_by_pk.account_type === "teacher" ? allClasses : allClassesStudent,
         variables: {
             // @ts-ignore
             userId: session.id

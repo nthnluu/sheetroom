@@ -20,6 +20,20 @@ const AddButton = ({quillRef, isFocused}) => {
         }
     }, [isFocused])
 
+    const insertFormula = () => {
+        if (formulaMode) {
+            const range = quillRef.current.editor.getSelection(true);
+            quillRef.current.editor.insertEmbed(range, 'formula', formulaValue)
+            quillRef.current.editor.deleteText(range.index, range.length);
+            quillRef.current.editor.setSelection(range.index + range.length + 1);
+            toggleFormulaMode(false)
+            setFormulaValue("f(x)=")
+            setIsOpen(false)
+            toggleIsMounted(false)
+        } else {
+            setIsOpen(!isOpen)
+        }
+    }
 
     // @ts-ignore
     return (
@@ -32,7 +46,7 @@ const AddButton = ({quillRef, isFocused}) => {
             }}>
                 <motion.div
                     animate={isOpen ? (formulaMode ? {width: '16rem', height: '3rem', opacity: 1} : {
-                        width: '9rem',
+                        width: '4rem',
                         height: '2rem',
                         opacity: 1
                     }) : {width: '2rem', height: '2rem', opacity: 0.85}}
@@ -52,32 +66,28 @@ const AddButton = ({quillRef, isFocused}) => {
                                         onClick={() => toggleFormulaMode(true)}>
                                     <i className="fas fa-square-root-alt"/>
                                 </button>
-                                <i className="fas fa-table"/>
-                                <i className="far fa-image"/>
-                                <i className="fas fa-chart-line"/></> :
+                                {/*<i className="fas fa-table"/>*/}
+                                {/*<i className="far fa-image"/>*/}
+                                {/*<i className="fas fa-chart-line"/>*/}
+                            </> :
                             // @ts-ignore
                             <EditableMathField latex={formulaValue} style={{width: '14rem'}}
                                                onChange={value => setFormulaValue(value.latex())}
                                                mathquillDidMount={() => toggleIsMounted(true)}
-                                               className="focus:outline-none active:outline-none p-4 -ml-4 border-transparent text-black"/>
+                                               className="focus:outline-none active:outline-none p-4 -ml-4 border-transparent text-black"
+                                               config={{
+                                                   handlers: {
+                                                       enter: function () {
+                                                           insertFormula()
+                                                       }
+                                                   }
+                                               }}
+                            />
                         }
 
                     </motion.div>
 
-                    <button onClick={() => {
-                        if (formulaMode) {
-                            const range = quillRef.current.editor.getSelection(true);
-                            quillRef.current.editor.insertEmbed(range, 'formula', formulaValue)
-                            quillRef.current.editor.deleteText(range.index, range.length);
-                            quillRef.current.editor.setSelection(range.index + range.length + 1);
-                            toggleFormulaMode(false)
-                            setFormulaValue("f(x)=")
-                            setIsOpen(false)
-                            toggleIsMounted(false)
-                        } else {
-                            setIsOpen(!isOpen)
-                        }
-                    }}
+                    <button onClick={insertFormula}
                             className="flex items-center justify-center w-8 active:outline-none focus:outline-none focus:shadow-outline h-full rounded-lg absolute right-0 bg-white z-30">
                         <i className="fas fa-plus text-blue-500"/>
                     </button>

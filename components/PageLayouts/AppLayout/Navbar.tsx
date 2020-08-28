@@ -5,6 +5,7 @@ import NewAssignmentModal from "../../Modals/NewAssignmentModal";
 import NewClassModal from "../../Modals/NewClassModal";
 import SearchInput from "./SearchInput";
 import Link from "next/link";
+import JsonDebugBox from "../../JsonDebugBox";
 
 
 interface Props {
@@ -15,19 +16,23 @@ interface Props {
     logoOnly?: boolean;
     darkText?: boolean;
     logoLinkDisabled?: boolean;
+    profileData?: any;
 }
 
-const MobileMenuItem: React.FC<{label, link, selected?}> = ({label, link, selected}) => {
-    return <a href={link} className={(selected ? "bg-frosted" : null) + " block px-3 py-2 rounded-md text-base font-medium text-white focus:outline-none focus:text-gray-100 focus:bg-light transition duration-150 ease-in-out"}>{label}</a>
+const MobileMenuItem: React.FC<{ label, link, selected? }> = ({label, link, selected}) => {
+    return <a href={link}
+              className={(selected ? "bg-frosted" : null) + " block px-3 py-2 rounded-md text-base font-medium text-white focus:outline-none focus:text-gray-100 focus:bg-light transition duration-150 ease-in-out"}>{label}</a>
 
 }
 
-export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, logoOnly, darkText, logoLinkDisabled}) => {
+export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transparent, color, logoOnly, darkText, logoLinkDisabled}) => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
     const [mobileMenu, toggleMobileMenu] = useState(false);
     const [newDropdown, toggleNewDropdown] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
     const [createClassDialog, toggleCreateClassDialog] = useState(false);
+
+    const accountMode = profileData ? profileData.data.users_by_pk.account_type : null
 
 
     return (<div>
@@ -61,13 +66,14 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                      alt="Sheetroom logo"/>
                             </a>}
 
-                            {session && !logoOnly ? <><SearchInput session={session}/>
-                                <div className="flex hidden lg:block text-gray-200 ">
-                                    <a href="#"
-                                       className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Workshop</a>
-                                    <a href="#"
-                                       className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Learn</a>
-                                </div>
+                            {session && !logoOnly ? <>
+                                {accountMode === "teacher" ? <><SearchInput session={session}/>
+                                    <div className="flex hidden lg:block text-gray-200 ">
+                                        <a href="#"
+                                           className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Workshop</a>
+                                        <a href="#"
+                                           className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-gray-800 transition duration-150 ease-in-out">Learn</a>
+                                    </div></> : null}
                             </> : (!logoOnly ? <div className="flex hidden lg:block">
                                 <a href="#"
                                    className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Features</a>
@@ -186,7 +192,7 @@ export const Navbar: React.FC<Props> = ({session, unfixed, transparent, color, l
                                                     <a href="#"
                                                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                                                        role="menuitem">View Profile</a>
-                                                    <a href="#"
+                                                    <a href="/settings"
                                                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                                                        role="menuitem">Settings</a>
                                                     <a href="/api/auth/signout"
