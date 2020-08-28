@@ -1,3 +1,4 @@
+/* purgecss start ignore */
 .rdt {
     position: relative;
 }
@@ -215,3 +216,5 @@ td.rdtYear:hover {
 .rdtTime td {
     cursor: default;
 }
+
+/* purgecss end ignore */
