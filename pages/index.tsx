@@ -6,7 +6,7 @@ import DesktopGraphic from "../components/LandingPage/DesktopGraphic";
 import Footer from "../components/Misc/Footer";
 
 const InlineButton = ({label, onClick, selected}) => {
-    return <button className={"px-1 rounded-md font-medium mr-1 focus:outline-none focus:shadow-outline " + (selected ? "bg-blue-200 text-blue-600" : "bg-gray-200")} onClick={onClick}>{label}</button>
+    return <button className={"px-1 rounded-md font-medium mr-1 mt-1 sm:mt-0 focus:outline-none focus:shadow-outline " + (selected ? "bg-blue-200 text-blue-600" : "bg-gray-200")} onClick={onClick}>{label}</button>
 }
 
 const Index: React.FC<{ session: any }> = ({session}) => {
