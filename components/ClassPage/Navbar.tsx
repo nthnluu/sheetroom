@@ -1,20 +1,16 @@
-import Transition from "../Transition";
-import React, {useContext, useState} from "react";
-import QuizContext from "../AssignmentEditor/QuizContext";
+import React, {useState} from "react";
 import NewTooltip from "../Misc/Tooltip";
 import {Navbar as PageNavbar} from "../PageLayouts/AppLayout/Navbar";
 import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
-import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
+import JoinCodeModal from "../Modals/JoinCodeModal";
 
-const Navbar =  ({session, content, title, currentPage, setCurrentPage})  => {
+const Navbar =  ({session, content, title, currentPage, setCurrentPage, joinCode})  => {
     const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
 
-
-
     // State for menus
-    const [mobileMenu, toggleMobileMenu] = useState(false);
     const [shareDialog, toggleShareDialog] = useState(false);
+
 
 
     // Popper Shit
@@ -28,6 +24,7 @@ const Navbar =  ({session, content, title, currentPage, setCurrentPage})  => {
 
     return (
         <div className="w-full z-50">
+            <JoinCodeModal joinCode={joinCode} title={title} onCancel={() => toggleShareDialog(false)} isOpen={shareDialog}/>
             <PageNavbar session={session} unfixed/>
             <div className="w-full navbar sticky top-0 bg-white border-b border-gray-200 shadow-sm">
                 <nav>
@@ -35,7 +32,7 @@ const Navbar =  ({session, content, title, currentPage, setCurrentPage})  => {
                         <div className="flex justify-between h-16">
                             <div className="flex px-0">
                                 <div className="flex items-center lg:-ml-2">
-                                    <NewTooltip title="Rename Assignment" placement="bottom" enterDelay={500}
+                                    <NewTooltip title="Rename Class" placement="bottom" enterDelay={500}
                                                 enterNextDelay={500}>
                                         <input style={{textOverflow: "ellipsis"}}
                                                placeholder="Untitled Assignment"
@@ -64,23 +61,6 @@ const Navbar =  ({session, content, title, currentPage, setCurrentPage})  => {
                             </div>
                             <div className="lg:ml-4 flex lg:items-center">
                                 <div className="space-x-2 flex items-center w-auto">
-                                    <div className="hidden lg:flex">
-                                        <NewTooltip title="Import item" placement="bottom" arrow enterDelay={500}
-                                                    enterNextDelay={500}>
-                                            <button type="button" aria-describedby={id} onClick={handleClick}
-                                                    className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 active:bg-gray-200 transition ease-in-out duration-150">
-                                                <i className="fas fa-file-import text-gray-400 mx-auto"/>
-                                            </button>
-                                        </NewTooltip>
-
-                                        <NewTooltip title="Undo" placement="bottom" arrow enterDelay={500}
-                                                    enterNextDelay={500}>
-                                            <button type="button" aria-describedby={id} onClick={handleClick}
-                                                    className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
-                                                <i className="fas fa-undo text-gray-400 mx-auto"/>
-                                            </button>
-                                        </NewTooltip>
-                                    </div>
                                     <button type="button" onClick={() => toggleShareDialog(true)}
                                             className="inline-flex items-center px-3 h-10 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                                         <i className="fas fa-users mr-2 hidden sm:inline-block"/>Invite
