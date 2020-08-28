@@ -42,7 +42,10 @@ const options = {
     callbacks: {
         session: async (session: ISession, user: IUser) => {
             //@ts-ignore
+            session.iat = user.iat
+            //@ts-ignore
             return Promise.resolve(user);
+
         },
         jwt: async (token: iToken, user: IUser) => {
             const isSignIn = !user
@@ -53,9 +56,6 @@ const options = {
                 token.name = `${user.firstName} ${user.lastName}`
                 //@ts-ignore
                 token.accountType = user.accountType
-                token['X-Hasura-User-Id'] = user.id.toString()
-                token['X-Hasura-Role'] = "user"
-                token['X-Hasura-Allowed-Roles'] = ["user"]
             }
 
             return Promise.resolve(token);
