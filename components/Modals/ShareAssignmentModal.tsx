@@ -39,7 +39,7 @@ const ExistingInvitesSection = ({aid}) => {
 
     if (fetching) return (
         <>
-            <ul className="rounded-lg border border-gray-300 overflow-y-scroll my-2 text-left flex justify-center items-center"
+            <ul className="rounded-lg border border-gray-300 overflow-y-auto my-2 text-left flex justify-center items-center"
                 style={{height: '11.1rem'}}>
                 <div className="mx-auto">
                     <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>

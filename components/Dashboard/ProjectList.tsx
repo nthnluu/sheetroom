@@ -37,7 +37,7 @@ const ProjectList: React.FC<Props> = ({session, profileData}) => {
                                 <button type="button" onClick={() => toggleCreateClassDialog(true)}
                                         className="flex items-center justify-center h-8 w-8 border-gray-700 text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-200 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
                                     <svg className="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path d="M12 4v16m8-8H4" strokeWidth="2"/>
+                                        <path d="M12 4v16m8-8H4" strokeWidth="2" strokeLinecap="round"/>
                                     </svg>
                                 </button>
 
@@ -113,7 +113,7 @@ const ProjectList: React.FC<Props> = ({session, profileData}) => {
                                 <button type="button" onClick={() => toggleCreateAssignmentDialog(true)}
                                         className="flex items-center justify-center h-8 w-8 border-gray-700 text-sm leading-5 font-medium rounded-md text-gray-700 bg-transparent hover:bg-gray-200 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
                                     <svg className="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path d="M12 4v16m8-8H4" strokeWidth="2"/>
+                                        <path d="M12 4v16m8-8H4" strokeWidth="2" strokeLinecap="round"/>
                                     </svg>
                                 </button>
 
