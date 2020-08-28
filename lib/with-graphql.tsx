@@ -20,8 +20,11 @@ const WithGraphQL = ({
             "X-Hasura-User-Id": userIdInString,
             "x-hasura-default-role": "user",
             "x-hasura-allowed-roles": ["user"]
-        }
+        },
+        //@ts-ignore
+        iat: session.iat
     }, secret)
+
 
     const subscriptionClient = new SubscriptionClient(
         process.env.NEXT_PUBLIC_WS_URL || "ws://api.sheetroom.com/v1/graphql",
