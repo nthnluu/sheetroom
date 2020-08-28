@@ -44,7 +44,7 @@ const ClassCard = ({course}) => {
                     {title}
                 </a>
                 {course.studentProfiles ? <p className="text-gray-500">{course.studentProfiles.length} Member{course.studentProfiles.length !== 1 ? "s" : null}</p> :
-                    <p className="text-gray-500">{course.user.first_name}</p>}
+                    <p className="text-gray-500 truncate">{`${course.user.first_name} ${course.user.last_name}`}</p>}
 
             </div>
             <ClickAwayListener onClickAway={() => toggleDropdown(false)}>
