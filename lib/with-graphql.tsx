@@ -15,15 +15,21 @@ const WithGraphQL = ({
 }) => {
     const userIdInString = session ? (session.id ? session.id.toString() : 'annon') : 'anon';
     const secret = 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw'
-    const newToken = jwt.sign({
+
+    const payload = {
         "https://hasura.io/jwt/claims": {
             "X-Hasura-User-Id": userIdInString,
             "x-hasura-default-role": "user",
             "x-hasura-allowed-roles": ["user"]
-        },
+        }
+    }
+
+    if (session) {
         //@ts-ignore
-        iat: session.iat
-    }, secret)
+        payload.iat = session.iat
+    }
+
+    const newToken = jwt.sign(payload, secret)
 
 
     const subscriptionClient = new SubscriptionClient(
