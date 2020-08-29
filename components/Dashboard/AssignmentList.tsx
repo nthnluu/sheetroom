@@ -1,4 +1,4 @@
-import {useQuery} from "urql";
+import {useMutation, useQuery, useSubscription} from "urql";
 import gql from "graphql-tag";
 import React, {useState} from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -7,10 +7,12 @@ import ReactGA from "react-ga";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 import Transition from "../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import InfoSnackbar from "../Snackbars/InfoSnackbar";
+import DeleteAssignmentModal from "../Modals/DeleteAssignmentModal";
 
 
 const ASSIGNMENTS = gql`
-query Assignments($userId: Int!){
+subscription Assignments($userId: Int!){
   assignments_assignment(where: {created_by: {_eq: $userId}}, limit: 10, order_by: {updated_at: desc}) {
     id,
     title
@@ -30,10 +32,14 @@ const LoadingPlaceholder = () => {
 };
 
 
-const AssignmentListItem = ({item, session}) => {
+const AssignmentListItem = ({item, session, toggleModal, setAssignmentId}) => {
     const [shareDialog, toggleShareDialog] = useState(false)
     const [dropdown, toggleDropdown] = useState(false);
-    return (<li
+
+    return (
+        <>
+
+        <li
         className="relative pl-4 pr-4 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
         <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session} assignmentId={item.id}/>
         <div className="flex items-center justify-between space-x-4">
@@ -90,9 +96,13 @@ const AssignmentListItem = ({item, session}) => {
                                                     role="menuitem">Share Assignment</button>
                                         </div>
                                         <div className="py-1">
-                                            <a href="#"
-                                               className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                               role="menuitem">Delete</a>
+                                            <button onClick={() => {
+                                                setAssignmentId(item.id)
+                                                toggleDropdown(false)
+                                                toggleModal(true)
+                                            }}
+                                               className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                               role="menuitem">Delete</button>
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +123,7 @@ const AssignmentListItem = ({item, session}) => {
                 </span>
             </div>
         </div>
-    </li>)
+    </li></>)
 }
 
 interface AssignmentListProps {
@@ -122,13 +132,21 @@ interface AssignmentListProps {
 }
 
 const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog}) => {
-    const [result] = useQuery({
+    const [currentAssignmentId, setAssignmentId] = useState(undefined)
+    const [deleteModal, toggleModal] = useState(false)
+    const [snackbarOpen, toggleSnackbar] = useState(false)
+
+    const handleSubscription = (messages = [], response) => {
+        return response;
+    };
+
+    const [result] = useSubscription({
         query: ASSIGNMENTS,
         variables: {
             // @ts-ignore
             userId: session.id
         }
-    });
+    }, handleSubscription);
 
     const {fetching, data, error} = result
 
@@ -142,12 +160,14 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog}) =>
         return <LoadingPlaceholder/>
     }
 
-    if (fetching) {
+    if (fetching && !data) {
         return <LoadingPlaceholder/>
     } else {
         return (<>
+            <DeleteAssignmentModal itemId={currentAssignmentId} toggleSnackbar={toggleSnackbar} joinCode="" title="Delete Assignment?" onCancel={() => toggleModal(false)} isOpen={deleteModal}/>
+            <InfoSnackbar isOpen={snackbarOpen} onClose={() => toggleSnackbar(false)} label="🗑 Assignment Deleted"/>
             <ul className="relative z-0 divide-y divide-gray-200  border-gray-200">
-                {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem item={item} key={item.id} session={session}/> ) : <div className="my-8 text-center">
+                {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem setAssignmentId={setAssignmentId} toggleModal={toggleModal} item={item} key={item.id} session={session}/> ) : <div className="my-8 text-center">
                     <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
                     <button className="text-center font-light opacity-25" onClick={openDialog}>Create new assignment</button>
                 </div>}

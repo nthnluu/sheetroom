@@ -29,7 +29,7 @@ const JoinCodeModal: React.FC<Props> = ({joinCode, title, onCancel, isOpen}) => 
         </div>
         {/*@ts-ignore*/}
     </div>} isOpen={isOpen} onCancel={cancelModal} title={title} content={<div>
-      <h1 className="text-6xl text-center font-semibold text-gray-800 border border-gray-200 rounded-lg">{joinCode}</h1>
+      <h1 className="text-6xl text-center font-light text-gray-700 border border-gray-200 rounded-lg font-mono">{joinCode}</h1>
 
     </div>}
     />)
