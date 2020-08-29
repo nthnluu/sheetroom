@@ -14,12 +14,12 @@ const Index: React.FC<{ session: any }> = ({session}) => {
 
     return (
         <>
-            <div className="min-h-screen overflow-x-hidden" style={{backgroundColor: '#E8F5FE'}}>
+            <div className="min-h-screen overflow-x-hidden bg-gradient-to-tr from-yellow-100 via-teal-100 to-blue-50" style={{backgroundColor: '#E8F5FE'}}>
                 <div className="z-50">
                     <Navbar session={session} unfixed transparent darkText/>
                 </div>
                 <div>
-                    <div className="mx-auto px-4 pb-12 pt-20 md:pt-24 max-w-7xl">
+                    <div className="mx-auto px-4 pt-20 md:pt-24 -mb-1 max-w-7xl">
                         <header className="max-w-6xl mx-auto mb-12 md:mb-0">
                             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center font-semibold text-gray-800 leading-tight z-40">Beautiful
                                 assignments for desktop, mobile and print.

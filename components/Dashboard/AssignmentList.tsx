@@ -9,6 +9,7 @@ import Transition from "../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import InfoSnackbar from "../Snackbars/InfoSnackbar";
 import DeleteAssignmentModal from "../Modals/DeleteAssignmentModal";
+import JsonDebugBox from "../JsonDebugBox";
 
 
 const ASSIGNMENTS = gql`
@@ -129,9 +130,10 @@ const AssignmentListItem = ({item, session, toggleModal, setAssignmentId}) => {
 interface AssignmentListProps {
     session: string;
     openDialog: any;
+    profileData: any;
 }
 
-const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog}) => {
+const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, profileData}) => {
     const [currentAssignmentId, setAssignmentId] = useState(undefined)
     const [deleteModal, toggleModal] = useState(false)
     const [snackbarOpen, toggleSnackbar] = useState(false)
@@ -169,7 +171,8 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog}) =>
             <ul className="relative z-0 divide-y divide-gray-200  border-gray-200">
                 {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem setAssignmentId={setAssignmentId} toggleModal={toggleModal} item={item} key={item.id} session={session}/> ) : <div className="my-8 text-center">
                     <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
-                    <button className="text-center font-light opacity-25" onClick={openDialog}>Create new assignment</button>
+                    {profileData.data.users_by_pk.account_type === "teacher" ?  <button className="text-center font-light opacity-25" onClick={openDialog}>Create new assignment</button> : <button className="text-center font-light opacity-25" onClick={openDialog}>View past submissions</button>}
+
                 </div>}
             </ul>
         </>)
