@@ -5,7 +5,7 @@ import NewAssignmentModal from "../../Modals/NewAssignmentModal";
 import NewClassModal from "../../Modals/NewClassModal";
 import SearchInput from "./SearchInput";
 import FeedbackModal from "../../Modals/FeedbackModal";
-import { signOut } from 'next-auth/client'
+
 
 
 interface Props {
@@ -19,11 +19,6 @@ interface Props {
     profileData?: any;
 }
 
-const MobileMenuItem: React.FC<{ label, link, selected?, dark }> = ({label, link, selected, dark}) => {
-    return <a href={link}
-              className={(selected ? "bg-frosted" : null) + " block px-3 py-2 rounded-md text-base font-medium focus:outline-none focus:text-gray-100 focus:bg-light transition duration-150 ease-in-out" + (dark ? "text-gray-800" : "text-white")}>{label}</a>
-
-}
 
 export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transparent, color, logoOnly, darkText, logoLinkDisabled}) => {
     const [profileDropdown, toggleProfileDropdown] = useState(false);
@@ -212,14 +207,10 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                         </Transition>
                                     </div>
                                 </ClickAwayListener></> : (!logoOnly ? <div className="flex justify-between">
-                                <button type="button" onClick={() => window.location.href = "/signin"}
-                                        className={(darkText ? "text-gray-800 hover:opacity-75 focus:text-gray-700 active:text-gray-800" : "text-white hover:text-gray-200 active:text-gray-300") + " inline-flex items-center mr-1 px-3 py-1 text-base leading-6 font-medium rounded-md bg-transparent focus:outline-none focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150"}>
-                                    Sign in
-                                </button>
-                                <button type="button" onClick={() => window.location.href = "/api/auth/signin"}
+                                <a type="button" href="/signin"
                                         className={(darkText ? "border-gray-800 text-gray-800 hover:opacity-75 focus:border-gray-700 focus:text-gray-700 active:text-gray-800" : "border-gray-300 text-white hover:text-gray-200 focus:border-blue-300 active:text-gray-300") + " inline-flex items-center px-3 py-1 border text-base leading-6 font-medium rounded-md bg-transparent focus:outline-none focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150"}>
-                                    Join Sheetroom
-                                </button>
+                                    Continue to Sheetroom
+                                </a>
 
                             </div> : null)}
 
@@ -232,8 +223,8 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                         enterFrom="opacity-0 -translate-y-1" enterTo="opacity-100 translate-y-0" leave="transition ease-in duration-150" leaveFrom="opacity-100 translate-y-0" leaveTo="opacity-0 -translate-y-1">
                 <div className="absolute lg:hidden inset-x-0 transform shadow-lg navbar">
                     <div className="absolute inset-0 flex">
-                        <div className="bg-white w-1/2"></div>
-                        <div className="bg-gray-50 w-1/2"></div>
+                        <div className="bg-white w-1/2"/>
+                        <div className="bg-gray-50 w-1/2"/>
                     </div>
                     <div className="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2">
                         <nav
@@ -298,14 +289,14 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                     </li>
                                 </ul> : <ul className="space-y-6">
                                     <li className="flow-root">
-                                        <a href="#"
+                                        <a href="/"
                                            className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
                                             <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                                             </svg>
-                                            <span>About</span>
+                                            <span>Home</span>
                                         </a>
                                     </li>
                                     <li className="flow-root">
@@ -314,9 +305,20 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                             <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                                      d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
                                             </svg>
-                                            <span>Customers</span>
+                                            <span>Features</span>
+                                        </a>
+                                    </li>
+                                    <li className="flow-root">
+                                        <a href="#"
+                                           className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
+                                            <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                      d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
+                                            </svg>
+                                            <span>For Institutions</span>
                                         </a>
                                     </li>
                                     <li className="flow-root">
@@ -327,7 +329,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                                       d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                                             </svg>
-                                            <span>Press</span>
+                                            <span>Blog</span>
                                         </a>
                                     </li>
                                     <li className="flow-root">
@@ -336,20 +338,21 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                             <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                                      d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                             </svg>
-                                            <span>Careers</span>
+                                            <span>Pricing</span>
                                         </a>
                                     </li>
+                                    <div className="w-full border-t border-gray-200 sm:hidden"/>
                                     <li className="flow-root">
-                                        <a href="#"
+                                        <a href="/signin"
                                            className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
                                             <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                                      d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
                                             </svg>
-                                            <span>Privacy</span>
+                                            <span>Continue to Sheetroom</span>
                                         </a>
                                     </li>
                                 </ul>}
