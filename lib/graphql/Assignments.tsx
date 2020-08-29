@@ -72,4 +72,11 @@ query ResultsPage($assignmentId: uuid!) {
 }
 `;
 
+export const deleteAssignment = gql`
+mutation DeleteAssignment($assignmentPk: uuid!) {
+  delete_assignments_assignment_by_pk(id: $assignmentPk) {
+    title
+    __typename
+  }
+}`
 
