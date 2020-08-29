@@ -58,10 +58,10 @@ const NewClassModal = ({isOpen, onCancel, session}) => {
       </span>
         </div>
     </div>} isOpen={isOpen} onCancel={closeModal} title="New Class" content={<div className="w-full">
-        <label htmlFor="title" className="sr-only">Title</label>
+        <label htmlFor="class-title" className="sr-only">New Class Title</label>
         <div className="rounded-md shadow-sm w-full">
             {/*//@ts-ignore*/}
-            <input id="title" value={currentValue} onChange={event => setNewValue(event.target.value)}
+            <input id="class-title" value={currentValue} onChange={event => setNewValue(event.target.value)}
                    className="form-input block w-full mt-4 sm:text-sm sm:leading-5" autoFocus
 //                  @ts-ignore
                    placeholder="Untitled Class" onClick={(e) => e.target.select()}/>

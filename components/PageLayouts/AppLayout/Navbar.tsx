@@ -83,7 +83,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                    className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Explore</a>
                                 <a href="#"
                                    className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Blog</a>
-                                <a href="#"
+                                <a href="/pricing"
                                    className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Pricing</a>
                             </div> : null)}
 
@@ -333,7 +333,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                         </a>
                                     </li>
                                     <li className="flow-root">
-                                        <a href="#"
+                                        <a href="/pricing"
                                            className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
                                             <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
@@ -363,25 +363,6 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                 </div>
 
             </Transition>
-
-
-            {/*{!logoOnly ? <div className={"lg:hidden " + (mobileMenu ? "block" : "hidden")}>*/}
-            {/*    <div className="px-2 pt-2 pb-3">*/}
-            {/*        <MobileMenuItem label="Dashboard" link="/" selected dark={transparent}/>*/}
-            {/*        <MobileMenuItem label="Support" link="/" dark={transparent}/>*/}
-            {/*    </div>*/}
-            {/*    <div className="pt-4 pb-3 border-t border-light">*/}
-            {/*        {!session ? <div className="mt-3 px-2">*/}
-            {/*            <MobileMenuItem label="Sign in" link="/signin" dark={transparent}/>*/}
-            {/*            <MobileMenuItem label="Sign up" link="/signin" dark={transparent}/>*/}
-            {/*        </div> : <div className="px-2">*/}
-            {/*            <MobileMenuItem label="Profile" link="/signin" dark={transparent}/>*/}
-            {/*            <MobileMenuItem label="Settings" link="/settings" dark={transparent}/>*/}
-            {/*            <MobileMenuItem label="Sign out" link="/api/auth/signout" dark={transparent}/>*/}
-            {/*        </div>}*/}
-
-            {/*    </div>*/}
-            {/*</div> : null}*/}
 
         </nav>
     </div>)

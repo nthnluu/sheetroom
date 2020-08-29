@@ -13,6 +13,7 @@ query Me($userId: Int!) {
     first_name
     last_name
     is_pro
+    image
     account_type
     __typename
   }
