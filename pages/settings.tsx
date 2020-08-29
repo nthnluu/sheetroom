@@ -1,30 +1,14 @@
-import React, {useState} from 'react';
-import {getSession} from 'next-auth/client'
+import React from 'react';
 import {GetServerSideProps} from "next";
-import PageContent from "../components/Dashboard/Content";
-import AppLayout from "../components/PageLayouts/AppLayout/AppLayout";
-import SettingsLayout from "../components/PageLayouts/SettingsLayout/SettingsLayout";
 import CheckForUser from "../lib/CheckForUser";
 import Navbar from "../components/PageLayouts/AppLayout/Navbar";
 import Footer from "../components/Misc/Footer";
-import JsonDebugBox from "../components/JsonDebugBox";
 
 interface Props {
     session: string;
     profileData: any;
 }
-
-
-const NavbarTab = ({selected, label, onClick}) => {
-    return <button onClick={onClick}
-              className={selected ? "whitespace-no-wrap  pb-3 px-1 border-b-2 border-blue-500 font-medium text-sm leading-5 text-blue-600 focus:outline-none focus:text-blue-800 focus:border-blue-700" : "whitespace-no-wrap pb-3 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300"}
-              aria-current={selected}>
-        {label}
-    </button>
-}
 const Dashboard: React.FC<Props> = ({session, profileData}) => {
-
-    const [currentPage, setCurrentPage] = useState("profile");
 
     return (
         <>
