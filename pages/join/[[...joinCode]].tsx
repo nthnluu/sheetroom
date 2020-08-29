@@ -1,6 +1,5 @@
 import Navbar from "../../components/PageLayouts/AppLayout/Navbar";
 import {GetServerSideProps} from "next";
-import {getSession} from "next-auth/client";
 import {useRouter} from 'next/router'
 import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
