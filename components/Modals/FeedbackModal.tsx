@@ -4,9 +4,7 @@ import {motion} from "framer-motion"
 import {useMutation} from "urql";
 import {sendFeedback} from "../../lib/graphql/Feedback";
 import {useRouter} from 'next/router'
-import {Snackbar} from "@material-ui/core";
-import {Alert} from "@material-ui/lab";
-import SuccessSnackbar from "../Snackbars/SuccessSnackbar";
+import InfoSnackbar from "../Snackbars/InfoSnackbar";
 
 interface Props {
     title: string;
@@ -18,7 +16,7 @@ interface Props {
 const EmojiButton = ({emoji, onClick, selected}) => {
     return <motion.button
         whileTap={{scale: 0.9}} onClick={onClick}
-        className={"rounded-full form-input text-xl h-8 w-8 items-center justify-center select-none inline-flex border shadow-sm focus:outline-none " + (selected ? "shadow-outline-blue border-blue-300" : null)}>{emoji}</motion.button>
+        className={"rounded-full form-input text-2xl h-10 w-10 items-center justify-center select-none inline-flex border shadow-sm focus:outline-none " + (selected ? "shadow-outline-blue border-blue-300" : null)}>{emoji}</motion.button>
 }
 const FeedbackModal: React.FC<Props> = ({title, onCancel, isOpen, session}) => {
     const router = useRouter()
@@ -48,7 +46,7 @@ const FeedbackModal: React.FC<Props> = ({title, onCancel, isOpen, session}) => {
 
     return (
         <>
-            <SuccessSnackbar isOpen={snackbarOpen} onClose={() => toggleSnackbar(false)} label="🎉 Feedback sent"/>
+            <InfoSnackbar isOpen={snackbarOpen} onClose={() => toggleSnackbar(false)} label="🎉 Feedback sent"/>
 
             <SimpleModal buttons={<div className="pt-2sm:mt-4 sm:flex sm:flex-row-reverse sm:justify-between">
                 <div className="sm:flex sm:flex-row-reverse">
