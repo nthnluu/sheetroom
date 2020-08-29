@@ -1,5 +1,5 @@
 import React from "react";
-import JsonDebugBox from "../JsonDebugBox";
+
 
 
 interface Props {
@@ -56,7 +56,7 @@ const Sidebar: React.FC<Props> = ({session, profile}) => {
                         {/*</div>*/}
                     </div>
                     {/* Meta info */}
-                    <div
+                    {profile.data.users_by_pk.account_type === "teacher" ? <div
                         className="flex flex-col space-y-6 sm:flex-row sm:space-y-0 sm:space-x-8 xl:flex-col xl:space-x-0 xl:space-y-6">
                         <div className="flex items-center space-x-2">
                             <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
@@ -73,7 +73,8 @@ const Sidebar: React.FC<Props> = ({session, profile}) => {
                             </svg>
                             <span className="text-sm text-gray-500 leading-5 font-medium">8 Projects</span>
                         </div>
-                    </div>
+                    </div> : null}
+
                 </div>
             </div>
         </div>

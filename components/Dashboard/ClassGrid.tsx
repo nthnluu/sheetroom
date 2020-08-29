@@ -35,7 +35,7 @@ const ClassGrid: React.FC<Props>  = ({session, openDialog, profileData})  => {
                 {data.classes_class.map(course => <ClassCard course={course} key={course.id}/>)}
         </ul> : <div className="my-4 text-center">
             <img src="/class.svg" className="h-24 mx-auto opacity-25 mb-2"/>
-            <button className="text-center opacity-25" onClick={openDialog}>Create new class</button>
+            {profileData.data.users_by_pk.account_type === "teacher" ? <button className="text-center opacity-25" onClick={openDialog}>Create new class</button> : <a className="text-center opacity-25" href="/join/">Join a class</a>}
         </div>} </>)
 }
 

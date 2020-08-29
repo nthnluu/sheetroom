@@ -14,7 +14,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
 
     return (
         <>
-            <div className="min-h-screen overflow-x-hidden bg-gradient-to-tr from-yellow-100 via-teal-100 to-blue-50" style={{backgroundColor: '#E8F5FE'}}>
+            <div className="min-h-screen overflow-x-hidden bg-gradient-to-tr from-yellow-50 via-teal-100 to-blue-50" style={{backgroundColor: '#E8F5FE'}}>
                 <div className="z-50">
                     <Navbar session={session} unfixed transparent darkText/>
                 </div>
