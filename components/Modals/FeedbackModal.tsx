@@ -13,10 +13,10 @@ interface Props {
     session: any;
 }
 
-const EmojiButton = ({emoji, onClick, selected}) => {
+const EmojiButton = ({emoji, onClick, selected, text}) => {
     return <motion.button
-        whileTap={{scale: 0.9}} onClick={onClick}
-        className={"rounded-full form-input text-2xl h-10 w-10 items-center justify-center select-none inline-flex border shadow-sm focus:outline-none " + (selected ? "shadow-outline-blue border-blue-300" : null)}>{emoji}</motion.button>
+        whileTap={{scale: 0.9}} onClick={onClick} animate={selected ? {scale: 1.2, opacity:1} : {scale: 1, opacity: 0.25}}
+        className="text-2xl select-none focus:outline-none focus:shadow-outline rounded-full"><span role="img" aria-label={text}>{emoji}</span></motion.button>
 }
 const FeedbackModal: React.FC<Props> = ({title, onCancel, isOpen, session}) => {
     const router = useRouter()
@@ -68,10 +68,10 @@ const FeedbackModal: React.FC<Props> = ({title, onCancel, isOpen, session}) => {
                 <textarea rows={3} className="form-input w-full resize-none" value={messageContent}
                           onChange={event => setMessageContent(event.target.value)} placeholder="Your feedback..."/>
                 <div className="flex justify-start space-x-2 text-xl mt-1 mb-2 md:mb-0">
-                    <EmojiButton onClick={() => setSelectedEmoji("🤩")} selected={selectedEmoji === "🤩"} emoji="🤩"/>
-                    <EmojiButton onClick={() => setSelectedEmoji("😀")} selected={selectedEmoji === "😀"} emoji="😀"/>
-                    <EmojiButton onClick={() => setSelectedEmoji("😟")} selected={selectedEmoji === "😟"} emoji="😟"/>
-                    <EmojiButton onClick={() => setSelectedEmoji("🤬")} selected={selectedEmoji === "🤬"} emoji="🤬"/>
+                    <EmojiButton text="" onClick={() => setSelectedEmoji("🤩")} selected={selectedEmoji === "🤩"} emoji="🤩"/>
+                    <EmojiButton text="" onClick={() => setSelectedEmoji("😀")} selected={selectedEmoji === "😀"} emoji="😀"/>
+                    <EmojiButton text="" onClick={() => setSelectedEmoji("😟")} selected={selectedEmoji === "😟"} emoji="😟"/>
+                    <EmojiButton text="" onClick={() => setSelectedEmoji("🤬")} selected={selectedEmoji === "🤬"} emoji="🤬"/>
                 </div>
 
             </div>}
