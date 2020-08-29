@@ -5,14 +5,14 @@ import StudentPage from "./StudentPage";
 
 
 
-const PageLayout = ({session, course}) => {
+const PageLayout = ({session, course, profileData}) => {
     const [currentPage, setCurrentPage] = useState(1);
 
 
     return (
         <div className="min-h-screen bg-gray-100">
             {/*// @ts-ignore*/}
-            <Navbar session={session} joinCode={course.join_code} title={course.title} setCurrentPage={setCurrentPage} currentPage={currentPage}/>
+            <Navbar session={session} profileData={profileData} joinCode={course.join_code} title={course.title} setCurrentPage={setCurrentPage} currentPage={currentPage}/>
 
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
                 <StudentPage course={course}/>

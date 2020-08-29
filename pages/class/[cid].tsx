@@ -8,6 +8,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {useQuery, useSubscription} from "urql";
 import {classByPk} from "../../lib/graphql/Class";
 import ClassContext from "../../components/ClassPage/ClassContext";
+import CheckForUser from "../../lib/CheckForUser";
 
 
 const LoadingPlaceholder: React.FC = () => {
@@ -26,7 +27,7 @@ const LoadingPlaceholder: React.FC = () => {
 };
 
 
-const ClassPage = ({session}) => {
+const ClassPage = ({session, profileData}) => {
     const router = useRouter();
     const {cid} = router.query;
 
@@ -40,19 +41,14 @@ const ClassPage = ({session}) => {
     if (fetching && !data) {
         return <LoadingPlaceholder/>
     } else {
-        return <PageLayout session={session} course={data.classes_class_by_pk}/>
+        return <PageLayout session={session} profileData={profileData} course={data.classes_class_by_pk}/>
     }
 }
 
 
-export const getServerSideProps: GetServerSideProps = async ({req}) => {
-    const session = await getSession({req});
-
-    return {
-        props: {
-            session,
-        },
-    };
+export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
+    return CheckForUser(req, res, true)
 };
+
 
 export default ClassPage
