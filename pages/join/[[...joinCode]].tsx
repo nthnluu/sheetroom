@@ -14,6 +14,7 @@ import ReactGA from "react-ga";
 import ClassCard from "../../components/JoinScreen/ClassCard";
 import {prepareSubmission} from "../../lib/graphql/Submissions";
 import CheckForUser from "../../lib/CheckForUser";
+import JsonDebugBox from "../../components/JsonDebugBox";
 
 
 const InviteFetch = ({joinCode, session}) => {
@@ -104,10 +105,10 @@ const InviteFetch = ({joinCode, session}) => {
                                 </div>
                             )
                         } else {
-                            return (<ClassCard course={data.classes_class} onStart={() => joinClass({studentId: session.id, classId:data.classes_class[0].id })}/>)
+                            return (<ClassCard session={session} course={data.classes_class[0]} onStart={() => joinClass({studentId: session.id, classId:data.classes_class[0].id })}/>)
                         }
                     } else {
-                        return <ClassCard course={data.classes_class[0]}/>
+                        return <ClassCard session={null} course={data.classes_class[0]}/>
                     }
                 }
             case(8):
