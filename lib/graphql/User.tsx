@@ -12,6 +12,7 @@ query Me($userId: Int!) {
   users_by_pk(id: $userId) {
     first_name
     last_name
+    is_pro
     account_type
     __typename
   }
