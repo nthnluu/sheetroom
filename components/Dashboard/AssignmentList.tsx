@@ -7,9 +7,8 @@ import ReactGA from "react-ga";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 import Transition from "../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import {deleteAssignment} from "../../lib/graphql/Assignments";
 import InfoSnackbar from "../Snackbars/InfoSnackbar";
-import JsonDebugBox from "../JsonDebugBox";
+import DeleteAssignmentModal from "../Modals/DeleteAssignmentModal";
 
 
 const ASSIGNMENTS = gql`
@@ -33,14 +32,13 @@ const LoadingPlaceholder = () => {
 };
 
 
-const AssignmentListItem = ({item, session, toggleSnackbar}) => {
+const AssignmentListItem = ({item, session, toggleModal, setAssignmentId}) => {
     const [shareDialog, toggleShareDialog] = useState(false)
     const [dropdown, toggleDropdown] = useState(false);
-    const [deleteMutationResult, deleteMutation] = useMutation(deleteAssignment)
-
 
     return (
         <>
+
         <li
         className="relative pl-4 pr-4 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
         <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session} assignmentId={item.id}/>
@@ -99,11 +97,9 @@ const AssignmentListItem = ({item, session, toggleSnackbar}) => {
                                         </div>
                                         <div className="py-1">
                                             <button onClick={() => {
+                                                setAssignmentId(item.id)
                                                 toggleDropdown(false)
-                                                deleteMutation({assignmentPk: item.id})
-                                                    .then(result => toggleSnackbar(true))
-                                                    .catch(error => console.log(error))
-
+                                                toggleModal(true)
                                             }}
                                                className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                                role="menuitem">Delete</button>
@@ -136,6 +132,8 @@ interface AssignmentListProps {
 }
 
 const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog}) => {
+    const [currentAssignmentId, setAssignmentId] = useState(undefined)
+    const [deleteModal, toggleModal] = useState(false)
     const [snackbarOpen, toggleSnackbar] = useState(false)
 
     const handleSubscription = (messages = [], response) => {
@@ -166,9 +164,10 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog}) =>
         return <LoadingPlaceholder/>
     } else {
         return (<>
+            <DeleteAssignmentModal itemId={currentAssignmentId} toggleSnackbar={toggleSnackbar} joinCode="" title="Delete Assignment?" onCancel={() => toggleModal(false)} isOpen={deleteModal}/>
             <InfoSnackbar isOpen={snackbarOpen} onClose={() => toggleSnackbar(false)} label="🗑 Assignment Deleted"/>
             <ul className="relative z-0 divide-y divide-gray-200  border-gray-200">
-                {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem toggleSnackbar={toggleSnackbar} item={item} key={item.id} session={session}/> ) : <div className="my-8 text-center">
+                {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem setAssignmentId={setAssignmentId} toggleModal={toggleModal} item={item} key={item.id} session={session}/> ) : <div className="my-8 text-center">
                     <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
                     <button className="text-center font-light opacity-25" onClick={openDialog}>Create new assignment</button>
                 </div>}
