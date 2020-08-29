@@ -6,7 +6,7 @@ import DesktopGraphic from "../components/LandingPage/DesktopGraphic";
 import Footer from "../components/Misc/Footer";
 
 const InlineButton = ({label, onClick, selected}) => {
-    return <button className={"px-1 rounded-md font-medium mr-1 mt-1 sm:mt-0 focus:outline-none focus:shadow-outline " + (selected ? "bg-blue-200 text-blue-600" : "bg-gray-200")} onClick={onClick}>{label}</button>
+    return <button className={"px-1 rounded-md font-medium mr-1 mt-1 sm:mt-0 focus:outline-none " + (selected ? "bg-blue-200 text-blue-600 focus:bg-blue-100" : "bg-gray-200 focus:bg-gray-100")} onClick={onClick}>{label}</button>
 }
 
 const Index: React.FC<{ session: any }> = ({session}) => {
@@ -22,7 +22,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                     <div className="mx-auto px-4 pb-12 pt-20 md:pt-24 max-w-7xl">
                         <header className="max-w-6xl mx-auto mb-12 md:mb-0">
                             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center font-semibold text-gray-800 leading-tight z-40">Beautiful
-                                assignments for desktop, mobile and paper.
+                                assignments for desktop, mobile and print.
                             </h1>
                         </header>
                         <DesktopGraphic/>
@@ -51,7 +51,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                                 </h3>
                                 <p className="mt-4 max-w-3xl mx-auto text-center text-xl leading-7 text-gray-500">
                                     Stop wrestling with formatting or buggy LMS quizzes. Start writing beautiful
-                                    assignments that look great on desktop, mobile, and paper.
+                                    assignments that look great on desktop, mobile, and print.
                                 </p>
                             </div>
 
