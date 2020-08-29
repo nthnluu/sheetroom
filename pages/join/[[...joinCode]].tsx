@@ -97,10 +97,6 @@ const InviteFetch = ({joinCode, session}) => {
                                     <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800">You've
                                         already
                                         joined {data.classes_class[0].title}</h1>
-                                    <h2 className="text-sm sm:text-lg md:text-xl font-light text-gray-600 max-w-md mx-auto">You're
-                                        signed in as {session.email}.<br/> If this isn't you, you can <a href="#"
-                                                                                                         className="underline text-gray-700 hover:text-blue-600 font-semibold">switch
-                                            accounts.</a></h2>
                                     <button type="button"
                                             onClick={() => window.location.href = "/class/" + data.classes_class[0].id}
                                             className="inline-flex mt-4 items-center px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
