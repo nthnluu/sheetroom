@@ -5,16 +5,16 @@ import Divider from '@material-ui/core/Divider';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 
-export default function SignIn({providers}) {
+export default function SignIn() {
     const [currentValue, setCurrentValue] = useState("")
     const [isLoading, toggleIsLoading] = useState(false)
 
     return (
         <>
             <Navbar logoOnly unfixed/>
-            <div className="h-screen flex justify-center">
-                <div className="space-y-4 mt-24 md:mt-56 p-4">
-                    <h1 className="font-bold text-3xl md:text-4xl text-gray-800">Sign in to Sheetroom</h1>
+            <div className="flex justify-center items-center">
+                <div className="space-y-4 p-4 mt-48 md:mt-56">
+                    <h1 className="font-bold text-3xl text-center sm:text-4xl text-gray-800">Continue to Sheetroom</h1>
                     <form onSubmit={event => {
                         event.preventDefault();
                         toggleIsLoading(true)
@@ -52,7 +52,6 @@ export default function SignIn({providers}) {
                         </button>
                     </div>
                 </div>
-
 
             </div>
 
