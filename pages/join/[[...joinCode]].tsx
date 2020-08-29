@@ -169,7 +169,10 @@ const JoinPage = ({session}) => {
         <Navbar session={session}/>
         <div className="h-full flex justify-center items-center max-w-3xl mx-auto px-4 md:px-0">
             <div className="w-full">
-                {(joinCode[0].length === 8 || joinCode[0].length === 9)  ? <InviteFetch joinCode={joinCode[0]} session={session}/> : <JoinCode session={session}/>}
+                {joinCode ?
+                    ((joinCode[0].length === 8 || joinCode[0].length === 9)  ? <InviteFetch joinCode={joinCode[0]} session={session}/> : <JoinCode session={session}/>):
+                    <JoinCode session={session}/>
+                }
             </div>
         </div>
     </div>)

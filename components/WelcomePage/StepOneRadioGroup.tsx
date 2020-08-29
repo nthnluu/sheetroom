@@ -42,7 +42,6 @@ export default function StepOneRadioGroup ({onChange, value}) {
                 <fieldset className="pt-2" role="radiogroup">
                     <AnswerChoice radioName="welcome1" onClick={() => onChange("student")} value={"student"} selected={value === "student"} title="Student" desc="I plan on joining classes and submitting assignments."/>
                     <AnswerChoice radioName="welcome2" onClick={() => onChange("teacher")}  value={"teacher"} selected={value === "teacher"} title="Teacher" desc="I plan on writing assignments and managing classes."/>
-                    <AnswerChoice radioName="welcome3" onClick={() => onChange("both")}  value={"both"} selected={value === "both"} title="Both" desc="I plan on doing all of the above."/>
                 </fieldset>
             </div>
         </>

@@ -5,6 +5,7 @@ import NewAssignmentModal from "../../Modals/NewAssignmentModal";
 import NewClassModal from "../../Modals/NewClassModal";
 import SearchInput from "./SearchInput";
 import FeedbackModal from "../../Modals/FeedbackModal";
+import { signOut } from 'next-auth/client'
 
 
 interface Props {
@@ -198,9 +199,6 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                                 className="origin-top-right popover absolute right-0 mt-2 w-48 rounded-md shadow-lg">
                                                 <div className="py-1 rounded-md bg-white shadow-xs" role="menu"
                                                      aria-orientation="vertical" aria-labelledby="user-menu">
-                                                    <a href="#"
-                                                       className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
-                                                       role="menuitem">View Profile</a>
                                                     <a href="/settings"
                                                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
                                                        role="menuitem">Settings</a>
@@ -275,7 +273,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                         </a>
                                     </li>
                                     <li className="flow-root">
-                                        <a href="#"
+                                        <a href="/api/auth/signout"
                                            className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
                                             <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
