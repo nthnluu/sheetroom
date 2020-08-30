@@ -34,7 +34,7 @@ const AnswerChoice: React.FC<{ selected: boolean; onClickTrue: any; onClickFalse
 
 
     return (
-        <div className="-ml-3 flex justify-between items-center select-none">
+        <div className="-ml-3 flex justify-between items-center">
             <input id={uniqueId.input} aria-labelledby={uniqueId.label} aria-selected={selected} type="checkbox"
                    checked={selected} value={choice}
                    onClick={handleClick} className="absolute mt-6 ml-5 opacity-0"
