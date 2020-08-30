@@ -80,3 +80,35 @@ mutation DeleteAssignment($assignmentPk: uuid!) {
   }
 }`
 
+
+export const assignmentGridStudent = gql`
+query StudentAssignmentGrid($userId: Int!) {
+  assignments_invite(where: {classByClass: {studentProfiles: {student: {_eq: $userId}}}}) {
+    assignmentByAssignment {
+      title
+    }
+    join_code
+    config
+    user {
+      first_name
+      last_name
+    }
+    classByClass {
+      title
+      color
+    }
+  }
+}`
+
+
+export const assignmentGridTeacher = gql`
+subscription Assignments($userId: Int!){
+  assignments_assignment(where: {created_by: {_eq: $userId}}, limit: 10, order_by: {updated_at: desc}) {
+    id,
+    title
+    updated_at
+    __typename
+  }
+  
+}
+`;

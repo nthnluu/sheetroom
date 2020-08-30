@@ -176,8 +176,7 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                     </label>
                     <div className="hidden sm:block">
                         {/*// @ts-ignore*/}
-                        <Datetime
-                            // isValidDate={valid}
+                        <Datetime isValidDate={valid}
                             value={settingsObject.dueDate}
                                   onChange={moment => setConfigValue("dueDate", moment)}
                                   inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
@@ -188,8 +187,7 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                             <label htmlFor="email" className="sr-only">Email</label>
                             <div className="relative rounded-md shadow-sm">
                                 {/*// @ts-ignore*/}
-                                <Datetime
-                                    // isValidDate={valid}
+                                <Datetime isValidDate={valid}
                                     value={settingsObject.dueDate}
                                           onChange={moment => setConfigValue("dueDate", moment)}
                                           className="rdtPickerOpenUpwards"
