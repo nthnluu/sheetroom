@@ -26,6 +26,30 @@ const LoadingPlaceholder: React.FC = () => {
     )
 };
 
+const ErrorScreen = () => {
+    // window.location.href = '/dashboard'
+    return (<div className="pt-56">
+        <Head>
+            <title>Sheetroom</title>
+        </Head>
+        <div className="mx-auto p-3">
+
+            <img className="h-36 mx-auto text-center" src="https://i.imgur.com/jZR71Ox.png"/>
+            <h1 className="text-center text-gray-600 mt-6 text-lg font-semibold">Sorry, the class you're looking
+                for does not exist.</h1>
+            <h1 className="text-center text-gray-400 mt-2 text-sm">Make sure this class exists and you've joined it.</h1>
+            <div className="w-full mt-8">
+                <button type="button" onClick={() => window.location.href = "/dashboard"}
+                        className="mx-auto block items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline active:bg-blue-700 transition ease-in-out duration-150">
+                    <i className="fas fa-chevron-left mr-2"/>Back to dashboard
+                </button>
+            </div>
+
+        </div>
+
+    </div>)
+}
+
 
 const ClassPage = ({session, profileData}) => {
     const router = useRouter();
@@ -41,7 +65,12 @@ const ClassPage = ({session, profileData}) => {
     if (fetching && !data) {
         return <LoadingPlaceholder/>
     } else {
-        return <PageLayout session={session} profileData={profileData} course={data.classes_class_by_pk}/>
+        if (data.classes_class_by_pk) {
+            return <PageLayout courseId={cid} session={session} profileData={profileData} course={data.classes_class_by_pk}/>
+        } else {
+            return <ErrorScreen/>
+        }
+
     }
 }
 

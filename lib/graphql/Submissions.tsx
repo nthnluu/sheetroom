@@ -49,6 +49,22 @@ query GetSubmission($submissionId: uuid!){
 `;
 
 
+export const getSubmissionsFromClassWithUser = gql`
+query SubmissionForStudentInClass($userId: Int!, $classId: uuid!) {
+  assignments_submission(where: {studentProfile: {student: {_eq: $userId}, class: $classId}}) {
+    inviteByInvite {
+      assignmentByAssignment {
+        title
+      }
+    }
+    scoreReportByScoreReport {
+      created_at
+      total_points
+      earned_points
+    }
+  }
+}`
+
 
 
 

@@ -3,65 +3,18 @@ import {GetServerSideProps} from "next";
 import {useRouter} from 'next/router'
 import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {useMutation, useQuery} from "urql";
-import {classByJoinCode, createStudentProfile} from "../../lib/graphql/Class";
-import {
-    getInviteByJoinCodeWithoutSession,
-    getInviteByJoinCodeWithSession
-} from "../../lib/graphql/Invites";
+import {useQuery} from "urql";
 import AssignmentCard from "../../components/JoinScreen/AssignmentCard";
 import ReactGA from "react-ga";
 import ClassCard from "../../components/JoinScreen/ClassCard";
-import {prepareSubmission} from "../../lib/graphql/Submissions";
 import CheckForUser from "../../lib/CheckForUser";
-import JsonDebugBox from "../../components/JsonDebugBox";
+import {fetchJoinCode} from "../../lib/graphql/FetchJoinCode";
 
 
-const InviteFetch = ({joinCode, session}) => {
-
-    function inviteType(code) {
-        switch (code.length) {
-            case(9):
-                return {
-                    type: "class_invite_code", query: {
-                        query: classByJoinCode,
-                        variables: {
-                            joinCode: joinCode
-                        }
-                    }, mutation: createStudentProfile
-                }
-            case(8):
-                if (session) {
-                    return {
-                        type: "assignment_invite_code", query: {
-                            query: getInviteByJoinCodeWithSession,
-                            variables: {
-                                joinCode: joinCode,
-                                userId: session.id
-                            }
-                        }, mutation: prepareSubmission
-                    }
-                } else {
-                    return {
-                        type: "assignment_invite_code", query: {
-                            query: getInviteByJoinCodeWithoutSession,
-                            variables: {
-                                joinCode: joinCode
-                            }
-                        }, mutation: prepareSubmission
-                    }
-                }
-
-            default:
-                return {query: null}
-        }
-    }
+const InviteFetch = ({joinCode}) => {
 
     // @ts-ignore
-    const [result] = useQuery(inviteType(joinCode).query)
-
-    // @ts-ignore
-    const [joinClassResult, joinClass] = useMutation(inviteType(joinCode).mutation)
+    const [result] = useQuery({query: fetchJoinCode, variables: {joinCode: joinCode}})
 
 
     const {fetching, data, error} = result
@@ -75,7 +28,7 @@ const InviteFetch = ({joinCode, session}) => {
             label: error
         })
 
-        return <JoinCode session={session}/>
+        return <JoinCode error/>
     }
 
     if (fetching) {
@@ -85,57 +38,17 @@ const InviteFetch = ({joinCode, session}) => {
             </div>
         </div>)
     } else {
-        switch (joinCode.length) {
-            case(9):
-                if (data.classes_class[0]) {
-                    if (session) {
-                        const studentsInClass = data.classes_class[0].studentProfiles.map(profile => (profile.user ? profile.user.id : null))
-                        if (studentsInClass.includes(session ? session.id : null) || data.classes_class[0].created_by === session.id) {
-                            return (
-                                <div className="text-center px-8">
-                                    <img src="/a-ok-monochrome.svg" className="h-64 md:h-96 mb-8 mx-auto" alt=""/>
-                                    <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800">You've
-                                        already
-                                        joined {data.classes_class[0].title}</h1>
-                                    <button type="button"
-                                            onClick={() => window.location.href = "/class/" + data.classes_class[0].id}
-                                            className="inline-flex mt-4 items-center px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                                        Continue
-                                    </button>
-                                </div>
-                            )
-                        } else {
-                            return (<ClassCard session={session} course={data.classes_class[0]} onStart={() => joinClass({studentId: session.id, classId:data.classes_class[0].id })}/>)
-                        }
-                    } else {
-                        return <ClassCard session={null} course={data.classes_class[0]}/>
-                    }
-                }
-            case(8):
-                let element;
-                if (data.assignments_invite[0]) {
-                    element = <><AssignmentCard
-                        data={data.assignments_invite[0]} onStart={() => {
-                        joinClass({inviteId: data.assignments_invite[0].id})
-                            .then(result => window.location.href = "/view/" + result.data.prepareSubmission.id)
-                    }
-
-                    }/></>
-                } else {
-                    element = <JoinCode session={session}/>
-                }
-                return element
-            default:
-                return <JoinCode session={session}/>
-
+        switch(data.processJoinCode.type) {
+            case("assignment"):
+                return <AssignmentCard firstName={data.processJoinCode.payload.user.first_name} lastName={data.processJoinCode.payload.user.last_name} title={data.processJoinCode.payload.assignmentByAssignment.title}/>
+            case("class"):
+                return <ClassCard firstName={data.processJoinCode.payload.user.first_name} lastName={data.processJoinCode.payload.user.last_name} title={data.processJoinCode.payload.title}/>
         }
-
-
     }
 
 }
 
-const JoinCode = ({session}) => {
+const JoinCode = ({error = false}) => {
     return (<div className="text-center max-w-sm mx-auto">
         <h1 className="text-4xl font-bold text-gray-800">Enter your join code</h1>
         {/*//@ts-ignore*/}
@@ -156,10 +69,23 @@ const JoinCode = ({session}) => {
                     className="items-center w-full mt-6 px-3 py-3 border border-transparent leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                 Continue
             </button>
+            {error ? <p className="text-sm text-red-500 mt-2">The code you entered was invalid.</p> : null}
         </form>
 
 
     </div>)
+}
+
+
+const InviteFetcher = ({joinCode, session}) => {
+    if (!joinCode) {
+        return <JoinCode/>
+    } else if (joinCode[0].length === 8 || joinCode[0].length === 9) {
+        return <InviteFetch joinCode={joinCode[0]} />
+    } else {
+        return <JoinCode error/>
+    }
+
 }
 
 const JoinPage = ({session}) => {
@@ -170,10 +96,7 @@ const JoinPage = ({session}) => {
         <Navbar session={session}/>
         <div className="h-full flex justify-center items-center max-w-3xl mx-auto px-4 md:px-0">
             <div className="w-full">
-                {joinCode ?
-                    ((joinCode[0].length === 8 || joinCode[0].length === 9)  ? <InviteFetch joinCode={joinCode[0]} session={session}/> : <JoinCode session={session}/>):
-                    <JoinCode session={session}/>
-                }
+                <InviteFetcher session={session} joinCode={joinCode}/>
             </div>
         </div>
     </div>)
@@ -182,7 +105,6 @@ const JoinPage = ({session}) => {
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
     return CheckForUser(req, res)
 };
-
 
 
 export default JoinPage
