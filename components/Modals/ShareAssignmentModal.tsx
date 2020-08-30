@@ -10,6 +10,7 @@ import Datetime from 'react-datetime'
 import {searchClasses} from "../../lib/graphql/Class";
 import update from "immutability-helper";
 import Tabs from "./ModalTabs";
+import JsonDebugBox from "../JsonDebugBox";
 
 
 const ExistingInvitesSection = ({aid}) => {
@@ -144,7 +145,13 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
         )
     }
 
+    const yesterday = moment().subtract( 1, 'day' );
+    const valid = ( current ) =>{
+        return current.isAfter( yesterday );
+    };
+
     return (<div className="w-full">
+        <JsonDebugBox content={settingsObject}/>
         <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
               tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
@@ -177,17 +184,17 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
             </div>
             }
             {/*@ts-ignore*/}
-            <ToggleRow label="Due date" value={dueDate}
-                       onEnable={() => toggleDueDate(true)}
-                       onDisable={() => toggleDueDate(false)}/>
-            {dueDate ? <div className="grid grid-cols-1 gap-4 text-left">
+            <ToggleRow label="Due date" value={settingsObject.dueDateEnabled}
+                       onEnable={() => setConfigValue("dueDateEnabled", true)}
+                       onDisable={() => setConfigValue("dueDateEnabled", false)}/>
+            {settingsObject.dueDateEnabled ? <div className="grid grid-cols-1 gap-4 text-left">
                 <div className="flex-row justify-start items-center mt-2">
                     <label htmlFor="allowedAttempts" className="sr-only">
                         DUE AT
                     </label>
                     <div className="hidden sm:block">
                         {/*// @ts-ignore*/}
-                        <Datetime value={dueDateValue} onChange={setDueDateValue}
+                        <Datetime isValidDate={valid} value={settingsObject.dueDate} onChange={moment => setConfigValue("dueDate", moment)}
                                   inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                     </div>
                     <div className="block sm:hidden">
@@ -196,7 +203,7 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                             <label htmlFor="email" className="sr-only">Email</label>
                             <div className="relative rounded-md shadow-sm">
                                 {/*// @ts-ignore*/}
-                                <Datetime value={dueDateValue} onChange={setDueDateValue} className="rdtPickerOpenUpwards"
+                                <Datetime isValidDate={valid} value={settingsObject.dueDate} onChange={moment => setConfigValue("dueDate", moment)} className="rdtPickerOpenUpwards"
                                           inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                             </div>
                         </div>
