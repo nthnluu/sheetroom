@@ -26,12 +26,6 @@ const ExistingInvitesSection = ({aid}) => {
 
     if (fetching) return (
         <>
-            <ul className="rounded-lg border border-gray-300 overflow-y-auto my-2 text-left flex justify-center items-center"
-                style={{height: '11.1rem'}}>
-                <div className="mx-auto">
-                    <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>
-                </div>
-            </ul>
         </>
     )
 
@@ -70,7 +64,7 @@ const SearchResults = ({value, setClass, session}) => {
         (data.classes_class.length > 0 ?
             <ul className="bg-white border rounded-md shadow absolute mt-1 overflow-hidden w-full z-50 divide-y">
                 {data.classes_class.map(course =>
-                    <li>
+                    <li key={course.id}>
                         <button onClick={() => setClass({title: course.title, id: course.id})}
                                 className="text-sm text-gray-700 p-2 w-full text-left focus:outline-none focus:bg-gray-50">{course.title}</button>
                     </li>)}
@@ -107,7 +101,8 @@ const ClassSearch = ({selectedClass, setSelectedClass, session}) => {
                 <input id="assign_to" className="form-input block w-full sm:text-sm sm:leading-5"
                        placeholder="Assign to class" onChange={handleChange} value={searchTerm} autoComplete="off"/>
             </div>
-            {dropdownActive ? <SearchResults session={session} value={searchTerm} setClass={id => setSelectedClass(id)}/> : null}
+            {dropdownActive ?
+                <SearchResults session={session} value={searchTerm} setClass={id => setSelectedClass(id)}/> : null}
         </div>}
 
     </>
@@ -133,9 +128,9 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
         )
     }
 
-    const yesterday = moment().subtract( 1, 'day' );
-    const valid = ( current ) =>{
-        return current.isAfter( yesterday );
+    const yesterday = moment().subtract(1, 'day');
+    const valid = (current) => {
+        return current.isAfter(yesterday);
     };
 
     return (<div className="w-full">
@@ -181,7 +176,8 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                     </label>
                     <div className="hidden sm:block">
                         {/*// @ts-ignore*/}
-                        <Datetime isValidDate={valid} value={settingsObject.dueDate} onChange={moment => setConfigValue("dueDate", moment)}
+                        <Datetime isValidDate={valid} value={settingsObject.dueDate}
+                                  onChange={moment => setConfigValue("dueDate", moment)}
                                   inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                     </div>
                     <div className="block sm:hidden">
@@ -190,7 +186,9 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                             <label htmlFor="email" className="sr-only">Email</label>
                             <div className="relative rounded-md shadow-sm">
                                 {/*// @ts-ignore*/}
-                                <Datetime isValidDate={valid} value={settingsObject.dueDate} onChange={moment => setConfigValue("dueDate", moment)} className="rdtPickerOpenUpwards"
+                                <Datetime isValidDate={valid} value={settingsObject.dueDate}
+                                          onChange={moment => setConfigValue("dueDate", moment)}
+                                          className="rdtPickerOpenUpwards"
                                           inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                             </div>
                         </div>
@@ -212,11 +210,16 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                             Keep
                         </label>
                         <div className="mt-1 rounded-md shadow-sm">
-                            <select id="keepScore" onChange={event => setConfigValue("multipleAttemptsScoring", event.target.value)}
+                            <select id="keepScore"
+                                    onChange={event => setConfigValue("multipleAttemptsScoring", event.target.value)}
                                     className="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                <option selected={settingsObject.multipleAttemptsScoring === 1} value={1}>Highest score</option>
-                                <option selected={settingsObject.multipleAttemptsScoring === 2} value={2}>Latest score</option>
-                                <option selected={settingsObject.multipleAttemptsScoring === 3} value={3}>Average of all attempts</option>
+                                <option selected={settingsObject.multipleAttemptsScoring === 1} value={1}>Highest score
+                                </option>
+                                <option selected={settingsObject.multipleAttemptsScoring === 2} value={2}>Latest score
+                                </option>
+                                <option selected={settingsObject.multipleAttemptsScoring === 3} value={3}>Average of all
+                                    attempts
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -226,10 +229,14 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                         </label>
                         <div className="mt-1 relative rounded-md shadow-sm">
                             <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
-                                   //@ts-ignore
-                                   placeholder="Unlimited" autoComplete="none" value={settingsObject.allowedAttempts} onChange={event => {if (!isNaN(event.target.value)) {
-                                setConfigValue("allowedAttempts", event.target.value)
-                            }}}/>
+
+                                   placeholder="Unlimited" autoComplete="none" value={settingsObject.allowedAttempts}
+                                   onChange={event => {
+                                       //@ts-ignore
+                                       if (!isNaN(event.target.value)) {
+                                           setConfigValue("allowedAttempts", event.target.value)
+                                       }
+                                   }}/>
                         </div>
                     </div>
                 </div>
@@ -241,17 +248,20 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
             <ToggleRow label="Restrict results" value={settingsObject.restrictResults}
                        onEnable={() => setConfigValue("restrictResults", true)}
                        onDisable={() => setConfigValue("restrictResults", false)}/>
-            {settingsObject.restrictResults && settingsObject.restrictResults ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">
-                <button type="button" onClick={() => setConfigValue("hideUntilLastAttempt", true)}
-                        className={settingsObject.hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                    <i className={"fas fa-check mr-1.5 " + (settingsObject.hideUntilLastAttempt ? "inline" : "hidden")}/>Hide until
-                    final attempt
-                </button>
-                <button type="button" onClick={() => setConfigValue("hideUntilLastAttempt", false)}
-                        className={!settingsObject.hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                    <i className={"fas fa-check mr-1.5 " + (!settingsObject.hideUntilLastAttempt ? "inline" : "hidden")}/>Hide results
-                </button>
-            </div> : null}
+            {settingsObject.restrictResults && settingsObject.restrictResults ?
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">
+                    <button type="button" onClick={() => setConfigValue("hideUntilLastAttempt", true)}
+                            className={settingsObject.hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                        <i className={"fas fa-check mr-1.5 " + (settingsObject.hideUntilLastAttempt ? "inline" : "hidden")}/>Hide
+                        until
+                        final attempt
+                    </button>
+                    <button type="button" onClick={() => setConfigValue("hideUntilLastAttempt", false)}
+                            className={!settingsObject.hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                        <i className={"fas fa-check mr-1.5 " + (!settingsObject.hideUntilLastAttempt ? "inline" : "hidden")}/>Hide
+                        results
+                    </button>
+                </div> : null}
         </> : null}
 
         {currentTab === 2 ? <><ToggleRow label="Restrict IP address" value={ipAddress}
@@ -281,13 +291,28 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
     const [createInviteResult, createNewInvite] = useMutation(createInvite);
     const [isLoading, toggleLoading] = useState(false);
     const [selectedClass, setSelectedClass] = useState(undefined)
-    const [settingsObject, setSettingsObject] = useState({})
+
+    const defaultConfig = {
+        "dueDateEnabled": false,
+        "dueDate": undefined,
+        "multipleAttempts": false,
+        "multipleAttemptsScoring": "1",
+        "allowedAttempts": "1",
+        "restrictResults": false,
+        "hideUntilLastAttempt": true,
+        "collectStudentInfo": false,
+        "collectStudentName": false,
+        "collectEmail": false,
+        "collectId": false
+    }
+    const [settingsObject, setSettingsObject] = useState(defaultConfig)
 
 
     function cancelModal() {
         onCancel();
         toggleLoading(false)
         setSelectedClass(undefined);
+        setSettingsObject(defaultConfig)
         setTimeout(() => {
             const newId = nanoid(8)
             setInviteCode(newId)
@@ -301,7 +326,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
 
     return (<SimpleModal buttons={<div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse sm:justify-between">
         <div className="sm:flex sm:flex-row-reverse">
-                        <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+            <span className="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
         <button type="button" disabled={sharingSetting !== "public" && !selectedClass && modalStep === 1}
                 onClick={() => {
                     if (modalStep === 0) {
@@ -313,10 +338,13 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
                             userId: session.id,
                             assignmentId: assignmentId,
                             isPublic: sharingSetting === "public",
+                            settingsObject: JSON.stringify(settingsObject),
                             classId: selectedClass ? selectedClass.id : null
                         })
                             .then(() => setModalStep(2))
-                            .catch(() => console.log(createInviteResult.error))
+                            .then(result => console.log(createInviteResult))
+                            .then(result => console.log(result))
+                            .catch((error) => console.log(error))
                     } else if (modalStep === 2) {
                         cancelModal()
                     }
