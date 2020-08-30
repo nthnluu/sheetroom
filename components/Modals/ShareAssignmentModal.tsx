@@ -216,20 +216,20 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
 
 
             {/*@ts-ignore*/}
-            <ToggleRow label="Allow multiple attempts" value={multipleAttempts}
-                       onEnable={() => setMultipleAttempts(true)}
-                       onDisable={() => setMultipleAttempts(false)}/>
-            {multipleAttempts ? <div className="grid grid-cols-2 gap-4 text-left">
+            <ToggleRow label="Allow multiple attempts" value={settingsObject.multipleAttempts}
+                       onEnable={() => setConfigValue("multipleAttempts", true)}
+                       onDisable={() => setConfigValue("multipleAttempts", false)}/>
+            {settingsObject.multipleAttempts ? <div className="grid grid-cols-2 gap-4 text-left">
                     <div className="flex-row justify-start items-center mt-2">
                         <label htmlFor="keepScore" className="block text-xs uppercase leading-5 text-gray-400">
                             Keep
                         </label>
                         <div className="mt-1 rounded-md shadow-sm">
-                            <select id="keepScore"
+                            <select id="keepScore" onChange={event => setConfigValue("multipleAttemptsScoring", event.target.value)}
                                     className="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                <option>Highest score</option>
-                                <option>Latest score</option>
-                                <option>Average of all attempts</option>
+                                <option selected={settingsObject.multipleAttemptsScoring === 1} value={1}>Highest score</option>
+                                <option selected={settingsObject.multipleAttemptsScoring === 2} value={2}>Latest score</option>
+                                <option selected={settingsObject.multipleAttemptsScoring === 3} value={3}>Average of all attempts</option>
                             </select>
                         </div>
                     </div>
@@ -239,7 +239,9 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                         </label>
                         <div className="mt-1 relative rounded-md shadow-sm">
                             <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
-                                   placeholder="Unlimited" autoComplete="none"/>
+                                   placeholder="Unlimited" autoComplete="none" value={settingsObject.allowedAttempts} onChange={event => {if (!isNaN(event.target.value)) {
+                                setConfigValue("allowedAttempts", event.target.value)
+                            }}}/>
                         </div>
                     </div>
                 </div>
