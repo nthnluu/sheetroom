@@ -116,18 +116,6 @@ const ClassSearch = ({selectedClass, setSelectedClass, session}) => {
 
 const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, settingsObject, setSettingsObject, session}) => {
     const [currentTab, setCurrentTab] = useState(0)
-    const [dueDate, toggleDueDate] = useState(false);
-    const [dueDateValue, setDueDateValue] = useState(() => (new Date()));
-
-    const [restrictResults, toggleRestrictResults] = useState(false);
-    const [hideUntilLastAttempt, setHideUntilLastAttempt] = useState(false);
-    const [multipleAttempts, setMultipleAttempts] = useState(false)
-
-    const [collectStudentInfo, toggleCollectStudentInfo] = useState(false);
-    const [collectName, toggleCollectName] = useState(false);
-    const [collectEmail, toggleCollectEmail] = useState(false);
-    const [collectId, toggleCollectId] = useState(false);
-
 
     const [ipAddress, setIpAddress] = useState(false)
     const [ipAddressValue, setIpAddressValue] = useState("")
@@ -151,7 +139,6 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
     };
 
     return (<div className="w-full">
-        <JsonDebugBox content={settingsObject}/>
         <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
               tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
@@ -239,6 +226,7 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                         </label>
                         <div className="mt-1 relative rounded-md shadow-sm">
                             <input id="allowedAttempts" className="form-input block w-full sm:text-sm sm:leading-5"
+                                   //@ts-ignore
                                    placeholder="Unlimited" autoComplete="none" value={settingsObject.allowedAttempts} onChange={event => {if (!isNaN(event.target.value)) {
                                 setConfigValue("allowedAttempts", event.target.value)
                             }}}/>
@@ -250,18 +238,18 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
 
         {currentTab === 1 ? <>
             {/*@ts-ignore*/}
-            <ToggleRow label="Restrict results" value={restrictResults}
-                       onEnable={() => toggleRestrictResults(true)}
-                       onDisable={() => toggleRestrictResults(false)}/>
-            {restrictResults && multipleAttempts ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">
-                <button type="button" onClick={() => setHideUntilLastAttempt(true)}
-                        className={hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                    <i className={"fas fa-check mr-1.5 " + (hideUntilLastAttempt ? "inline" : "hidden")}/>Hide until
+            <ToggleRow label="Restrict results" value={settingsObject.restrictResults}
+                       onEnable={() => setConfigValue("restrictResults", true)}
+                       onDisable={() => setConfigValue("restrictResults", false)}/>
+            {settingsObject.restrictResults && settingsObject.restrictResults ? <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">
+                <button type="button" onClick={() => setConfigValue("hideUntilLastAttempt", true)}
+                        className={settingsObject.hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                    <i className={"fas fa-check mr-1.5 " + (settingsObject.hideUntilLastAttempt ? "inline" : "hidden")}/>Hide until
                     final attempt
                 </button>
-                <button type="button" onClick={() => setHideUntilLastAttempt(false)}
-                        className={!hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                    <i className={"fas fa-check mr-1.5 " + (!hideUntilLastAttempt ? "inline" : "hidden")}/>Hide results
+                <button type="button" onClick={() => setConfigValue("hideUntilLastAttempt", false)}
+                        className={!settingsObject.hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
+                    <i className={"fas fa-check mr-1.5 " + (!settingsObject.hideUntilLastAttempt ? "inline" : "hidden")}/>Hide results
                 </button>
             </div> : null}
         </> : null}
