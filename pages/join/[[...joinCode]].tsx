@@ -42,14 +42,14 @@ const InviteFetch = ({joinCode, profileData, session}) => {
         switch (data.processJoinCode.type) {
             case("assignment"):
                 if (data.processJoinCode.payload.is_public) {
-                    return <AssignmentCard
+                    return <AssignmentCard inviteId={data.processJoinCode.payload.id}
                         firstName={data.processJoinCode.payload.user.first_name}
                         lastName={data.processJoinCode.payload.user.last_name}
                         title={data.processJoinCode.payload.assignmentByAssignment.title}/>
                 } else {
                     if (session) {
                         if (data.processJoinCode.payload.classByClass.studentProfiles.length > 0 || data.processJoinCode.payload.user.id === session.id) {
-                            return <AssignmentCard
+                            return <AssignmentCard inviteId={data.processJoinCode.payload.id}
                                 firstName={data.processJoinCode.payload.user.first_name}
                                 lastName={data.processJoinCode.payload.user.last_name}
                                 title={data.processJoinCode.payload.assignmentByAssignment.title}/>

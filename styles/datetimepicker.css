@@ -217,4 +217,9 @@ td.rdtYear:hover {
     cursor: default;
 }
 
+.rdtPickerOpenUpwards .rdtPicker {
+    top: auto;
+    bottom: 100%;
+}
+
 /* purgecss end ignore */

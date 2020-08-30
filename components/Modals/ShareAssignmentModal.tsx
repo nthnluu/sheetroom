@@ -196,7 +196,7 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                             <label htmlFor="email" className="sr-only">Email</label>
                             <div className="relative rounded-md shadow-sm">
                                 {/*// @ts-ignore*/}
-                                <Datetime value={dueDateValue} open={false} onChange={setDueDateValue}
+                                <Datetime value={dueDateValue} onChange={setDueDateValue} className="rdtPickerOpenUpwards"
                                           inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                             </div>
                         </div>
