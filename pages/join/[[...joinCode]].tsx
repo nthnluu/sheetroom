@@ -9,6 +9,7 @@ import ReactGA from "react-ga";
 import ClassCard from "../../components/JoinScreen/ClassCard";
 import CheckForUser from "../../lib/CheckForUser";
 import {fetchJoinCode} from "../../lib/graphql/FetchJoinCode";
+import JsonDebugBox from "../../components/JsonDebugBox";
 
 
 const InviteFetch = ({joinCode, profileData, session}) => {
@@ -38,11 +39,31 @@ const InviteFetch = ({joinCode, profileData, session}) => {
             </div>
         </div>)
     } else {
-        switch(data.processJoinCode.type) {
+        const studentProfileIds = data.processJoinCode.payload.studentProfiles.map(item => item.user.id)
+        switch (data.processJoinCode.type) {
             case("assignment"):
-                return <AssignmentCard firstName={data.processJoinCode.payload.user.first_name} lastName={data.processJoinCode.payload.user.last_name} title={data.processJoinCode.payload.assignmentByAssignment.title}/>
+                return <AssignmentCard firstName={data.processJoinCode.payload.user.first_name}
+                                       lastName={data.processJoinCode.payload.user.last_name}
+                                       title={data.processJoinCode.payload.assignmentByAssignment.title}/>
             case("class"):
-                return <ClassCard classId={data.processJoinCode.payload.id} session={session} profileData={profileData} firstName={data.processJoinCode.payload.user.first_name} lastName={data.processJoinCode.payload.user.last_name} title={data.processJoinCode.payload.title}/>
+                if (session) {
+                    if (studentProfileIds.includes(session.id) || data.processJoinCode.payload.user.id === session.id) {
+                        window.location.href = '/class/' + data.processJoinCode.payload.id
+                        return <></>
+                    } else {
+                        return <ClassCard classId={data.processJoinCode.payload.id} session={session}
+                                          profileData={profileData}
+                                          firstName={data.processJoinCode.payload.user.first_name}
+                                          lastName={data.processJoinCode.payload.user.last_name}
+                                          title={data.processJoinCode.payload.title}/>
+                    }
+                } else {
+                    return <ClassCard classId={data.processJoinCode.payload.id} session={session}
+                                      profileData={profileData} firstName={data.processJoinCode.payload.user.first_name}
+                                      lastName={data.processJoinCode.payload.user.last_name}
+                                      title={data.processJoinCode.payload.title}/>
+                }
+
         }
     }
 
@@ -81,7 +102,7 @@ const InviteFetcher = ({joinCode, session, profileData}) => {
     if (!joinCode) {
         return <JoinCode/>
     } else if (joinCode[0].length === 8 || joinCode[0].length === 9) {
-        return <InviteFetch session={session} profileData={profileData} joinCode={joinCode[0]} />
+        return <InviteFetch session={session} profileData={profileData} joinCode={joinCode[0]}/>
     } else {
         return <JoinCode error/>
     }
