@@ -120,7 +120,7 @@ const PageContent = ({pageRawData, iid}) => {
                                 </button> : null}
 
                             {currentSection === document.config.sections.length - 1 || document.config.sections.length === 1 ?
-                                <button type="button" onClick={submitAssignment}
+                                <button type="button" onClick={submitAssignment} disabled={isLoading}
                                         className={"w-full text-center sm:w-auto mt-2 sm:mt-0 flex px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150 " + (isLoading ? "items-center" : "items-end")}>
                                       <span className="mx-auto">
                                            {isLoading ? <CircularProgress color="inherit" size={15}

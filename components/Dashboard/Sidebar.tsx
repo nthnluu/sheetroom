@@ -32,7 +32,7 @@ const Sidebar: React.FC<Props> = ({session, profile}) => {
                                 <a href="#" className="group flex items-center space-x-2.5">
                                     {profile.data.users_by_pk.account_type === "teacher" ? <div
                                         className="flex flex-col space-y-6 sm:flex-row sm:space-y-0 sm:space-x-8 xl:flex-col xl:space-x-0 xl:space-y-6">
-                                        {profile.data.users_by_pk.is_pro ?  <div className="flex items-center space-x-2 text-yellow-300">
+                                        {profile.data.users_by_pk.is_pro ?  <div className="flex items-center space-x-2 text-blue-500">
                                             <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fillRule="evenodd"
                                                       d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
@@ -43,7 +43,9 @@ const Sidebar: React.FC<Props> = ({session, profile}) => {
                                             <span className="text-sm text-gray-500 leading-5 font-medium">Free Account</span>
                                         </div>}
 
-                                    </div> : null}
+                                    </div> : <div className="flex items-center space-x-2">
+                                        <span className="text-sm text-gray-500 leading-5 font-medium">Student</span>
+                                    </div>}
                                 </a>
                             </div>
                         </div>

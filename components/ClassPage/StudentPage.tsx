@@ -1,4 +1,5 @@
 import React from "react";
+import JsonDebugBox from "../JsonDebugBox";
 
 
 const NoStudentsPlaceholder = ({joinCode}) => {
@@ -20,7 +21,24 @@ const StudentPage = ({course}) => {
                 <h1 className="text-2xl text-gray-800 font-semibold mr-1 mb-4 mt-10">People</h1>
                 <ul className="grid gap-6 grid-cols-1 lg:grid-cols-2">
                     {/*students*/}
-                    {course.studentProfiles.map(student => <li className="col-span-1 bg-white rounded-lg shadow">
+                    <li className="col-span-1 bg-white rounded-lg shadow">
+                        <div className="w-full flex items-center justify-between p-6 space-x-6">
+                            <div className="flex-1 truncate">
+                                <div className="flex items-center space-x-3">
+                                    <h3 className="text-gray-900 leading-5 font-medium truncate">{`${course.user.first_name} ${course.user.last_name}`}
+                                        <span
+                                            className="inline-flex ml-2 items-center px-2 py-0.5 rounded-full text-xs font-medium leading-4 bg-blue-100 text-blue-800">
+  TEACHER
+</span></h3>
+                                </div>
+                                <p className="mt-1 text-gray-500 text-sm leading-5 truncate">{course.user.email}</p>
+                            </div>
+                            <img className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"
+                                 src={course.user.image ? course.user.image : "/profile.jpg"}
+                                 alt=""/>
+                        </div>
+                    </li>
+                    {course.studentProfiles.map(student => <li key={student.user.id} className="col-span-1 bg-white rounded-lg shadow">
                         <div className="w-full flex items-center justify-between p-6 space-x-6">
                             <div className="flex-1 truncate">
                                 <div className="flex items-center space-x-3">
@@ -37,7 +55,6 @@ const StudentPage = ({course}) => {
 
                 </ul>
             </> : <NoStudentsPlaceholder joinCode={course.join_code}/>}
-
         </>)
 }
 

@@ -16,7 +16,7 @@ interface Props {
 const EmojiButton = ({emoji, onClick, selected, text}) => {
     return <motion.button
         whileTap={{scale: 0.9}} onClick={onClick} animate={selected ? {scale: 1.2, opacity:1} : {scale: 1, opacity: 0.25}}
-        className="text-2xl select-none focus:outline-none focus:shadow-outline rounded-full"><span role="img" aria-label={text}>{emoji}</span></motion.button>
+        className="text-2xl select-none focus:outline-none rounded-full"><span role="img" aria-label={text}>{emoji}</span></motion.button>
 }
 const FeedbackModal: React.FC<Props> = ({title, onCancel, isOpen, session}) => {
     const router = useRouter()

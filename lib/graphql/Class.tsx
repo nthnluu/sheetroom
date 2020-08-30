@@ -14,9 +14,16 @@ subscription ClassByPk($classId: uuid!) {
  classes_class_by_pk(id: $classId) {
     title
     id
+    user {
+    first_name
+        last_name
+        image
+        email
+    }
     join_code
     studentProfiles {
       user {
+      id
         first_name
         last_name
         image
