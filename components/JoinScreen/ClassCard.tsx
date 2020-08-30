@@ -23,7 +23,7 @@ const ClassCard: React.FC<Props> = ({firstName, lastName, title, classId, sessio
         <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
 
         <div className="flex-row md:flex justify-end items-center mt-4 ">
-            {session ? <>{profileData.data.users_by_pk.account_type === "teacher" ?  <p className="mb-1 md:mb-0 text-center text-red-500 px-2 py-1 border rounded-lg border-red-500"><i
+            {session ? <>{profileData.data.users_by_pk.account_type === "teacher" ?  <p className="mb-1 md:mb-0 text-center text-red-500 w-full sm:w-auto px-2 py-1 border rounded-lg border-red-500"><i
                 className="fas fa-exclamation-circle mr-1"/><a className="underline" href="/settings">Change to a student account</a> to join this class</p>:<button type="button" disabled={isLoading} onClick={() => {
                 toggleLoading(true)
                 mutateStudentProfile({studentId: session.id, classId: classId})

@@ -35,7 +35,7 @@ const AssignmentCard: React.FC<Props> = ({firstName, lastName, title, inviteId, 
                                                                       className="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                 {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}Start
                 assignment
-            </button> : <p className="mb-1 md:mb-0 text-center text-red-500 px-2 py-1 border rounded-lg border-red-500"><i
+            </button> : <p className="mb-1 md:mb-0 w-full sm:w-auto text-center text-red-500 px-2 py-1 border rounded-lg border-red-500"><i
                 className="fas fa-exclamation-circle mr-1"/>The deadline has passed</p>}
 
         </div>
