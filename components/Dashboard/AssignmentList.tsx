@@ -60,9 +60,9 @@ const StudentListItem = ({item, session}) => {
                             {/*<span>AP Calculus</span>*/}
                             {/*<span>·</span>*/}
                             <span
-                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 bg-purple-100 text-purple-800">
+                                className={"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 " + (`text-${item.classByClass.color}-500 bg-${item.classByClass.color}-100`)}>
   {item.classByClass.title}
-                            </span><span>Due on {moment(JSON.parse(item.config).dueDate).format('ddd, MMM DD ')} (<span className="capitalize">{moment(JSON.parse(item.config).dueDate).fromNow()}</span>)</span>
+                            </span><span>Due on {moment(JSON.parse(item.config).dueDate).format('ddd, MMM DD h:mm a')}</span>
                         </p>
                     </div>
                     {/* Repo meta info */}
@@ -222,21 +222,41 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
         return <LoadingPlaceholder/>
     } else {
         return (<>
-            <DeleteAssignmentModal itemId={currentAssignmentId} toggleSnackbar={toggleSnackbar} joinCode="" title="Delete Assignment?" onCancel={() => toggleModal(false)} isOpen={deleteModal}/>
+            <DeleteAssignmentModal itemId={currentAssignmentId} toggleSnackbar={toggleSnackbar} joinCode=""
+                                   title="Delete Assignment?" onCancel={() => toggleModal(false)} isOpen={deleteModal}/>
             <InfoSnackbar isOpen={snackbarOpen} onClose={() => toggleSnackbar(false)} label="🗑 Assignment Deleted"/>
-            {profileData.data.users_by_pk.account_type === "teacher" ?  <ul className="relative z-0 divide-y divide-gray-200  border-gray-200">
-                {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item => <AssignmentListItem setAssignmentId={setAssignmentId} toggleModal={toggleModal} item={item} key={item.id} session={session}/> ) : <div className="my-8 text-center">
-                    <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
-                    {profileData.data.users_by_pk.account_type === "teacher" ?  <button className="text-center font-light opacity-25" onClick={openDialog}>Create new assignment</button> : <button className="text-center font-light opacity-25" onClick={openDialog}>View past submissions</button>}
+            {profileData.data.users_by_pk.account_type === "teacher" ?
+                <ul className="relative z-0 divide-y divide-gray-200  border-gray-200">
+                    {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item =>
+                        <AssignmentListItem setAssignmentId={setAssignmentId} toggleModal={toggleModal} item={item}
+                                            key={item.id} session={session}/>) : <div className="my-8 text-center">
+                        <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
+                        {profileData.data.users_by_pk.account_type === "teacher" ?
+                            <button className="text-center font-light opacity-25" onClick={openDialog}>Create new
+                                assignment</button> :
+                            <button className="text-center font-light opacity-25" onClick={openDialog}>View past
+                                submissions</button>}
 
-                </div>}
-            </ul> : <ul className="relative z-0 divide-y divide-gray-200  border-gray-200">
-                {data.assignments_invite.length > 0 ? data.assignments_invite.map(item => <StudentListItem item={item} key={item.id} session={session}/> ) : <div className="my-8 text-center">
-                    <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
-                    {profileData.data.users_by_pk.account_type === "teacher" ?  <button className="text-center font-light opacity-25" onClick={openDialog}>Create new assignment</button> : <button className="text-center font-light opacity-25" onClick={openDialog}>View past submissions</button>}
+                    </div>}
+                </ul> : <ul className="relative z-0 divide-y divide-gray-200  border-gray-200">
+                    {data.assignments_invite.length > 0 ? data.assignments_invite.map(item => {
+                        const itemConfig = JSON.parse(item.config)
+                        const isWithinDueDate = itemConfig.dueDateEnabled ? moment(itemConfig.dueDate).isAfter(moment()) : true
+                        if (isWithinDueDate) {
+                            return <StudentListItem item={item} key={item.id} session={session}/>
+                        } else {
+                            <></>
+                        }
+                    }) : <div className="my-8 text-center">
+                        <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
+                        {profileData.data.users_by_pk.account_type === "teacher" ?
+                            <button className="text-center font-light opacity-25" onClick={openDialog}>Create new
+                                assignment</button> :
+                            <button className="text-center font-light opacity-25" onClick={openDialog}>View past
+                                submissions</button>}
 
-                </div>}
-            </ul>}
+                    </div>}
+                </ul>}
 
         </>)
     }
