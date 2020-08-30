@@ -11,7 +11,7 @@ import CheckForUser from "../../lib/CheckForUser";
 import {fetchJoinCode} from "../../lib/graphql/FetchJoinCode";
 
 
-const InviteFetch = ({joinCode}) => {
+const InviteFetch = ({joinCode, profileData, session}) => {
 
     // @ts-ignore
     const [result] = useQuery({query: fetchJoinCode, variables: {joinCode: joinCode}})
@@ -42,7 +42,7 @@ const InviteFetch = ({joinCode}) => {
             case("assignment"):
                 return <AssignmentCard firstName={data.processJoinCode.payload.user.first_name} lastName={data.processJoinCode.payload.user.last_name} title={data.processJoinCode.payload.assignmentByAssignment.title}/>
             case("class"):
-                return <ClassCard firstName={data.processJoinCode.payload.user.first_name} lastName={data.processJoinCode.payload.user.last_name} title={data.processJoinCode.payload.title}/>
+                return <ClassCard classId={data.processJoinCode.payload.id} session={session} profileData={profileData} firstName={data.processJoinCode.payload.user.first_name} lastName={data.processJoinCode.payload.user.last_name} title={data.processJoinCode.payload.title}/>
         }
     }
 
@@ -77,18 +77,18 @@ const JoinCode = ({error = false}) => {
 }
 
 
-const InviteFetcher = ({joinCode, session}) => {
+const InviteFetcher = ({joinCode, session, profileData}) => {
     if (!joinCode) {
         return <JoinCode/>
     } else if (joinCode[0].length === 8 || joinCode[0].length === 9) {
-        return <InviteFetch joinCode={joinCode[0]} />
+        return <InviteFetch session={session} profileData={profileData} joinCode={joinCode[0]} />
     } else {
         return <JoinCode error/>
     }
 
 }
 
-const JoinPage = ({session}) => {
+const JoinPage = ({session, profileData}) => {
     const router = useRouter()
     const {joinCode} = router.query
 
@@ -96,7 +96,7 @@ const JoinPage = ({session}) => {
         <Navbar session={session}/>
         <div className="h-full flex justify-center items-center max-w-3xl mx-auto px-4 md:px-0">
             <div className="w-full">
-                <InviteFetcher session={session} joinCode={joinCode}/>
+                <InviteFetcher profileData={profileData} session={session} joinCode={joinCode}/>
             </div>
         </div>
     </div>)
