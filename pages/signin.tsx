@@ -3,11 +3,15 @@ import {providers, signIn} from 'next-auth/client'
 import Navbar from "../components/PageLayouts/AppLayout/Navbar";
 import Divider from '@material-ui/core/Divider';
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {useRouter} from "next/router";
 
 
 export default function SignIn() {
     const [currentValue, setCurrentValue] = useState("")
     const [isLoading, toggleIsLoading] = useState(false)
+
+    const router = useRouter();
+    const {error} = router.query;
 
     return (
         <>
@@ -36,6 +40,7 @@ export default function SignIn() {
                                 className={"items-center w-full text-center px-6 py-2 mt-2 border border-gray-300 text-base leading-6 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 " + (currentValue.length <= 0 ? "opacity-50 bg-gray-100 cursor-not-allowed" : "opacity-100")}>
                             {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}Continue
                         </button>
+                        {error ? <p className="text-center text-sm text-red-500">Please enter a valid email.</p> : null}
                     </form>
                     <div>
                         <div className="py-4">
