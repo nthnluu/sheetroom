@@ -23,6 +23,7 @@ subscription ClassByPk($classId: uuid!) {
     join_code
     studentProfiles {
       user {
+      id
         first_name
         last_name
         image

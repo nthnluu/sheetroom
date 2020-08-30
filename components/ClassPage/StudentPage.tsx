@@ -38,7 +38,7 @@ const StudentPage = ({course}) => {
                                  alt=""/>
                         </div>
                     </li>
-                    {course.studentProfiles.map(student => <li className="col-span-1 bg-white rounded-lg shadow">
+                    {course.studentProfiles.map(student => <li key={student.user.id} className="col-span-1 bg-white rounded-lg shadow">
                         <div className="w-full flex items-center justify-between p-6 space-x-6">
                             <div className="flex-1 truncate">
                                 <div className="flex items-center space-x-3">

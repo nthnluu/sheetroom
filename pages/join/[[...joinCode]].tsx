@@ -39,14 +39,32 @@ const InviteFetch = ({joinCode, profileData, session}) => {
             </div>
         </div>)
     } else {
-        const studentProfileIds = data.processJoinCode.payload.studentProfiles.map(item => item.user.id)
         switch (data.processJoinCode.type) {
             case("assignment"):
-                return <AssignmentCard firstName={data.processJoinCode.payload.user.first_name}
-                                       lastName={data.processJoinCode.payload.user.last_name}
-                                       title={data.processJoinCode.payload.assignmentByAssignment.title}/>
+                if (data.processJoinCode.payload.is_public) {
+                    return <AssignmentCard
+                        firstName={data.processJoinCode.payload.user.first_name}
+                        lastName={data.processJoinCode.payload.user.last_name}
+                        title={data.processJoinCode.payload.assignmentByAssignment.title}/>
+                } else {
+                    if (session) {
+                        if (data.processJoinCode.payload.classByClass.studentProfiles.length > 0 || data.processJoinCode.payload.user.id === session.id) {
+                            return <AssignmentCard
+                                firstName={data.processJoinCode.payload.user.first_name}
+                                lastName={data.processJoinCode.payload.user.last_name}
+                                title={data.processJoinCode.payload.assignmentByAssignment.title}/>
+                        } else {
+                            return <JoinCode error/>
+                        }
+                    } else {
+                        return <JoinCode error/>
+                    }
+
+                }
+
             case("class"):
                 if (session) {
+                    const studentProfileIds = data.processJoinCode.payload.studentProfiles.map(item => item.user.id)
                     if (studentProfileIds.includes(session.id) || data.processJoinCode.payload.user.id === session.id) {
                         window.location.href = '/class/' + data.processJoinCode.payload.id
                         return <></>
