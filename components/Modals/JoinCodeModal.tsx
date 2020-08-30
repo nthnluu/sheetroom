@@ -37,7 +37,7 @@ const JoinCodeModal: React.FC<Props> = ({joinCode, title, onCancel, isOpen}) => 
         </div>
         {/*@ts-ignore*/}
     </div>} isOpen={isOpen} onCancel={cancelModal} title={title} content={<div>
-        {qrCode ? <QRCode value={"https://www.sheetroom.com/join/" + joinCode} className="mx-auto"/> :
+        {qrCode ? <QRCode value={"https://www.sheetroom.com/join/" + joinCode} size={250} className="mx-auto"/> :
             <h1 className="text-4xl md:text-5xl lg:text-6xl text-center font-light text-gray-700 border border-gray-200 rounded-lg font-mono">{joinCode}</h1>}
 
 

@@ -1,12 +1,8 @@
-import React, {useContext} from "react";
-import JsonDebugBox from "../JsonDebugBox";
+import React from "react";
 import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import QuizContext from "../AssignmentEditor/QuizContext";
 import {useQuery} from "urql";
-import {getSubmissionsForAssignment} from "../../lib/graphql/Assignments";
 import {getSubmissionsFromClassWithUser} from "../../lib/graphql/Submissions";
-import ClassContext from "./ClassContext";
 
 
 const LoadingPlaceholder: React.FC = () => {
@@ -26,13 +22,9 @@ const LoadingPlaceholder: React.FC = () => {
 
 
 const NoStudentsPlaceholder = ({joinCode}) => {
-    return (<div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-        <div className="text-center overflow-x-auto">
-            <img src="/holding-phone-monochrome.svg" className="h-64 mx-auto mb-2" alt=""/>
-            <h1 className="text-lg sm:text-xl text-gray-700 font-medium">Now invite students with this link:</h1>
-            <span className="text-lg sm:text-xl md:text-3xl font-light text-gray-400">sheetroom.com/join/</span><span
-            className="text-lg sm:text-xl md:text-3xl  font-bold text-gray-800">{joinCode}</span>
-        </div>
+    return (<div className="mx-auto opacity-25 m-12">
+        <img src="/paper-plane.svg" className="h-32 mx-auto" alt=""/>
+        <p className="text-center mt-2">There aren't any submissions to display.</p>
     </div>)
 }
 
