@@ -45,14 +45,14 @@ const InviteFetch = ({joinCode, profileData, session}) => {
                     return <AssignmentCard inviteId={data.processJoinCode.payload.id}
                         firstName={data.processJoinCode.payload.user.first_name}
                         lastName={data.processJoinCode.payload.user.last_name}
-                        title={data.processJoinCode.payload.assignmentByAssignment.title}/>
+                        title={data.processJoinCode.payload.assignmentByAssignment.title} config={data.processJoinCode.payload.config}/>
                 } else {
                     if (session) {
                         if (data.processJoinCode.payload.classByClass.studentProfiles.length > 0 || data.processJoinCode.payload.user.id === session.id) {
                             return <AssignmentCard inviteId={data.processJoinCode.payload.id}
                                 firstName={data.processJoinCode.payload.user.first_name}
                                 lastName={data.processJoinCode.payload.user.last_name}
-                                title={data.processJoinCode.payload.assignmentByAssignment.title}/>
+                                title={data.processJoinCode.payload.assignmentByAssignment.title} config={data.processJoinCode.payload.config}/>
                         } else {
                             return <JoinCode error/>
                         }

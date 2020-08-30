@@ -18,7 +18,7 @@ const ClassCard: React.FC<Props> = ({firstName, lastName, title, classId, sessio
     const [isLoading, toggleLoading] = useState(false)
 
 
-    return <div className="p-6 bg-white shadow rounded-lg">
+    return <div className="p-6 bg-white shadow rounded-lg text-center sm:text-left">
         <h1 className="text-gray-400">{firstName} {lastName} invited you to join</h1>
         <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
 

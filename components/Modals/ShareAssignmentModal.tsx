@@ -128,7 +128,7 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
         )
     }
 
-    const yesterday = moment().subtract(1, 'day');
+    const yesterday = moment();
     const valid = (current) => {
         return current.isAfter(yesterday);
     };
@@ -176,7 +176,9 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                     </label>
                     <div className="hidden sm:block">
                         {/*// @ts-ignore*/}
-                        <Datetime isValidDate={valid} value={settingsObject.dueDate}
+                        <Datetime
+                            // isValidDate={valid}
+                            value={settingsObject.dueDate}
                                   onChange={moment => setConfigValue("dueDate", moment)}
                                   inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                     </div>
@@ -186,7 +188,9 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
                             <label htmlFor="email" className="sr-only">Email</label>
                             <div className="relative rounded-md shadow-sm">
                                 {/*// @ts-ignore*/}
-                                <Datetime isValidDate={valid} value={settingsObject.dueDate}
+                                <Datetime
+                                    // isValidDate={valid}
+                                    value={settingsObject.dueDate}
                                           onChange={moment => setConfigValue("dueDate", moment)}
                                           className="rdtPickerOpenUpwards"
                                           inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
@@ -294,7 +298,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
 
     const defaultConfig = {
         "dueDateEnabled": false,
-        "dueDate": undefined,
+        "dueDate": moment(),
         "multipleAttempts": false,
         "multipleAttemptsScoring": "1",
         "allowedAttempts": "1",
