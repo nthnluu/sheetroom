@@ -16,9 +16,9 @@ export default function SignIn() {
     return (
         <>
             <Navbar logoOnly unfixed/>
-            <div className="flex justify-center items-center">
-                <div className="space-y-4 p-4 mt-48 md:mt-56">
-                    <h1 className="font-bold text-3xl text-center sm:text-4xl text-gray-800">Continue to Sheetroom</h1>
+            <div className="flex justify-center">
+                <div className="space-y-4 p-4 mt-32 md:mt-48 md:mt-56 h-full">
+                    <h1 className="font-bold text-2xl text-center sm:text-3xl md:text-4xl text-gray-800">Continue to Sheetroom</h1>
                     <form onSubmit={event => {
                         event.preventDefault();
                         toggleIsLoading(true)
