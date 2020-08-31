@@ -12,8 +12,8 @@ export default async (req, res) => {
         }],
         mode: 'subscription',
         allow_promotion_codes: true,
-        success_url: 'http://localhost:3000/sheetroom-pro-confirmation',
-        cancel_url: 'http://localhost:3000/pricing',
+        success_url: `${process.env.SITE}/sheetroom-pro-confirmation`,
+        cancel_url: `${process.env.SITE}/settings`,
     });
 
     res.statusCode = 200
