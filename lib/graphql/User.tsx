@@ -11,6 +11,7 @@ export const me = `
 query Me($userId: Int!) {
   users_by_pk(id: $userId) {
     first_name
+    stripeCustomerId
     last_name
     is_pro
     image
