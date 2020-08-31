@@ -8,12 +8,12 @@ import {loadStripe} from "@stripe/stripe-js";
 
 const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profileData}) => {
 
-    const stripePromise = loadStripe(process.env.STRIPE_SECRET_KEY);
+    const stripePromise = loadStripe('pk_test_51HM11eI8UDkQvU4dcFBIfj4XvOA97im3W2WjzkzBGtxvaJV33L5txdtFvF0zCGIlbZJx0wu9YDYp7YT7mE7wFrMt00svbOJBLI');
 
     const [paymentMode, setPaymentMode] = useState(0)
 
     const handleClick = async (event) => {
-        const url = (paymentMode === 0 ? 'api/stripe-checkout-yearly' : 'api/stripe-checkout')
+        const url =  (paymentMode === 0 ? 'api/stripe-checkout-yearly' : 'api/stripe-checkout')
         // Call your backend to create the Checkout session.
         const sessionId = await fetch(url, {
             method: 'POST',

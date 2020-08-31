@@ -12,6 +12,7 @@ export default async (req, res) => {
             quantity: 1,
         }],
         mode: 'subscription',
+        allow_promotion_codes: true,
         success_url: 'http://localhost:3000/sheetroom-pro-confirmation',
         cancel_url: 'http://localhost:3000/pricing',
     });
