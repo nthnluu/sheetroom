@@ -3,7 +3,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
 export default async (req, res) => {
-    console.log(req.body)
     const session = await stripe.checkout.sessions.create({
         customer: req.body.customerId,
         payment_method_types: ['card'],
