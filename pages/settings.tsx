@@ -4,6 +4,9 @@ import CheckForUser from "../lib/CheckForUser";
 import Navbar from "../components/PageLayouts/AppLayout/Navbar";
 import Footer from "../components/Misc/Footer";
 import ChangeAccountTypeModal from "../components/Modals/ChangeAccountTypeModal";
+import {signOut} from 'next-auth/client'
+import {useMutation} from "urql";
+import {deleteUser} from "../lib/graphql/User";
 
 interface Props {
     session: any;
@@ -12,6 +15,7 @@ interface Props {
 
 const Dashboard: React.FC<Props> = ({session, profileData}) => {
     const [accountTypeModal, toggleAccountTypeModal] = useState(false)
+    const [deleteAccountResult, deleteAccountMutation] = useMutation(deleteUser)
 
     const editSubscription = () => {
         fetch('/api/stripe-portal', {
@@ -26,6 +30,20 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
             .catch((error) => {
                 console.error('Error:', error);
             });
+    }
+
+    const deleteAccount = () => {
+        fetch('/api/stripe-delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({customerId: profileData.data.users_by_pk.stripeCustomerId}),
+        })
+            .then(() => {
+                deleteAccountMutation({userId: session.id})
+                    .then(() => signOut())
+            })
     }
 
     return (
@@ -46,7 +64,6 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
                                 </div>
                                 <div className="mt-5 md:mt-0 md:col-span-2">
                                     <form action="#" method="POST">
-
                                         <div className="grid grid-cols-6 gap-6">
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label htmlFor="first_name"
@@ -74,7 +91,7 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
                                                 <img className="h-12 w-12 inline-block rounded-full"
                                                      src={profileData.data.users_by_pk.image ? profileData.data.users_by_pk.image : "/profile.jpg"}/>
                                                 <span className="ml-5 rounded-md shadow-sm">
-                      <button type="button"
+                      <button type="button" onClick={signOut}
                               className="py-2 px-3 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
                         Change
                       </button>
@@ -84,7 +101,7 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
 
                                         <div className="flex justify-end">
                                            <span className="inline-flex rounded-md shadow-sm">
-  <button type="button"
+  <button type="button" onClick={signOut}
           className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
     Update profile
   </button>
@@ -177,7 +194,7 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
                                     </p>
                                 </div>
                                 <div className="mt-5">
-                                    <button type="button"
+                                    <button type="button" onClick={() => deleteAccount()}
                                             className="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-50 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-red-200 transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                                         Delete account
                                     </button>

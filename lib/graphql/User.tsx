@@ -28,3 +28,14 @@ export const changeAccountType = gql`
     __typename
   }
 }`
+
+export const deleteUser = gql`
+mutation DeleteAccount($userId: Int!) {
+  delete_users_by_pk(id: $userId){
+    __typename
+  }
+  
+  delete_accounts(where: {user_id: {_eq: $userId}}) {
+    __typename
+  }
+}`

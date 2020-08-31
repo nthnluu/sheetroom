@@ -7,7 +7,7 @@ import ISession from "../../../types/session";
 import ReactGA from "react-ga";
 
 
-const stripe = require('stripe')('sk_test_51HM11eI8UDkQvU4dS47B59ghPjMDGiG1mOwbfXb47ivrpGCXXn2UZMsftDkvSEmvJCgzCTuvfFVagoOID6oFuDVS00W5Hrad8J');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const submissionMutation = `
 mutation SetStripeId($userPk: Int!, $stripeId: String!) {
@@ -88,7 +88,10 @@ const options = {
                     body: JSON.stringify({ query: submissionMutation, variables: { userPk: message.user.id, stripeId: customer.id } }),
                     headers: { 'Content-Type': 'application/json', 'x-hasura-admin-secret': "HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS" },
                 })
-                    .then(result => console.log(result))
+                    .then(() => ReactGA.event({
+                        category: 'User',
+                        action: 'Stripe Account Crated'
+                    }))
                     .catch(error => console.log(error))
             }
 
