@@ -4,7 +4,6 @@ import CheckForUser from "../lib/CheckForUser";
 import Navbar from "../components/PageLayouts/AppLayout/Navbar";
 import Footer from "../components/Misc/Footer";
 import ChangeAccountTypeModal from "../components/Modals/ChangeAccountTypeModal";
-import {signOut} from 'next-auth/client'
 import DeleteAccountModal from "../components/Modals/DeleteAccountModal";
 import {useMutation} from "urql";
 import {updateProfileData} from "../lib/graphql/User";
