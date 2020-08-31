@@ -1,17 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {GetServerSideProps} from "next";
 import CheckForUser from "../lib/CheckForUser";
 import Navbar from "../components/PageLayouts/AppLayout/Navbar";
 import Footer from "../components/Misc/Footer";
+import ChangeAccountTypeModal from "../components/Modals/ChangeAccountTypeModal";
 
 interface Props {
-    session: string;
+    session: any;
     profileData: any;
 }
 const Dashboard: React.FC<Props> = ({session, profileData}) => {
+    const [accountTypeModal, toggleAccountTypeModal] = useState(false)
 
     return (
         <>
+            <ChangeAccountTypeModal changeTo={profileData.data.users_by_pk.account_type === "teacher" ? "student" : "teacher"} onCancel={() => toggleAccountTypeModal(false)} isOpen={accountTypeModal} userId={session.id}/>
            <Navbar profileData={profileData} session={session} unfixed/>
            <div className="min-h-screen bg-gray-50">
 
@@ -154,10 +157,10 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
                                    </p>
                                </div>
                                <div className="mt-3 text-sm leading-5">
-                                   <a href="#"
+                                   <button onClick={() => toggleAccountTypeModal(true)}
                                       className="font-medium text-blue-600 hover:text-blue-500 transition ease-in-out duration-150">
                                        Convert to student account &rarr;
-                                   </a>
+                                   </button>
                                </div>
                            </div>
                        </div> : <div className="bg-white shadow rounded-lg mt-6">
@@ -171,10 +174,10 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
                                    </p>
                                </div>
                                <div className="mt-3 text-sm leading-5">
-                                   <a href="#"
+                                   <button onClick={() => toggleAccountTypeModal(true)}
                                       className="font-medium text-blue-600 hover:text-blue-500 transition ease-in-out duration-150">
                                        Convert to teacher account &rarr;
-                                   </a>
+                                   </button>
                                </div>
                            </div>
                        </div>}

@@ -6,6 +6,7 @@ import {motion} from "framer-motion"
 import JsonDebugBox from "../components/JsonDebugBox";
 import CheckForUser from "../lib/CheckForUser";
 import Footer from "../components/Misc/Footer";
+import UpgradeModal from "../components/Modals/UpgradeModal";
 
 
 const PricingCard = ({tier, price, description}) => {
@@ -22,8 +23,11 @@ const PricingCard = ({tier, price, description}) => {
 
 const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profileData}) => {
 
+    const [upgradeModal, toggleUpgradeModal] = useState(false)
+
     return (
         <>
+            <UpgradeModal onCancel={() => toggleUpgradeModal(false)} isOpen={upgradeModal}/>
             <div className="z-50">
                 <Navbar session={session} profileData={profileData} unfixed/>
             </div>
@@ -182,9 +186,9 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                             </ul>
                                             <div className="rounded-md shadow">
                                                 {session ? (!profileData.data.users_by_pk.is_pro ? <div className="rounded-md shadow">
-                                                    <a href="#" className="flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" aria-describedby="tier-standard">
+                                                    <button onClick={() => toggleUpgradeModal(true)} className="flex w-full items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" aria-describedby="tier-standard">
                                                         Change plan
-                                                    </a>
+                                                    </button>
                                                 </div> : <div className="rounded-md opacity-25">
                                                 <span className="flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out" aria-describedby="tier-standard">
                                                     Current Plan

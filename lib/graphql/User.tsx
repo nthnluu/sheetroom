@@ -19,3 +19,11 @@ query Me($userId: Int!) {
   }
 }
 `
+
+
+export const changeAccountType = gql`
+    mutation ChangeAccountType ($newType: String!, $userId: Int!) {
+  update_users_by_pk(pk_columns: {id: $userId}, _set: {account_type: $newType}) {
+    __typename
+  }
+}`

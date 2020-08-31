@@ -9,7 +9,11 @@ import React, {useEffect} from "react";
 import WithGraphQL from "../lib/with-graphql";
 import {useAnalytics} from "../components/useAnalytics";
 import {Router} from "next/router";
+import SimpleModal from "../components/Modals/SimpleModal";
+import {Elements} from "@stripe/react-stripe-js";
+import {loadStripe} from "@stripe/stripe-js";
 
+const stripePromise = loadStripe('pk_test_51HM11eI8UDkQvU4dcFBIfj4XvOA97im3W2WjzkzBGtxvaJV33L5txdtFvF0zCGIlbZJx0wu9YDYp7YT7mE7wFrMt00svbOJBLI');
 
 const MuiTheme = createMuiTheme({
     palette: {
@@ -50,11 +54,11 @@ const MyApp = ({Component, pageProps}: AppProps) => {
     }, []);
 
 
-    return <NextAuthProvider session={session}><WithGraphQL session={session}>
+    return <Elements stripe={stripePromise}><NextAuthProvider session={session}><WithGraphQL session={session}>
         <ThemeProvider theme={MuiTheme}>
             <Component {...pageProps} />
         </ThemeProvider>
-    </WithGraphQL></NextAuthProvider>;
+    </WithGraphQL></NextAuthProvider></Elements>;
 };
 
 export default MyApp;
