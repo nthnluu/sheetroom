@@ -6,6 +6,10 @@ import Footer from "../components/Misc/Footer";
 import ChangeAccountTypeModal from "../components/Modals/ChangeAccountTypeModal";
 import {signOut} from 'next-auth/client'
 import DeleteAccountModal from "../components/Modals/DeleteAccountModal";
+import {useMutation} from "urql";
+import {updateProfileData} from "../lib/graphql/User";
+import InfoSnackbar from "../components/Snackbars/InfoSnackbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 interface Props {
     session: any;
@@ -14,7 +18,11 @@ interface Props {
 
 const Dashboard: React.FC<Props> = ({session, profileData}) => {
     const [accountTypeModal, toggleAccountTypeModal] = useState(false)
+    const [profileSnackbar, toggleProfileSnackbar] = useState(false)
     const [deleteAccountModal, toggleDeleteAccountModal] = useState(false)
+    const [isLoading, toggleLoading] = useState(false)
+
+    const [updateProfileResult, mutateProfile] = useMutation(updateProfileData)
 
     const editSubscription = () => {
         fetch('/api/stripe-portal', {
@@ -32,10 +40,13 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
     }
 
 
-
     return (
         <>
-            <DeleteAccountModal onCancel={() => toggleDeleteAccountModal(false)} customerId={profileData.data.users_by_pk.stripeCustomerId} userId={session.id} isOpen={deleteAccountModal}/>
+            <InfoSnackbar label="✅ Profile settings updated!" isOpen={profileSnackbar}
+                          onClose={() => toggleProfileSnackbar(false)}/>
+            <DeleteAccountModal onCancel={() => toggleDeleteAccountModal(false)}
+                                customerId={profileData.data.users_by_pk.stripeCustomerId} userId={session.id}
+                                isOpen={deleteAccountModal}/>
             <ChangeAccountTypeModal
                 changeTo={profileData.data.users_by_pk.account_type === "teacher" ? "student" : "teacher"}
                 onCancel={() => toggleAccountTypeModal(false)} isOpen={accountTypeModal} userId={session.id}/>
@@ -51,7 +62,21 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
                                     <h3 className="text-lg font-medium leading-6 text-gray-900">Profile</h3>
                                 </div>
                                 <div className="mt-5 md:mt-0 md:col-span-2">
-                                    <form action="#" method="POST">
+                                    <form onSubmit={event => {
+                                        event.preventDefault()
+                                        toggleLoading(true)
+                                        mutateProfile({
+                                            userId: session.id,
+                                            //@ts-ignore
+                                            firstName: event.target.first_name.value,
+                                            //@ts-ignore
+                                            lastName: event.target.last_name.value
+                                        })
+                                            .then(() => toggleProfileSnackbar(true))
+                                            .then(() => toggleLoading(false))
+                                            .catch(() => toggleLoading(false));
+                                    }
+                                    } method="POST">
                                         <div className="grid grid-cols-6 gap-6">
                                             <div className="col-span-6 sm:col-span-3">
                                                 <label htmlFor="first_name"
@@ -71,27 +96,27 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
                                             </div>
                                         </div>
 
-                    {/*                    <div className="mt-6">*/}
-                    {/*                        <label className="block text-sm leading-5 font-medium text-gray-700">*/}
-                    {/*                            Photo*/}
-                    {/*                        </label>*/}
-                    {/*                        <div className="mt-2 flex items-center">*/}
-                    {/*                            <img className="h-12 w-12 inline-block rounded-full"*/}
-                    {/*                                 src={profileData.data.users_by_pk.image ? profileData.data.users_by_pk.image : "/profile.jpg"}/>*/}
-                    {/*                            <span className="ml-5 rounded-md shadow-sm">*/}
-                    {/*  <button type="button" onClick={signOut}*/}
-                    {/*          className="py-2 px-3 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">*/}
-                    {/*    Change*/}
-                    {/*  </button>*/}
-                    {/*</span>*/}
-                    {/*                        </div>*/}
-                    {/*                    </div>*/}
+                                        {/*                    <div className="mt-6">*/}
+                                        {/*                        <label className="block text-sm leading-5 font-medium text-gray-700">*/}
+                                        {/*                            Photo*/}
+                                        {/*                        </label>*/}
+                                        {/*                        <div className="mt-2 flex items-center">*/}
+                                        {/*                            <img className="h-12 w-12 inline-block rounded-full"*/}
+                                        {/*                                 src={profileData.data.users_by_pk.image ? profileData.data.users_by_pk.image : "/profile.jpg"}/>*/}
+                                        {/*                            <span className="ml-5 rounded-md shadow-sm">*/}
+                                        {/*  <button type="button" onClick={signOut}*/}
+                                        {/*          className="py-2 px-3 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">*/}
+                                        {/*    Change*/}
+                                        {/*  </button>*/}
+                                        {/*</span>*/}
+                                        {/*                        </div>*/}
+                                        {/*                    </div>*/}
 
                                         <div className="flex justify-end mt-6">
                                            <span className="inline-flex rounded-md shadow-sm">
-  <button type="button" onClick={signOut}
+  <button type="submit" disabled={isLoading}
           className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-    Update profile
+   {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null} Update profile
   </button>
 </span>
                                         </div>
@@ -121,7 +146,7 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
                                         </h3>
                                         <div className="mt-3 text-sm leading-5">
                                             <button onClick={() => editSubscription()}
-                                               className="font-medium text-blue-600 hover:text-blue-500 transition ease-in-out duration-150">
+                                                    className="font-medium text-blue-600 hover:text-blue-500 transition ease-in-out duration-150">
                                                 Change subscription &rarr;
                                             </button>
                                         </div>
