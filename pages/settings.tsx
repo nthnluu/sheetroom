@@ -5,8 +5,7 @@ import Navbar from "../components/PageLayouts/AppLayout/Navbar";
 import Footer from "../components/Misc/Footer";
 import ChangeAccountTypeModal from "../components/Modals/ChangeAccountTypeModal";
 import {signOut} from 'next-auth/client'
-import {useMutation} from "urql";
-import {deleteUser} from "../lib/graphql/User";
+import DeleteAccountModal from "../components/Modals/DeleteAccountModal";
 
 interface Props {
     session: any;
@@ -15,7 +14,7 @@ interface Props {
 
 const Dashboard: React.FC<Props> = ({session, profileData}) => {
     const [accountTypeModal, toggleAccountTypeModal] = useState(false)
-    const [deleteAccountResult, deleteAccountMutation] = useMutation(deleteUser)
+    const [deleteAccountModal, toggleDeleteAccountModal] = useState(false)
 
     const editSubscription = () => {
         fetch('/api/stripe-portal', {
@@ -32,22 +31,11 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
             });
     }
 
-    const deleteAccount = () => {
-        fetch('/api/stripe-delete', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({customerId: profileData.data.users_by_pk.stripeCustomerId}),
-        })
-            .then(() => {
-                deleteAccountMutation({userId: session.id})
-                    .then(() => signOut())
-            })
-    }
+
 
     return (
         <>
+            <DeleteAccountModal onCancel={() => toggleDeleteAccountModal(false)} customerId={profileData.data.users_by_pk.stripeCustomerId} userId={session.id} isOpen={deleteAccountModal}/>
             <ChangeAccountTypeModal
                 changeTo={profileData.data.users_by_pk.account_type === "teacher" ? "student" : "teacher"}
                 onCancel={() => toggleAccountTypeModal(false)} isOpen={accountTypeModal} userId={session.id}/>
@@ -83,23 +71,23 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
                                             </div>
                                         </div>
 
-                                        <div className="mt-6">
-                                            <label className="block text-sm leading-5 font-medium text-gray-700">
-                                                Photo
-                                            </label>
-                                            <div className="mt-2 flex items-center">
-                                                <img className="h-12 w-12 inline-block rounded-full"
-                                                     src={profileData.data.users_by_pk.image ? profileData.data.users_by_pk.image : "/profile.jpg"}/>
-                                                <span className="ml-5 rounded-md shadow-sm">
-                      <button type="button" onClick={signOut}
-                              className="py-2 px-3 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
-                        Change
-                      </button>
-                    </span>
-                                            </div>
-                                        </div>
+                    {/*                    <div className="mt-6">*/}
+                    {/*                        <label className="block text-sm leading-5 font-medium text-gray-700">*/}
+                    {/*                            Photo*/}
+                    {/*                        </label>*/}
+                    {/*                        <div className="mt-2 flex items-center">*/}
+                    {/*                            <img className="h-12 w-12 inline-block rounded-full"*/}
+                    {/*                                 src={profileData.data.users_by_pk.image ? profileData.data.users_by_pk.image : "/profile.jpg"}/>*/}
+                    {/*                            <span className="ml-5 rounded-md shadow-sm">*/}
+                    {/*  <button type="button" onClick={signOut}*/}
+                    {/*          className="py-2 px-3 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">*/}
+                    {/*    Change*/}
+                    {/*  </button>*/}
+                    {/*</span>*/}
+                    {/*                        </div>*/}
+                    {/*                    </div>*/}
 
-                                        <div className="flex justify-end">
+                                        <div className="flex justify-end mt-6">
                                            <span className="inline-flex rounded-md shadow-sm">
   <button type="button" onClick={signOut}
           className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
@@ -190,11 +178,11 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
                                 <div className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
                                     <p>
                                         Once you delete your account, you'll permanently lose all data associated with
-                                        it. Going back is just like not an option.
+                                        it.
                                     </p>
                                 </div>
                                 <div className="mt-5">
-                                    <button type="button" onClick={() => deleteAccount()}
+                                    <button type="button" onClick={() => toggleDeleteAccountModal(true)}
                                             className="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-50 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-red-200 transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                                         Delete account
                                     </button>

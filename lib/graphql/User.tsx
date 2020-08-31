@@ -29,6 +29,13 @@ export const changeAccountType = gql`
   }
 }`
 
+export const updateProfileData = gql`
+mutation UpdateProfileData($userId: Int!, $firstName: String!, $lastName: String!) {
+  update_users_by_pk(pk_columns: {id: $userId}, _set: {first_name: $firstName, last_name: $lastName}) {
+    __typename
+  }
+}`
+
 export const deleteUser = gql`
 mutation DeleteAccount($userId: Int!) {
   delete_users_by_pk(id: $userId){
