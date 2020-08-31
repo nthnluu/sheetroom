@@ -4,9 +4,10 @@ import {Navbar as PageNavbar} from "../PageLayouts/AppLayout/Navbar";
 import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 import JoinCodeModal from "../Modals/JoinCodeModal";
+import {updateClassTitle} from "../../lib/graphql/Class";
 
-const Navbar =  ({session, content, title, currentPage, setCurrentPage, joinCode, profileData})  => {
-    const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
+const Navbar =  ({session, content, title, currentPage, setCurrentPage, joinCode, profileData, classId})  => {
+    const [mutateTitleResult, mutateTitle] = useMutation(updateClassTitle)
 
     // State for menus
     const [shareDialog, toggleShareDialog] = useState(false);
@@ -38,6 +39,15 @@ const Navbar =  ({session, content, title, currentPage, setCurrentPage, joinCode
                                                placeholder="Untitled Assignment"
                                                className="text-lg font-medium lg:-ml-2 border w-48 sm:w-auto border-transparent rounded-lg p-2 transition-all duration-150 focus:outline-none hover:border-gray-300 focus:border-blue-500 focus:border-4 h-auto"
                                                defaultValue={title}
+                                               onBlur={event => {
+                                                   if (event.target.value.length > 0) {
+                                                       mutateTitle({
+                                                           newTitle: event.target.value,
+                                                           classId: classId
+                                                       })
+                                                           .catch((error) => console.log(error));
+                                                   }
+                                               }}
                                         /></NewTooltip> : <h1 className="text-lg font-medium">{title}</h1>}
 
                                 </div>

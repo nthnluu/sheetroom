@@ -104,3 +104,12 @@ query SearchClasses($searchValue: String!, $userId: Int!) {
     id
   }
 }`
+
+
+export const updateClassTitle = gql`
+mutation UpdateClassTitle($classId: uuid!, $newTitle: String!) {
+  update_classes_class_by_pk(pk_columns: {id: $classId}, _set: {title: $newTitle}) {
+    __typename
+  }
+}
+`;

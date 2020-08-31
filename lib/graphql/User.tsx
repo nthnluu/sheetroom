@@ -11,6 +11,7 @@ export const me = `
 query Me($userId: Int!) {
   users_by_pk(id: $userId) {
     first_name
+    stripeCustomerId
     last_name
     is_pro
     image
@@ -19,3 +20,29 @@ query Me($userId: Int!) {
   }
 }
 `
+
+
+export const changeAccountType = gql`
+    mutation ChangeAccountType ($newType: String!, $userId: Int!) {
+  update_users_by_pk(pk_columns: {id: $userId}, _set: {account_type: $newType}) {
+    __typename
+  }
+}`
+
+export const updateProfileData = gql`
+mutation UpdateProfileData($userId: Int!, $firstName: String!, $lastName: String!) {
+  update_users_by_pk(pk_columns: {id: $userId}, _set: {first_name: $firstName, last_name: $lastName}) {
+    __typename
+  }
+}`
+
+export const deleteUser = gql`
+mutation DeleteAccount($userId: Int!) {
+  delete_users_by_pk(id: $userId){
+    __typename
+  }
+  
+  delete_accounts(where: {user_id: {_eq: $userId}}) {
+    __typename
+  }
+}`

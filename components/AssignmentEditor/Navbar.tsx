@@ -66,13 +66,15 @@ const Navbar = ({session, content, pageData, profileData}) => {
                                                    defaultValue={pageData.assignments_assignment_by_pk.title}
                                                    onBlur={event => {
                                                        setSaveStatus(1)
-                                                       mutateTitle({
-                                                           title: event.target.value,
-                                                           assignmentId: pageData.assignments_assignment_by_pk.id,
-                                                           clientId: clientId
-                                                       })
-                                                           .then(() => setSaveStatus(0))
-                                                           .catch(() => setSaveStatus(2));
+                                                       if (event.target.value.length > 0) {
+                                                           mutateTitle({
+                                                               title: event.target.value,
+                                                               assignmentId: pageData.assignments_assignment_by_pk.id,
+                                                               clientId: clientId
+                                                           })
+                                                               .then(() => setSaveStatus(0))
+                                                               .catch(() => setSaveStatus(2));
+                                                       }
                                                    }}
                                             /></NewTooltip>
                                     </div>
