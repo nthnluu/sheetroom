@@ -41,7 +41,7 @@ const AssignmentPrintRenderer = React.forwardRef((props, ref) => {
                                                 </div>
                                             </div>)
                                         } else {
-                                            return <div className="h-16 block"/>
+                                            return <div className="block"/>
                                         }
                                     }
                                 )}

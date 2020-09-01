@@ -90,6 +90,11 @@ query StudentAssignmentGrid($userId: Int!) {
     assignmentByAssignment {
       title
     }
+    submissions_aggregate(where: {studentProfile: {student: {_eq: $userId}}}) {
+        aggregate {
+          count
+        }
+      }
     join_code
     config
     user {

@@ -6,9 +6,7 @@ import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 import NewTooltip from "../Misc/Tooltip";
-import JsonDebugBox from "../JsonDebugBox";
 import * as jsonexport from "jsonexport/dist"
-import {json2csv} from 'json-2-csv';
 
 const LoadingPlaceholder: React.FC = () => {
     return (
@@ -37,37 +35,6 @@ const ResultPage = () => {
         }
     });
 
-    function convertArrayOfObjectsToCSV(args) {
-        let result, ctr, keys, columnDelimiter, lineDelimiter, data;
-
-        data = args.data || null;
-        if (data == null || !data.length) {
-            return null;
-        }
-
-        columnDelimiter = args.columnDelimiter || ',';
-        lineDelimiter = args.lineDelimiter || '\n';
-
-        keys = Object.keys(data[0]);
-
-        result = '';
-        result += keys.join(columnDelimiter);
-        result += lineDelimiter;
-
-        data.forEach(function (item) {
-            ctr = 0;
-            keys.forEach(function (key) {
-                if (ctr > 0) result += columnDelimiter;
-
-                result += item[key];
-                ctr++;
-            });
-            result += lineDelimiter;
-        });
-
-        return result;
-    }
-
     function downloadCsv(csvString) {
         let blob = new Blob([csvString]);
         if (window.navigator.msSaveOrOpenBlob) {
@@ -86,14 +53,22 @@ const ResultPage = () => {
         }
     }
 
-    const getCsvFromTable = (submissions) => {
+    const getCsvFromTable = (submissions, isPublic = false) => {
         const rawData = submissions.map(submission => {
-            return {
-                first_name: submission.studentProfile ? submission.studentProfile.user.first_name : "",
-                last_name: submission.studentProfile ? submission.studentProfile.user.last_name : "",
-                points: submission.scoreReportByScoreReport.earned_points,
-                total: submission.scoreReportByScoreReport.total_points
+            if (isPublic) {
+                return {
+                    points: submission.scoreReportByScoreReport.earned_points,
+                    total: submission.scoreReportByScoreReport.total_points
+                }
+            } else {
+                return {
+                    first_name: submission.studentProfile ? submission.studentProfile.user.first_name : "",
+                    last_name: submission.studentProfile ? submission.studentProfile.user.last_name : "",
+                    points: submission.scoreReportByScoreReport.earned_points,
+                    total: submission.scoreReportByScoreReport.total_points
+                }
             }
+
         });
 
         jsonexport(rawData, function (err, csv) {
@@ -111,8 +86,6 @@ const ResultPage = () => {
     if (fetching) return <LoadingPlaceholder/>
 
     return (<div className="space-y-16">
-
-
         {data.assignments_assignment_by_pk.invites.length > 0 ? data.assignments_assignment_by_pk.invites.map(invite =>
             <div>
                 <div className="lg:flex lg:items-center lg:justify-between">
@@ -137,10 +110,10 @@ const ResultPage = () => {
                     </button>
                         </span>
                         </NewTooltip>
-                        <NewTooltip title="Scheduled" placement="bottom" enterDelay={500}
+                        <NewTooltip title="Export data" placement="bottom" enterDelay={500}
                                     enterNextDelay={500}>
                         <span>
-                    <button type="button" onClick={() => getCsvFromTable(invite.submissions)}
+                    <button type="button" onClick={() => getCsvFromTable(invite.submissions, true)}
                             className="flex items-center justify-center h-8 w-8  border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-600 bg-transparent hover:bg-gray-200 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
                             <svg className="h-6 w-6 mx-auto" viewBox="0 0 24 24" fill="none"
                                  stroke="currentColor">
@@ -225,7 +198,6 @@ const ResultPage = () => {
                             <p className="w-full bg-gray-200 opacity-75 p-2 text-center rounded-lg">There aren't any
                                 submissions to
                                 display.</p>}
-
                     </div>
                 </div>
             </div>) : <div className="mx-auto opacity-25 m-12">

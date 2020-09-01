@@ -34,8 +34,27 @@ const LoadingPlaceholder = () => {
 };
 
 
-const StudentListItem = ({item, session}) => {
+function getTextColor(color) {
+    switch(color){
+        case('pink'):
+            return 'text-pink-500'
+        case('green'):
+            return 'text-green-500'
+        case('red'):
+            return 'text-red-500'
+        case('teal'):
+            return 'text-teal-500'
+        case('orange'):
+            return 'text-orange-500'
+        case('purple'):
+            return 'text-purple-500'
 
+    }
+}
+
+const StudentListItem = ({item, session, data}) => {
+
+    const listConfig = JSON.parse(item.config)
     return (
         <>
             <li
@@ -59,10 +78,16 @@ const StudentListItem = ({item, session}) => {
                         <p className="text-gray-500 text-sm space-x-2 flex items-center">
                             {/*<span>AP Calculus</span>*/}
                             {/*<span>·</span>*/}
-                            <span
-                                className={"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 " + (`text-${item.classByClass.color}-500 bg-${item.classByClass.color}-100`)}>
+
+                            <div className="flex-row sm:flex sm:space-x-4  justify-start  text-xs text-gray-400">
+                                <span
+                                    className={"inline-flex items-center rounded-full font-medium " + getTextColor(item.classByClass.color)}>
   {item.classByClass.title}
-                            </span><span>Due on {moment(JSON.parse(item.config).dueDate).format('ddd, MMM DD h:mm a')}</span>
+                            </span>
+                                {listConfig.dueDateEnabled ? <div>Due on {moment(listConfig.dueDate).format('ddd, MMM DD')} at {moment(listConfig.dueDate).format('h:mm A')}</div> : null}
+                                {!listConfig.multipleAttempts ? <div>1 attempt allowed</div> : <span>{`Attempt ${item.submissions_aggregate.aggregate.count} of ${listConfig.allowedAttempts}`}</span>}
+                            </div>
+
                         </p>
                     </div>
                     {/* Repo meta info */}
@@ -238,12 +263,13 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
                                 submissions</button>}
 
                     </div>}
-                </ul> : <ul className="relative z-0 divide-y divide-gray-200  border-gray-200">
+                </ul> : <ul className="relative z-0 border-b  border-gray-200">
                     {data.assignments_invite.length > 0 ? data.assignments_invite.map(item => {
                         const itemConfig = JSON.parse(item.config)
                         const isWithinDueDate = itemConfig.dueDateEnabled ? moment(itemConfig.dueDate).isAfter(moment()) : true
-                        if (isWithinDueDate) {
-                            return <StudentListItem item={item} key={item.id} session={session}/>
+                        const attemptsGood = itemConfig.multipleAttempts ? (item.submissions_aggregate.aggregate.count <= parseInt(itemConfig.allowedAttempts)) : (item.submissions_aggregate.aggregate.count < 1)
+                        if (isWithinDueDate && attemptsGood ) {
+                            return <><StudentListItem item={item} key={item.id} session={session}/></>
                         } else {
                             <></>
                         }
