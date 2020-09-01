@@ -4,6 +4,7 @@ import {GetServerSideProps} from "next";
 import CheckForUser from "../lib/CheckForUser";
 import Footer from "../components/Misc/Footer";
 import {loadStripe} from "@stripe/stripe-js";
+import Head from "next/head";
 
 
 const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profileData}) => {
@@ -39,6 +40,9 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
 
     return (
         <>
+            <Head>
+                <title>Pricing | Sheetroom</title>
+            </Head>
             <div className="z-50">
                 <Navbar session={session} profileData={profileData} unfixed/>
             </div>

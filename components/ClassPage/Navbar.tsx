@@ -24,10 +24,10 @@ const Navbar =  ({session, content, title, currentPage, setCurrentPage, joinCode
 
 
     return (
-        <div className="w-full z-50">
+        <div className="w-full z-50 navbar">
             <JoinCodeModal joinCode={joinCode} title={title} onCancel={() => toggleShareDialog(false)} isOpen={shareDialog}/>
             <PageNavbar session={session} unfixed profileData={profileData}/>
-            <div className="w-full navbar sticky top-0 bg-white border-b border-gray-200 shadow-sm">
+            <div className="w-full sticky top-0 bg-white border-b border-gray-200 shadow-sm">
                 <nav>
                     <div className="mx-auto px-2 sm:px-4 lg:px-8">
                         <div className="flex justify-between h-16">

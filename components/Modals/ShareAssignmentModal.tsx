@@ -138,27 +138,29 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
               tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
             {/*@ts-ignore*/}
-            {isPublic ? <><ToggleRow label="Collect student info" value={settingsObject.collectStudentInfo}
-                                     onEnable={() => setConfigValue("collectStudentInfo", true)}
-                                     onDisable={() => setConfigValue("collectStudentInfo", false)}/>
-                {settingsObject.collectStudentInfo ?
-                    <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-2 mt-4">
-                        <button type="button"
-                                onClick={() => setConfigValue("collectStudentName", !settingsObject.collectStudentName)}
-                                className={settingsObject.collectStudentName ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                            <i className={"fas fa-check mr-1.5 " + (settingsObject.collectStudentName ? "inline" : "hidden")}/>Name
-                        </button>
-                        <button type="button"
-                                onClick={() => setConfigValue("collectEmail", !settingsObject.collectEmail)}
-                                className={settingsObject.collectEmail ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                            <i className={"fas fa-check mr-1.5 " + (settingsObject.collectEmail ? "inline" : "hidden")}/>Email
-                        </button>
-                        <button type="button" onClick={() => setConfigValue("collectId", !settingsObject.collectId)}
-                                className={settingsObject.collectId ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                            <i className={"fas fa-check mr-1.5 " + (settingsObject.collectId ? "inline" : "hidden")}/>ID
-                        </button>
-                    </div>
-                    : null}</> : <div className="mt-6">
+            {isPublic ? <>
+                {/*<ToggleRow label="Collect student info" value={settingsObject.collectStudentInfo}*/}
+                {/*                     onEnable={() => setConfigValue("collectStudentInfo", true)}*/}
+                {/*                     onDisable={() => setConfigValue("collectStudentInfo", false)}/>*/}
+                {/*{settingsObject.collectStudentInfo ?*/}
+                {/*    <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-2 mt-4">*/}
+                {/*        <button type="button"*/}
+                {/*                onClick={() => setConfigValue("collectStudentName", !settingsObject.collectStudentName)}*/}
+                {/*                className={settingsObject.collectStudentName ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>*/}
+                {/*            <i className={"fas fa-check mr-1.5 " + (settingsObject.collectStudentName ? "inline" : "hidden")}/>Name*/}
+                {/*        </button>*/}
+                {/*        <button type="button"*/}
+                {/*                onClick={() => setConfigValue("collectEmail", !settingsObject.collectEmail)}*/}
+                {/*                className={settingsObject.collectEmail ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>*/}
+                {/*            <i className={"fas fa-check mr-1.5 " + (settingsObject.collectEmail ? "inline" : "hidden")}/>Email*/}
+                {/*        </button>*/}
+                {/*        <button type="button" onClick={() => setConfigValue("collectId", !settingsObject.collectId)}*/}
+                {/*                className={settingsObject.collectId ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-gray-300 focus:bg-gray-50 active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>*/}
+                {/*            <i className={"fas fa-check mr-1.5 " + (settingsObject.collectId ? "inline" : "hidden")}/>ID*/}
+                {/*        </button>*/}
+                {/*    </div>*/}
+                {/*    : null}*/}
+                    </> : <div className="mt-6">
                 <label htmlFor="email" className="sr-only">Assign to</label>
                 <div className="relative rounded-md shadow-sm">
                     <ClassSearch session={session} selectedClass={selectedClass} setSelectedClass={setSelectedClass}/>
@@ -246,24 +248,43 @@ const InviteSettingsSection = ({isPublic, selectedClass, setSelectedClass, setti
         </> : null}
 
         {currentTab === 1 ? <>
+            <ToggleRow label="Hide score" value={settingsObject.hideScore}
+                       onEnable={() => setConfigValue("hideScore", true)}
+                       onDisable={() => setConfigValue("hideScore", false)}/>
+            {/*{settingsObject.hideScore && settingsObject.multipleAttempts ?*/}
+            {/*    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">*/}
+            {/*        <button type="button" onClick={() => setConfigValue("hideScoreUntilLastAttempt", true)}*/}
+            {/*                className={settingsObject.hideScoreUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>*/}
+            {/*            <i className={"fas fa-check mr-1.5 " + (settingsObject.hideScoreUntilLastAttempt ? "inline" : "hidden")}/>Hide*/}
+            {/*            until*/}
+            {/*            final attempt*/}
+            {/*        </button>*/}
+            {/*        <button type="button" onClick={() => setConfigValue("hideScoreUntilLastAttempt", false)}*/}
+            {/*                className={!settingsObject.hideScoreUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>*/}
+            {/*            <i className={"fas fa-check mr-1.5 " + (!settingsObject.hideScoreUntilLastAttempt ? "inline" : "hidden")}/>Hide*/}
+            {/*            results*/}
+            {/*        </button>*/}
+            {/*    </div> : null}*/}
+
+
             {/*@ts-ignore*/}
-            <ToggleRow label="Restrict results" value={settingsObject.restrictResults}
+            <ToggleRow label="Hide answers" value={settingsObject.restrictResults}
                        onEnable={() => setConfigValue("restrictResults", true)}
                        onDisable={() => setConfigValue("restrictResults", false)}/>
-            {settingsObject.restrictResults && settingsObject.restrictResults ?
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">
-                    <button type="button" onClick={() => setConfigValue("hideUntilLastAttempt", true)}
-                            className={settingsObject.hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                        <i className={"fas fa-check mr-1.5 " + (settingsObject.hideUntilLastAttempt ? "inline" : "hidden")}/>Hide
-                        until
-                        final attempt
-                    </button>
-                    <button type="button" onClick={() => setConfigValue("hideUntilLastAttempt", false)}
-                            className={!settingsObject.hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>
-                        <i className={"fas fa-check mr-1.5 " + (!settingsObject.hideUntilLastAttempt ? "inline" : "hidden")}/>Hide
-                        results
-                    </button>
-                </div> : null}
+            {/*{settingsObject.restrictResults && settingsObject.multipleAttempts ?*/}
+            {/*    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-4">*/}
+            {/*        <button type="button" onClick={() => setConfigValue("hideUntilLastAttempt", true)}*/}
+            {/*                className={settingsObject.hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>*/}
+            {/*            <i className={"fas fa-check mr-1.5 " + (settingsObject.hideUntilLastAttempt ? "inline" : "hidden")}/>Hide*/}
+            {/*            until*/}
+            {/*            final attempt*/}
+            {/*        </button>*/}
+            {/*        <button type="button" onClick={() => setConfigValue("hideUntilLastAttempt", false)}*/}
+            {/*                className={!settingsObject.hideUntilLastAttempt ? "items-center px-3 py-2 border border-blue-300 text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-blue-800 active:bg-blue-50 transition ease-in-out duration-150" : "items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150"}>*/}
+            {/*            <i className={"fas fa-check mr-1.5 " + (!settingsObject.hideUntilLastAttempt ? "inline" : "hidden")}/>Hide*/}
+            {/*            results*/}
+            {/*        </button>*/}
+            {/*    </div> : null}*/}
         </> : null}
 
         {currentTab === 2 ? <><ToggleRow label="Restrict IP address" value={ipAddress}
@@ -301,6 +322,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId}) => {
         "multipleAttemptsScoring": "1",
         "allowedAttempts": "1",
         "restrictResults": false,
+        "hideScore": false,
         "hideUntilLastAttempt": true,
         "collectStudentInfo": false,
         "collectStudentName": false,

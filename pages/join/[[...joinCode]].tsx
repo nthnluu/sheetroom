@@ -91,7 +91,7 @@ const InviteFetch = ({joinCode, profileData, session}) => {
 
 const JoinCode = ({error = false}) => {
     return (<div className="text-center max-w-sm mx-auto">
-        <h1 className="text-4xl font-bold text-gray-800">Enter your join code</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">Enter your join code</h1>
         {/*//@ts-ignore*/}
         <form onSubmit={event => {
             event.preventDefault();

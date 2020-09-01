@@ -1,4 +1,4 @@
-import {useMutation, useQuery, useSubscription} from "urql";
+import {useSubscription} from "urql";
 import gql from "graphql-tag";
 import React, {useState} from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -9,21 +9,8 @@ import Transition from "../Transition";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import InfoSnackbar from "../Snackbars/InfoSnackbar";
 import DeleteAssignmentModal from "../Modals/DeleteAssignmentModal";
-import JsonDebugBox from "../JsonDebugBox";
 import {assignmentGridStudent, assignmentGridTeacher} from "../../lib/graphql/Assignments";
 
-
-const ASSIGNMENTS = gql`
-subscription Assignments($userId: Int!){
-  assignments_assignment(where: {created_by: {_eq: $userId}}, limit: 10, order_by: {updated_at: desc}) {
-    id,
-    title
-    updated_at
-    __typename
-  }
-  
-}
-`;
 
 const LoadingPlaceholder = () => {
     return (<div className="p-6 border-b border-gray-200">
@@ -34,8 +21,27 @@ const LoadingPlaceholder = () => {
 };
 
 
-const StudentListItem = ({item, session}) => {
+function getTextColor(color) {
+    switch(color){
+        case('pink'):
+            return 'text-pink-500'
+        case('green'):
+            return 'text-green-500'
+        case('red'):
+            return 'text-red-500'
+        case('teal'):
+            return 'text-teal-500'
+        case('orange'):
+            return 'text-orange-500'
+        case('purple'):
+            return 'text-purple-500'
 
+    }
+}
+
+const StudentListItem = ({item}) => {
+
+    const listConfig = JSON.parse(item.config)
     return (
         <>
             <li
@@ -59,25 +65,20 @@ const StudentListItem = ({item, session}) => {
                         <p className="text-gray-500 text-sm space-x-2 flex items-center">
                             {/*<span>AP Calculus</span>*/}
                             {/*<span>·</span>*/}
-                            <span
-                                className={"inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 " + (`text-${item.classByClass.color}-500 bg-${item.classByClass.color}-100`)}>
+
+                            <div className="flex-row sm:flex sm:space-x-4  justify-start  text-xs text-gray-400">
+                                <span
+                                    className={"inline-flex items-center rounded-full font-medium " + getTextColor(item.classByClass.color)}>
   {item.classByClass.title}
-                            </span><span>Due on {moment(JSON.parse(item.config).dueDate).format('ddd, MMM DD h:mm a')}</span>
+                            </span>
+                                {listConfig.dueDateEnabled ? <div>Due on {moment(listConfig.dueDate).format('ddd, MMM DD')} at {moment(listConfig.dueDate).format('h:mm A')}</div> : null}
+                                {!listConfig.multipleAttempts ? <div>1 attempt allowed</div> : <span>{`Attempt ${item.submissions_aggregate.aggregate.count} of ${listConfig.allowedAttempts}`}</span>}
+                            </div>
+
                         </p>
                     </div>
-                    {/* Repo meta info */}
                     <div className="flex flex-col flex-shrink-0 items-end space-y-3">
                 <span className="flex items-center space-x-4">
-
-
-                    {/*<button className="relative" type="button">*/}
-                    {/*    <svg className="h-5 w-5 text-yellow-300 hover:text-yellow-400" viewBox="0 0 20 20"*/}
-                    {/*         fill="currentColor">*/}
-                    {/*        <path*/}
-                    {/*            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>*/}
-                    {/*    </svg>*/}
-
-                    {/*</button>*/}
                 </span>
                     </div>
                 </div>
@@ -167,15 +168,6 @@ const AssignmentListItem = ({item, session, toggleModal, setAssignmentId}) => {
 
                         </div>
                     </ClickAwayListener>
-
-                    {/*<button className="relative" type="button">*/}
-                    {/*    <svg className="h-5 w-5 text-yellow-300 hover:text-yellow-400" viewBox="0 0 20 20"*/}
-                    {/*         fill="currentColor">*/}
-                    {/*        <path*/}
-                    {/*            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>*/}
-                    {/*    </svg>*/}
-
-                    {/*</button>*/}
                 </span>
                     </div>
                 </div>
@@ -226,11 +218,11 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
                                    title="Delete Assignment?" onCancel={() => toggleModal(false)} isOpen={deleteModal}/>
             <InfoSnackbar isOpen={snackbarOpen} onClose={() => toggleSnackbar(false)} label="🗑 Assignment Deleted"/>
             {profileData.data.users_by_pk.account_type === "teacher" ?
-                <ul className="relative z-0 divide-y divide-gray-200  border-gray-200">
+                <ul className="relative z-0 border-b  divide-y divide-gray-200 border-gray-200">
                     {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item =>
                         <AssignmentListItem setAssignmentId={setAssignmentId} toggleModal={toggleModal} item={item}
                                             key={item.id} session={session}/>) : <div className="my-8 text-center">
-                        <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
+                        <img alt="" src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
                         {profileData.data.users_by_pk.account_type === "teacher" ?
                             <button className="text-center font-light opacity-25" onClick={openDialog}>Create new
                                 assignment</button> :
@@ -238,17 +230,18 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
                                 submissions</button>}
 
                     </div>}
-                </ul> : <ul className="relative z-0 divide-y divide-gray-200  border-gray-200">
+                </ul> : <ul className="relative z-0 border-b  divide-y divide-gray-200 border-gray-200">
                     {data.assignments_invite.length > 0 ? data.assignments_invite.map(item => {
                         const itemConfig = JSON.parse(item.config)
                         const isWithinDueDate = itemConfig.dueDateEnabled ? moment(itemConfig.dueDate).isAfter(moment()) : true
-                        if (isWithinDueDate) {
-                            return <StudentListItem item={item} key={item.id} session={session}/>
+                        const attemptsGood = itemConfig.multipleAttempts ? (item.submissions_aggregate.aggregate.count <= parseInt(itemConfig.allowedAttempts)) : (item.submissions_aggregate.aggregate.count < 1)
+                        if (isWithinDueDate && attemptsGood ) {
+                            return <StudentListItem item={item} key={item.id}/>
                         } else {
-                            <></>
+                            return null
                         }
                     }) : <div className="my-8 text-center">
-                        <img src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
+                        <img alt="" src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
                         {profileData.data.users_by_pk.account_type === "teacher" ?
                             <button className="text-center font-light opacity-25" onClick={openDialog}>Create new
                                 assignment</button> :

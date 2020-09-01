@@ -4,6 +4,7 @@ import {getSession} from 'next-auth/client';
 import {GetServerSideProps} from "next";
 import DesktopGraphic from "../components/LandingPage/DesktopGraphic";
 import Footer from "../components/Misc/Footer";
+import Head from "next/head";
 
 const InlineButton = ({label, onClick, selected}) => {
     return <button className={"px-1 rounded-md font-medium mr-1 mt-1 sm:mt-0 focus:outline-none " + (selected ? "bg-blue-200 text-blue-600 focus:bg-blue-100" : "bg-gray-200 focus:bg-gray-100")} onClick={onClick}>{label}</button>
@@ -14,6 +15,9 @@ const Index: React.FC<{ session: any }> = ({session}) => {
 
     return (
         <>
+            <Head>
+                <title>Sheetroom</title>
+            </Head>
             <div className="min-h-screen overflow-x-hidden bg-gradient-to-tr from-yellow-50 via-teal-100 to-blue-50" style={{backgroundColor: '#E8F5FE'}}>
                 <div className="z-50">
                     <Navbar session={session} unfixed transparent darkText/>

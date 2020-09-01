@@ -6,19 +6,10 @@ import {useMutation} from "urql";
 import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 import {useReactToPrint} from "react-to-print";
+import AssignmentPrintRenderer from "./AssignmentPrintRenderer";
 
 
-class PrintThis extends React.Component {
-    render() {
-        return (
-            <div className="p-12">
-                <h1 className="text-xl font-bold ">Semester 2 Final</h1>
-                <p className="text-xl font-bold"></p>
 
-            </div>
-        );
-    }
-}
 const Navbar = ({session, content, pageData, profileData}) => {
     const {clientId, setSaveStatus, setCurrentPage, currentPage, aid} = useContext(QuizContext);
     const [mutateTitleResult, mutateTitle] = useMutation(updateAssignmentTitle)
@@ -47,8 +38,10 @@ const Navbar = ({session, content, pageData, profileData}) => {
     return (
         <>
             <div className="hidden">
-                <PrintThis ref={componentRef}/>
+                {/*@ts-ignore*/}
+                <AssignmentPrintRenderer ref={componentRef} document={pageData.assignments_assignment_by_pk.content} title={pageData.assignments_assignment_by_pk.title}/>
             </div>
+
 
             <div className="w-full z-50">
                 <PageNavbar session={session} unfixed profileData={profileData}/>
@@ -116,13 +109,13 @@ const Navbar = ({session, content, pageData, profileData}) => {
                                                 </button>
                                             </NewTooltip>
 
-                                            <NewTooltip title="Undo" placement="bottom" arrow enterDelay={500}
-                                                        enterNextDelay={500}>
-                                                <button type="button" aria-describedby={id} onClick={handleClick}
-                                                        className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">
-                                                    <i className="fas fa-undo text-gray-400 mx-auto"/>
-                                                </button>
-                                            </NewTooltip>
+                                            {/*<NewTooltip title="Undo" placement="bottom" arrow enterDelay={500}*/}
+                                            {/*            enterNextDelay={500}>*/}
+                                            {/*    <button type="button" aria-describedby={id} onClick={handleClick}*/}
+                                            {/*            className="inline-flex items-center h-9 w-9 text-center border border-transparent leading-5 font-medium rounded-md text-gray-900 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none active:bg-gray-200 transition ease-in-out duration-150">*/}
+                                            {/*        <i className="fas fa-undo text-gray-400 mx-auto"/>*/}
+                                            {/*    </button>*/}
+                                            {/*</NewTooltip>*/}
                                         </div>
                                         <button type="button" onClick={() => toggleShareDialog(true)}
                                                 className="inline-flex items-center px-3 h-10 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">

@@ -31,9 +31,9 @@ mutation CreateNewAssignment($title: String!, $content: json!, $userId: Int!) {
 `;
 
 export const updateAssignmentContent = gql`
- mutation UpdateAssignmentContent($content: json!, $id: uuid!, $clientId: uuid!) {
-    update_assignments_assignment_by_pk(pk_columns: {id: $id}, _set: {content: $content, last_edited_by: $clientId}){
- last_edited_by
+ mutation UpdateAssignmentContent($content: json!, $id: uuid!) {
+    update_assignments_assignment_by_pk(pk_columns: {id: $id}, _set: {content: $content}){
+ __typename
   }
 }
 `;
@@ -52,6 +52,9 @@ query ResultsPage($assignmentId: uuid!) {
     invites(order_by: {created_at: desc}) {
     is_public
     join_code
+   user {
+   first_name
+   last_name}
     created_at
       submissions(where: {score_report: {_is_null: false}}, order_by: {scoreReportByScoreReport: {created_at: desc}}) {
         id
@@ -87,6 +90,11 @@ query StudentAssignmentGrid($userId: Int!) {
     assignmentByAssignment {
       title
     }
+    submissions_aggregate(where: {studentProfile: {student: {_eq: $userId}}}) {
+        aggregate {
+          count
+        }
+      }
     join_code
     config
     user {

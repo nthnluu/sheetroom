@@ -4,24 +4,36 @@ import AssignmentViewerContext from "../../components/AssignmentViewer/Assignmen
 import React, {useCallback, useEffect, useState} from "react";
 import {getSubmissionByPk, scoreAssignment, updateSubmissionContent} from "../../lib/graphql/Submissions";
 import {GetServerSideProps} from "next";
-import {getSession} from "next-auth/client";
 import {useRouter} from "next/router";
 import {debounce} from 'lodash'
 import Timer from "../../components/Misc/Timer";
 import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {me} from "../../lib/graphql/User";
 import CheckForUser from "../../lib/CheckForUser";
-import JsonDebugBox from "../../components/JsonDebugBox";
-import moment from "moment";
 import update from "immutability-helper";
+import moment from "moment";
 
 const PageContent = ({pageRawData, iid}) => {
 
     const [pageData] = useState(pageRawData)
     const [document, setDocument] = useState(pageData.content);
-    const [currentSection, setCurrentSection] = useState(document.config.current_section ? document.config.current_section : 0)
-    const sectionId = document.config.sections[currentSection]
+
+    const [allowedSections, setAllowedSections] = useState(document.config.sections.filter(element => {
+        if (!document.sections[element].config.end_time) {
+            return true
+        } else if (moment(document.sections[element].config.end_time).isAfter(moment())) {
+            return true
+        } else {
+            return false
+        }
+    }))
+    const [currentSection, setCurrentSection] = useState(0)
+    const sectionId = allowedSections[currentSection]
+
+    const isLastSection = (sectionId) => {
+        const lastSectionId = document.config.sections[document.config.sections.length - 1]
+        return sectionId === lastSectionId
+    }
     const [saveStatus, setSaveStatus] = useState(0)
 
 
@@ -88,7 +100,13 @@ const PageContent = ({pageRawData, iid}) => {
                     <h1 className="text-lg font-semibold text-gray-800">{pageData.title}</h1>
                     {/*@ts-ignore*/}
                     {document.config.timing !== 0 ? <Timer global={document.config.timing === 2} section={sectionId}
-                                                           onFinish={document.config.timing === 2 ? () => submitAssignment() : () => null}/> : null}
+                                                           onFinish={document.config.timing === 2 ? () => submitAssignment() : () => {
+                                                               if (isLastSection(sectionId)) {
+                                                                   submitAssignment()
+                                                               } else {
+                                                                   handleContinue()
+                                                               }
+                                                           }}/> : null}
                 </div>
                 {/*Section Page*/}
                 <div className="mx-auto max-w-4xl pt-20 px-4 space-y-6 mb-16">
@@ -119,7 +137,7 @@ const PageContent = ({pageRawData, iid}) => {
                                     Previous
                                 </button> : null}
 
-                            {currentSection === document.config.sections.length - 1 || document.config.sections.length === 1 ?
+                            {isLastSection(sectionId) || document.config.sections.length === 1 ?
                                 <button type="button" onClick={submitAssignment} disabled={isLoading}
                                         className={"w-full text-center sm:w-auto mt-2 sm:mt-0 flex px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150 " + (isLoading ? "items-center" : "items-end")}>
                                       <span className="mx-auto">

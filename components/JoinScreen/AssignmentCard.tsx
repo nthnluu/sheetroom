@@ -27,7 +27,6 @@ const AssignmentCard: React.FC<Props> = ({firstName, lastName, title, inviteId, 
     return <div className="p-6 bg-white shadow rounded-lg text-center sm:text-left">
         <h1 className="text-2xl font-semibold text-gray-800">{title}</h1>
         <h2 className="text-gray-400">Assigned by {firstName} {lastName}</h2>
-
         <div className="sm:flex justify-end mt-4">
             {isWithinDueDate ? (inviteConfig.multipleAttempts ? ((userAttempts <= parseInt(inviteConfig.allowedAttempts)) ? <div className="flex-row sm:flex justify-between sm:space-x-2 items-center">
                     <p className="mb-1 md:mb-0 w-full sm:w-auto text-center text-gray-500 px-2 py-1 border rounded-lg border-gray-500">

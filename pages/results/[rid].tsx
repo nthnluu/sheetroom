@@ -13,35 +13,53 @@ import ItemCard from "../../components/ResultsPage/ItemCard";
 import CheckForUser from "../../lib/CheckForUser";
 
 const PageLayout: React.FC<{ session, data, status }> = ({session, data, status}) => {
+    const inviteConfig = JSON.parse(data.inviteByInvite.config)
     return (
         <>
             <Navbar session={session} unfixed/>
             <div className="px-4 max-w-4xl mx-auto py-12">
-                {status === "success" ? <div className="mb-12">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 text-center">Assignment submitted
-                        successfully.</h1>
-                    <h2 className="text-lg sm:text-xl text-gray-500 text-center">You may view your results below.</h2>
-                </div> : null}
+                {status === "success" ? <>
+                    {inviteConfig.hideScore ? <div className="mb-12">
+                        <h1 className="text-4xl font-semibold text-gray-800 text-center">Assignment submitted
+                            successfully.</h1>
+                        <h2 className="text-xl text-gray-500 text-center">Your instructor has hidden your score and
+                            responses.</h2>
+                    </div> : <div className="mb-12">
+                        <h1 className="text-4xl font-semibold text-gray-800 text-center">Assignment submitted
+                            successfully.</h1>
+                        <h2 className="text-xl text-gray-500 text-center">You may view your results below.</h2>
+                    </div>}
+                </> : null}
 
-                {status === "muted" ? <div className="mb-12">
-                    <h1 className="text-4xl font-semibold text-gray-800 text-center">Assignment submitted
-                        successfully.</h1>
-                    <h2 className="text-xl text-gray-500 text-center">Your instructor has hidden your score and responses.</h2>
-                </div> : null}
-                <div className="bg-white rounded-lg shadow-sm p-8 border border-gray-200 flex-row md:flex justify-between items-center">
+
+
+                {!inviteConfig.hideScore ? <div
+                    className="bg-white rounded-lg shadow-sm p-8 border border-gray-200 flex-row md:flex justify-between items-center">
                     <div className="text-3xl font-medium text-gray-800">
-                        {data.scoreReportByScoreReport.earned_points}/{data.scoreReportByScoreReport.total_points} <span className="font-light">- {((data.scoreReportByScoreReport.earned_points/(data.scoreReportByScoreReport.total_points > 0 ? data.scoreReportByScoreReport.total_points : 1)) * 100).toFixed(2)}%</span>
+                        {data.scoreReportByScoreReport.earned_points}/{data.scoreReportByScoreReport.total_points}
+                        <span
+                            className="font-light">- {((data.scoreReportByScoreReport.earned_points / (data.scoreReportByScoreReport.total_points > 0 ? data.scoreReportByScoreReport.total_points : 1)) * 100).toFixed(2)}%</span>
                     </div>
                     <div className="text-lg font-medium text-gray-800">
-                        Submitted at {moment(data.scoreReportByScoreReport.created_at).format("hh:mm A")} on {moment(data.scoreReportByScoreReport.created_at).format("MMM DD, YYYY")}
+                        Submitted
+                        at {moment(data.scoreReportByScoreReport.created_at).format("h:mm A")} on {moment(data.scoreReportByScoreReport.created_at).format("MMM DD, YYYY")}
                     </div>
-                </div>
-                <div className="mt-8 space-y-4">
-                    {
-                        data.content.content.config.sections.map(section => data.content.content.sections[section].items).flat().map(itemId => <ItemCard item={itemId} data={data}/>)
-                    }
+                </div> : <div
+                    className="bg-white rounded-lg shadow-sm p-8 border border-gray-200 flex-row md:flex justify-between items-center">
+                    <div className="text-lg font-medium text-gray-800">
+                        Submitted
+                        at {moment(data.scoreReportByScoreReport.created_at).format("h:mm A")} on {moment(data.scoreReportByScoreReport.created_at).format("MMM DD, YYYY")}
+                    </div>
+                </div>}
+                {inviteConfig.restrictResults ? null : <>
+                    <div className="mt-8 space-y-4">
+                        {
+                            data.content.content.config.sections.map(section => data.content.content.sections[section].items).flat().map(itemId =>
+                                <ItemCard item={itemId} data={data}/>)
+                        }
 
-                </div>
+                    </div>
+                </>}
 
 
             </div>

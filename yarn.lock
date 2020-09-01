@@ -3707,6 +3707,11 @@ decode-uri-component@^0.2.0:
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
 
+deeks@2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/deeks/-/deeks-2.2.6.tgz#7fc4c07c4251e1deb7e919fd14734fea151dc8b2"
+  integrity sha512-KlfWy96oUxxfAEC8q8QVoik++6yWsTYT9Cm5S6nUddLciZaOy7WDfcFbVCyeHKFO44ptWxtz7sQd9Upm4SGf4g==
+
 deep-equal@^1.0.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.1.1.tgz#b5c98c942ceffaf7cb051e24e1434a25a2e6076a"
@@ -3818,6 +3823,11 @@ discontinuous-range@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/discontinuous-range/-/discontinuous-range-1.0.0.tgz#e38331f0844bba49b9a9cb71c771585aab1bc65a"
   integrity sha1-44Mx8IRLukm5qctxx3FYWqsbxlo=
+
+doc-path@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/doc-path/-/doc-path-2.0.4.tgz#3b4a4c8a4f70332d13ec195dab4b612fdcc3d7a4"
+  integrity sha512-y/Q1mjxFks4hvNv1KZkkuTZ6lx9zxLtldKf5GsMTdIXF4gNAOaXZ3YxrgHg/uO7JSME1xw/+G7fZ7/Dj/Ss88g==
 
 dom-helpers@^5.0.1:
   version "5.1.4"
@@ -5850,6 +5860,14 @@ jsesc@~0.5.0:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
 
+json-2-csv@^3.7.6:
+  version "3.7.6"
+  resolved "https://registry.yarnpkg.com/json-2-csv/-/json-2-csv-3.7.6.tgz#2a88b323b8986f31dcd4ef785b3bfb3521d42899"
+  integrity sha512-um9bT7CgI77f/m5G/V5uRKz9UruFQFijD5Fh+EAnr5QowOJpdIk1ya37KSq1MxjBnJgvmpqCnI7ZjsvyTYiW0w==
+  dependencies:
+    deeks "2.2.6"
+    doc-path "2.0.4"
+
 json-parse-better-errors@^1.0.1, json-parse-better-errors@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz#bb867cfb3450e69107c131d1c514bab3dc8bcaa9"
@@ -5883,6 +5901,11 @@ json5@^2.1.0, json5@^2.1.2:
   integrity sha512-KXPvOm8K9IJKFM0bmdn8QXh7udDh1g/giieX0NLCaMnb4hEiVFqnop2ImTXCc5e0/oHz3LTqmHGtExn5hfMkOA==
   dependencies:
     minimist "^1.2.5"
+
+jsonexport@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/jsonexport/-/jsonexport-3.0.1.tgz#918980b7506aa9377eec95cceee99d488b5d7317"
+  integrity sha512-lxDoAZxmWDt1wa4S75CUYe/ZASdmOYyhV7iYbF4npTWxrDv19ofZpJMGbt20W5Orx0hYuid65zGHpt6rRW0Z3A==
 
 jsonfile@^4.0.0:
   version "4.0.0"
