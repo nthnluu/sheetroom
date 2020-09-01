@@ -35,7 +35,7 @@ const PageContent: React.FC<{ pageData, aid: string, session: string, profileDat
     const saveAssignment = (newDocument) => {
         if (!invalidSession) {
             setSaveStatus(1)
-            mutateAssignment({clientId: clientId, id: aid, content: newDocument})
+            mutateAssignment({id: aid, content: newDocument})
                 .then(() => setSaveStatus(0))
                 .catch(() => setSaveStatus(2))
         }
