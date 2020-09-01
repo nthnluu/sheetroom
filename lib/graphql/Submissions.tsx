@@ -37,6 +37,8 @@ export const getSubmissionWithScore = gql`
 query GetSubmission($submissionId: uuid!){
   assignments_submission_by_pk(id: $submissionId) {
   content
+  inviteByInvite {
+  config}
   answer_key
     scoreReportByScoreReport {
       earned_points

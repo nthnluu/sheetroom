@@ -52,6 +52,9 @@ query ResultsPage($assignmentId: uuid!) {
     invites(order_by: {created_at: desc}) {
     is_public
     join_code
+   user {
+   first_name
+   last_name}
     created_at
       submissions(where: {score_report: {_is_null: false}}, order_by: {scoreReportByScoreReport: {created_at: desc}}) {
         id
