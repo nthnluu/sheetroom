@@ -9,6 +9,7 @@ import {useMutation} from "urql";
 import {updateProfileData} from "../lib/graphql/User";
 import InfoSnackbar from "../components/Snackbars/InfoSnackbar";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Head from "next/head";
 
 interface Props {
     session: any;
@@ -41,6 +42,9 @@ const Dashboard: React.FC<Props> = ({session, profileData}) => {
 
     return (
         <>
+            <Head>
+                <title>Settings | Sheetroom</title>
+            </Head>
             <InfoSnackbar label="✅ Profile settings updated!" isOpen={profileSnackbar}
                           onClose={() => toggleProfileSnackbar(false)}/>
             <DeleteAccountModal onCancel={() => toggleDeleteAccountModal(false)}

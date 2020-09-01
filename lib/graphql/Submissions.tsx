@@ -53,7 +53,7 @@ query GetSubmission($submissionId: uuid!){
 
 export const getSubmissionsFromClassWithUser = gql`
 query SubmissionForStudentInClass($userId: Int!, $classId: uuid!) {
-  assignments_submission(where: {studentProfile: {student: {_eq: $userId}, class: {_eq: $classId}}}, order_by: {scoreReportByScoreReport: {created_at: desc}}) {
+  assignments_submission(where: {studentProfile: {student: {_eq: $userId}, class: {_eq: $classId}}, is_complete: {_eq: true}}, order_by: {scoreReportByScoreReport: {created_at: desc}}) {
     inviteByInvite {
     submissions_aggregate(where: {studentProfile: {student: {_eq: $userId}}}) {
         aggregate {

@@ -4,6 +4,7 @@ import Navbar from "../components/PageLayouts/AppLayout/Navbar";
 import Divider from '@material-ui/core/Divider';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useRouter} from "next/router";
+import Head from "next/head";
 
 
 export default function SignIn() {
@@ -15,6 +16,9 @@ export default function SignIn() {
 
     return (
         <>
+            <Head>
+                <title>Sheetroom</title>
+            </Head>
             <Navbar logoOnly unfixed/>
             <div className="flex justify-center">
                 <div className="space-y-4 p-4 mt-32 md:mt-48 md:mt-56 h-full">

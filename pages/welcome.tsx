@@ -5,8 +5,8 @@ import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import {getSession} from "next-auth/client";
 import {useMutation} from "urql";
 import {me, onboardUser} from "../lib/graphql/User";
-import Navbar from "../components/PageLayouts/AppLayout/Navbar";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Head from "next/head";
 
 const StepOne: React.FC<{ onContinue, currentValue, onChange }> = ({onContinue, currentValue, onChange}) => {
     return (<div>
@@ -215,7 +215,7 @@ const StepFour: React.FC<{ onContinue, onBack }> = ({onContinue, onBack}) => {
         <div className="mt-4 text-left">
             <div className="relative flex items-start">
                 <div className="flex items-center h-5">
-                    <input id="offers" type="checkbox" onClick={event => toggleIsAgreed(!isAgreed)} className="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out" />
+                    <input id="offers" type="checkbox" onClick={() => toggleIsAgreed(!isAgreed)} className="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out" />
                 </div>
                 <div className="ml-3 leading-5">
                     <label htmlFor="offers" className="font-medium text-gray-700">I accept the terms and conditions </label>
@@ -247,6 +247,9 @@ const WelcomePage: InferGetServerSidePropsType<typeof getServerSideProps> = ({se
 
     return (
         <>
+            <Head>
+                <title>Welcome | Sheetroom</title>
+            </Head>
             <div>
                 <div className="max-w-xl mx-auto h-screen flex items-center">
                     <div className="w-full p-4 md:p-6 text-center text-gray-800">

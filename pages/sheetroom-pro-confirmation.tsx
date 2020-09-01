@@ -2,13 +2,17 @@ import Navbar from "../components/PageLayouts/AppLayout/Navbar";
 import React from "react";
 import {GetServerSideProps} from "next";
 import CheckForUser from "../lib/CheckForUser";
+import Head from "next/head";
 
 const SheetroomProConfirmation = ({session, profileData}) => {
     return <div>
+        <Head>
+            <title>Sheetroom</title>
+        </Head>
         <div className="z-50">
             <Navbar session={session} profileData={profileData} unfixed/>
         </div>
-        <img className="mx-auto" src="/tasks.svg"/>
+        <img alt="" className="mx-auto" src="/tasks.svg"/>
 
         <h1 className="text-4xl font-bold text-center text-gray-800">Thank you for purchasing Sheetroom Pro!</h1>
         <h2 className="text-xl text-gray-500 text-center">You now have access to the best, all-in-one classwork solution.</h2>

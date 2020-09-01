@@ -1,6 +1,5 @@
 import {useRouter} from 'next/router'
 import {useSubscription, useMutation} from "urql";
-import {getSession} from "next-auth/client";
 import Head from 'next/head'
 import React, {useCallback, useEffect, useState} from "react";
 import QuizContext from "../../components/AssignmentEditor/QuizContext";
@@ -78,7 +77,7 @@ const PageContent: React.FC<{ pageData, aid: string, session: string, profileDat
             setCurrentPage
         }}>
             {/*// @ts-ignore*/}
-            <EditorLayout aid={aid} pageData={pageData} windowTitle="Sheetroom" session={session} profileData={profileData}/>
+            <EditorLayout aid={aid} pageData={pageData} session={session} profileData={profileData}/>
         </QuizContext.Provider>
     )
 };
@@ -106,7 +105,7 @@ const ErrorScreen = () => {
         </Head>
         <div className="mx-auto p-3">
 
-            <img className="h-36 mx-auto text-center" src="https://i.imgur.com/jZR71Ox.png"/>
+            <img alt="" className="h-36 mx-auto text-center" src="https://i.imgur.com/jZR71Ox.png"/>
             <h1 className="text-center text-gray-600 mt-6 text-lg font-semibold">Sorry, the assignment you're looking
                 for does not exist.</h1>
             <h1 className="text-center text-gray-400 mt-2 text-sm">Make sure you have entered the correct URL.</h1>
