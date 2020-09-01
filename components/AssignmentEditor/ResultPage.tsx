@@ -39,6 +39,8 @@ const ResultPage = () => {
     if (fetching) return <LoadingPlaceholder/>
 
     return (<div className="space-y-16">
+
+
         {data.assignments_assignment_by_pk.invites.length > 0 ? data.assignments_assignment_by_pk.invites.map(invite => <div>
             <div className="lg:flex lg:items-center lg:justify-between">
                 <div className="flex-1 min-w-0">
@@ -98,68 +100,51 @@ const ResultPage = () => {
             </div>
             <div className="flex flex-col mt-4">
                 <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                    {invite.submissions.length > 0 ? <div className="flex flex-col">
+                        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                <div className="shadow overflow-hidden border-b border-gray-200 rounded-lg">
+                                    <table className="min-w-full divide-y divide-gray-200">
+                                        <thead>
+                                        <tr>
+                                            {!invite.is_public ?  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                                Name
+                                            </th> : null}
 
+                                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                                Score
+                                            </th>
+                                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                                Submitted at
+                                            </th>
+                                            <th className="px-6 py-3 bg-gray-50"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                        {invite.submissions.map((submission, index) =><tr>
+                                            {!invite.is_public ? <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                                                {`${submission.studentProfile.user.first_name} ${submission.studentProfile.user.last_name}`}
+                                            </td> : null}
 
-                    {invite.submissions.length > 0 ? <div
-                            className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                <tr>
-                                    {invite.is_public ? null :
-                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                            Name
-                                        </th>}
-                                    <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Score
-                                    </th>
-                                    <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Submitted at
-                                    </th>
-                                    <th className="px-6 py-3 bg-gray-50"/>
-                                </tr>
-                                </thead>
-                                <tbody>{invite.submissions.map((submission, index) => {
-                                    if (index % 2 === 0) {
-                                        return (submission.scoreReportByScoreReport ? <tr className="bg-gray-50">
-                                            {invite.is_public ? null :
-                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                                    {`${submission.studentProfile.user.first_name} ${submission.studentProfile.user.last_name}`}
-                                                </td>}
                                             <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                                 {submission.scoreReportByScoreReport.earned_points}/{submission.scoreReportByScoreReport.total_points} ({((submission.scoreReportByScoreReport.earned_points / submission.scoreReportByScoreReport.total_points) * 100).toFixed(2)}%)
                                             </td>
                                             <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                {moment(submission.scoreReportByScoreReport.created_at).format("ddd MMM DD, YYYY hh:mm A")}
+                                                {moment(submission.scoreReportByScoreReport.created_at).format("ddd MMM DD, YYYY h:mm A")}
                                             </td>
                                             <td className="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                                <a href={"/results/" + submission.id}
-                                                   className="text-blue-600 hover:text-blue-900">View</a>
+                                                <a href={"/results/" + submission.id} className="text-blue-600 hover:text-blue-900">View</a>
                                             </td>
-                                        </tr> : null)
-                                    } else {
-                                        return (submission.scoreReportByScoreReport ? <tr className="bg-white">
-                                            {invite.is_public ? null :
-                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                                    Jane Cooper
-                                                </td>}
-                                            <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                {submission.scoreReportByScoreReport.earned_points}/{submission.scoreReportByScoreReport.total_points} ({((submission.scoreReportByScoreReport.earned_points / submission.scoreReportByScoreReport.total_points) * 100).toFixed(2)}%)
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                {moment(submission.scoreReportByScoreReport.created_at).format("ddd MMM DD, YYYY hh:mm A")}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                                <a href={"/results/" + submission.id}
-                                                   className="text-blue-600 hover:text-blue-900">View</a>
-                                            </td>
-                                        </tr> : null)
-                                    }
-                                })}</tbody>
-                            </table>
-                        </div> :
-                        <p className="w-full bg-gray-200 opacity-75 p-2 text-center rounded-lg">There aren't any submissions to
-                            display.</p>}
-                    {/*// <!-- More rows... -->*/}
+                                        </tr>)}
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div> :  <p className="w-full bg-gray-200 opacity-75 p-2 text-center rounded-lg">There aren't any submissions to
+                        display.</p>}
 
                 </div>
             </div>
