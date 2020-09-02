@@ -54,7 +54,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId,  profile
 
     const defaultConfig = {
         "dueDateEnabled": false,
-        "dueDate": moment(),
+        "dueDate": new Date(),
         "multipleAttempts": false,
         "multipleAttemptsScoring": "1",
         "allowedAttempts": "1",
