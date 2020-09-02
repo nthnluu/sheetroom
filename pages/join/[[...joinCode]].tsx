@@ -50,11 +50,11 @@ const InviteFetch = ({joinCode, profileData, session}) => {
                 } else {
                     if (session) {
                         if (data.processJoinCode.payload.classByClass.studentProfiles.length > 0 || data.processJoinCode.payload.user.id === session.id) {
-                            return <AssignmentCard inviteId={data.processJoinCode.payload.id}
+                            return <><AssignmentCard inviteId={data.processJoinCode.payload.id}
                                                    userAttempts={data.processJoinCode.payload.submissions_aggregate.aggregate.count}
                                 firstName={data.processJoinCode.payload.user.first_name}
                                 lastName={data.processJoinCode.payload.user.last_name}
-                                title={data.processJoinCode.payload.assignmentByAssignment.title} config={data.processJoinCode.payload.config}/>
+                                title={data.processJoinCode.payload.assignmentByAssignment.title} config={data.processJoinCode.payload.config}/><JsonDebugBox content={data}/></>
                         } else {
                             return <JoinCode error/>
                         }

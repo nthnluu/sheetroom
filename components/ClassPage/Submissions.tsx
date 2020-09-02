@@ -53,7 +53,7 @@ const Submissions = ({course, session}) => {
                     <div className="bg-white shadow overflow-hidden rounded-md">
                         <ul className="divide-y divide-gray-200">
                             {data.assignments_submission.map(submission => <li>
-                                <a href="#"
+                                <a href={"/results/" + submission.id}
                                    className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
                                     <div className="px-4 py-4 flex items-center sm:px-6">
                                         <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
@@ -63,14 +63,11 @@ const Submissions = ({course, session}) => {
                                                 </div>
                                                 <div className="mt-2 flex">
                                                     <div className="flex items-center text-sm leading-5 text-gray-400">
-                                                        <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-                                                             viewBox="0 0 20 20" fill="currentColor">
-                                                            <path fillRule="evenodd"
-                                                                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                                                  clipRule="evenodd"/>
+                                                        <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                         </svg>
                                                         <span>
-                                                            {`Submitted on ${moment(submission.scoreReportByScoreReport.created_at).format('dddd MMM D yyy')}`}
+                                                            {`Submitted at ${moment(submission.scoreReportByScoreReport.created_at).format('hh:mm a on dddd MMM D, yyy ')}`}
                         </span>
                                                     </div>
                                                 </div>

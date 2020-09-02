@@ -39,6 +39,11 @@ const NoSubmissionsPlaceholder = () => {
     </div>)
 }
 
+function myFixed(x, d) {
+    if (!d) return x.toFixed(d); // don't go wrong if no decimal
+    return x.toFixed(d).replace(/\.?0+$/, '');
+}
+
 const PageContent = ({session, profileData, data}) => {
     const assignmentConfig = JSON.parse(data.assignments_invite_by_pk.config)
 
@@ -48,6 +53,7 @@ const PageContent = ({session, profileData, data}) => {
 
         return Math.floor(duration.asHours()) + moment.utc(ms).format(":mm:ss")
     }
+
 
     const getAverageTime = () => {
         const durations = data.assignments_invite_by_pk.submissions.map(submission => {
@@ -74,7 +80,7 @@ const PageContent = ({session, profileData, data}) => {
         const avgNum = numerator / data.assignments_invite_by_pk.submissions.length
         const avgDemon = denom / data.assignments_invite_by_pk.submissions.length
 
-        return {score: `${avgNum}/${avgDemon}`, percent: `${((avgNum / avgDemon) * 100).toFixed(2)}`}
+        return {score: `${myFixed(avgNum, 2)}/${myFixed(avgDemon, 2)}`, percent: `${myFixed(((avgNum / avgDemon) * 100), 2)}`}
     }
 
 
@@ -245,9 +251,9 @@ const PageContent = ({session, profileData, data}) => {
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead>
                                     <tr>
-                                        <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                        {!data.assignments_invite_by_pk.is_public ? <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                             Name
-                                        </th>
+                                        </th> : null}
                                         <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                             Score
                                         </th>
@@ -264,9 +270,10 @@ const PageContent = ({session, profileData, data}) => {
 
                                     {data.assignments_invite_by_pk.submissions.map(submission => <tr
                                         key={submission.id}>
-                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                                        {!data.assignments_invite_by_pk.is_public ? <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
                                             {`${submission.studentProfile.user.first_name} ${submission.studentProfile.user.last_name}`}
-                                        </td>
+                                        </td> : null}
+
                                         <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                             {`${submission.scoreReportByScoreReport.earned_points}/${(submission.scoreReportByScoreReport.total_points)} (${((submission.scoreReportByScoreReport.earned_points / submission.scoreReportByScoreReport.total_points) * 100).toFixed(2)}%)`}
                                         </td>
