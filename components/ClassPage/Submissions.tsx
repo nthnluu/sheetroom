@@ -22,7 +22,7 @@ const LoadingPlaceholder: React.FC = () => {
 };
 
 
-const NoStudentsPlaceholder = ({joinCode}) => {
+const NoStudentsPlaceholder = () => {
     return (<div className="mx-auto opacity-25 m-12">
         <img src="/paper-plane.svg" className="h-32 mx-auto" alt=""/>
         <p className="text-center mt-2">There aren't any submissions to display.</p>
@@ -89,7 +89,7 @@ const Submissions = ({course, session}) => {
                             </li>)}
                         </ul>
                     </div>
-                </> : <NoStudentsPlaceholder joinCode={course.join_code}/>}
+                </> : <NoStudentsPlaceholder />}
             </>)
     }
 

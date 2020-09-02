@@ -29,6 +29,12 @@ const LoadingPlaceholder: React.FC = () => {
     )
 };
 
+const NoSubmissionsPlaceholder = () => {
+    return (<div className="mx-auto opacity-25 m-12">
+        <img src="/paper-plane.svg" className="h-32 mx-auto" alt=""/>
+        <p className="text-center mt-2">There aren't any submissions to display.</p>
+    </div>)
+}
 
 const PageContent = ({session, profileData, data}) => {
     const assignmentConfig = JSON.parse(data.assignments_invite_by_pk.config)
@@ -122,8 +128,12 @@ const PageContent = ({session, profileData, data}) => {
     const [inviteSettingsModal, toggleInviteSettingsModal] = useState(false)
 
     return <div className="bg-gray-50 min-h-screen">
-        <InviteSettingsModal inviteId={data.assignments_invite_by_pk.id} onCancel={() => toggleInviteSettingsModal(false)} settingsObject={assignmentConfig} isOpen={inviteSettingsModal} profileData={profileData} session={session}/>
-        <JoinCodeModal joinCode={data.assignments_invite_by_pk.join_code} title={data.assignments_invite_by_pk.assignmentByAssignment.title} onCancel={() => toggleJoinCodeModal(false)} isOpen={joinCodeModal}/>
+        <InviteSettingsModal inviteId={data.assignments_invite_by_pk.id}
+                             onCancel={() => toggleInviteSettingsModal(false)} settingsObject={assignmentConfig}
+                             isOpen={inviteSettingsModal} profileData={profileData} session={session}/>
+        <JoinCodeModal joinCode={data.assignments_invite_by_pk.join_code}
+                       title={data.assignments_invite_by_pk.assignmentByAssignment.title}
+                       onCancel={() => toggleJoinCodeModal(false)} isOpen={joinCodeModal}/>
         <Navbar session={session} unfixed profileData={profileData}/>
         <div className="max-w-5xl mx-auto px-2 mt-16">
             <div className="flex-row sm:flex justify-between items-center mb-12">
@@ -176,8 +186,8 @@ const PageContent = ({session, profileData, data}) => {
                 </div>
 
             </div>
-
-            <div>
+            {data.assignments_invite_by_pk.submissions.length ?
+            <><div>
                 <h3 className="text-lg leading-6 font-medium text-gray-900">
                     Overview
                 </h3>
@@ -227,51 +237,57 @@ const PageContent = ({session, profileData, data}) => {
                 </h3>
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 mt-2">
                     <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                <tr>
-                                    <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Name
-                                    </th>
-                                    <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Score
-                                    </th>
-                                    <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Submitted at
-                                    </th>
-                                    <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                        Time taken
-                                    </th>
-                                    <th className="px-6 py-3 bg-cool-gray-50"/>
-                                </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                {data.assignments_invite_by_pk.submissions.map(submission => <tr key={submission.id}>
-                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                        {`${submission.studentProfile.user.first_name} ${submission.studentProfile.user.last_name}`}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                        {`${submission.scoreReportByScoreReport.earned_points}/${(submission.scoreReportByScoreReport.total_points)} (${((submission.scoreReportByScoreReport.earned_points / submission.scoreReportByScoreReport.total_points) * 100).toFixed(2)}%)`}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                        {moment(submission.scoreReportByScoreReport.created_at).format("hh:mm a on ddd, MMM d yyy")}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                        {getTimeDiff(submission.scoreReportByScoreReport.created_at, submission.created_at)}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                        <a href={"/results/" + submission.id}
-                                           className="text-blue-600 hover:text-blue-900">View</a>
-                                    </td>
-                                </tr>)}
 
-                                </tbody>
-                            </table>
-                        </div>
+                            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead>
+                                    <tr>
+                                        <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                            Name
+                                        </th>
+                                        <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                            Score
+                                        </th>
+                                        <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                            Submitted at
+                                        </th>
+                                        <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                            Time taken
+                                        </th>
+                                        <th className="px-6 py-3 bg-cool-gray-50"/>
+                                    </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+
+                                    {data.assignments_invite_by_pk.submissions.map(submission => <tr
+                                        key={submission.id}>
+                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                                            {`${submission.studentProfile.user.first_name} ${submission.studentProfile.user.last_name}`}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                            {`${submission.scoreReportByScoreReport.earned_points}/${(submission.scoreReportByScoreReport.total_points)} (${((submission.scoreReportByScoreReport.earned_points / submission.scoreReportByScoreReport.total_points) * 100).toFixed(2)}%)`}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                            {moment(submission.scoreReportByScoreReport.created_at).format("hh:mm a on ddd, MMM d yyy")}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                            {getTimeDiff(submission.scoreReportByScoreReport.created_at, submission.created_at)}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                                            <a href={"/results/" + submission.id}
+                                               className="text-blue-600 hover:text-blue-900">View</a>
+                                        </td>
+                                    </tr>)}
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
                     </div>
                 </div>
-            </div>
+            </div></>:
+                <NoSubmissionsPlaceholder/>}
 
 
         </div>
