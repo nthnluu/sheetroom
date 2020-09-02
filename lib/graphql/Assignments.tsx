@@ -50,24 +50,19 @@ export const getSubmissionsForAssignment = gql`
 query ResultsPage($assignmentId: uuid!) {
   assignments_assignment_by_pk(id: $assignmentId) {
     invites(order_by: {created_at: desc}) {
+    id
     is_public
     join_code
+      classByClass {
+        title
+      }
    user {
    first_name
    last_name}
     created_at
-      submissions(where: {score_report: {_is_null: false}}, order_by: {scoreReportByScoreReport: {created_at: desc}}) {
-        id
-        studentProfile {
-          user {
-            first_name
-            last_name
-          }
-        }
-        scoreReportByScoreReport {
-        created_at
-          total_points
-          earned_points
+      submissions_aggregate(where: {score_report: {_is_null: false}}, order_by: {scoreReportByScoreReport: {created_at: desc}}) {
+        aggregate {
+          count
         }
       }
     }

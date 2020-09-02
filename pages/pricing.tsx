@@ -199,6 +199,18 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                         Unlimited Classes
                                                     </p>
                                                 </li>
+                                                <li className="flex items-start">
+                                                    <div className="flex-shrink-0">
+                                                        <svg className="h-6 w-6 text-green-500" fill="none"
+                                                             viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                                  strokeWidth={2} d="M5 13l4 4L19 7"/>
+                                                        </svg>
+                                                    </div>
+                                                    <p className="ml-3 text-base leading-6 text-gray-700">
+                                                        Image uploads
+                                                    </p>
+                                                </li>
                                                 {/*<li className="flex items-start">*/}
                                                 {/*    <div className="flex-shrink-0">*/}
                                                 {/*        <svg className="h-6 w-6 text-green-500" fill="none"*/}
@@ -230,7 +242,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                         <button onClick={handleClick}
                                                                 className="flex w-full items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
                                                                 aria-describedby="tier-standard">
-                                                            Change plan
+                                                            Upgrade
                                                         </button>
                                                     </div> : <div className="rounded-md opacity-25">
                                                 <span

@@ -77,3 +77,32 @@ query GetAssignmentInvites($assignmentId: uuid!) {
     __typename
   }
 }`
+
+export const invitePage = gql`
+subscription InvitePage($inviteId: uuid!) {
+  assignments_invite_by_pk(id: $inviteId) {
+    config
+    
+    assignmentByAssignment {
+      title
+    }
+    
+    submissions(order_by: {scoreReportByScoreReport: {created_at: desc_nulls_last}}) {
+      created_at
+      id
+      studentProfile {
+        user  {
+          first_name
+          last_name
+        }
+      }
+      
+      scoreReportByScoreReport {
+        total_points
+        earned_points
+        created_at
+      }
+      
+    }
+  }
+}`

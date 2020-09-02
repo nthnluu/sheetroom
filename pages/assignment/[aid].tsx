@@ -154,10 +154,6 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
                               open={true}>
         <div className="p-2 pr-4">
             <DialogTitle id="simple-dialog-title">There was a problem loading this assignment</DialogTitle>
-            <DialogContent>
-                <p>{JSON.stringify(error)}</p>
-            </DialogContent>
-
             <DialogActions>
                 <button type="button" onClick={() => window.location.reload()}
                         className="inline-flex items-center px-4 py-2 border border-transparent text-gray-600 text-base leading-6 font-medium rounded-md text-white bg-transparent hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:shadow-outline active:bg-gray-200 transition ease-in-out duration-150">
