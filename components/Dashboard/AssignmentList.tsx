@@ -72,8 +72,7 @@ const StudentListItem = ({item}) => {
                             </span>
                                 {listConfig.dueDateEnabled ? <div>Due
                                     on {moment(listConfig.dueDate).format('ddd, MMM DD')} at {moment(listConfig.dueDate).format('h:mm A')}</div> : null}
-                                {!listConfig.multipleAttempts ? <div>1 attempt allowed</div> :
-                                    <span>{`Attempt ${item.submissions_aggregate.aggregate.count} of ${listConfig.allowedAttempts}`}</span>}
+                                {!listConfig.multipleAttempts ? <div>1 attempt allowed</div> : (listConfig.allowedAttempts ? <div>{`Attempt ${item.submissions_aggregate.aggregate.count} of ${listConfig.allowedAttempts}`}</div> : <div>Unlimited attempts</div>)}
                             </div>
 
                         </p>
