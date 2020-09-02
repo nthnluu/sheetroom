@@ -77,10 +77,10 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                             </> : (!logoOnly ? <div className="flex hidden lg:block">
                                 <a href="#"
                                    className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Features</a>
-                                <a href="#"
-                                   className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Institutions</a>
-                                <a href="#"
-                                   className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Explore</a>
+                                {/*<a href="#"*/}
+                                {/*   className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Institutions</a>*/}
+                                {/*<a href="#"*/}
+                                {/*   className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Explore</a>*/}
                                 <a href="#"
                                    className={(darkText ? "text-gray-800 hover:opacity-75  focus:opacity-75 focus:shadow-outline" : "text-gray-200 hover:text-white  focus:text-white focus:bg-gray-800") + " px-3 py-2 rounded-md text-sm leading-5 font-medium focus:outline-none transition duration-150 ease-in-out"}>Blog</a>
                                 <a href="/pricing"
@@ -310,17 +310,17 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                             <span>Features</span>
                                         </a>
                                     </li>
-                                    <li className="flow-root">
-                                        <a href="#"
-                                           className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
-                                            <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
-                                                 viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                                      d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
-                                            </svg>
-                                            <span>For Institutions</span>
-                                        </a>
-                                    </li>
+                                    {/*<li className="flow-root">*/}
+                                    {/*    <a href="#"*/}
+                                    {/*       className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">*/}
+                                    {/*        <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"*/}
+                                    {/*             viewBox="0 0 24 24" stroke="currentColor">*/}
+                                    {/*            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"*/}
+                                    {/*                  d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>*/}
+                                    {/*        </svg>*/}
+                                    {/*        <span>For Institutions</span>*/}
+                                    {/*    </a>*/}
+                                    {/*</li>*/}
                                     <li className="flow-root">
                                         <a href="#"
                                            className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">

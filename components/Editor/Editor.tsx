@@ -11,10 +11,12 @@ interface Props {
     placeholder?: string;
     border?: boolean;
     uniqueKey?: string
+    insertGraph?: any;
+    insertImage?: any;
 }
 
 
-const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border}) => {
+const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border, insertGraph, insertImage}) => {
     const [isFocused, setIsFocused] = useState(false);
     const uniqueKey = useMemo(() => uuidv4(), []);
 
@@ -60,7 +62,7 @@ const Editor: React.FC<Props> = ({active, value, onChange, placeholder, border})
 
                 }}/>
                 <div className={"absolute right-0 bottom-0 " + (border ? "m-1" : null)}>
-                    <AddButton quillRef={reactQuillRef} isFocused={isFocused}/>
+                    <AddButton quillRef={reactQuillRef} isFocused={isFocused} onInsertGraph={insertGraph} onInsertImage={insertImage}/>
                 </div>
             </div>
 

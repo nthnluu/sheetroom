@@ -87,7 +87,7 @@ const StudentListItem = ({item}) => {
 }
 
 
-const AssignmentListItem = ({item, session, toggleModal, setAssignmentId}) => {
+const AssignmentListItem = ({item, session, toggleModal, setAssignmentId, profileData}) => {
     const [shareDialog, toggleShareDialog] = useState(false)
     const [dropdown, toggleDropdown] = useState(false);
 
@@ -95,7 +95,7 @@ const AssignmentListItem = ({item, session, toggleModal, setAssignmentId}) => {
         <>
             <li
                 className="relative pl-4 pr-4 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
-                <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session}
+                <ShareAssignmentModal profileData={profileData} isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session}
                                       assignmentId={item.id}/>
                 <div className="flex items-center justify-between space-x-4">
                     {/* Repo name and link */}
@@ -220,7 +220,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
             {profileData.data.users_by_pk.account_type === "teacher" ?
                 <ul className="relative z-0 border-b  divide-y divide-gray-200 border-gray-200">
                     {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item =>
-                        <AssignmentListItem setAssignmentId={setAssignmentId} toggleModal={toggleModal} item={item}
+                        <AssignmentListItem profileData={profileData} setAssignmentId={setAssignmentId} toggleModal={toggleModal} item={item}
                                             key={item.id} session={session}/>) : <div className="my-8 text-center">
                         <img alt="" src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
                         {profileData.data.users_by_pk.account_type === "teacher" ?

@@ -7,6 +7,7 @@ import {updateAssignmentTitle} from "../../lib/graphql/Assignments";
 import ShareAssignmentModal from "../Modals/ShareAssignmentModal";
 import {useReactToPrint} from "react-to-print";
 import AssignmentPrintRenderer from "./AssignmentPrintRenderer";
+import JsonDebugBox from "../JsonDebugBox";
 
 
 
@@ -41,6 +42,7 @@ const Navbar = ({session, content, pageData, profileData}) => {
                 {/*@ts-ignore*/}
                 <AssignmentPrintRenderer ref={componentRef} document={pageData.assignments_assignment_by_pk.content} title={pageData.assignments_assignment_by_pk.title}/>
             </div>
+
 
 
             <div className="w-full z-50">
@@ -156,7 +158,7 @@ const Navbar = ({session, content, pageData, profileData}) => {
                     </nav>
                 </div>
                 <div className="h-full">
-                    <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)}
+                    <ShareAssignmentModal isOpen={shareDialog} profileData={profileData} onCancel={() => toggleShareDialog(false)}
                                           session={session}
                                           assignmentId={aid}/>
                     {content}

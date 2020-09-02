@@ -9,14 +9,15 @@ interface Props {
     section: string;
     condensed: boolean;
     sectionIndex?: number;
+    profileData: any;
 }
 
-const ActiveContent: React.FC<Props> = ({item, itemIndex, section, condensed, sectionIndex}) => {
+const ActiveContent: React.FC<Props> = ({item, itemIndex, section, condensed, sectionIndex, profileData}) => {
 
     return (
         <div
             className="flex flex-grow-0 justify-between text-left z-40">
-            <CardFrame itemIndex={itemIndex} section={section} condensed={false}
+            <CardFrame itemIndex={itemIndex} section={section} condensed={false} profileData={profileData}
                        active={true} item={item} sectionIndex={sectionIndex}/>
         </div>
     )

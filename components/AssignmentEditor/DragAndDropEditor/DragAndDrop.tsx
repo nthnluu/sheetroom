@@ -8,9 +8,10 @@ interface Props {
     section: string;
     sectionIndex: any;
     collapseSection: any;
+    profileData: any;
 }
 
-export const ItemDnd: React.FC<Props> = ({section, sectionIndex, collapseSection}) => {
+export const ItemDnd: React.FC<Props> = ({section, sectionIndex, collapseSection, profileData}) => {
         const {document, currentItem, setCurrentItem} = useContext(QuizContext)
 
 
@@ -25,6 +26,7 @@ export const ItemDnd: React.FC<Props> = ({section, sectionIndex, collapseSection
                             {(provided, snapshot) => <div ref={provided.innerRef}
                                                           {...provided.draggableProps}>
                                 <ItemCard
+                                    profileData={profileData}
                                     collapseSection={collapseSection}
                                     sectionIndex={sectionIndex}
                                     snapshot={snapshot}
