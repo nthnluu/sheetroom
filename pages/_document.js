@@ -13,8 +13,6 @@ class MyDocument extends Document {
                     <link rel="stylesheet" href="https://rsms.me/inter/inter.css"/>
                     <style id="react-mathquill-styles"/>
                     <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
-                    <script crossorigin
-                            src="https://www.desmos.com/api/v1.5/geometry.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
 
                     {/*Font Awesome Icons*/}
                     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"

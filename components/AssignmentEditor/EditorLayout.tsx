@@ -17,9 +17,6 @@ const EditorLayout: React.FC<Props> = ({windowTitle, session, pageData, profileD
     return (
 
         <div className="min-h-screen bg-gray-100">
-            <Head>
-                <title>{windowTitle ? (windowTitle + " - Sheetroom") : "Sheetroom"}</title>
-            </Head>
             {/*// @ts-ignore*/}
 
             <Navbar  session={session} content={<Content profileData={profileData}/>} pageData={pageData} profileData={profileData}/>

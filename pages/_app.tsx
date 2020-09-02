@@ -3,16 +3,16 @@ import "katex/dist/katex.min.css";
 import '../styles/quill.bubble.css'
 import '../styles/datetimepicker.css'
 import {Provider as NextAuthProvider} from "next-auth/client";
-import type {AppContext, AppProps /*, AppContext */} from 'next/app'
+import type {AppProps /*, AppContext */} from 'next/app'
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import React, {useEffect} from "react";
 import WithGraphQL from "../lib/with-graphql";
 import {useAnalytics} from "../components/useAnalytics";
 import {Router} from "next/router";
-import SimpleModal from "../components/Modals/SimpleModal";
 import {Elements} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
 import { CloudinaryContext } from "cloudinary-react";
+import Head from "next/head";
 
 const stripePromise = loadStripe('pk_test_51HM11eI8UDkQvU4dcFBIfj4XvOA97im3W2WjzkzBGtxvaJV33L5txdtFvF0zCGIlbZJx0wu9YDYp7YT7mE7wFrMt00svbOJBLI');
 
@@ -57,6 +57,9 @@ const MyApp = ({Component, pageProps}: AppProps) => {
 
     return <CloudinaryContext cloudName="sheetroom"><Elements stripe={stripePromise}><NextAuthProvider session={session}><WithGraphQL session={session}>
         <ThemeProvider theme={MuiTheme}>
+            <Head>
+                <title>Sheetroom</title>
+            </Head>
             <Component {...pageProps} />
         </ThemeProvider>
     </WithGraphQL></NextAuthProvider></Elements></CloudinaryContext>;

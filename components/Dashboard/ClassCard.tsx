@@ -4,7 +4,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import JoinCodeModal from "../Modals/JoinCodeModal";
 
 
-const ClassCard = ({course}) => {
+const ClassCard = ({course, isTeacher}) => {
     const [dropdown, toggleDropdown] = useState(false);
     const [joinCodeModal, toggleJoinCodeModal] = useState(false);
 
@@ -47,7 +47,7 @@ const ClassCard = ({course}) => {
                     <p className="text-gray-500 truncate">{`${course.user.first_name} ${course.user.last_name}`}</p>}
 
             </div>
-            <ClickAwayListener onClickAway={() => toggleDropdown(false)}>
+            {isTeacher ? <ClickAwayListener onClickAway={() => toggleDropdown(false)}>
                 <div className="flex-shrink-0 pr-2">
                     <button id="pinned-project-options-menu-0" aria-haspopup="true"
                             onClick={() => toggleDropdown(!dropdown)}
@@ -72,8 +72,8 @@ const ClassCard = ({course}) => {
                                         toggleDropdown(false)
                                         toggleJoinCodeModal(true)
                                     }}
-                                       className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                       role="menuitem">Show join code</button>
+                                            className="block w-full text-left px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                            role="menuitem">Show join code</button>
                                 </div>
                                 <div className="py-1">
                                     <a href="#"
@@ -86,7 +86,8 @@ const ClassCard = ({course}) => {
                     </Transition>
 
                 </div>
-            </ClickAwayListener>
+            </ClickAwayListener> : null}
+
         </div>
     </li></>)
 }

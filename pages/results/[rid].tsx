@@ -1,15 +1,17 @@
 import {useRouter} from "next/router";
 import {GetServerSideProps} from "next";
-import React from "react";
+import React, {useState} from "react";
 import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {useQuery} from "urql";
-import {getSubmissionWithScore} from "../../lib/graphql/Submissions";
+import {useMutation, useQuery} from "urql";
+import {getSubmissionWithScore, scoreAssignment} from "../../lib/graphql/Submissions";
 import Navbar from "../../components/PageLayouts/AppLayout/Navbar";
 import moment from "moment";
 import ItemCard from "../../components/ResultsPage/ItemCard";
 import CheckForUser from "../../lib/CheckForUser";
 import myFixed from "../../lib/MyFixed";
+import Error from "next/error";
+import JsonDebugBox from "../../components/JsonDebugBox";
 
 const PageLayout: React.FC<{ session, data, status, sid }> = ({session, data, status, sid}) => {
     const inviteConfig = JSON.parse(data.inviteByInvite.config)
@@ -19,7 +21,7 @@ const PageLayout: React.FC<{ session, data, status, sid }> = ({session, data, st
             <div className="px-4 max-w-4xl mx-auto py-12">
                 {status === "success" ? <>
                     {inviteConfig.hideScore ? <div className="mb-12">
-                        <h1 className="text-4xl font-semibold text-gray-800 text-center">Assignment submitted
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 text-center">Assignment submitted
                             successfully.</h1>
                         <h2 className="text-xl text-gray-500 text-center">Your instructor has hidden your score and
                             responses.</h2>
@@ -96,18 +98,53 @@ const LoadingPlaceholder: React.FC = () => {
 };
 
 
-const ClassPage = ({session}) => {
+const InProgress = ({session, profileData, submissionId, data}) => {
+    const [scoreSubmissionResult, scoreSubmissionMutate] = useMutation(scoreAssignment)
+    const [isLoading, toggleIsLoading] = useState(false);
+
+    const submitAssignment = () => {
+        toggleIsLoading(true)
+        scoreSubmissionMutate({submissionId: submissionId})
+            .then(() => window.location.href = '/results/' + submissionId + '?status=success')
+            .catch(error => console.log(scoreSubmissionResult.error));
+    }
+
+    return <>
+        <Navbar session={session} profileData={profileData} unfixed/>
+        <div className="mt-24">
+            <svg className="h-16 mx-auto text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h1 className="text-center font-bold mt-4 text-xl text-gray-800">Assignment in progress</h1>
+            <p className="text-center text-gray-400">You can manually submit and score the assignment now.</p>
+            <button type="button" onClick={() => submitAssignment()} disabled={isLoading}
+                    className="mx-auto flex items-center px-3 py-2 border mt-8 border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline active:bg-blue-700 transition ease-in-out duration-150">
+                Submit assignment{isLoading ? <CircularProgress color="inherit" size={12} className="ml-2 h-auto"/> : <i className="fas fa-chevron-right ml-2"/>}
+            </button>
+        </div>
+    </>
+}
+
+const ClassPage = ({session, profileData}) => {
     const router = useRouter();
     const {rid, status} = router.query;
 
     const [result] = useQuery({query: getSubmissionWithScore, variables: {submissionId: rid}})
     const {data, fetching, error} = result
 
+    if (error) {
+        return <Error statusCode={404} />
+    }
 
     if (fetching && !data) {
         return <LoadingPlaceholder/>
     } else {
-        return <PageLayout sid={rid} session={session} data={data.assignments_submission_by_pk} status={status}/>
+        if (data.assignments_submission_by_pk.scoreReportByScoreReport) {
+            return <PageLayout sid={rid} session={session} data={data.assignments_submission_by_pk} status={status}/>
+        } else {
+            return <InProgress data={data} session={session} profileData={profileData} submissionId={rid}/>
+        }
+
     }
 }
 

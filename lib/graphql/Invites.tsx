@@ -116,3 +116,22 @@ export const updateInviteConfig = gql`
     __typename
   }
 }`
+
+export const getInvitesForClass = gql`
+query GetInvitesForClass($classId: uuid!) {
+  classes_class_by_pk(id: $classId) {
+    invites {
+    id
+    created_at
+      is_public
+      assignmentByAssignment {
+        title
+      }
+      submissions_aggregate(where: {score_report: {_is_null: false}}) {
+        aggregate {
+          count
+        }
+      }
+    }
+  }
+}`

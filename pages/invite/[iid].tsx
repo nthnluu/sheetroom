@@ -43,6 +43,8 @@ const NoSubmissionsPlaceholder = () => {
 const PageContent = ({session, profileData, data}) => {
     const assignmentConfig = JSON.parse(data.assignments_invite_by_pk.config)
 
+    const completeSubmissions = data.assignments_invite_by_pk.submissions.filter(element => (element.scoreReportByScoreReport))
+
     const getTimeDiff = (now, then) => {
         const ms = moment(now).diff(moment(then));
         const duration = moment.duration(ms);
@@ -52,31 +54,33 @@ const PageContent = ({session, profileData, data}) => {
 
 
     const getAverageTime = () => {
-        const durations = data.assignments_invite_by_pk.submissions.map(submission => {
+        const durations = completeSubmissions.map(submission => {
             const then = new Date(submission.created_at).getTime()
             const now = new Date(submission.scoreReportByScoreReport.created_at).getTime()
             return now - then
         })
 
         const numerator = durations.reduce((a, b) => a + b, 0)
-        const numSubmissions = data.assignments_invite_by_pk.submissions.length
+        const numSubmissions = completeSubmissions.length
 
         const avgDurationMs = numerator / numSubmissions
         let result = Math.floor(avgDurationMs / (1000 * 60 * 60)) + ":" + Math.floor(avgDurationMs / (1000 * 60)) % 60 + ":" + Math.floor(avgDurationMs / 1000) % 60;
-        return result
+        return numSubmissions === 0 ? "00:00:00" : result
     }
 
     const getAverageScore = () => {
-        const earnedPoints = data.assignments_invite_by_pk.submissions.map(submission => (submission.scoreReportByScoreReport.earned_points))
-        const totalPoints = data.assignments_invite_by_pk.submissions.map(submission => (submission.scoreReportByScoreReport.total_points))
+        const earnedPoints = completeSubmissions.map(submission => (submission.scoreReportByScoreReport.earned_points))
+        const totalPoints = completeSubmissions.map(submission => (submission.scoreReportByScoreReport.total_points))
 
         const numerator = earnedPoints.reduce((a, b) => a + b, 0)
         const denom = totalPoints.reduce((a, b) => a + b, 0)
 
-        const avgNum = numerator / data.assignments_invite_by_pk.submissions.length
-        const avgDemon = denom / data.assignments_invite_by_pk.submissions.length
+        const avgNum = myFixed(numerator / completeSubmissions.length, 2)
+        const avgDemon = myFixed(denom / completeSubmissions.length, 2)
+        const percentage = myFixed(((avgNum / avgDemon) * 100), 2)
 
-        return {score: `${myFixed(avgNum, 2)}/${myFixed(avgDemon, 2)}`, percent: `${myFixed(((avgNum / avgDemon) * 100), 2)}`}
+
+        return {score: `${isNaN(avgNum) ? 0 : avgNum}/${isNaN(avgDemon) ? 0 : avgDemon}`, percent: `${isNaN(percentage) ? 0 : percentage}`}
     }
 
 
@@ -271,13 +275,13 @@ const PageContent = ({session, profileData, data}) => {
                                         </td> : null}
 
                                         <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                            {`${submission.scoreReportByScoreReport.earned_points}/${(submission.scoreReportByScoreReport.total_points)} (${((submission.scoreReportByScoreReport.earned_points / submission.scoreReportByScoreReport.total_points) * 100).toFixed(2)}%)`}
+                                            {`${submission.scoreReportByScoreReport ? submission.scoreReportByScoreReport.earned_points : "--"}/${submission.scoreReportByScoreReport ? submission.scoreReportByScoreReport.total_points : "--"} (${submission.scoreReportByScoreReport ?((submission.scoreReportByScoreReport.earned_points / submission.scoreReportByScoreReport.total_points) * 100).toFixed(2) : "--"}%)`}
                                         </td>
                                         <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                            {moment(submission.scoreReportByScoreReport.created_at).format("hh:mm a on ddd, MMM d yyy")}
+                                            {submission.scoreReportByScoreReport ? moment(submission.scoreReportByScoreReport.created_at).format("h:mm a on ddd, MMM d yyy") : "In Progress"}
                                         </td>
                                         <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                            {getTimeDiff(submission.scoreReportByScoreReport.created_at, submission.created_at)}
+                                            {submission.scoreReportByScoreReport ? getTimeDiff(submission.scoreReportByScoreReport.created_at, submission.created_at) : "--:--:--"}
                                         </td>
                                         <td className="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                                             <a href={"/results/" + submission.id}
