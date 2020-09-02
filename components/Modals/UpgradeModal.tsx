@@ -4,9 +4,10 @@ import React from "react";
 interface Props {
     onCancel: any;
     isOpen: boolean;
+    title?: string;
 }
 
-const UpgradeModal: React.FC<Props> = ({onCancel, isOpen}) => {
+const UpgradeModal: React.FC<Props> = ({onCancel, isOpen, title}) => {
 
     function cancelModal() {
         onCancel();
@@ -31,7 +32,7 @@ const UpgradeModal: React.FC<Props> = ({onCancel, isOpen}) => {
 
         </div>
         {/*@ts-ignore*/}
-    </div>} isOpen={isOpen} onCancel={cancelModal} title="This feature requires Sheetroom Pro" content={<div>
+    </div>} isOpen={isOpen} onCancel={cancelModal} title={title ? title : "This feature requires Sheetroom Pro"} content={<div>
         <img src="/upgrade_pic.svg"/>
         <h2 className="text-xl font-bold text-center mt-4">Get full, unlimited access to Sheetroom.</h2>
         <p className="text-center text-gray-400">Upgrade to Sheetroom Pro starting at $6/month</p>

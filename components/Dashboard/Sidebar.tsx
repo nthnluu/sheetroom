@@ -1,14 +1,16 @@
 import React from "react";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 
 interface Props {
     session: string;
     profile: any;
+    proData: any;
 }
 
 
-const Sidebar: React.FC<Props> = ({session, profile}) => {
+const Sidebar: React.FC<Props> = ({session, profile, proData}) => {
     return (
         <>
         <div className="xl:flex-shrink-0 xl:w-64 xl:border-r xl:border-gray-200 bg-white">
@@ -49,6 +51,17 @@ const Sidebar: React.FC<Props> = ({session, profile}) => {
                                 </a>
                             </div>
                         </div>
+                        {profile.data.users_by_pk.is_pro ? null : <div>
+                            <div className="text-sm mb-2 text-gray-700 font-medium">Assignments <span className="font-light">{proData.assignments_assignment_aggregate.aggregate.count}/10</span></div>
+                            <LinearProgress variant="determinate" value={((proData.assignments_assignment_aggregate.aggregate.count / 10) * 100 <= 100) ? ((proData.assignments_assignment_aggregate.aggregate.count / 10) * 100) : 100} />
+                            <div className="text-sm mb-2 text-gray-700 font-medium mt-4">Classes <span className="font-light">{proData.classes_class_aggregate.aggregate.count}/10</span></div>
+                            <LinearProgress variant="determinate" value={((proData.classes_class_aggregate.aggregate.count / 10) * 100 <= 100) ? ((proData.classes_class_aggregate.aggregate.count / 10) * 100) : 100} />
+                            <div className="mt-4">
+                                <a href="/pricing" className="text-sm font-semibold text-blue-600">Upgrade to Sheetroom Pro &rarr;</a>
+                            </div>
+
+                        </div>}
+
                         {/* Action buttons */}
                         {/*<div*/}
                         {/*    className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">*/}

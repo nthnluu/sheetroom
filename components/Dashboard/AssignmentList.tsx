@@ -208,6 +208,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
         return isWithinDueDate && attemptsGood
     })) : null
 
+
     if (error) {
         ReactGA.event({
             category: 'Error',
