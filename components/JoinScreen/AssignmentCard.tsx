@@ -13,9 +13,10 @@ interface Props {
     inviteId: string;
     config: string;
     userAttempts: number;
+    submissions: any;
 }
 
-const AssignmentCard: React.FC<Props> = ({firstName, lastName, title, inviteId, config,  userAttempts}) => {
+const AssignmentCard: React.FC<Props> = ({firstName, submissions, lastName, title, inviteId, config,  userAttempts}) => {
     const [prepareSubmissionResult, mutateSubmission] = useMutation(prepareSubmission)
     const [isLoading, toggleLoading] = useState(false)
 
@@ -39,8 +40,8 @@ const AssignmentCard: React.FC<Props> = ({firstName, lastName, title, inviteId, 
                 }
                 }
                                        className="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                    {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}Start
-                    assignment
+                    {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}
+                    Start assignment
                 </button></div> : <p className="mb-1 md:mb-0 w-full sm:w-auto text-center text-red-500 px-2 py-1 border rounded-lg border-red-500">
                     <i
                         className="fas fa-exclamation-circle mr-1"/>You're out of attempts.</p>) : (userAttempts < 1 ? <button type="button" disabled={isLoading} onClick={() => {

@@ -80,7 +80,7 @@ mutation DeleteAssignment($assignmentPk: uuid!) {
 
 
 export const assignmentGridStudent = gql`
-query StudentAssignmentGrid($userId: Int!) {
+subscription StudentAssignmentGrid($userId: Int!) {
   assignments_invite(where: {classByClass: {studentProfiles: {student: {_eq: $userId}}}}) {
     assignmentByAssignment {
       title
