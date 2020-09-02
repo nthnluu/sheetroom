@@ -81,6 +81,7 @@ query GetAssignmentInvites($assignmentId: uuid!) {
 export const invitePage = gql`
 subscription InvitePage($inviteId: uuid!) {
   assignments_invite_by_pk(id: $inviteId) {
+  id
     config
     is_public
     join_code

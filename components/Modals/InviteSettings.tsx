@@ -97,6 +97,7 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
 
     const userIsPro = profileData.data.users_by_pk.is_pro
 
+
     return (<div className="w-full">
         <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
               tabs={["General", "Visibility", "Advanced"]}/>
@@ -144,7 +145,7 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
                     <div className="hidden sm:block">
                         {/*// @ts-ignore*/}
                         <Datetime isValidDate={valid}
-                                  value={settingsObject.dueDate}
+                                  value={moment(settingsObject.dueDate)}
                                   onChange={moment => setConfigValue("dueDate", moment)}
                                   inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
                     </div>
@@ -155,7 +156,7 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
                             <div className="relative rounded-md shadow-sm">
                                 {/*// @ts-ignore*/}
                                 <Datetime isValidDate={valid}
-                                          value={settingsObject.dueDate}
+                                          value={moment(settingsObject.dueDate)}
                                           onChange={moment => setConfigValue("dueDate", moment)}
                                           className="rdtPickerOpenUpwards"
                                           inputProps={{className: "w-full h-full form-input focus:outline-none"}}/>
