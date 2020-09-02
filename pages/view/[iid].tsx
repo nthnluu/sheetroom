@@ -12,6 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckForUser from "../../lib/CheckForUser";
 import update from "immutability-helper";
 import moment from "moment";
+import SubmittingModal from "../../components/Modals/SubmittingModal";
 
 const PageContent = ({pageRawData, iid}) => {
 
@@ -57,6 +58,17 @@ const PageContent = ({pageRawData, iid}) => {
 
     const submitAssignment = () => {
         toggleIsLoading(true)
+        setDocument(prevState => {
+            return update(prevState, {
+                    config: {
+                        submitted_at: {
+                            $set: Date.now()
+                        }
+                    }
+                }
+            )
+        })
+        saveAssignment({content: document, title: pageData.title})
         scoreSubmissionMutate({submissionId: iid})
             .then(() => window.location.href = '/results/' + iid + '?status=success')
             .catch(error => console.log(scoreSubmissionResult.error));
@@ -92,8 +104,8 @@ const PageContent = ({pageRawData, iid}) => {
 
     return (
         <AssignmentViewerContext.Provider value={{document, setDocument}}>
+            <SubmittingModal isOpen={isLoading}/>
             <div className="min-h-screen text-gray-800">
-
                 {/*//Navbar*/}
                 <div
                     className="py-3 px-4 lg:px-8 bg-white shadow flex justify-between items-center fixed w-full navbar">

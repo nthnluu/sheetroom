@@ -8,11 +8,11 @@ import {invitePage} from "../../lib/graphql/Invites";
 import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
-import JsonDebugBox from "../../components/JsonDebugBox";
 import NewTooltip from "../../components/Misc/Tooltip";
 import * as jsonexport from "jsonexport/dist"
 import JoinCodeModal from "../../components/Modals/JoinCodeModal";
 import InviteSettingsModal from "../../components/Modals/InviteSettingsModal";
+import myFixed from "../../lib/MyFixed";
 
 const LoadingPlaceholder: React.FC = () => {
     return (
@@ -39,10 +39,6 @@ const NoSubmissionsPlaceholder = () => {
     </div>)
 }
 
-function myFixed(x, d) {
-    if (!d) return x.toFixed(d); // don't go wrong if no decimal
-    return x.toFixed(d).replace(/\.?0+$/, '');
-}
 
 const PageContent = ({session, profileData, data}) => {
     const assignmentConfig = JSON.parse(data.assignments_invite_by_pk.config)
