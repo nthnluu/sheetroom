@@ -205,7 +205,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
     const assignmentArray = data ? (profileData.data.users_by_pk.account_type === "teacher" ? data.assignments_assignment : data.assignments_invite.filter(element => {
         const itemConfig = JSON.parse(element.config)
         const isWithinDueDate = itemConfig.dueDateEnabled ? moment(itemConfig.dueDate).isAfter(moment()) : true
-        const attemptsGood = itemConfig.multipleAttempts ? (element.submissions_aggregate.aggregate.count <= parseInt(itemConfig.allowedAttempts)) : (element.submissions_aggregate.aggregate.count < 1)
+        const attemptsGood = itemConfig.multipleAttempts ? (itemConfig.allowedAttempts ? element.submissions_aggregate.aggregate.count <= parseInt(itemConfig.allowedAttempts) : true) : (element.submissions_aggregate.aggregate.count < 1)
         return isWithinDueDate && attemptsGood
     })) : null
 

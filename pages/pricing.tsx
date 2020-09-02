@@ -136,7 +136,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                 {/*    </p>*/}
                                                 {/*</li>*/}
                                             </ul>
-                                            {session ? (profileData.data.users_by_pk.is_pro ?
+                                            {session ? ((profileData.data.users_by_pk.account_type === "teacher" ? profileData.data.users_by_pk.is_pro ?
                                                 <div className="rounded-md shadow">
                                                     <a href="#"
                                                        className="flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
@@ -149,7 +149,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                     aria-describedby="tier-standard">
                                                     Current Plan
                                                 </span>
-                                                </div>) : null}
+                                                </div> : null)) : null}
 
                                         </div>
                                     </div>
@@ -237,7 +237,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                 {/*</li>*/}
                                             </ul>
                                             <div className="rounded-md shadow">
-                                                {session ? (!profileData.data.users_by_pk.is_pro ?
+                                                {session ? ((profileData.data.users_by_pk.account_type === "teacher" ? !profileData.data.users_by_pk.is_pro ?
                                                     <div className="rounded-md shadow">
                                                         <button onClick={handleClick}
                                                                 className="flex w-full items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
@@ -250,7 +250,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                     aria-describedby="tier-standard">
                                                     Current Plan
                                                 </span>
-                                                    </div>) : null}
+                                                    </div> : null)) : null}
                                             </div>
                                         </div>
                                     </div>

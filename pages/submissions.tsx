@@ -42,7 +42,7 @@ const Submissions = ({session, profileData}) => {
     if (data || error) {
         return (<div className="min-h-screen bg-gray-50">
             <Navbar session={session} unfixed profileData={profileData}/>
-            <div className="max-w-5xl mx-auto mt-12">
+            <div className="max-w-5xl mx-auto mt-12 px-4">
                 <h1 className="text-3xl font-bold leading-tight text-gray-900">
                     Submission History
                 </h1>
