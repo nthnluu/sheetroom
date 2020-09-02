@@ -13,7 +13,7 @@ import {assignmentGridStudent, assignmentGridTeacher} from "../../lib/graphql/As
 
 
 const LoadingPlaceholder = () => {
-    return (<div className="p-6 border-b border-gray-200">
+    return (<div className="p-6 border-b border-gray-200 mb-12">
         <div className="mx-auto">
             <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>
         </div>
@@ -203,12 +203,12 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
 
     const {fetching, data, error} = result
 
-    const assignmentArray = data ? data.assignments_invite.filter(element => {
+    const assignmentArray = data ? (profileData.data.users_by_pk.account_type === "teacher" ? data.assignments_assignment : data.assignments_invite.filter(element => {
         const itemConfig = JSON.parse(element.config)
         const isWithinDueDate = itemConfig.dueDateEnabled ? moment(itemConfig.dueDate).isAfter(moment()) : true
         const attemptsGood = itemConfig.multipleAttempts ? (element.submissions_aggregate.aggregate.count <= parseInt(itemConfig.allowedAttempts)) : (element.submissions_aggregate.aggregate.count < 1)
         return isWithinDueDate && attemptsGood
-    }) : null
+    })) : null
 
     if (error) {
         ReactGA.event({
@@ -229,7 +229,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
             <InfoSnackbar isOpen={snackbarOpen} onClose={() => toggleSnackbar(false)} label="🗑 Assignment Deleted"/>
             {profileData.data.users_by_pk.account_type === "teacher" ?
                 <ul className="relative z-0 border-b  divide-y divide-gray-200 border-gray-200">
-                    {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item =>
+                    {assignmentArray.length > 0 ? assignmentArray.map(item =>
                         <AssignmentListItem profileData={profileData} setAssignmentId={setAssignmentId}
                                             toggleModal={toggleModal} item={item}
                                             key={item.id} session={session}/>) : <div className="my-8 text-center">
