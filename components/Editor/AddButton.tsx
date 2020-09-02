@@ -46,7 +46,7 @@ const AddButton = ({quillRef, isFocused, onInsertGraph = null, onInsertImage = n
             }}>
                 <motion.div
                     animate={isOpen ? (formulaMode ? {width: '16rem', height: '3rem', opacity: 1} : {
-                        width: '7.5rem',
+                        width: `${4.5 + (onInsertGraph ? 1.5 : 0) + (onInsertImage ? 1.5 : 0)}rem`,
                         height: '2rem',
                         opacity: 1
                     }) : {width: '2rem', height: '2rem', opacity: 0.85}}

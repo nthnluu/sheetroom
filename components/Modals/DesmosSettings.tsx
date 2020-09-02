@@ -1,9 +1,9 @@
 import SimpleModal from "./SimpleModal";
 import React, {useContext, useEffect, useRef, useState} from "react";
-import QRCode from 'qrcode.react';
 import QuizContext from "../AssignmentEditor/QuizContext";
 import update from "immutability-helper";
 import Desmos from 'desmos'
+
 
 interface Props {
     onCancel: any;
@@ -13,7 +13,7 @@ interface Props {
 
 const DesmosSettings: React.FC<Props> = ({onCancel, isOpen, item}) => {
 
-    const {document, setDocument, sendNotification} = useContext(QuizContext);
+    const {setDocument} = useContext(QuizContext);
     const saveDesmosBlock = (newValue) => {
         setDocument(prevState => {
             return update(prevState, {
@@ -30,8 +30,6 @@ const DesmosSettings: React.FC<Props> = ({onCancel, isOpen, item}) => {
             })
         })
     }
-
-    const [qrCode, toggleQrCode] = useState(false)
 
     const graphCalc = useRef(null);
 
@@ -69,7 +67,6 @@ const DesmosSettings: React.FC<Props> = ({onCancel, isOpen, item}) => {
 
 
     return (<SimpleModal buttons={<div className="pt-2 mt-6 sm:mt-4 sm:flex sm:flex-row-reverse sm:justify-between">
-
         <div className="flex-row-reverse sm:flex">
 
             <span className="flex w-full rounded-md shadow-sm sm:w-auto">
@@ -90,6 +87,7 @@ const DesmosSettings: React.FC<Props> = ({onCancel, isOpen, item}) => {
         <div className="rounded-xl overflow-hidden border-gray-200 shadow-sm max-w-3xl mx-auto mb-4" style={{height: '20rem'}}>
             <div ref={graphCalc} className="h-full"/>
         </div>
+
         <p className="mt-1 text-gray-400 text-sm ">The expression editor will be hidden</p>
     </div>}
     />)
