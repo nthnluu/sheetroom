@@ -6,12 +6,13 @@ import ProjectList from "./ProjectList";
 interface Props {
     session: string;
     profileData: any;
+    proData?: any;
 }
 
 
-const Content: React.FC<Props> = ({session, profileData}) => {
+const Content: React.FC<Props> = ({session, profileData, proData}) => {
 
-    return (<PageContent session={session} sidebar={<Sidebar session={session} profile={profileData}/>} mainContent={<ProjectList session={session} profileData={profileData}/>}/>)
+    return (<PageContent session={session} sidebar={<Sidebar proData={proData} session={session} profile={profileData}/>} mainContent={<ProjectList proData={proData} session={session} profileData={profileData}/>}/>)
 }
 
 export default Content

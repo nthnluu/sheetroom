@@ -46,3 +46,20 @@ mutation DeleteAccount($userId: Int!) {
     __typename
   }
 }`
+
+
+export const proStats = gql`
+query ProData($userId: Int!){
+  assignments_assignment_aggregate(where: {created_by: {_eq: $userId}}) {
+    aggregate {
+      count
+    }
+  }
+  
+  classes_class_aggregate(where: {created_by: {_eq: $userId}}) {
+    aggregate {
+      count
+    }
+  }
+  
+}`

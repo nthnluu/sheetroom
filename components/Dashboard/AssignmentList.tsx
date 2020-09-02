@@ -72,8 +72,7 @@ const StudentListItem = ({item}) => {
                             </span>
                                 {listConfig.dueDateEnabled ? <div>Due
                                     on {moment(listConfig.dueDate).format('ddd, MMM DD')} at {moment(listConfig.dueDate).format('h:mm A')}</div> : null}
-                                {!listConfig.multipleAttempts ? <div>1 attempt allowed</div> :
-                                    <span>{`Attempt ${item.submissions_aggregate.aggregate.count} of ${listConfig.allowedAttempts}`}</span>}
+                                {!listConfig.multipleAttempts ? <div>1 attempt allowed</div> : (listConfig.allowedAttempts ? <div>{`Attempt ${item.submissions_aggregate.aggregate.count} of ${listConfig.allowedAttempts}`}</div> : <div>Unlimited attempts</div>)}
                             </div>
 
                         </p>
@@ -205,9 +204,10 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
     const assignmentArray = data ? (profileData.data.users_by_pk.account_type === "teacher" ? data.assignments_assignment : data.assignments_invite.filter(element => {
         const itemConfig = JSON.parse(element.config)
         const isWithinDueDate = itemConfig.dueDateEnabled ? moment(itemConfig.dueDate).isAfter(moment()) : true
-        const attemptsGood = itemConfig.multipleAttempts ? (element.submissions_aggregate.aggregate.count <= parseInt(itemConfig.allowedAttempts)) : (element.submissions_aggregate.aggregate.count < 1)
+        const attemptsGood = itemConfig.multipleAttempts ? (itemConfig.allowedAttempts ? element.submissions_aggregate.aggregate.count <= parseInt(itemConfig.allowedAttempts) : true) : (element.submissions_aggregate.aggregate.count < 1)
         return isWithinDueDate && attemptsGood
     })) : null
+
 
     if (error) {
         ReactGA.event({
