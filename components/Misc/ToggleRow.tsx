@@ -1,5 +1,6 @@
 import React, {useRef, useState} from "react";
 import {nanoid} from "nanoid";
+import JsonDebugBox from "../JsonDebugBox";
 
 const ToggleRow: React.FC<{label:string; onEnable: any; onDisable: any; value: boolean; desc?: string; proOnly?: boolean; isPro?: boolean;}> = ({label, onEnable, onDisable, value, desc, proOnly, isPro}) => {
     const [uniqueId] = useState(nanoid(4))

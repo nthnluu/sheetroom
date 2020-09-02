@@ -6,6 +6,7 @@ import ToggleRow from "../Misc/ToggleRow";
 import Datetime from "react-datetime";
 import {useQuery} from "urql";
 import {searchClasses} from "../../lib/graphql/Class";
+import JsonDebugBox from "../JsonDebugBox";
 
 
 const SearchResults = ({value, setClass, session}) => {
@@ -93,6 +94,8 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
     const valid = (current) => {
         return current.isAfter(yesterday);
     };
+
+    const userIsPro = profileData.data.users_by_pk.is_pro
 
     return (<div className="w-full">
         <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
@@ -269,11 +272,11 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
                        onEnable={() => setIpAddress(true)}
                        onDisable={() => setIpAddress(false)}/>
 
-            <ToggleRow label="Disable text selection" value={ipAddress} proOnly isPro={profileData.data.users_by_pk.isPro}
+            <ToggleRow label="Disable text selection" value={ipAddress} proOnly isPro={userIsPro}
                        onEnable={() => setIpAddress(true)}
                        onDisable={() => setIpAddress(false)}/>
 
-            <ToggleRow label="Disable paste" value={ipAddress} proOnly isPro={profileData.data.users_by_pk.isPro}
+            <ToggleRow label="Disable paste" value={ipAddress} proOnly isPro={userIsPro}
                        onEnable={() => setIpAddress(true)}
                        onDisable={() => setIpAddress(false)}/>
 
