@@ -29,7 +29,7 @@ const AssignmentCard: React.FC<Props> = ({firstName, submissions, lastName, titl
         <h1 className="text-2xl font-semibold text-gray-800">{title}</h1>
         <h2 className="text-gray-400">Assigned by {firstName} {lastName}</h2>
         <div className="sm:flex justify-end mt-4">
-            {isWithinDueDate ? (inviteConfig.multipleAttempts ? (((inviteConfig.allowedAttempts ? userAttempts <= parseInt(inviteConfig.allowedAttempts) : true)) ? <div className="flex-row sm:flex justify-between sm:space-x-2 items-center">
+            {isWithinDueDate ? (inviteConfig.multipleAttempts ? (((inviteConfig.allowedAttempts ? userAttempts < parseInt(inviteConfig.allowedAttempts) : true)) ? <div className="flex-row sm:flex justify-between sm:space-x-2 items-center">
                     <p className="mb-1 md:mb-0 w-full sm:w-auto text-center text-gray-500 px-2 py-1 border rounded-md shadow-sm  h-full flex justify-center items-center border-gray-300">
                         {inviteConfig.allowedAttempts ? `Attempt ${userAttempts} of ${inviteConfig.allowedAttempts}` : <span>
                         <i className="fas fa-infinity mr-2"></i>Unlimited attempts</span>}</p>
