@@ -50,7 +50,7 @@ const Sidebar: React.FC<Props> = ({session, profile}) => {
                                 </a>
                             </div>
                         </div>
-                        {profile.data.users_by_pk.is_pro ? null : <div>
+                        {(profile.data.users_by_pk.is_pro || profile.data.users_by_pk.account_type === "student") ? null : <div>
                             <div className="text-sm mb-2 text-gray-700 font-medium">Assignments <span className="font-light">{profile.data.assignments_assignment_aggregate.aggregate.count}/10</span></div>
                             <LinearProgress variant="determinate" value={((profile.data.assignments_assignment_aggregate.aggregate.count / 10) * 100 <= 100) ? ((profile.data.assignments_assignment_aggregate.aggregate.count / 10) * 100) : 100} />
                             <div className="text-sm mb-2 text-gray-700 font-medium mt-4">Classes <span className="font-light">{profile.data.classes_class_aggregate.aggregate.count}/10</span></div>
