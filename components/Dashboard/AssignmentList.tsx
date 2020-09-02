@@ -22,7 +22,7 @@ const LoadingPlaceholder = () => {
 
 
 function getTextColor(color) {
-    switch(color){
+    switch (color) {
         case('pink'):
             return 'text-pink-500'
         case('green'):
@@ -71,8 +71,10 @@ const StudentListItem = ({item}) => {
                                     className={"inline-flex items-center rounded-full font-medium " + getTextColor(item.classByClass.color)}>
   {item.classByClass.title}
                             </span>
-                                {listConfig.dueDateEnabled ? <div>Due on {moment(listConfig.dueDate).format('ddd, MMM DD')} at {moment(listConfig.dueDate).format('h:mm A')}</div> : null}
-                                {!listConfig.multipleAttempts ? <div>1 attempt allowed</div> : <span>{`Attempt ${item.submissions_aggregate.aggregate.count} of ${listConfig.allowedAttempts}`}</span>}
+                                {listConfig.dueDateEnabled ? <div>Due
+                                    on {moment(listConfig.dueDate).format('ddd, MMM DD')} at {moment(listConfig.dueDate).format('h:mm A')}</div> : null}
+                                {!listConfig.multipleAttempts ? <div>1 attempt allowed</div> :
+                                    <span>{`Attempt ${item.submissions_aggregate.aggregate.count} of ${listConfig.allowedAttempts}`}</span>}
                             </div>
 
                         </p>
@@ -95,7 +97,8 @@ const AssignmentListItem = ({item, session, toggleModal, setAssignmentId, profil
         <>
             <li
                 className="relative pl-4 pr-4 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
-                <ShareAssignmentModal profileData={profileData} isOpen={shareDialog} onCancel={() => toggleShareDialog(false)} session={session}
+                <ShareAssignmentModal profileData={profileData} isOpen={shareDialog}
+                                      onCancel={() => toggleShareDialog(false)} session={session}
                                       assignmentId={item.id}/>
                 <div className="flex items-center justify-between space-x-4">
                     {/* Repo name and link */}
@@ -200,6 +203,13 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
 
     const {fetching, data, error} = result
 
+    const assignmentArray = data ? data.assignments_invite.filter(element => {
+        const itemConfig = JSON.parse(element.config)
+        const isWithinDueDate = itemConfig.dueDateEnabled ? moment(itemConfig.dueDate).isAfter(moment()) : true
+        const attemptsGood = itemConfig.multipleAttempts ? (element.submissions_aggregate.aggregate.count <= parseInt(itemConfig.allowedAttempts)) : (element.submissions_aggregate.aggregate.count < 1)
+        return isWithinDueDate && attemptsGood
+    }) : null
+
     if (error) {
         ReactGA.event({
             category: 'Error',
@@ -220,7 +230,8 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
             {profileData.data.users_by_pk.account_type === "teacher" ?
                 <ul className="relative z-0 border-b  divide-y divide-gray-200 border-gray-200">
                     {data.assignments_assignment.length > 0 ? data.assignments_assignment.map(item =>
-                        <AssignmentListItem profileData={profileData} setAssignmentId={setAssignmentId} toggleModal={toggleModal} item={item}
+                        <AssignmentListItem profileData={profileData} setAssignmentId={setAssignmentId}
+                                            toggleModal={toggleModal} item={item}
                                             key={item.id} session={session}/>) : <div className="my-8 text-center">
                         <img alt="" src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
                         {profileData.data.users_by_pk.account_type === "teacher" ?
@@ -231,16 +242,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
 
                     </div>}
                 </ul> : <ul className="relative z-0 border-b  divide-y divide-gray-200 border-gray-200">
-                    {data.assignments_invite.length > 0 ? data.assignments_invite.map(item => {
-                        const itemConfig = JSON.parse(item.config)
-                        const isWithinDueDate = itemConfig.dueDateEnabled ? moment(itemConfig.dueDate).isAfter(moment()) : true
-                        const attemptsGood = itemConfig.multipleAttempts ? (item.submissions_aggregate.aggregate.count <= parseInt(itemConfig.allowedAttempts)) : (item.submissions_aggregate.aggregate.count < 1)
-                        if (isWithinDueDate && attemptsGood ) {
-                            return <StudentListItem item={item} key={item.id}/>
-                        } else {
-                            return null
-                        }
-                    }) : <div className="my-8 text-center">
+                    {assignmentArray.length > 0 ? assignmentArray.map(item => <StudentListItem item={item} key={item.id}/>) : <div className="my-8 text-center">
                         <img alt="" src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
                         {profileData.data.users_by_pk.account_type === "teacher" ?
                             <button className="text-center font-light opacity-25" onClick={openDialog}>Create new
