@@ -39,6 +39,11 @@ const ResultPage = () => {
 
     if (fetching) return <LoadingPlaceholder/>
 
+    if (error) {
+        window.location.href = '/'
+        return <></>
+    }
+
     return (<div>
         <h2 className="text-xl font-semibold leading-7 text-gray-800 sm:text-2xl sm:leading-9 sm:truncate">
             Invites

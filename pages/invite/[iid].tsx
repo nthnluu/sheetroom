@@ -31,6 +31,9 @@ const LoadingPlaceholder: React.FC = () => {
 
 const NoSubmissionsPlaceholder = () => {
     return (<div className="mx-auto opacity-25 m-12">
+        <Head>
+            <title>Sheetroom</title>
+        </Head>
         <img src="/paper-plane.svg" className="h-32 mx-auto" alt=""/>
         <p className="text-center mt-2">There aren't any submissions to display.</p>
     </div>)
