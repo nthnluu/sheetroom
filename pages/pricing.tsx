@@ -57,11 +57,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                     Pricing
                                 </h2>
                                 <p className="text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10 lg:text-5xl lg:leading-none">
-                                    The right price for you, whoever you are
-                                </p>
-                                <p className="text-xl leading-7 text-gray-300">
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum sequi unde
-                                    repudiandae natus.
+                                    Simple, straight forward pricing
                                 </p>
                             </div>
                         </div>
@@ -75,7 +71,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                     <div className="flex flex-col rounded-lg shadow-lg overflow-hidden">
                                         <div className="px-6 py-8 bg-white sm:p-10 sm:pb-6">
                                             <div>
-                                                <h3 className="inline-flex px-4 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-blue-100 text-blue-600"
+                                                <h3 className="inline-flex  leading-5 font-semibold tracking-wide uppercase text-gray-600"
                                                     id="tier-standard">
                                                     FREE FOREVER
                                                 </h3>
@@ -85,7 +81,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                 Free
                                             </div>
                                             <p className="mt-5 text-lg leading-7 text-gray-500">
-                                                For anyone who wants to create and assign online classwork.
+                                                All the basics for teachers that are just getting started.
                                             </p>
                                         </div>
                                         <div
@@ -115,30 +111,30 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                         4 Classes
                                                     </p>
                                                 </li>
-                                                <li className="flex items-start">
-                                                    <div className="flex-shrink-0">
-                                                        <svg className="h-6 w-6 text-green-500" fill="none"
-                                                             viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                                  strokeWidth={2} d="M5 13l4 4L19 7"/>
-                                                        </svg>
-                                                    </div>
-                                                    <p className="ml-3 text-base leading-6 text-gray-700">
-                                                        Email notifications
-                                                    </p>
-                                                </li>
-                                                <li className="flex items-start">
-                                                    <div className="flex-shrink-0">
-                                                        <svg className="h-6 w-6 text-green-500" fill="none"
-                                                             viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                                  strokeWidth={2} d="M5 13l4 4L19 7"/>
-                                                        </svg>
-                                                    </div>
-                                                    <p className="ml-3 text-base leading-6 text-gray-700">
-                                                        Basic assignment printing
-                                                    </p>
-                                                </li>
+                                                {/*<li className="flex items-start">*/}
+                                                {/*    <div className="flex-shrink-0">*/}
+                                                {/*        <svg className="h-6 w-6 text-green-500" fill="none"*/}
+                                                {/*             viewBox="0 0 24 24" stroke="currentColor">*/}
+                                                {/*            <path strokeLinecap="round" strokeLinejoin="round"*/}
+                                                {/*                  strokeWidth={2} d="M5 13l4 4L19 7"/>*/}
+                                                {/*        </svg>*/}
+                                                {/*    </div>*/}
+                                                {/*    <p className="ml-3 text-base leading-6 text-gray-700">*/}
+                                                {/*        Email notifications*/}
+                                                {/*    </p>*/}
+                                                {/*</li>*/}
+                                                {/*<li className="flex items-start">*/}
+                                                {/*    <div className="flex-shrink-0">*/}
+                                                {/*        <svg className="h-6 w-6 text-green-500" fill="none"*/}
+                                                {/*             viewBox="0 0 24 24" stroke="currentColor">*/}
+                                                {/*            <path strokeLinecap="round" strokeLinejoin="round"*/}
+                                                {/*                  strokeWidth={2} d="M5 13l4 4L19 7"/>*/}
+                                                {/*        </svg>*/}
+                                                {/*    </div>*/}
+                                                {/*    <p className="ml-3 text-base leading-6 text-gray-700">*/}
+                                                {/*        Basic assignment printing*/}
+                                                {/*    </p>*/}
+                                                {/*</li>*/}
                                             </ul>
                                             {session ? (profileData.data.users_by_pk.is_pro ?
                                                 <div className="rounded-md shadow">
@@ -160,7 +156,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                     <div className="flex flex-col rounded-lg shadow-lg overflow-hidden">
                                         <div className="px-6 py-8 bg-white sm:p-10 sm:pb-6">
                                             <div>
-                                                <h3 className="inline-flex px-4 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-blue-100 text-blue-600"
+                                                <h3 className="inline-flex  leading-5 font-semibold tracking-wide uppercase text-blue-600"
                                                     id="tier-standard">
                                                     PRO
                                                 </h3>
@@ -173,7 +169,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                       </span>
                                             </div>
                                             <p className="mt-5 text-lg leading-7 text-gray-500">
-                                                For teachers who need unlimited access to a powerful classwork solution.
+                                                Full, unlimited access for teachers who need an all-in-one classwork solution.
                                             </p>
                                         </div>
                                         <div
@@ -188,7 +184,7 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                         </svg>
                                                     </div>
                                                     <p className="ml-3 text-base leading-6 text-gray-700">
-                                                        Pariatur quod similique
+                                                        Unlimited Assignments
                                                     </p>
                                                 </li>
                                                 <li className="flex items-start">
@@ -200,33 +196,33 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                         </svg>
                                                     </div>
                                                     <p className="ml-3 text-base leading-6 text-gray-700">
-                                                        Sapiente libero doloribus modi nostrum
+                                                        Unlimited Classes
                                                     </p>
                                                 </li>
-                                                <li className="flex items-start">
-                                                    <div className="flex-shrink-0">
-                                                        <svg className="h-6 w-6 text-green-500" fill="none"
-                                                             viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                                  strokeWidth={2} d="M5 13l4 4L19 7"/>
-                                                        </svg>
-                                                    </div>
-                                                    <p className="ml-3 text-base leading-6 text-gray-700">
-                                                        Vel ipsa esse repudiandae excepturi
-                                                    </p>
-                                                </li>
-                                                <li className="flex items-start">
-                                                    <div className="flex-shrink-0">
-                                                        <svg className="h-6 w-6 text-green-500" fill="none"
-                                                             viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round"
-                                                                  strokeWidth={2} d="M5 13l4 4L19 7"/>
-                                                        </svg>
-                                                    </div>
-                                                    <p className="ml-3 text-base leading-6 text-gray-700">
-                                                        Itaque cupiditate adipisci quibusdam
-                                                    </p>
-                                                </li>
+                                                {/*<li className="flex items-start">*/}
+                                                {/*    <div className="flex-shrink-0">*/}
+                                                {/*        <svg className="h-6 w-6 text-green-500" fill="none"*/}
+                                                {/*             viewBox="0 0 24 24" stroke="currentColor">*/}
+                                                {/*            <path strokeLinecap="round" strokeLinejoin="round"*/}
+                                                {/*                  strokeWidth={2} d="M5 13l4 4L19 7"/>*/}
+                                                {/*        </svg>*/}
+                                                {/*    </div>*/}
+                                                {/*    <p className="ml-3 text-base leading-6 text-gray-700">*/}
+                                                {/*        Vel ipsa esse repudiandae excepturi*/}
+                                                {/*    </p>*/}
+                                                {/*</li>*/}
+                                                {/*<li className="flex items-start">*/}
+                                                {/*    <div className="flex-shrink-0">*/}
+                                                {/*        <svg className="h-6 w-6 text-green-500" fill="none"*/}
+                                                {/*             viewBox="0 0 24 24" stroke="currentColor">*/}
+                                                {/*            <path strokeLinecap="round" strokeLinejoin="round"*/}
+                                                {/*                  strokeWidth={2} d="M5 13l4 4L19 7"/>*/}
+                                                {/*        </svg>*/}
+                                                {/*    </div>*/}
+                                                {/*    <p className="ml-3 text-base leading-6 text-gray-700">*/}
+                                                {/*        Itaque cupiditate adipisci quibusdam*/}
+                                                {/*    </p>*/}
+                                                {/*</li>*/}
                                             </ul>
                                             <div className="rounded-md shadow">
                                                 {session ? (!profileData.data.users_by_pk.is_pro ?
@@ -250,24 +246,26 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                             </div>
                         </div>
                         <div className="mt-4 relative max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 lg:mt-5">
-                            <div className="max-w-md mx-auto lg:max-w-5xl">
+                            <div className="max-w-md mx-auto lg:max-w-5xl ">
                                 <div className="rounded-lg bg-gray-100 px-6 py-8 sm:p-10 lg:flex lg:items-center">
                                     <div className="flex-1">
-                                        <div>
-                                            <h3 className="inline-flex px-4 py-1 rounded-full text-sm leading-5 font-semibold tracking-wide uppercase bg-white text-gray-800">
+                                        <div className="flex justify-start items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" className="h-6" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                            <h3 className="inline-flex ml-2 leading-5 font-semibold tracking-wide uppercase text-gray-800">
                                                 INSTITUTIONS
                                             </h3>
                                         </div>
                                         <div className="mt-4 text-lg leading-7 text-gray-600">
-                                            For organizations such as schools or districts who need additional control,
-                                            custom account security, and support
+                                            For  schools and districts who need additional control,
+                                            custom account security, and support.
                                         </div>
                                     </div>
                                     <div className="mt-6 rounded-md shadow lg:mt-0 lg:ml-10 lg:flex-shrink-0">
-                                        <a href="#"
+                                        <span
                                            className="flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-gray-900 bg-white hover:text-gray-700 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
-                                            Contact us
-                                        </a>
+                                            Coming soon
+                                        </span>
                                     </div>
                                 </div>
                             </div>

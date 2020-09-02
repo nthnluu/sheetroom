@@ -20,10 +20,10 @@ const AddButton = ({quillRef, isFocused}) => {
         }
     }, [isFocused])
 
-    const insertFormula = () => {
+    const insertFormula = (value) => {
         if (formulaMode) {
             const range = quillRef.current.editor.getSelection(true);
-            quillRef.current.editor.insertEmbed(range, 'formula', formulaValue)
+            quillRef.current.editor.insertEmbed(range, 'formula', value)
             quillRef.current.editor.deleteText(range.index, range.length);
             quillRef.current.editor.setSelection(range.index + range.length + 1);
             toggleFormulaMode(false)
@@ -77,8 +77,8 @@ const AddButton = ({quillRef, isFocused}) => {
                                                className="focus:outline-none active:outline-none p-4 -ml-4 border-transparent text-black"
                                                config={{
                                                    handlers: {
-                                                       enter: function () {
-                                                           insertFormula()
+                                                       enter: function (value) {
+                                                           insertFormula(value.latex())
                                                        }
                                                    }
                                                }}
@@ -87,7 +87,7 @@ const AddButton = ({quillRef, isFocused}) => {
 
                     </motion.div>
 
-                    <button onClick={insertFormula}
+                    <button onClick={() => insertFormula(formulaValue)}
                             className="flex items-center justify-center w-8 active:outline-none focus:outline-none focus:shadow-outline h-full rounded-lg absolute right-0 bg-white z-30">
                         <i className="fas fa-plus text-blue-500"/>
                     </button>

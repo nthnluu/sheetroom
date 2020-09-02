@@ -156,7 +156,7 @@ const Navbar = ({session, content, pageData, profileData}) => {
                     </nav>
                 </div>
                 <div className="h-full">
-                    <ShareAssignmentModal isOpen={shareDialog} onCancel={() => toggleShareDialog(false)}
+                    <ShareAssignmentModal isOpen={shareDialog} profileData={profileData} onCancel={() => toggleShareDialog(false)}
                                           session={session}
                                           assignmentId={aid}/>
                     {content}
