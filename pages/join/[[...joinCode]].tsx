@@ -42,6 +42,7 @@ const InviteFetch = ({joinCode, profileData, session}) => {
         switch (data.processJoinCode.type) {
             case("assignment"):
                 if (data.processJoinCode.payload.is_public) {
+                    //@ts-ignore
                     return <AssignmentCard inviteId={data.processJoinCode.payload.id}
                                            userAttempts={data.processJoinCode.payload.submissions_aggregate.aggregate.count}
                         firstName={data.processJoinCode.payload.user.first_name}
@@ -51,10 +52,11 @@ const InviteFetch = ({joinCode, profileData, session}) => {
                     if (session) {
                         if (data.processJoinCode.payload.classByClass.studentProfiles.length > 0 || data.processJoinCode.payload.user.id === session.id) {
                             return <><AssignmentCard inviteId={data.processJoinCode.payload.id}
-                                                   userAttempts={data.processJoinCode.payload.submissions_aggregate.aggregate.count}
+                                                     submissions={data.processJoinCode.payload.submissions.length}
+                                                   userAttempts={data.processJoinCode.payload.submissions.length}
                                 firstName={data.processJoinCode.payload.user.first_name}
                                 lastName={data.processJoinCode.payload.user.last_name}
-                                title={data.processJoinCode.payload.assignmentByAssignment.title} config={data.processJoinCode.payload.config}/><JsonDebugBox content={data}/></>
+                                title={data.processJoinCode.payload.assignmentByAssignment.title} config={data.processJoinCode.payload.config}/></>
                         } else {
                             return <JoinCode error/>
                         }
