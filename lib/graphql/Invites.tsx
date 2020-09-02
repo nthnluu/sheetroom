@@ -82,7 +82,8 @@ export const invitePage = gql`
 subscription InvitePage($inviteId: uuid!) {
   assignments_invite_by_pk(id: $inviteId) {
     config
-    
+    is_public
+    join_code
     assignmentByAssignment {
       title
     }
@@ -104,5 +105,13 @@ subscription InvitePage($inviteId: uuid!) {
       }
       
     }
+  }
+}`
+
+
+export const updateInviteConfig = gql`
+    mutation UpdateSettings($inviteId: uuid!, $newConfig: String!) {
+  update_assignments_invite_by_pk(pk_columns: {id: $inviteId}, _set: {config: $newConfig}) {
+    __typename
   }
 }`

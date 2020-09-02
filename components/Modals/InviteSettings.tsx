@@ -71,7 +71,7 @@ const ClassSearch = ({selectedClass, setSelectedClass, session}) => {
 }
 
 
-const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObject, setSettingsObject, session, profileData}) => {
+const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObject, setSettingsObject, session, profileData, standalone = false}) => {
     const [currentTab, setCurrentTab] = useState(0)
 
     const [ipAddress, setIpAddress] = useState(false)
@@ -102,7 +102,7 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
               tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
             {/*@ts-ignore*/}
-            {isPublic ? <>
+            {standalone ? null : <>{isPublic ? <>
                 {/*<ToggleRow label="Collect student info" value={settingsObject.collectStudentInfo}*/}
                 {/*                     onEnable={() => setConfigValue("collectStudentInfo", true)}*/}
                 {/*                     onDisable={() => setConfigValue("collectStudentInfo", false)}/>*/}
@@ -130,7 +130,8 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
                     <ClassSearch session={session} selectedClass={selectedClass} setSelectedClass={setSelectedClass}/>
                 </div>
             </div>
-            }
+            }</>}
+
             {/*@ts-ignore*/}
             <ToggleRow label="Due date" value={settingsObject.dueDateEnabled}
                        onEnable={() => setConfigValue("dueDateEnabled", true)}
