@@ -8,9 +8,10 @@ import SectionOptionsModal from "../../Modals/SectionOptionsModal";
 interface Props {
     section: string;
     index: number;
+    profileData: any;
 }
 
-const Section: React.FC<Props> = ({section, index}) => {
+const Section: React.FC<Props> = ({section, index,  profileData}) => {
     const {setDocument, document} = useContext(QuizContext)
     const [isCollapsed, toggleIsCollapsed] = useState(false);
     const [settingsOpen, toggleSettingsOpen] = useState(false);
@@ -134,7 +135,7 @@ const Section: React.FC<Props> = ({section, index}) => {
 
             </div>
             {!isCollapsed ?
-                <ItemDnd section={section} sectionIndex={index} collapseSection={() => toggleIsCollapsed(true)}/>
+                <ItemDnd profileData={profileData} section={section} sectionIndex={index} collapseSection={() => toggleIsCollapsed(true)}/>
                 :
                 <button onClick={() => toggleIsCollapsed(false)}
                         className="bg-gray-200 opacity-50 mb-2 px-6 py-2 rounded-lg focus:outline-none w-full text-left">

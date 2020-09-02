@@ -11,7 +11,10 @@ import InactiveEditor from "../Editor/InactiveEditor";
 import arrayMove from "array-move";
 import ItemOptionsModal from "../Modals/ItemOptionsModal";
 import Math from "./Controllers/Math/Math";
-
+import DesmosSettingsModal from "../Modals/DesmosSettingsModal";
+import { openUploadWidget } from "../../lib/cloudinary-service";
+import {Image} from 'cloudinary-react';
+import UpgradeModal from "../Modals/UpgradeModal";
 
 interface Props {
     active: boolean;
@@ -20,6 +23,7 @@ interface Props {
     section?: string;
     condensed: boolean;
     sectionIndex?: number;
+    profileData?: any;
 }
 
 
@@ -40,10 +44,10 @@ const Controller = ({type, item, active}) => {
     }
 }
 
-const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed, sectionIndex}) => {
-    const {document, setDocument, sendNotification} = useContext(QuizContext);
+const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed, sectionIndex, profileData}) => {
+    const {document, setDocument} = useContext(QuizContext);
     const currentItem = document.items[item];
-
+    const [upgradeModal, toggleUpgradeModal] = useState(false);
     // Logic for AUTOSAVING the ITEM CONTENT
     const saveItemContent = (newValue) => {
         setDocument(prevState => {
@@ -58,8 +62,6 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
             })
         })
     }
-
-
     const deleteItem = () => {
         if (document.sections[section].items.length === 1) {
             setDocument(prevState => {
@@ -97,7 +99,6 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
             })
         }
     }
-
     const moveItemDown = () => {
         setDocument(prevState => {
             return update(prevState, {
@@ -112,7 +113,6 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
             })
         })
     }
-
     const moveItemUp = () => {
         setDocument(prevState => {
             return update(prevState, {
@@ -127,25 +127,100 @@ const CardFrame: React.FC<Props> = ({active, item, itemIndex, section, condensed
             })
         })
     }
+    const deleteBlock = () => {
+        setDocument(prevState => {
+            return update(prevState, {
+                items: {
+                    [item]: {
+                        block: {
+                            $set: undefined
+                        }
+                    }
+                }
+            })
+        })
+    }
+
+    const beginUpload = () => {
+        if (profileData.data.users_by_pk.is_pro) {
+            const uploadOptions = {
+                cloudName: "sheetroom",
+                uploadPreset: "kwwrntp1"
+            };
+            openUploadWidget(uploadOptions, (error, photos) => {
+                if (!error) {
+                    if(photos.event === 'success'){
+                        setDocument(prevState => {
+                            return update(prevState, {
+                                items: {
+                                    [item]: {
+                                        block: {
+                                            $set: {
+                                                type: 'image',
+                                                data: photos.info.public_id
+                                            }
+                                        }
+                                    }
+                                }
+                            })
+                        })
+                    }
+                } else {
+                    console.log(error);
+                }
+            })
+        } else {
+            toggleUpgradeModal(true)
+        }
+
+    }
+
 
     const [settingsOpen, toggleSettingsOpen] = useState(false);
-
+    const [desmosOpen, toggleDesmos] = useState(false);
 
     return (
         <div
             className={"bg-white focus:shadow-outline w-full pt-3 px-4 sm:px-6 focus:outline-none rounded-lg " + (!active ? ' pb-2' : null)}>
+            <UpgradeModal onCancel={() => toggleUpgradeModal(false)} isOpen={upgradeModal}/>
+            <DesmosSettingsModal item={item} onCancel={() => toggleDesmos(false)} isOpen={desmosOpen}/>
             <ItemOptionsModal isOpen={settingsOpen} onCancel={() => toggleSettingsOpen(false)} item={item} type={currentItem.controller_type}/>
             <div className="flex justify-between flex-shrink-0 flex-wrap md:flex-shrink md:flex-no-wrap w-full">
                 <div className="w-full border-transparent pb-3">
-                    <div className="mb-8">
-                        {active ? <QuillEditor border={active} uniqueKey={item + "question"}
+                    <div className="mb-4">
+                        {active ? <QuillEditor insertImage={() => beginUpload()} border={active} uniqueKey={item + "question"} insertGraph={() => toggleDesmos(true)}
                                                onChange={(value) => saveItemContent(value)} value={currentItem.question}
                                                active={active} placeholder="Question"/> :
                             <div className="px-4"><InactiveEditor border={active} uniqueKey={item + "question"}
                                                                   value={currentItem.question} placeholder="Question"/></div>}
-
                     </div>
-                    {!condensed ? <Controller active={active} type={currentItem.controller_type} item={item}/> : null}
+                    {document.items[item].block ? (document.items[item].block.type === 'desmos' ? <div className="flex justify-between w-full">
+                            <div className="w-full">
+                                <img src={document.items[item].block.data} className="mx-auto rounded-lg border border-gray-300 shadow-sm"/>
+                            </div>
+                        {active ? <button className="w-6 text-gray-300" onClick={deleteBlock}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button> : null}
+
+                        </div>  : <div className="flex justify-between w-full">
+
+                            <div className="w-full" >
+                                <Image publicId={document.items[item].block.data} secure="true" className="mx-auto" style={{maxHeight: '15rem'}}/>
+                            </div>
+                        {active ? <button className="w-6 text-gray-300" onClick={deleteBlock}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button> : null}
+                        </div>) : null}
+
+
+                    <div className="mt-4">
+                        {!condensed ? <Controller active={active} type={currentItem.controller_type} item={item}  /> : null}
+                    </div>
+
                 </div>
             </div>
             {active ? <div className="flex justify-between border-t items-center w-full border-gray-200 py-3">

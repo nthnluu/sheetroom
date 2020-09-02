@@ -17,12 +17,13 @@ interface Props {
     snapshot: any;
     sectionIndex: any;
     collapseSection: any;
+    profileData: any;
 }
 
 const DragHandle = ({provided}) => (<i {...provided.dragHandleProps}
                                        className="fas fa-grip-lines text-center text-gray-200 inline-block z-50 cursor-move active:text-blue-400"/>);
 
-const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex, section, snapshot, sectionIndex, collapseSection}) => {
+const ItemCard: React.FC<Props> = ({setActive, item, profileData, active, provided, itemIndex, section, snapshot, sectionIndex, collapseSection}) => {
 
     const {setDocument, document, setCurrentItem} = useContext(QuizContext)
 
@@ -245,7 +246,7 @@ const ItemCard: React.FC<Props> = ({setActive, item, active, provided, itemIndex
             <motion.div whileTap={!active ? {scale: 0.98} : null} className="pb-2 relative">
                 {active ? <div className="bg-white rounded-lg border border-gray-200 shadow pt-2 md:pt-0 relative">
                     <div className="w-full text-center z-50 hidden md:block"><DragHandle provided={provided}/></div>
-                    <ActiveContent item={item} itemIndex={itemIndex} section={section} condensed={snapshot.isDragging}
+                    <ActiveContent profileData={profileData} item={item} itemIndex={itemIndex} section={section} condensed={snapshot.isDragging}
                                    sectionIndex={sectionIndex}/>
                 </div> : <div className="group bg-white rounded-lg border border-gray-200 pt-4 md:pt-0">
                     <div className="w-full mx-auto text-center z-50 invisible group-hover:visible hidden md:block">

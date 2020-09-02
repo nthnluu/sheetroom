@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {EditableMathField} from 'react-mathquill'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
-const AddButton = ({quillRef, isFocused}) => {
+const AddButton = ({quillRef, isFocused, onInsertGraph = null, onInsertImage = null}) => {
     const [isOpen, setIsOpen] = useState(false)
     const [isVisible, setIsVisible] = useState(false);
     const [formulaMode, toggleFormulaMode] = useState(false)
@@ -46,7 +46,7 @@ const AddButton = ({quillRef, isFocused}) => {
             }}>
                 <motion.div
                     animate={isOpen ? (formulaMode ? {width: '16rem', height: '3rem', opacity: 1} : {
-                        width: '4rem',
+                        width: '7.5rem',
                         height: '2rem',
                         opacity: 1
                     }) : {width: '2rem', height: '2rem', opacity: 0.85}}
@@ -66,6 +66,16 @@ const AddButton = ({quillRef, isFocused}) => {
                                         onClick={() => toggleFormulaMode(true)}>
                                     <i className="fas fa-square-root-alt"/>
                                 </button>
+                                {onInsertGraph ? <button className="focus:outline-none h-full focus:shadow-outline"
+                                                         onClick={() => onInsertGraph()}>
+                                    <i className="fas fa-chart-line"/>
+                                </button> : null}
+                                {onInsertImage ? <button className="focus:outline-none h-full focus:shadow-outline"
+                                                         onClick={() => onInsertImage()}>
+                                    <i className="fas fa-image"/>
+                                </button> : null}
+
+
                                 {/*<i className="fas fa-table"/>*/}
                                 {/*<i className="far fa-image"/>*/}
                                 {/*<i className="fas fa-chart-line"/>*/}

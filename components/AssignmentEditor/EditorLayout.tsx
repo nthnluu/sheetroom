@@ -22,7 +22,7 @@ const EditorLayout: React.FC<Props> = ({windowTitle, session, pageData, profileD
             </Head>
             {/*// @ts-ignore*/}
 
-            <Navbar  session={session} content={<Content/>} pageData={pageData} profileData={profileData}/>
+            <Navbar  session={session} content={<Content profileData={profileData}/>} pageData={pageData} profileData={profileData}/>
 
         </div>
     )

@@ -13,11 +13,11 @@ import arrayMove from "array-move";
 import SettingsPage from "./SettingsPage";
 
 interface Props {
-
+    profileData: any;
 }
 
 
-const Content: React.FC<Props> = ({}) => {
+const Content: React.FC<Props> = ({profileData}) => {
     const {invalidSession, document, setDocument, aid, currentPage} = useContext(QuizContext)
 
     const onSortEnd = (result) => {
@@ -114,7 +114,7 @@ const Content: React.FC<Props> = ({}) => {
                     </Dialog>
 
                     <DragDropContext onDragEnd={onSortEnd}>
-                        {currentPage === 1 ? document.config.sections.map((sectionId, i) => <Section key={sectionId}
+                        {currentPage === 1 ? document.config.sections.map((sectionId, i) => <Section profileData={profileData} key={sectionId}
                                                                                                      section={sectionId}
                                                                                                      index={i}/>) : null}
                     </DragDropContext>

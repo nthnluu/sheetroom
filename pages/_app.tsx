@@ -12,6 +12,7 @@ import {Router} from "next/router";
 import SimpleModal from "../components/Modals/SimpleModal";
 import {Elements} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
+import { CloudinaryContext } from "cloudinary-react";
 
 const stripePromise = loadStripe('pk_test_51HM11eI8UDkQvU4dcFBIfj4XvOA97im3W2WjzkzBGtxvaJV33L5txdtFvF0zCGIlbZJx0wu9YDYp7YT7mE7wFrMt00svbOJBLI');
 
@@ -54,11 +55,11 @@ const MyApp = ({Component, pageProps}: AppProps) => {
     }, []);
 
 
-    return <Elements stripe={stripePromise}><NextAuthProvider session={session}><WithGraphQL session={session}>
+    return <CloudinaryContext cloudName="sheetroom"><Elements stripe={stripePromise}><NextAuthProvider session={session}><WithGraphQL session={session}>
         <ThemeProvider theme={MuiTheme}>
             <Component {...pageProps} />
         </ThemeProvider>
-    </WithGraphQL></NextAuthProvider></Elements>;
+    </WithGraphQL></NextAuthProvider></Elements></CloudinaryContext>;
 };
 
 export default MyApp;
