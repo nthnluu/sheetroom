@@ -11,18 +11,17 @@ import UpgradeModal from "../Modals/UpgradeModal";
 interface Props {
     session: any;
     profileData: any;
-    proData?: any;
 }
 
 
-const ProjectList: React.FC<Props> = ({session, profileData, proData}) => {
+const ProjectList: React.FC<Props> = ({session, profileData}) => {
     const [sortDropdown, toggleSortDropdown] = useState(false);
     const [createAssignmentDialog, toggleCreateAssignmentDialog] = useState(false);
     const [createClassDialog, toggleCreateClassDialog] = useState(false);
     const [upgradeModal, toggleUpgradeModal] = useState(false);
 
-    const canCreateClass = profileData.data.users_by_pk.is_pro ? true : (proData.classes_class_aggregate.aggregate.count < 4)
-    const canCreateAssignment = profileData.data.users_by_pk.is_pro ? true : (proData.assignments_assignment_aggregate.aggregate.count < 10)
+    const canCreateClass = profileData.data.users_by_pk.is_pro ? true : (profileData.data.classes_class_aggregate.aggregate.count < 4)
+    const canCreateAssignment = profileData.data.users_by_pk.is_pro ? true : (profileData.data.assignments_assignment_aggregate.aggregate.count < 10)
 
     // @ts-ignore
     return (

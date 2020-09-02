@@ -21,6 +21,31 @@ query Me($userId: Int!) {
 }
 `
 
+export const dashboardMe = `
+query Me($userId: Int!) {
+  assignments_assignment_aggregate(where: {created_by: {_eq: $userId}}) {
+    aggregate {
+      count
+    }
+  }
+  
+  classes_class_aggregate(where: {created_by: {_eq: $userId}}) {
+    aggregate {
+      count
+    }
+  }
+  users_by_pk(id: $userId) {
+    first_name
+    stripeCustomerId
+    last_name
+    is_pro
+    image
+    account_type
+    __typename
+  }
+}
+`
+
 
 export const changeAccountType = gql`
     mutation ChangeAccountType ($newType: String!, $userId: Int!) {

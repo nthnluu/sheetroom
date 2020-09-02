@@ -2,12 +2,9 @@ import React from 'react';
 import {GetServerSideProps} from "next";
 import PageContent from "../components/Dashboard/Content";
 import AppLayout from "../components/PageLayouts/AppLayout/AppLayout";
-import CheckForUser from "../lib/CheckForUser";
 import Head from "next/head";
-import {useQuery} from "urql";
-import {getSubmissionWithScore} from "../lib/graphql/Submissions";
-import {proStats} from "../lib/graphql/User";
-import JsonDebugBox from "../components/JsonDebugBox";
+import {dashboardMe, me, proStats} from "../lib/graphql/User";
+import {getSession} from "next-auth/client";
 
 
 interface Props {
@@ -17,31 +14,63 @@ interface Props {
 
 const Dashboard: React.FC<Props> = ({session, profileData}) => {
 
-    const [result] = useQuery({query: proStats, variables: {userId: session.id}})
-    const {data, fetching, error} = result
+    return (
+        <>
+            <Head>
+                <title>Dashboard | Sheetroom</title>
+            </Head>
 
-    if (fetching) {
-        return <></>
-    } else {
-        return (
-            <>
-                <Head>
-                    <title>Dashboard | Sheetroom</title>
-                </Head>
+            <AppLayout session={session} profileData={profileData}
+                       content={<PageContent session={session} profileData={profileData}/>}
 
-                <AppLayout session={session} profileData={profileData}
-                           content={<PageContent session={session} proData={data} profileData={profileData}/>}
+            />
 
-                />
-
-            </>
-        )
-    }
+        </>
+    )
 
 };
 
 export const getServerSideProps: GetServerSideProps = async ({req, res}) => {
-    return CheckForUser(req, res, true)
+    let session = await getSession({req});
+    let profileData;
+
+    if (session) {
+        if (session.id) {
+            profileData = await fetch('https://api.sheetroom.com/v1/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-hasura-admin-secret': 'HASURA_ADMIN_SECRETd92iecpo0@v#nfse-bflit!*@2*%xodd4dk6g(xra^nbxnc(a#PENIS'
+                },
+                body: JSON.stringify({query: dashboardMe, variables: {userId: session.id}}),
+            })
+                .then(response => response.json())
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            if (profileData.data.users_by_pk.account_type === "new") {
+                res.writeHead(302, {location: '/welcome'})
+                res.end()
+            } else {
+                return {
+                    props: {
+                        session,
+                        profileData
+                    },
+                };
+            }
+        } else {
+            return {
+                props: {
+                    session
+                },
+            };
+        }
+
+    } else {
+        res.writeHead(302, {location: '/'})
+        res.end()
+    }
 };
 
 
