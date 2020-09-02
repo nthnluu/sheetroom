@@ -121,53 +121,8 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                         className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Feedback
                                 </button>
                                 {accountMode === "teacher" ? <a href="#"
-                                                                className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Help</a> : <a href="/join"
+                                                                className="px-3 py-2 mr-4 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Help</a> : <a href="/join"
                                                           className="px-3 py-2 mr-3 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Join</a>}
-                                {accountMode === "teacher" ? <ClickAwayListener onClickAway={() => toggleNewDropdown(false)}>
-                                    <div className="relative inline-block text-left mr-6 ml-4">
-                                        <div>
-                                    <span className="rounded-md shadow-sm">
-                                        <button
-                                            className="text-gray-100 flex items-center focus:outline-none hover:bg-light focus:bg-light p-1 rounded"
-                                            onClick={() => toggleNewDropdown(!newDropdown)}>
-                                            <i className="fas fa-plus mr-1"/><i
-                                            className="fas fa-caret-down opacity-50"/>
-                                        </button>
-                                    </span>
-                                        </div>
-
-                                        <Transition appear={newDropdown} show={newDropdown}
-                                                    enter="transition ease-out duration-100"
-                                                    enterFrom="transform opacity-0 scale-95"
-                                                    enterTo="transform opacity-100 scale-100"
-                                                    leave="transition ease-in duration-75"
-                                                    leaveTo="transform opacity-0 scale-95"
-                                                    leaveFrom="transform opacity-100 scale-100">
-                                            <div
-                                                className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg popover">
-                                                <div className="rounded-md bg-white shadow-xs">
-                                                    <div className="py-1" role="menu" aria-orientation="vertical"
-                                                         aria-labelledby="options-menu">
-                                                        <button onClick={() => {
-                                                            toggleNewDropdown(false);
-                                                            toggleCreateAssignmentDialog(true)
-                                                        }}
-                                                                className="block px-4 py-2 w-full text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                                                role="menuitem">New assignment
-                                                        </button>
-                                                        <button onClick={() => {
-                                                            toggleNewDropdown(false);
-                                                            toggleCreateClassDialog(true)
-                                                        }}
-                                                                className="block px-4 py-2 text-sm w-full text-left leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                                                role="menuitem">New class
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Transition>
-                                    </div>
-                                </ClickAwayListener> : null}
 
                                 <ClickAwayListener onClickAway={() => toggleProfileDropdown(false)}>
                                     <div className="relative flex-shrink-0">
