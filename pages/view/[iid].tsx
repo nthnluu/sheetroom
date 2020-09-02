@@ -12,6 +12,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import CheckForUser from "../../lib/CheckForUser";
 import update from "immutability-helper";
 import moment from "moment";
+import SubmittingModal from "../../components/Modals/SubmittingModal";
 
 const PageContent = ({pageRawData, iid}) => {
 
@@ -27,6 +28,19 @@ const PageContent = ({pageRawData, iid}) => {
             return false
         }
     }))
+
+    const [canContinue] = useState(() => {
+        if (document.config.timing === 2) {
+            if (document.config.end_time) {
+                return moment(document.config.end_time).isAfter(moment())
+            } else {
+                return true
+            }
+        } else {
+            return true
+        }
+    })
+
     const [currentSection, setCurrentSection] = useState(0)
     const sectionId = allowedSections[currentSection]
 
@@ -57,10 +71,22 @@ const PageContent = ({pageRawData, iid}) => {
 
     const submitAssignment = () => {
         toggleIsLoading(true)
+        setDocument(prevState => {
+            return update(prevState, {
+                    config: {
+                        submitted_at: {
+                            $set: Date.now()
+                        }
+                    }
+                }
+            )
+        })
+        saveAssignment({content: document, title: pageData.title})
         scoreSubmissionMutate({submissionId: iid})
             .then(() => window.location.href = '/results/' + iid + '?status=success')
             .catch(error => console.log(scoreSubmissionResult.error));
     }
+
 
     const handleContinue = () => {
         setCurrentSection(currentSection + 1)
@@ -90,36 +116,42 @@ const PageContent = ({pageRawData, iid}) => {
     }
 
 
-    return (
-        <AssignmentViewerContext.Provider value={{document, setDocument}}>
-            <div className="min-h-screen text-gray-800">
-
-                {/*//Navbar*/}
-                <div
-                    className="py-3 px-4 lg:px-8 bg-white shadow flex justify-between items-center fixed w-full navbar">
-                    <h1 className="text-lg font-semibold text-gray-800">{pageData.title}</h1>
-                    {/*@ts-ignore*/}
-                    {document.config.timing !== 0 ? <Timer global={document.config.timing === 2} section={sectionId}
-                                                           onFinish={document.config.timing === 2 ? () => submitAssignment() : () => {
-                                                               if (isLastSection(sectionId)) {
-                                                                   submitAssignment()
-                                                               } else {
-                                                                   handleContinue()
-                                                               }
-                                                           }}/> : null}
-                </div>
-                {/*Section Page*/}
-                <div className="mx-auto max-w-4xl pt-20 px-4 space-y-6 mb-16">
-                    <div className="leading-tight">
-                        {document.config.sections.length > 1 ? <span
-                            className="font-medium text-gray-400 text-sm">{document.config.sections.findIndex(element => element === sectionId) + 1} of {document.config.sections.length}</span> : null}
-                        <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 mr-2">{document.sections[sectionId].title}</h1>
+    if (allowedSections.length < 1 || !canContinue) {
+        scoreSubmissionMutate({submissionId: iid})
+            .then(() => window.location.href = '/results/' + iid + '?status=success')
+            .catch(error => console.log(scoreSubmissionResult.error));
+        return <></>
+    } else {
+        return (
+            <AssignmentViewerContext.Provider value={{document, setDocument}}>
+                <SubmittingModal isOpen={isLoading}/>
+                <div className="min-h-screen text-gray-800">
+                    {/*//Navbar*/}
+                    <div
+                        className="py-3 px-4 lg:px-8 bg-white shadow flex justify-between items-center fixed w-full navbar">
+                        <h1 className="text-lg font-semibold text-gray-800">{pageData.title}</h1>
+                        {/*@ts-ignore*/}
+                        {document.config.timing !== 0 ? <Timer global={document.config.timing === 2} section={sectionId}
+                                                               onFinish={document.config.timing === 2 ? () => submitAssignment() : () => {
+                                                                   if (isLastSection(sectionId)) {
+                                                                       submitAssignment()
+                                                                   } else {
+                                                                       handleContinue()
+                                                                   }
+                                                               }}/> : null}
                     </div>
-                    {document.sections[sectionId].items.map(item => (<QuestionCard item={item} key={item}/>))}
-                    <div className="flex-row sm:flex items-center justify-between mt-4">
-                        {(document.config['timing'] === 1 && (parseInt(document.sections[sectionId].config.hours) + parseInt(document.sections[sectionId].config.mins) > 0)) ?
-                            <span
-                                className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
+                    {/*Section Page*/}
+                    <div className="mx-auto max-w-4xl pt-20 px-4 space-y-6 mb-16">
+                        <div className="leading-tight">
+                            {document.config.sections.length > 1 ? <span
+                                className="font-medium text-gray-400 text-sm">{document.config.sections.findIndex(element => element === sectionId) + 1} of {document.config.sections.length}</span> : null}
+                            <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 mr-2">{document.sections[sectionId].title}</h1>
+                        </div>
+                        {document.sections[sectionId].items.map(item => (<QuestionCard item={item} key={item}/>))}
+                        <div className="flex-row sm:flex items-center justify-between mt-4">
+                            {(document.config['timing'] === 1 && (parseInt(document.sections[sectionId].config.hours) + parseInt(document.sections[sectionId].config.mins) > 0)) ?
+                                <span
+                                    className="text-red-600 rounded-lg px-2 py-1 border border-red-600 items-center flex justify-start">
                             <svg className="h-5 inline mr-1" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -127,19 +159,19 @@ const PageContent = ({pageRawData, iid}) => {
                                     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                             You can't return to this section.</span> : <div/>}
-                        <div className="flex-row-reverse sm:flex-row sm:flex">
-                            {currentSection !== 0 && document.config.timing !== 1 ?
-                                <button type="button" onClick={() => {
-                                    window.scrollTo(0, 0);
-                                    setCurrentSection(currentSection - 1)
-                                }}
-                                        className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 mr-2 border border-transparent text-base leading-6 font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-50 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-gray-200 transition ease-in-out duration-150">
-                                    Previous
-                                </button> : null}
+                            <div className="flex-row-reverse sm:flex-row sm:flex">
+                                {currentSection !== 0 && document.config.timing !== 1 ?
+                                    <button type="button" onClick={() => {
+                                        window.scrollTo(0, 0);
+                                        setCurrentSection(currentSection - 1)
+                                    }}
+                                            className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 mr-2 border border-transparent text-base leading-6 font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-50 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-gray-200 transition ease-in-out duration-150">
+                                        Previous
+                                    </button> : null}
 
-                            {isLastSection(sectionId) || document.config.sections.length === 1 ?
-                                <button type="button" onClick={submitAssignment} disabled={isLoading}
-                                        className={"w-full text-center sm:w-auto mt-2 sm:mt-0 flex px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150 " + (isLoading ? "items-center" : "items-end")}>
+                                {isLastSection(sectionId) || document.config.sections.length === 1 ?
+                                    <button type="button" onClick={submitAssignment} disabled={isLoading}
+                                            className={"w-full text-center sm:w-auto mt-2 sm:mt-0 flex px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-gray-300 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150 " + (isLoading ? "items-center" : "items-end")}>
                                       <span className="mx-auto">
                                            {isLoading ? <CircularProgress color="inherit" size={15}
                                                                           className="mr-2 h-auto inline-block"/> :
@@ -150,17 +182,20 @@ const PageContent = ({pageRawData, iid}) => {
                                                </svg>} {isLoading ? "Submitting" : "Submit"}
                                       </span>
 
-                                </button> : <button type="button" onClick={handleContinue}
-                                                    className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                                    Continue
-                                </button>}
+                                    </button> : <button type="button" onClick={handleContinue}
+                                                        className="w-full sm:w-auto mt-2 sm:mt-0 items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                                        Continue
+                                    </button>}
+
+                            </div>
 
                         </div>
-
                     </div>
                 </div>
-            </div>
-        </AssignmentViewerContext.Provider>)
+            </AssignmentViewerContext.Provider>)
+    }
+
+
 }
 
 const ExamViewer = ({session}) => {

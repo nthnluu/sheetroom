@@ -2,7 +2,6 @@ import {useQuery} from "urql";
 import {getSubmissionsForAssignment} from "../../lib/graphql/Assignments";
 import React, {useContext} from "react";
 import QuizContext from "./QuizContext";
-import Head from "next/head";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
 
@@ -10,18 +9,20 @@ import moment from "moment";
 const LoadingPlaceholder: React.FC = () => {
     return (
         <div className="pt-56">
-            <Head>
-                <title>Sheetroom</title>
-            </Head>
             <div className="mx-auto">
                 <div className="mx-auto w-full text-center"><CircularProgress color="secondary"/></div>
                 <h1 className="text-center text-gray-400 mt-4">Hang on, we're loading this page</h1>
             </div>
-
         </div>
     )
 };
 
+const NoSubmissionsPlaceholder = () => {
+    return (<div className="mx-auto opacity-25 mt-24">
+        <img src="/paper-plane.svg" className="h-32 mx-auto" alt=""/>
+        <p className="text-center mt-2">Share your assignment to start collecting results</p>
+    </div>)
+}
 
 const ResultPage = () => {
     const {aid} = useContext(QuizContext)
@@ -39,18 +40,13 @@ const ResultPage = () => {
 
     if (fetching) return <LoadingPlaceholder/>
 
-    if (error) {
-        window.location.href = '/'
-        return <></>
-    }
 
     return (<div>
         <h2 className="text-xl font-semibold leading-7 text-gray-800 sm:text-2xl sm:leading-9 sm:truncate">
             Invites
         </h2>
-        <div className="bg-white shadow overflow-hidden rounded-md mt-8">
+        {data.assignments_assignment_by_pk.invites.length > 0 ? <div className="bg-white shadow overflow-hidden rounded-md mt-8">
             <ul className="divide-y divide-gray-200">
-
                 {data.assignments_assignment_by_pk.invites.map(invite => <li>
                     <a href={"/invite/" + invite.id}
                        className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
@@ -112,10 +108,9 @@ const ResultPage = () => {
                         </div>
                     </a>
                 </li>)}
-
-
             </ul>
-        </div>
+        </div> : <NoSubmissionsPlaceholder/>}
+
 
 
     </div>)

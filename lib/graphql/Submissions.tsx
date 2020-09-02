@@ -89,3 +89,16 @@ query StudentSubmissions($userId: Int!) {
   }
 }`
 
+
+export const getAllSubmissionsForUser = gql`
+query GetAllSubmissionsForUser($userId: Int!) {
+  assignments_submission(where: {created_by: {_eq: $userId}}) {
+  id
+    inviteByInvite {
+      classByClass {
+        title
+      }
+    }
+    content
+  }
+}`

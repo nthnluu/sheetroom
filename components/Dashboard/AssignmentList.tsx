@@ -1,5 +1,4 @@
 import {useSubscription} from "urql";
-import gql from "graphql-tag";
 import React, {useState} from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
@@ -234,22 +233,14 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
                                             toggleModal={toggleModal} item={item}
                                             key={item.id} session={session}/>) : <div className="my-8 text-center">
                         <img alt="" src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
-                        {profileData.data.users_by_pk.account_type === "teacher" ?
-                            <button className="text-center font-light opacity-25" onClick={openDialog}>Create new
-                                assignment</button> :
-                            <button className="text-center font-light opacity-25" onClick={openDialog}>View past
-                                submissions</button>}
-
+                        <button className="text-center font-medium underline opacity-25" onClick={openDialog}>Create new
+                            assignment</button>
                     </div>}
                 </ul> : <ul className="relative z-0 border-b  divide-y divide-gray-200 border-gray-200">
                     {assignmentArray.length > 0 ? assignmentArray.map(item => <StudentListItem item={item} key={item.id}/>) : <div className="my-8 text-center">
                         <img alt="" src="/assignment.svg" className="h-24 mx-auto opacity-25 mb-2"/>
-                        {profileData.data.users_by_pk.account_type === "teacher" ?
-                            <button className="text-center font-light opacity-25" onClick={openDialog}>Create new
-                                assignment</button> :
-                            <button className="text-center font-light opacity-25" onClick={openDialog}>View past
-                                submissions</button>}
-
+                        <a href="/submissions" className="text-center font-medium underline opacity-25">View past
+                            submissions</a>
                     </div>}
                 </ul>}
 

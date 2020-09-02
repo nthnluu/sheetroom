@@ -31,7 +31,7 @@ const ExistingInvitesSection = ({aid}) => {
                     style={{maxHeight: '11.1rem'}}>
                     {data.assignments_invite.map((invite, index) => <li key={invite.id}
                                                                         className={"p-3 border-gray-300 leading-tight " + (index === (data.assignments_invite.length - 1) ? null : "border-b")}>
-                        <h1 className="font-medium text-gray-700 text-sm">{moment(invite.created_at).format("dddd, MMMM Do YYYY")} ({invite.join_code})</h1>
+                        <a href={"/invite/" + invite.id} className="font-medium text-gray-700 text-sm hover:text-blue-600 focus:underline">{moment(invite.created_at).format("dddd, MMMM Do YYYY")} ({invite.join_code})</a>
                         <p className="text-sm text-gray-400">{invite.is_public ? <><i
                             className="fas fa-globe-americas mr-1"/>Public</> : `Assigned to ${invite.classByClass ? invite.classByClass.title : "a class"}`}</p>
                     </li>)}

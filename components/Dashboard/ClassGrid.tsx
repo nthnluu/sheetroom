@@ -32,10 +32,10 @@ const ClassGrid: React.FC<Props>  = ({session, openDialog, profileData})  => {
 
     return (<>
         {data.classes_class.length > 0 ? <ul className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-2 mt-3">
-                {data.classes_class.map(course => <ClassCard course={course} key={course.id}/>)}
+                {data.classes_class.map(course => <ClassCard isTeacher={profileData.data.users_by_pk.account_type === "teacher"} course={course} key={course.id}/>)}
         </ul> : <div className="my-4 text-center">
             <img src="/class.svg" className="h-24 mx-auto opacity-25 mb-2"/>
-            {profileData.data.users_by_pk.account_type === "teacher" ? <button className="text-center opacity-25" onClick={openDialog}>Create new class</button> : <a className="text-center opacity-25" href="/join/">Join a class</a>}
+            {profileData.data.users_by_pk.account_type === "teacher" ? <button className="text-center opacity-25 font-medium underline" onClick={openDialog}>Create new class</button> : <a className="text-center opacity-25 font-medium underline" href="/join/">Join a class</a>}
         </div>} </>)
 }
 

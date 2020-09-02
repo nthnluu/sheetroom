@@ -5,6 +5,7 @@ import AppLayout from "../components/PageLayouts/AppLayout/AppLayout";
 import CheckForUser from "../lib/CheckForUser";
 import Head from "next/head";
 
+
 interface Props {
     session: string;
     profileData: any;
