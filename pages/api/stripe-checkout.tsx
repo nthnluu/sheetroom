@@ -1,10 +1,10 @@
-
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
 export default async (req, res) => {
 
     const session = await stripe.checkout.sessions.create({
+        customer: req.body.customerId,
         payment_method_types: ['card'],
         line_items: [{
             price: 'price_1HN93dI8UDkQvU4da8Kt0qil',
@@ -17,5 +17,5 @@ export default async (req, res) => {
 
     res.statusCode = 200
     res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify( session.id ))
+    res.end(JSON.stringify(session.id))
 }

@@ -161,14 +161,26 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                     PRO
                                                 </h3>
                                             </div>
+
                                             <div
                                                 className="mt-4 flex items-baseline text-6xl leading-none font-extrabold">
-                                                $6
+                                                ${paymentMode === 0 ? 6 : 12}
                                                 <span className="ml-1 text-2xl leading-8 font-medium text-gray-500">
                         /mo
                       </span>
                                             </div>
-                                            <p className="mt-5 text-lg leading-7 text-gray-500">
+                                            <div className="text-base mt-3">
+                                                <div className="bg-cool-gray-100 grid grid-cols-2 shadow-inner rounded-md p-1 overflow-hidden">
+                                                    <button onClick={() => setPaymentMode(0)} className={"font-medium text-gray-500 rounded focus:outline-none focus:bg-gray-50 " + (paymentMode === 0 ? "bg-white shadow-lg" : null)}>
+                                                        YEARLY
+                                                    </button>
+                                                    <button onClick={() => setPaymentMode(1)} className={"font-medium text-gray-500 rounded focus:outline-none focus:bg-gray-50 " + (paymentMode === 1 ? "bg-white shadow-lg" : null)}>
+                                                        MONTHLY
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                            <p className="mt-2 text-lg leading-7 text-gray-500">
                                                 Full, unlimited access for teachers who need an all-in-one classwork solution.
                                             </p>
                                         </div>
