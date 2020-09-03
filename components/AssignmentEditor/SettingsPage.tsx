@@ -98,33 +98,33 @@ const SettingsPage = ({aid}) => {
 
                     </li>
 
-                    <li className="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5 sm:border-t sm:border-gray-200">
-                        <label className="text-sm leading-5 font-medium text-gray-700">
-                            Calculator
-                        </label>
-                        <div className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 space-x-2">
-                            <span className="inline-flex rounded-md shadow-sm">
-                                <button type="button"
-                                        className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                                    Disabled
-                                </button>
-                            </span>
+                    {/*<li className="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5 sm:border-t sm:border-gray-200">*/}
+                    {/*    <label className="text-sm leading-5 font-medium text-gray-700">*/}
+                    {/*        Calculator*/}
+                    {/*    </label>*/}
+                    {/*    <div className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 space-x-2">*/}
+                    {/*        <span className="inline-flex rounded-md shadow-sm">*/}
+                    {/*            <button type="button"*/}
+                    {/*                    className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">*/}
+                    {/*                Disabled*/}
+                    {/*            </button>*/}
+                    {/*        </span>*/}
 
-                            <span className="inline-flex rounded-md shadow-sm">
-                                <button type="button"
-                                        className="inline-flex items-center px-3 py-2 border border-blue-500 text-sm leading-4 font-medium rounded-md text-blue-500 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                                    Scientific
-                                </button>
-                            </span>
+                    {/*        <span className="inline-flex rounded-md shadow-sm">*/}
+                    {/*            <button type="button"*/}
+                    {/*                    className="inline-flex items-center px-3 py-2 border border-blue-500 text-sm leading-4 font-medium rounded-md text-blue-500 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">*/}
+                    {/*                Scientific*/}
+                    {/*            </button>*/}
+                    {/*        </span>*/}
 
-                            <span className="inline-flex rounded-md shadow-sm">
-                                <button type="button"
-                                        className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                                    Graphing
-                                </button>
-                            </span>
-                        </div>
-                    </li>
+                    {/*        <span className="inline-flex rounded-md shadow-sm">*/}
+                    {/*            <button type="button"*/}
+                    {/*                    className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">*/}
+                    {/*                Graphing*/}
+                    {/*            </button>*/}
+                    {/*        </span>*/}
+                    {/*    </div>*/}
+                    {/*</li>*/}
 
                     <li className="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5 sm:border-t sm:border-gray-200">
                         <label className="text-sm leading-5 font-medium text-gray-700">
