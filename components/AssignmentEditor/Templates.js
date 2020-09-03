@@ -9,7 +9,8 @@ export const newInitialDocumentContent = () => {
         config: {
             sections: [sectionId],
             timing: 0,
-            calculator: 0
+            calculator: 0,
+            event_log: []
         },
         sections: {
             [sectionId]: {

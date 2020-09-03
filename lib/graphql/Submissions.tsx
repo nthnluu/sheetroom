@@ -5,6 +5,9 @@ export const getSubmissionByPk = gql`
 assignments_submission_by_pk(id: $submissionId) {
 is_complete
     content
+    inviteByInvite {
+    config
+  }
   }
 }
 `;

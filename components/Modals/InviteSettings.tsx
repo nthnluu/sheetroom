@@ -6,7 +6,6 @@ import ToggleRow from "../Misc/ToggleRow";
 import Datetime from "react-datetime";
 import {useQuery} from "urql";
 import {searchClasses} from "../../lib/graphql/Class";
-import JsonDebugBox from "../JsonDebugBox";
 
 
 const SearchResults = ({value, setClass, session}) => {
@@ -73,9 +72,6 @@ const ClassSearch = ({selectedClass, setSelectedClass, session}) => {
 
 const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObject, setSettingsObject, session, profileData, standalone = false}) => {
     const [currentTab, setCurrentTab] = useState(0)
-
-    const [ipAddress, setIpAddress] = useState(false)
-    const [ipAddressValue, setIpAddressValue] = useState("")
 
 
     const setConfigValue = (configValue, value) => {
@@ -255,33 +251,33 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
         </> : null}
 
         {currentTab === 2 ? <>
-            <ToggleRow label="Restrict IP address" value={ipAddress}
-                       onEnable={() => setIpAddress(true)}
-                       onDisable={() => setIpAddress(false)}/>
-            {ipAddress ? <div>
-                <label htmlFor="ipAddress" className="sr-only">Enter a comma-seperated list of allowed IP
-                    addresses</label>
-                <div className="relative rounded-md shadow-sm mt-3">
-                    <input id="ipAddress" className="form-input block w-full sm:text-sm sm:leading-5"
-                           autoComplete="none"
-                           placeholder="Enter a comma-seperated list of allowed IP addresses" value={ipAddressValue}
-                           onChange={event => setIpAddressValue(event.target.value)}/>
-                </div>
-                <button className="text-sm text-gray-400">Current IP Address</button>
-            </div> : null}
+            {/*<ToggleRow label="Restrict IP address" value={ipAddress}*/}
+            {/*           onEnable={() => setIpAddress(true)}*/}
+            {/*           onDisable={() => setIpAddress(false)}/>*/}
+            {/*{ipAddress ? <div>*/}
+            {/*    <label htmlFor="ipAddress" className="sr-only">Enter a comma-seperated list of allowed IP*/}
+            {/*        addresses</label>*/}
+            {/*    <div className="relative rounded-md shadow-sm mt-3">*/}
+            {/*        <input id="ipAddress" className="form-input block w-full sm:text-sm sm:leading-5"*/}
+            {/*               autoComplete="none"*/}
+            {/*               placeholder="Enter a comma-seperated list of allowed IP addresses" value={ipAddressValue}*/}
+            {/*               onChange={event => setIpAddressValue(event.target.value)}/>*/}
+            {/*    </div>*/}
+            {/*    <button className="text-sm text-gray-400">Current IP Address</button>*/}
+            {/*</div> : null}*/}
 
 
-            <ToggleRow label="Submit if student leaves window" value={ipAddress}
-                       onEnable={() => setIpAddress(true)}
-                       onDisable={() => setIpAddress(false)}/>
+            <ToggleRow label="Submit if student leaves window" proOnly isPro={userIsPro} value={settingsObject.submitOnLeave}
+                       onEnable={() => setConfigValue("submitOnLeave", true)}
+                       onDisable={() => setConfigValue("submitOnLeave", false)}/>
 
-            <ToggleRow label="Disable text selection" value={ipAddress} proOnly isPro={userIsPro}
-                       onEnable={() => setIpAddress(true)}
-                       onDisable={() => setIpAddress(false)}/>
+            <ToggleRow label="Disable text selection" value={settingsObject.disableTextSelect} proOnly isPro={userIsPro}
+                       onEnable={() => setConfigValue("disableTextSelect", true)}
+                       onDisable={() => setConfigValue("disableTextSelect", false)}/>
 
-            <ToggleRow label="Disable paste" value={ipAddress} proOnly isPro={userIsPro}
-                       onEnable={() => setIpAddress(true)}
-                       onDisable={() => setIpAddress(false)}/>
+            <ToggleRow label="Disable paste" value={settingsObject.disablePaste} proOnly isPro={userIsPro}
+                       onEnable={() => setConfigValue("disablePaste", true)}
+                       onDisable={() => setConfigValue("disablePaste", false)}/>
 
 
             </> : null}

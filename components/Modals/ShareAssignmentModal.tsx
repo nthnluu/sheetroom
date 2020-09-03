@@ -64,7 +64,10 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId,  profile
         "collectStudentInfo": false,
         "collectStudentName": false,
         "collectEmail": false,
-        "collectId": false
+        "collectId": false,
+        "disablePaste": false,
+        "disableTextSelect": false,
+        "submitOnLeave": false
     }
     const [settingsObject, setSettingsObject] = useState(defaultConfig)
 
