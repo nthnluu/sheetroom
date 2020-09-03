@@ -4,6 +4,7 @@ import AssignmentViewerContext from "../AssignmentViewerContext";
 import {nanoid} from "nanoid";
 import update from "immutability-helper";
 import NewTooltip from "../../Misc/Tooltip";
+import shuffleArray from "../../../lib/shuffleArray";
 
 
 const AnswerChoice: React.FC<{ selected: boolean; onClickTrue: any; onClickFalse: any; choice: string; item: string; }> = ({selected, onClickTrue, onClickFalse, choice, item}) => {
@@ -31,6 +32,7 @@ const AnswerChoice: React.FC<{ selected: boolean; onClickTrue: any; onClickFalse
         }
 
     }
+
 
 
     return (
@@ -69,6 +71,7 @@ export default function MultipleAnswers({item}) {
     const currentItem = document.items[item]
     const selected = document.items[item].student_input
 
+
     const setAsIncorrect = (value) => {
         setDocument(prevState => {
             const choiceIndex = prevState.items[item].student_input.findIndex(element => element === value)
@@ -101,13 +104,16 @@ export default function MultipleAnswers({item}) {
         })
     }
 
+    const [shuffledArray] = useState(shuffleArray(currentItem.answer_objects))
+    const itemsArray = document.items[item].config.shuffle ? shuffledArray : currentItem.answer_objects
+
 
     return (
         <>
             <form>
                 <fieldset className="pt-2" role="radiogroup">
                     <legend className="font-semibold text-gray-800">Select all correct answers:</legend>
-                    {currentItem.answer_objects.map((choice, index) => <AnswerChoice key={choice} choice={choice}
+                    {itemsArray.map((choice, index) => <AnswerChoice key={choice} choice={choice}
                                                                                      selected={selected.includes(choice)}
                                                                                      item={item}
                                                                                      onClickTrue={() => setAsCorrect(choice)}

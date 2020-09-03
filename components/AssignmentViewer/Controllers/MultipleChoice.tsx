@@ -4,6 +4,9 @@ import AssignmentViewerContext from "../AssignmentViewerContext";
 import {nanoid} from "nanoid";
 import update from "immutability-helper";
 import NewTooltip from "../../Misc/Tooltip";
+import JsonDebugBox from "../../JsonDebugBox";
+import shuffleArray from "../../../lib/shuffleArray";
+
 
 
 const AnswerChoice: React.FC<{ selected: boolean; onClick: any; radioName: string; choice: string; item: string; }> = ({selected, onClick, radioName, choice, item}) => {
@@ -84,13 +87,15 @@ export default function MultipleChoice({item}) {
         })
     }
 
+    const [shuffledArray] = useState(shuffleArray(currentItem.answer_objects))
+    const itemsArray = document.items[item].config.shuffle ? shuffledArray : currentItem.answer_objects
 
     return (
         <>
             <form>
                 <fieldset className="pt-2" role="radiogroup">
                     <legend className="font-semibold text-gray-800">Select one:</legend>
-                    {currentItem.answer_objects.map((choice, index) => <AnswerChoice key={choice} choice={choice}
+                    {itemsArray.map((choice, index) => <AnswerChoice key={choice} choice={choice}
                                                                                      selected={selected.includes(choice)}
                                                                                      item={item}
                                                                                      onClick={() => setConfigValue(choice)}
