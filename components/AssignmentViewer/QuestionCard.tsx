@@ -1,10 +1,11 @@
 import InactiveQuillEditor from "../Editor/InactiveQuillEditor";
 import MultipleChoice from "./Controllers/MultipleChoice";
-import {useContext} from "react";
+import React, {useContext} from "react";
 import AssignmentViewerContext from "./AssignmentViewerContext";
 import MultipleAnswers from "./Controllers/MultipleAnswers";
 import ShortAnswer from "./Controllers/ShortAnswer";
 import Math from "./Controllers/Math";
+import {Image} from 'cloudinary-react';
 
 const Controller = ({item}) => {
     const {document} = useContext(AssignmentViewerContext)
@@ -38,6 +39,20 @@ const QuestionCard = ({item}) => {
             {document.config['item_numbers'] ?  <h1 className="font-semibold text-xs text-gray-400 uppercase mb-2">Question {itemNumber(item)}</h1> : null}
             {/*@ts-ignore*/}
             <InactiveQuillEditor value={currentItem.question}/>
+            {document.items[item].block ? (document.items[item].block.type === 'desmos' ? <div className="flex justify-between w-full mt-6">
+                <div className="w-full">
+                    <img src={document.items[item].block.data} className="mx-auto rounded-lg border border-gray-300 shadow-sm"/>
+                </div>
+
+
+            </div>  : <div className="flex justify-between w-full">
+
+                <div className="w-full" >
+                    <Image publicId={document.items[item].block.data} secure="true" className="mx-auto" style={{maxHeight: '15rem'}}/>
+                </div>
+
+            </div>) : null}
+
         </section>
         <div>
             <Controller item={item}/>

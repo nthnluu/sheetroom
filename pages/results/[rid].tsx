@@ -72,8 +72,6 @@ const PageLayout: React.FC<{ session, data, status, sid }> = ({session, data, st
 
                     </div>
                 </>}
-
-
             </div>
 
 
