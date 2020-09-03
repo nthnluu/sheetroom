@@ -2,8 +2,10 @@ export function getBrowserVisibilityProp() {
     if (typeof document.hidden !== "undefined") {
         // Opera 12.10 and Firefox 18 and later support
         return "visibilitychange"
+        //@ts-ignore
     } else if (typeof document.msHidden !== "undefined") {
         return "msvisibilitychange"
+        //@ts-ignore
     } else if (typeof document.webkitHidden !== "undefined") {
         return "webkitvisibilitychange"
     }
@@ -11,8 +13,10 @@ export function getBrowserVisibilityProp() {
 export function getBrowserDocumentHiddenProp() {
     if (typeof document.hidden !== "undefined") {
         return "hidden"
+        //@ts-ignore
     } else if (typeof document.msHidden !== "undefined") {
         return "msHidden"
+        //@ts-ignore
     } else if (typeof document.webkitHidden !== "undefined") {
         return "webkitHidden"
     }
