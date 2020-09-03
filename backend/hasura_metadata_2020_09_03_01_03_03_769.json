@@ -1,0 +1,1082 @@
+{
+  "version": 2,
+  "tables": [
+    {
+      "table": {
+        "schema": "assignments",
+        "name": "assignment"
+      },
+      "object_relationships": [
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "created_by"
+          }
+        }
+      ],
+      "array_relationships": [
+        {
+          "name": "invites",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "assignment",
+              "table": {
+                "schema": "assignments",
+                "name": "invite"
+              }
+            }
+          }
+        }
+      ],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "check": {
+              "created_by": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            },
+            "columns": [
+              "content",
+              "created_by",
+              "last_edited_by",
+              "title"
+            ],
+            "backend_only": false
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "public",
+          "permission": {
+            "columns": [
+              "created_by",
+              "content",
+              "title",
+              "updated_at",
+              "id",
+              "last_edited_by"
+            ],
+            "filter": {}
+          }
+        },
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "created_by",
+              "content",
+              "title",
+              "updated_at",
+              "id",
+              "last_edited_by"
+            ],
+            "filter": {},
+            "allow_aggregations": true
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "content",
+              "created_by",
+              "last_edited_by",
+              "title",
+              "updated_at"
+            ],
+            "filter": {
+              "created_by": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            },
+            "check": null
+          }
+        }
+      ],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "filter": {
+              "created_by": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "assignments",
+        "name": "invite"
+      },
+      "object_relationships": [
+        {
+          "name": "assignmentByAssignment",
+          "using": {
+            "foreign_key_constraint_on": "assignment"
+          }
+        },
+        {
+          "name": "classByClass",
+          "using": {
+            "foreign_key_constraint_on": "class"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "created_by"
+          }
+        }
+      ],
+      "array_relationships": [
+        {
+          "name": "submissions",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "invite",
+              "table": {
+                "schema": "assignments",
+                "name": "submission"
+              }
+            }
+          }
+        }
+      ],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "check": {
+              "_and": [
+                {
+                  "created_by": {
+                    "_eq": "X-Hasura-User-Id"
+                  }
+                },
+                {
+                  "assignmentByAssignment": {
+                    "created_by": {
+                      "_eq": "X-Hasura-User-Id"
+                    }
+                  }
+                }
+              ]
+            },
+            "columns": [
+              "is_public",
+              "allowed_attempts",
+              "created_by",
+              "config",
+              "description",
+              "join_code",
+              "created_at",
+              "assignment",
+              "class",
+              "id"
+            ],
+            "backend_only": false
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "public",
+          "permission": {
+            "columns": [
+              "allowed_attempts",
+              "assignment",
+              "class",
+              "created_by",
+              "description",
+              "id",
+              "is_public",
+              "join_code"
+            ],
+            "filter": {
+              "is_public": {
+                "_eq": true
+              }
+            }
+          }
+        },
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "id",
+              "created_at",
+              "is_public",
+              "class",
+              "created_by",
+              "allowed_attempts",
+              "description",
+              "join_code",
+              "assignment",
+              "config"
+            ],
+            "filter": {}
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "is_public",
+              "allowed_attempts",
+              "created_by",
+              "config",
+              "description",
+              "join_code",
+              "created_at",
+              "assignment",
+              "class",
+              "id"
+            ],
+            "filter": {},
+            "check": null
+          }
+        }
+      ],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "filter": {
+              "created_by": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "assignments",
+        "name": "score_report"
+      },
+      "array_relationships": [
+        {
+          "name": "submissions",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "score_report",
+              "table": {
+                "schema": "assignments",
+                "name": "submission"
+              }
+            }
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "public",
+          "permission": {
+            "columns": [
+              "id",
+              "earned_points",
+              "total_points",
+              "created_at"
+            ],
+            "filter": {
+              "submissions": {
+                "inviteByInvite": {
+                  "is_public": {
+                    "_eq": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "earned_points",
+              "total_points",
+              "created_at",
+              "id"
+            ],
+            "filter": {}
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "assignments",
+        "name": "submission"
+      },
+      "object_relationships": [
+        {
+          "name": "inviteByInvite",
+          "using": {
+            "foreign_key_constraint_on": "invite"
+          }
+        },
+        {
+          "name": "scoreReportByScoreReport",
+          "using": {
+            "foreign_key_constraint_on": "score_report"
+          }
+        },
+        {
+          "name": "studentProfile",
+          "using": {
+            "foreign_key_constraint_on": "student_profile"
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "public",
+          "permission": {
+            "columns": [
+              "answer_key",
+              "content",
+              "created_at",
+              "id",
+              "invite",
+              "is_complete",
+              "score_report",
+              "student_profile",
+              "updated_at"
+            ],
+            "filter": {
+              "_or": [
+                {
+                  "student_profile": {
+                    "_is_null": true
+                  }
+                },
+                {
+                  "inviteByInvite": {
+                    "is_public": {
+                      "_eq": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "answer_key",
+              "content",
+              "created_at",
+              "created_by",
+              "id",
+              "invite",
+              "is_complete",
+              "last_updated_by",
+              "score_report",
+              "student_profile",
+              "updated_at"
+            ],
+            "filter": {
+              "_or": [
+                {
+                  "studentProfile": {
+                    "student": {
+                      "_eq": "X-Hasura-User-Id"
+                    }
+                  }
+                },
+                {
+                  "studentProfile": {
+                    "classByClass": {
+                      "created_by": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                },
+                {
+                  "student_profile": {
+                    "_is_null": true
+                  }
+                },
+                {
+                  "inviteByInvite": {
+                    "is_public": {
+                      "_eq": true
+                    }
+                  }
+                }
+              ]
+            },
+            "allow_aggregations": true
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "public",
+          "permission": {
+            "columns": [
+              "is_complete",
+              "content",
+              "created_at",
+              "updated_at",
+              "id",
+              "invite",
+              "student_profile"
+            ],
+            "filter": {},
+            "check": null
+          }
+        },
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "content",
+              "created_at",
+              "id",
+              "invite",
+              "is_complete",
+              "last_updated_by",
+              "student_profile",
+              "updated_at"
+            ],
+            "filter": {},
+            "check": null
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "classes",
+        "name": "class"
+      },
+      "object_relationships": [
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "created_by"
+          }
+        }
+      ],
+      "array_relationships": [
+        {
+          "name": "invites",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "class",
+              "table": {
+                "schema": "assignments",
+                "name": "invite"
+              }
+            }
+          }
+        },
+        {
+          "name": "studentProfiles",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "class",
+              "table": {
+                "schema": "classes",
+                "name": "studentProfile"
+              }
+            }
+          }
+        }
+      ],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "check": {},
+            "columns": [
+              "color",
+              "created_by",
+              "join_code",
+              "title"
+            ],
+            "backend_only": false
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "public",
+          "permission": {
+            "columns": [
+              "id",
+              "title",
+              "created_by",
+              "color",
+              "join_code"
+            ],
+            "filter": {}
+          }
+        },
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "created_by",
+              "color",
+              "join_code",
+              "title",
+              "id"
+            ],
+            "filter": {},
+            "allow_aggregations": true
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "title"
+            ],
+            "filter": {
+              "created_by": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            },
+            "check": null
+          }
+        }
+      ],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "filter": {
+              "created_by": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "classes",
+        "name": "studentProfile"
+      },
+      "object_relationships": [
+        {
+          "name": "classByClass",
+          "using": {
+            "foreign_key_constraint_on": "class"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "student"
+          }
+        }
+      ],
+      "array_relationships": [
+        {
+          "name": "submissions",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "student_profile",
+              "table": {
+                "schema": "assignments",
+                "name": "submission"
+              }
+            }
+          }
+        }
+      ],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "check": {},
+            "columns": [
+              "student",
+              "class",
+              "id"
+            ],
+            "backend_only": false
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "public",
+          "permission": {
+            "columns": [
+              "id",
+              "class",
+              "student"
+            ],
+            "filter": {}
+          }
+        },
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "student",
+              "class",
+              "id"
+            ],
+            "filter": {}
+          }
+        }
+      ],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "filter": {
+              "_or": [
+                {
+                  "classByClass": {
+                    "created_by": {
+                      "_eq": "X-Hasura-User-Id"
+                    }
+                  }
+                },
+                {
+                  "student": {
+                    "_eq": "X-Hasura-User-Id"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "notifications",
+        "name": "activity_object"
+      },
+      "object_relationships": [
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "target_user"
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "active_time",
+              "content",
+              "id",
+              "scope",
+              "target_user",
+              "type"
+            ],
+            "filter": {
+              "target_user": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "accounts"
+      },
+      "select_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "id",
+              "compound_id",
+              "user_id",
+              "provider_type",
+              "provider_id",
+              "provider_account_id",
+              "refresh_token",
+              "access_token",
+              "access_token_expires",
+              "created_at",
+              "updated_at"
+            ],
+            "filter": {
+              "user_id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "filter": {
+              "user_id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "feedback"
+      },
+      "object_relationships": [
+        {
+          "name": "userByUser",
+          "using": {
+            "foreign_key_constraint_on": "user"
+          }
+        }
+      ],
+      "insert_permissions": [
+        {
+          "role": "public",
+          "permission": {
+            "check": {},
+            "columns": [
+              "id",
+              "message",
+              "reaction",
+              "url",
+              "user"
+            ],
+            "backend_only": false
+          }
+        },
+        {
+          "role": "user",
+          "permission": {
+            "check": {},
+            "columns": [
+              "id",
+              "message",
+              "reaction",
+              "url",
+              "user"
+            ],
+            "backend_only": false
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "sessions"
+      }
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "users"
+      },
+      "array_relationships": [
+        {
+          "name": "activity_objects",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "target_user",
+              "table": {
+                "schema": "notifications",
+                "name": "activity_object"
+              }
+            }
+          }
+        },
+        {
+          "name": "assignments",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "created_by",
+              "table": {
+                "schema": "assignments",
+                "name": "assignment"
+              }
+            }
+          }
+        },
+        {
+          "name": "classes",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "created_by",
+              "table": {
+                "schema": "classes",
+                "name": "class"
+              }
+            }
+          }
+        },
+        {
+          "name": "feedbacks",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user",
+              "table": {
+                "schema": "public",
+                "name": "feedback"
+              }
+            }
+          }
+        },
+        {
+          "name": "invites",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "created_by",
+              "table": {
+                "schema": "assignments",
+                "name": "invite"
+              }
+            }
+          }
+        },
+        {
+          "name": "studentProfiles",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "student",
+              "table": {
+                "schema": "classes",
+                "name": "studentProfile"
+              }
+            }
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "public",
+          "permission": {
+            "columns": [
+              "email",
+              "first_name",
+              "id",
+              "image",
+              "last_name"
+            ],
+            "filter": {}
+          }
+        },
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "account_type",
+              "created_at",
+              "email",
+              "email_verified",
+              "first_name",
+              "id",
+              "image",
+              "is_disabled",
+              "is_pro",
+              "last_name",
+              "name",
+              "stripeCustomerId",
+              "updated_at"
+            ],
+            "filter": {}
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "columns": [
+              "account_type",
+              "first_name",
+              "last_name"
+            ],
+            "filter": {
+              "id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            },
+            "check": null
+          }
+        }
+      ],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "permission": {
+            "filter": {
+              "id": {
+                "_eq": "X-Hasura-User-Id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "verification_requests"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "name": "prepareSubmission",
+      "definition": {
+        "handler": "https://kljv3ea4ik.execute-api.us-west-2.amazonaws.com/default/prepareSubmission",
+        "output_type": "PrepareSubmissionOutput",
+        "headers": [
+          {
+            "value": "WBe4Hj#(y;NQn%VC",
+            "name": "secret"
+          }
+        ],
+        "arguments": [
+          {
+            "name": "inviteId",
+            "type": "uuid!"
+          }
+        ],
+        "type": "mutation",
+        "kind": "synchronous"
+      },
+      "permissions": [
+        {
+          "role": "public"
+        },
+        {
+          "role": "user"
+        }
+      ]
+    },
+    {
+      "name": "processJoinCode",
+      "definition": {
+        "handler": "https://c3gua1pvog.execute-api.us-west-2.amazonaws.com/default/processJoinCode",
+        "output_type": "ProcessJoinCodeOutput",
+        "arguments": [
+          {
+            "name": "joinCode",
+            "type": "String!"
+          }
+        ],
+        "type": "query"
+      },
+      "permissions": [
+        {
+          "role": "public"
+        },
+        {
+          "role": "user"
+        }
+      ]
+    },
+    {
+      "name": "scoreSubmission",
+      "definition": {
+        "handler": "https://ghitb0rcoi.execute-api.us-west-2.amazonaws.com/default/scoreSubmission",
+        "output_type": "ScoreSubmissionOutput",
+        "arguments": [
+          {
+            "name": "submissionId",
+            "type": "uuid!"
+          }
+        ],
+        "type": "mutation",
+        "kind": "synchronous"
+      },
+      "permissions": [
+        {
+          "role": "public"
+        },
+        {
+          "role": "user"
+        }
+      ]
+    }
+  ],
+  "custom_types": {
+    "objects": [
+      {
+        "name": "prepareSubmissionOutput",
+        "fields": [
+          {
+            "name": "id",
+            "type": "uuid!"
+          }
+        ]
+      },
+      {
+        "name": "PrepareSubmissionOutput",
+        "fields": [
+          {
+            "name": "id",
+            "type": "uuid!"
+          }
+        ]
+      },
+      {
+        "name": "ScoreSubmissionOutput",
+        "fields": [
+          {
+            "name": "percentage",
+            "type": "Int!"
+          },
+          {
+            "name": "earned_points",
+            "type": "Int!"
+          },
+          {
+            "name": "total_points",
+            "type": "Int!"
+          },
+          {
+            "name": "scoreReportId",
+            "type": "uuid!"
+          }
+        ]
+      },
+      {
+        "name": "ProcessJoinCodeOutput",
+        "fields": [
+          {
+            "name": "type",
+            "type": "String!"
+          },
+          {
+            "name": "payload",
+            "type": "json!"
+          }
+        ]
+      }
+    ]
+  }
+}
