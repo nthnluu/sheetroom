@@ -16,7 +16,7 @@ const NoStudentsPlaceholder = ({joinCode}) => {
 }
 
 
-const StudentPage = ({course}) => {
+const StudentPage = ({course, profileData}) => {
     const [kickStudentModal, setKickStudentModal] = useState()
     return (
         <>
@@ -48,8 +48,8 @@ const StudentPage = ({course}) => {
                             <div className="flex-1 truncate">
                                 <div className="flex items-center space-x-3">
                                     <h3 className="text-gray-900 leading-5 font-medium truncate">{`${student.user.first_name} ${student.user.last_name}`}</h3>
-                                    <NewTooltip title="Remove student" placement="bottom" enterDelay={500}
-                                                enterNextDelay={500}>
+                                    {profileData.data.users_by_pk.account_type === "teacher" ? <NewTooltip title="Remove student" placement="bottom" enterDelay={500}
+                                                                                                            enterNextDelay={500}>
 
                                         <button className="inline-flex" onClick={() => setKickStudentModal(student.user.id)}>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" className="h-4"
@@ -58,7 +58,8 @@ const StudentPage = ({course}) => {
                                                       d="M6 18L18 6M6 6l12 12"/>
                                             </svg>
                                         </button>
-                                    </NewTooltip>
+                                    </NewTooltip> : null}
+
 
                                 </div>
                                 <p className="mt-1 text-gray-500 text-sm leading-5 truncate">{student.user.email}</p>
