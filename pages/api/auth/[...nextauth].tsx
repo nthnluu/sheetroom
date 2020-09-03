@@ -95,7 +95,6 @@ const options = {
                     .catch(error => console.log(error))
             }
 
-            console.log(message)
             ReactGA.event({
             category: 'User',
             action: 'Signed in'
