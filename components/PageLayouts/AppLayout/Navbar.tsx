@@ -117,7 +117,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                             {/* Profile dropdown */}
                             {session && !logoOnly ? <>
                                 <button onClick={() => toggleFeedbackModal(true)}
-                                        className="px-3 py-2 mr-4 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Feedback
+                                        className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Feedback
                                 </button>
                                 {accountMode === "teacher" ?
                                     // <a href="#"
@@ -131,7 +131,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                 </>}
 
                                 <ClickAwayListener onClickAway={() => toggleProfileDropdown(false)}>
-                                    <div className="relative flex-shrink-0">
+                                    <div className="relative flex-shrink-0 ml-2">
                                         <div>
 
                                             <button
