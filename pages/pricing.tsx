@@ -171,10 +171,10 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                             </div>
                                             <div className="text-base mt-3">
                                                 <div className="bg-cool-gray-100 grid grid-cols-2 shadow-inner rounded-md p-1 overflow-hidden">
-                                                    <button onClick={() => setPaymentMode(0)} className={"font-medium text-gray-500 rounded focus:outline-none focus:bg-gray-50 " + (paymentMode === 0 ? "bg-white shadow-lg" : null)}>
+                                                    <button onClick={() => setPaymentMode(0)} className={"font-medium text-gray-500 rounded focus:outline-none focus:bg-gray-50 " + (paymentMode === 0 ? "bg-white shadow" : null)}>
                                                         YEARLY
                                                     </button>
-                                                    <button onClick={() => setPaymentMode(1)} className={"font-medium text-gray-500 rounded focus:outline-none focus:bg-gray-50 " + (paymentMode === 1 ? "bg-white shadow-lg" : null)}>
+                                                    <button onClick={() => setPaymentMode(1)} className={"font-medium text-gray-500 rounded focus:outline-none focus:bg-gray-50 " + (paymentMode === 1 ? "bg-white shadow" : null)}>
                                                         MONTHLY
                                                     </button>
                                                 </div>
