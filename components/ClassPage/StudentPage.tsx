@@ -1,5 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import JsonDebugBox from "../JsonDebugBox";
+import NewTooltip from "../Misc/Tooltip";
+import KickStudentModal from "../Modals/KickStudentModal";
 
 
 const NoStudentsPlaceholder = ({joinCode}) => {
@@ -15,6 +17,7 @@ const NoStudentsPlaceholder = ({joinCode}) => {
 
 
 const StudentPage = ({course}) => {
+    const [kickStudentModal, setKickStudentModal] = useState()
     return (
         <>
             {course.studentProfiles.length > 0 ? <>
@@ -38,13 +41,28 @@ const StudentPage = ({course}) => {
                                  alt=""/>
                         </div>
                     </li>
-                    {course.studentProfiles.map(student => <li key={student.user.id} className="col-span-1 bg-white rounded-lg shadow">
+                    {course.studentProfiles.map(student => <li key={student.user.id}
+                                                               className="col-span-1 bg-white rounded-lg shadow">
+                        <KickStudentModal onCancel={() => setKickStudentModal(null)} isOpen={kickStudentModal === student.user.id} userId={student.user.id} classId={course.id}/>
                         <div className="w-full flex items-center justify-between p-6 space-x-6">
                             <div className="flex-1 truncate">
                                 <div className="flex items-center space-x-3">
                                     <h3 className="text-gray-900 leading-5 font-medium truncate">{`${student.user.first_name} ${student.user.last_name}`}</h3>
+                                    <NewTooltip title="Remove student" placement="bottom" enterDelay={500}
+                                                enterNextDelay={500}>
+
+                                        <button className="inline-flex" onClick={() => setKickStudentModal(student.user.id)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" className="h-4"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                      d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
+                                        </button>
+                                    </NewTooltip>
+
                                 </div>
                                 <p className="mt-1 text-gray-500 text-sm leading-5 truncate">{student.user.email}</p>
+
                             </div>
                             <img className="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0"
                                  src={student.user.image ? student.user.image : "/profile.jpg"}
