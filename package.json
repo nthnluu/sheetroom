@@ -20,7 +20,7 @@
     "@popperjs/core": "^2.4.4",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.9.0",
-    "@tailwindcss/ui": "^0.3.0",
+    "@tailwindcss/ui": "^0.4.0",
     "ace-builds": "^1.4.12",
     "array-move": "^3.0.0",
     "autoprefixer": "^9.8.1",
