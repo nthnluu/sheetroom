@@ -14,6 +14,11 @@ class MyDocument extends Document {
                     <style id="react-mathquill-styles"/>
                     <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
 
+                    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+                    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+                    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+                    <link rel="manifest" href="/site.webmanifest"/>
+
                     {/*Font Awesome Icons*/}
                     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
                           integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q"
