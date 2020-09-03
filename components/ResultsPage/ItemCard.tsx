@@ -1,7 +1,5 @@
 import InactiveQuillEditor from "../Editor/InactiveQuillEditor";
-import JsonDebugBox from "../JsonDebugBox";
 import MultipleChoice from "./Controllers/MultipleChoice";
-import {useContext} from "react";
 import MultipleAnswers from "./Controllers/MultipleAnswers";
 import ShortAnswer from "./Controllers/ShortAnswer";
 import Math from "./Controllers/Math";

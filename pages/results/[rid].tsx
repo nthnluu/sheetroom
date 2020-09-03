@@ -67,7 +67,7 @@ const PageLayout: React.FC<{ session, data, status, sid }> = ({session, data, st
                     <div className="mt-8 space-y-4">
                         {
                             data.content.content.config.sections.map(section => data.content.content.sections[section].items).flat().map(itemId =>
-                                <ItemCard item={itemId} data={data}/>)
+                                <ItemCard item={itemId} data={data} key={itemId}/>)
                         }
 
                     </div>
