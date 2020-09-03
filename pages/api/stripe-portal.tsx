@@ -4,7 +4,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export default async (req, res) => {
     const session = await stripe.billingPortal.sessions.create({
-        customer: 'cus_Hw8ia4HaF9qXln',
+        customer: req.body.customerId,
         return_url: `${process.env.SITE}/settings`,
     });
 
