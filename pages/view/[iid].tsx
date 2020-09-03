@@ -14,6 +14,7 @@ import update from "immutability-helper";
 import moment from "moment";
 import SubmittingModal from "../../components/Modals/SubmittingModal";
 import {usePageVisibility} from "../../lib/useVisibility";
+import shuffleArray from "../../lib/shuffleArray";
 
 const PageContent = ({pageRawData, iid, inviteConfig}) => {
 
@@ -121,6 +122,7 @@ const PageContent = ({pageRawData, iid, inviteConfig}) => {
 
     const handleContinue = () => {
         setCurrentSection(currentSection + 1)
+        setShuffledItems(shuffleArray(document.sections[sectionId].items))
         if (document.config.timing === 1) {
             setDocument(prevState => {
                 return update(prevState, {
@@ -146,6 +148,10 @@ const PageContent = ({pageRawData, iid, inviteConfig}) => {
         }
     }
 
+
+
+    const [shuffledItems, setShuffledItems] = useState(shuffleArray(document.sections[sectionId].items))
+    const shuffledOrNot = document.sections[sectionId].config.shuffle ? shuffledItems : document.sections[sectionId].items
 
     if (allowedSections.length < 1 || !canContinue) {
         scoreSubmissionMutate({submissionId: iid})
@@ -178,7 +184,7 @@ const PageContent = ({pageRawData, iid, inviteConfig}) => {
                                 className="font-medium text-gray-400 text-sm">{document.config.sections.findIndex(element => element === sectionId) + 1} of {document.config.sections.length}</span> : null}
                             <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 mr-2">{document.sections[sectionId].title}</h1>
                         </div>
-                        {document.sections[sectionId].items.map(item => (<QuestionCard item={item} key={item}/>))}
+                        {shuffledOrNot.map(item => (<QuestionCard item={item} key={item}/>))}
                         <div className="flex-row sm:flex items-center justify-between mt-4">
                             {(document.config['timing'] === 1 && (parseInt(document.sections[sectionId].config.hours) + parseInt(document.sections[sectionId].config.mins) > 0)) ?
                                 <span
