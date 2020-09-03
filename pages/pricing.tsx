@@ -164,9 +164,9 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
 
                                             <div
                                                 className="mt-4 flex items-baseline text-6xl leading-none font-extrabold">
-                                                ${paymentMode === 0 ? 6 : 12}
+                                                ${paymentMode === 0 ? 4 : 8}
                                                 <span className="ml-1 text-2xl font-medium text-gray-500">
-                        /mo{paymentMode === 0 ? <span className="ml-2 text-base text-gray-400 font-medium">(Billed yearly as $72)</span> : null}
+                        /mo{paymentMode === 0 ? <span className="ml-2 text-base text-gray-400 font-medium">(Billed yearly as $48)</span> : null}
                       </span>
                                             </div>
                                             <div className="text-base mt-3">

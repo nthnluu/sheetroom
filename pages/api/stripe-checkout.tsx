@@ -7,7 +7,7 @@ export default async (req, res) => {
         customer: req.body.customerId,
         payment_method_types: ['card'],
         line_items: [{
-            price: 'price_1HN93dI8UDkQvU4da8Kt0qil',
+            price: 'price_1HNLeCI8UDkQvU4dVGNPtWZY',
             quantity: 1,
         }],
         mode: 'subscription',
