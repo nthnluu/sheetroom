@@ -34,7 +34,7 @@ const SettingsPage = () => {
                             Timing
                         </label>
                         <div
-                            className="mt-1 text-xs sm:text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 space-x-2 justify-between flex-row sm:flex">
+                            className="mt-1 text-xs sm:text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 sm:space-x-2 space-y-2 sm:space-y-0 justify-between flex-row sm:flex">
                             <span className="space-x-2">
                                 <span className="inline-flex rounded-md shadow-sm">
                                 <button type="button" onClick={() => setConfigValue("timing", 0)}

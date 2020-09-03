@@ -17,9 +17,9 @@ const AssignmentPrintRenderer = React.forwardRef((props, ref) => {
             <h2 className="text-lg mb-4 w-full border-b pb-1">{props.document.sections[section].title}</h2>
             <div className="">
                 {/*//@ts-ignore*/}
-                {props.document.sections[section].items.map((item, index) => <>
+                {props.document.sections[section].items.map((item, index) => <div key={item}>
                     <div className="page-break block"/>
-                    <div key={item}
+                    <div
                          className="flex-row flex">
                         <div className="mb-6 block">
                             {/*//@ts-ignore*/}
@@ -30,8 +30,8 @@ const AssignmentPrintRenderer = React.forwardRef((props, ref) => {
                                 {props.document.items[item].answer_objects.map((object, index) => {
                                         {/*//@ts-ignore*/}
                                         if (props.document.items[item].controller_type === "MC" || props.document.items[item].controller_type === "MC") {
-                                            return (<div className="block">
-                                                <div key={object}
+                                            return (<div key={object} className="block">
+                                                <div
                                                      className="flex justify-between">
                                                     <div
                                                         className="text-lg font-semibold text-gray-800 mr-4 ">{String.fromCharCode((index + 1) + 64)}</div>
@@ -41,7 +41,7 @@ const AssignmentPrintRenderer = React.forwardRef((props, ref) => {
                                                 </div>
                                             </div>)
                                         } else {
-                                            return <div className="block"/>
+                                            return <div key={object} className="block"/>
                                         }
                                     }
                                 )}
@@ -49,7 +49,7 @@ const AssignmentPrintRenderer = React.forwardRef((props, ref) => {
                         </div>
 
                     </div>
-                </>)}
+                </div>)}
             </div>
 
         </div>)}

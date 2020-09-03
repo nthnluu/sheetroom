@@ -180,14 +180,14 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
                                 Keep
                             </label>
                             <div className="mt-1 rounded-md shadow-sm">
-                                <select id="keepScore"
+                                <select id="keepScore" defaultValue={settingsObject.multipleAttemptsScoring}
                                         onChange={event => setConfigValue("multipleAttemptsScoring", event.target.value)}
                                         className="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-                                    <option selected={settingsObject.multipleAttemptsScoring === 1} value={1}>Highest score
+                                    <option value={1}>Highest score
                                     </option>
-                                    <option selected={settingsObject.multipleAttemptsScoring === 2} value={2}>Latest score
+                                    <option value={2}>Latest score
                                     </option>
-                                    <option selected={settingsObject.multipleAttemptsScoring === 3} value={3}>Average of all
+                                    <option value={3}>Average of all
                                         attempts
                                     </option>
                                 </select>

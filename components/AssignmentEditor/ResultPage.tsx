@@ -47,7 +47,7 @@ const ResultPage = () => {
         </h2>
         {data.assignments_assignment_by_pk.invites.length > 0 ? <div className="bg-white shadow overflow-hidden rounded-md mt-8">
             <ul className="divide-y divide-gray-200">
-                {data.assignments_assignment_by_pk.invites.map(invite => <li>
+                {data.assignments_assignment_by_pk.invites.map(invite => <li key={invite.id}>
                     <a href={"/invite/" + invite.id}
                        className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
                         <div className="px-4 py-4 flex items-center sm:px-6">
