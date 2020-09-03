@@ -119,7 +119,7 @@ const Content: React.FC<Props> = ({profileData}) => {
                                                                                                      index={i}/>) : null}
                     </DragDropContext>
                     {currentPage === 2 ? <ResultPage/> : null}
-                    {currentPage === 4 ? <SettingsPage/> : null}
+                    {currentPage === 4 ? <SettingsPage aid={aid}/> : null}
                 </div>
             </div>
         </div>

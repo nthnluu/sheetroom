@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import StudentPage from "./StudentPage";
 import Submissions from "./Submissions";
 import Invites from "./Invites";
+import Settings from "./Settings";
 
 
 
@@ -18,6 +19,7 @@ const PageLayout = ({session, course, profileData, courseId}) => {
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
                 {currentPage === 1 ? <StudentPage course={course}/> : null}
                 {currentPage === 2 ? (profileData.data.users_by_pk.account_type === "teacher" ? <Invites course={courseId} session={session}/>:<Submissions course={courseId} session={session}/>) : null}
+                {currentPage === 4 ? <Settings classId={courseId} session={session} profileData={profileData}/> : null}
 
             </div>
 

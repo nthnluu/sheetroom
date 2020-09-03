@@ -1,9 +1,11 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import QuizContext from "./QuizContext";
 import update from "immutability-helper";
+import DeleteAssignmentModal from "../Modals/DeleteAssignmentModal";
 
-const SettingsPage = () => {
+const SettingsPage = ({aid}) => {
     const {setDocument, document} = useContext(QuizContext)
+    const [deleteModal, toggleModal] = useState(false)
 
     const setConfigValue = (configValue, value) => {
         setDocument(prevState => {
@@ -18,6 +20,7 @@ const SettingsPage = () => {
         })
     }
     return (<div>
+        <DeleteAssignmentModal redirectAfter itemId={aid} title="Delete Assignment?" onCancel={() => toggleModal(false)} isOpen={deleteModal}/>
         <div className="lg:flex lg:items-center lg:justify-between">
             <div className="flex-1 min-w-0">
                 <h2 className="text-xl font-semibold leading-7 text-gray-800 sm:text-2xl sm:leading-9 sm:truncate">
@@ -141,12 +144,12 @@ const SettingsPage = () => {
                     </li>
                     <li className="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5 sm:border-t sm:border-gray-200">
                         <label className="text-sm leading-5 font-medium text-gray-700">
-                            Delete assignment
+                            Delete this assignment?
                         </label>
                         <div className="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2 space-x-2">
-                            <button type="button"
+                            <button type="button" onClick={() => toggleModal(true)}
                                     className="inline-flex items-center justify-center px-3 py-1.5 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-50 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-red-200 transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-                                Delete account
+                                Delete assignment
                             </button>
                         </div>
                     </li>

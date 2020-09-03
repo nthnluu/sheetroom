@@ -113,3 +113,17 @@ mutation UpdateClassTitle($classId: uuid!, $newTitle: String!) {
   }
 }
 `;
+
+export const deleteStudentProfile = gql`
+mutation DeleteStudentProfile($studentId: Int!, $classId: uuid!) {
+  delete_classes_studentProfile(where: {student: {_eq: $studentId}, class: {_eq: $classId}}) {
+    __typename
+  }
+}`
+
+export const deleteClass = gql`
+mutation DeleteClass($classId: uuid!) {
+  delete_classes_class_by_pk(id: $classId) {
+    __typename
+  }
+}`
