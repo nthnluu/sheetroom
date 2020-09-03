@@ -3,19 +3,18 @@ import React, {useState} from "react";
 import {useMutation} from "urql";
 import {deleteAssignment} from "../../lib/graphql/Assignments";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {deleteClass} from "../../lib/graphql/Class";
 
 interface Props {
-    title: string;
     onCancel: any;
     isOpen: boolean;
-    toggleSnackbar?: any;
-    itemId: string;
-    redirectAfter?: boolean;
+    userId: number;
+    classId: string;
 }
 
-const DeleteAssignmentModal: React.FC<Props> = ({ title, redirectAfter, onCancel, isOpen, toggleSnackbar, itemId}) => {
+const DeleteClassModal: React.FC<Props> = ({onCancel, isOpen, userId, classId}) => {
 
-    const [deleteMutationResult, deleteMutation] = useMutation(deleteAssignment)
+    const [deleteMutationResult, deleteMutation] = useMutation(deleteClass)
     const [isLoading, toggleLoading] = useState(false)
 
     function cancelModal() {
@@ -23,18 +22,15 @@ const DeleteAssignmentModal: React.FC<Props> = ({ title, redirectAfter, onCancel
         onCancel();
     }
 
-    function handleSubmit() {
+    function handleSubmit () {
         toggleLoading(true)
-        deleteMutation({assignmentPk: itemId})
-            .then(result => {
-                if (redirectAfter) {
-                    window.location.href = '/'
-                } else {
-                    setTimeout(() => toggleSnackbar(true), 500);
-                    cancelModal()
-                }
+        deleteMutation({classId: classId})
+            .then(() => {
+                window.location.href = '/'
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                toggleLoading(false)
+                console.log(error)})
 
     }
 
@@ -45,7 +41,7 @@ const DeleteAssignmentModal: React.FC<Props> = ({ title, redirectAfter, onCancel
 
         <button type="button" onClick={handleSubmit} disabled={isLoading}
                 className="inline-flex items-center justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-         {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}Delete Assignment
+         {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}Delete class
         </button>
       </span>
             <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
@@ -56,12 +52,12 @@ const DeleteAssignmentModal: React.FC<Props> = ({ title, redirectAfter, onCancel
       </span>
         </div>
         {/*@ts-ignore*/}
-    </div>} isOpen={isOpen} onCancel={cancelModal} title={title} content={<div>
-        <p className="text-sm leading-5 text-gray-500">You will loose any data associated with this assignment,
-            including student submissions. This action cannot be undone.</p>
+    </div>} isOpen={isOpen} onCancel={cancelModal} title="Delete this class?" content={<div>
+      <p className="text-sm leading-5 text-gray-500">
+          All data associated with this class, including student submissions, will be permanently deleted. This action can't be undone.</p>
 
     </div>}
     />)
 }
 
-export default DeleteAssignmentModal
+export default DeleteClassModal

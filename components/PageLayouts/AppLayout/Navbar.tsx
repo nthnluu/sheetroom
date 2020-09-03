@@ -7,7 +7,6 @@ import SearchInput from "./SearchInput";
 import FeedbackModal from "../../Modals/FeedbackModal";
 
 
-
 interface Props {
     session?: string;
     unfixed?: boolean;
@@ -121,8 +120,13 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                         className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Feedback
                                 </button>
                                 {accountMode === "teacher" ? <a href="#"
-                                                                className="px-3 py-2 mr-4 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Help</a> : <a href="/join"
-                                                          className="px-3 py-2 mr-3 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Join</a>}
+                                                                className="px-3 py-2 mr-4 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Help</a> : <>
+                                    <a href="/join"
+                                       className="px-3 py-2 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Join</a>
+                                    <a href="/submissions"
+                                       className="px-3 py-2 mr-4 rounded-md text-sm leading-5 font-medium hover:text-white focus:outline-none focus:text-white focus:bg-light transition duration-150 ease-in-out">Submissions</a>
+
+                                </>}
 
                                 <ClickAwayListener onClickAway={() => toggleProfileDropdown(false)}>
                                     <div className="relative flex-shrink-0">
@@ -133,7 +137,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                                 className="flex text-sm rounded-full text-white focus:outline-none focus:shadow-solid transition duration-150 ease-in-out"
                                                 id="user-menu" aria-label="User menu" aria-haspopup="true">
                                                 {/*// @ts-ignore*/}
-                                                <img className="h-8 w-8 rounded-full bg-teal-400"
+                                                <img className="h-8 w-8 rounded-full bg-teal-400 border border-white"
                                                     // @ts-ignore
                                                      src={session.picture ? session.picture : "/profile.jpg"}
                                                      alt=""/>
@@ -163,7 +167,7 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                     </div>
                                 </ClickAwayListener></> : (!logoOnly ? <div className="flex justify-between">
                                 <a type="button" href="/signin"
-                                        className={(darkText ? "border-gray-800 text-gray-800 hover:opacity-75 focus:border-gray-700 focus:text-gray-700 active:text-gray-800" : "border-gray-300 text-white hover:text-gray-200 focus:border-blue-300 active:text-gray-300") + " inline-flex items-center px-3 py-1 border text-base leading-6 font-medium rounded-md bg-transparent focus:outline-none focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150"}>
+                                   className={(darkText ? "border-gray-800 text-gray-800 hover:opacity-75 focus:border-gray-700 focus:text-gray-700 active:text-gray-800" : "border-gray-300 text-white hover:text-gray-200 focus:border-blue-300 active:text-gray-300") + " inline-flex items-center px-3 py-1 border text-base leading-6 font-medium rounded-md bg-transparent focus:outline-none focus:shadow-outline-blue active:text-gray-300 transition ease-in-out duration-150"}>
                                     Continue to Sheetroom
                                 </a>
 
@@ -175,7 +179,9 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
             </div>
 
             <Transition appear={mobileMenu} show={mobileMenu} enter="transition ease-out duration-200"
-                        enterFrom="opacity-0 -translate-y-1" enterTo="opacity-100 translate-y-0" leave="transition ease-in duration-150" leaveFrom="opacity-100 translate-y-0" leaveTo="opacity-0 -translate-y-1">
+                        enterFrom="opacity-0 -translate-y-1" enterTo="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150" leaveFrom="opacity-100 translate-y-0"
+                        leaveTo="opacity-0 -translate-y-1">
                 <div className="absolute lg:hidden inset-x-0 transform shadow-lg navbar">
                     <div className="absolute inset-0 flex">
                         <div className="bg-white w-1/2"/>
@@ -208,20 +214,37 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                             </svg>
                                             <span>Help</span>
                                         </a>
-                                    </li> : <li className="flow-root">
-                                        <a href="/join"
-                                           className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
-                                            <svg className="flex-shrink-0 h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-                                            </svg>
-                                            <span>Join</span>
-                                        </a>
-                                    </li>}
+                                    </li> : <>
+                                        <li className="flow-root">
+                                            <a href="/join"
+                                               className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
+                                                <svg className="flex-shrink-0 h-6 w-6 text-gray-400"
+                                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                          d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
+                                                </svg>
+                                                <span>Join</span>
+                                            </a>
+                                        </li>
+                                        <li className="flow-root">
+                                            <a href="/join"
+                                               className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
+                                                <svg className="flex-shrink-0 h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                                </svg>
+                                                <span>Submissions</span>
+                                            </a>
+                                        </li>
+                                    </>}
 
 
                                     <li className="flow-root">
-                                        <button onClick={() => {toggleMobileMenu(false); toggleFeedbackModal(true)}}
-                                           className="-m-3 p-3 w-full text-left flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
+                                        <button onClick={() => {
+                                            toggleMobileMenu(false);
+                                            toggleFeedbackModal(true)
+                                        }}
+                                                className="-m-3 p-3 w-full text-left flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
                                             <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -235,8 +258,10 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                            className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
                                             <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             </svg>
                                             <span>Settings</span>
                                         </a>
@@ -246,7 +271,8 @@ export const Navbar: React.FC<Props> = ({session, profileData, unfixed, transpar
                                            className="-m-3 p-3 flex items-center space-x-4 rounded-md text-base leading-6 font-medium text-gray-900 hover:bg-gray-50 transition ease-in-out duration-150">
                                             <svg className="flex-shrink-0 h-6 w-6 text-gray-400" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                                             </svg>
                                             <span>Sign out</span>
                                         </a>

@@ -53,8 +53,8 @@ const Sidebar: React.FC<Props> = ({session, profile}) => {
                         {(profile.data.users_by_pk.is_pro || profile.data.users_by_pk.account_type === "student") ? null : <div>
                             <div className="text-sm mb-2 text-gray-700 font-medium">Assignments <span className="font-light">{profile.data.assignments_assignment_aggregate.aggregate.count}/10</span></div>
                             <LinearProgress variant="determinate" value={((profile.data.assignments_assignment_aggregate.aggregate.count / 10) * 100 <= 100) ? ((profile.data.assignments_assignment_aggregate.aggregate.count / 10) * 100) : 100} />
-                            <div className="text-sm mb-2 text-gray-700 font-medium mt-4">Classes <span className="font-light">{profile.data.classes_class_aggregate.aggregate.count}/10</span></div>
-                            <LinearProgress variant="determinate" value={((profile.data.classes_class_aggregate.aggregate.count / 10) * 100 <= 100) ? ((profile.data.classes_class_aggregate.aggregate.count / 10) * 100) : 100} />
+                            <div className="text-sm mb-2 text-gray-700 font-medium mt-4">Classes <span className="font-light">{profile.data.classes_class_aggregate.aggregate.count}/4</span></div>
+                            <LinearProgress variant="determinate" value={((profile.data.classes_class_aggregate.aggregate.count / 4) * 100 <= 100) ? ((profile.data.classes_class_aggregate.aggregate.count / 4) * 100) : 100} />
                             <div className="mt-4">
                                 <a href="/pricing" className="text-sm font-semibold text-blue-600">Upgrade to Sheetroom Pro &rarr;</a>
                             </div>

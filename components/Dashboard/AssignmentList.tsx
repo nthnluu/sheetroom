@@ -223,7 +223,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
         return <LoadingPlaceholder/>
     } else {
         return (<>
-            <DeleteAssignmentModal itemId={currentAssignmentId} toggleSnackbar={toggleSnackbar} joinCode=""
+            <DeleteAssignmentModal itemId={currentAssignmentId} toggleSnackbar={toggleSnackbar}
                                    title="Delete Assignment?" onCancel={() => toggleModal(false)} isOpen={deleteModal}/>
             <InfoSnackbar isOpen={snackbarOpen} onClose={() => toggleSnackbar(false)} label="🗑 Assignment Deleted"/>
             {profileData.data.users_by_pk.account_type === "teacher" ?

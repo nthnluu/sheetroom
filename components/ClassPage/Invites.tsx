@@ -49,7 +49,7 @@ const Invites = ({course, session}) => {
     } else {
         return (
             <>
-                {data ? <>
+                {data.classes_class_by_pk.invites.length  > 0 ? <>
                     <h1 className="text-2xl text-gray-800 font-semibold mr-1 mb-4 mt-10">Submissions</h1>
                     <div className="bg-white shadow overflow-hidden rounded-md">
                         <ul className="divide-y divide-gray-200">
