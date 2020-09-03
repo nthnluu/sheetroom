@@ -7882,6 +7882,11 @@ react-ssr-prepass@^1.2.1:
   dependencies:
     object-is "^1.1.2"
 
+react-tab-visibility@^16.12.1:
+  version "16.12.1"
+  resolved "https://registry.yarnpkg.com/react-tab-visibility/-/react-tab-visibility-16.12.1.tgz#50211eed296fba2571cd1209a76aa30afcc50057"
+  integrity sha512-BR3T8w6UHg5NIkp8nGM2YL5NLIcPthcR2THtpNGnlQWEcXjtyvDfdknLoXbeV6YO6moFOeHd0FPVkQueDZ2f1w==
+
 react-test-renderer@^16.0.0-0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.13.1.tgz#de25ea358d9012606de51e012d9742e7f0deabc1"

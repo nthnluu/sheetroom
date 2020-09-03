@@ -13,8 +13,10 @@ import CheckForUser from "../../lib/CheckForUser";
 import update from "immutability-helper";
 import moment from "moment";
 import SubmittingModal from "../../components/Modals/SubmittingModal";
+import {usePageVisibility} from "../../lib/useVisibility";
+import shuffleArray from "../../lib/shuffleArray";
 
-const PageContent = ({pageRawData, iid}) => {
+const PageContent = ({pageRawData, iid, inviteConfig}) => {
 
     const [pageData] = useState(pageRawData)
     const [document, setDocument] = useState(pageData.content);
@@ -55,6 +57,8 @@ const PageContent = ({pageRawData, iid}) => {
     const [scoreSubmissionResult, scoreSubmissionMutate] = useMutation(scoreAssignment)
     const [isLoading, toggleIsLoading] = useState(false);
 
+    const inviteConfigObject = JSON.parse(inviteConfig)
+
     const saveAssignment = (newDocument) => {
         setSaveStatus(1)
         mutateSubmission({submissionId: iid, content: newDocument})
@@ -68,6 +72,34 @@ const PageContent = ({pageRawData, iid}) => {
     useEffect(() => {
         delayedMutation({content: document, title: pageData.title})
     }, [document])
+
+    const isVisible = usePageVisibility();
+
+    const logEvent = (label, data) => {
+        setDocument(prevState => {
+            return update(prevState, {
+                    config: {
+                        event_log: {
+                            $push: [{[label]: data}]
+                        }
+                    }
+                }
+            )
+        })
+
+    }
+
+    useEffect(() => {
+        if (isVisible) {
+            logEvent('user_in_tab', moment())
+        } else {
+            logEvent('user_exit_tab', moment())
+            if (inviteConfigObject.submitOnLeave) {
+                submitAssignment()
+            }
+        }
+
+    }, [isVisible])
 
     const submitAssignment = () => {
         toggleIsLoading(true)
@@ -90,6 +122,7 @@ const PageContent = ({pageRawData, iid}) => {
 
     const handleContinue = () => {
         setCurrentSection(currentSection + 1)
+        setShuffledItems(shuffleArray(document.sections[sectionId].items))
         if (document.config.timing === 1) {
             setDocument(prevState => {
                 return update(prevState, {
@@ -116,6 +149,10 @@ const PageContent = ({pageRawData, iid}) => {
     }
 
 
+
+    const [shuffledItems, setShuffledItems] = useState(shuffleArray(document.sections[sectionId].items))
+    const shuffledOrNot = document.sections[sectionId].config.shuffle ? shuffledItems : document.sections[sectionId].items
+
     if (allowedSections.length < 1 || !canContinue) {
         scoreSubmissionMutate({submissionId: iid})
             .then(() => window.location.href = '/results/' + iid + '?status=success')
@@ -123,9 +160,9 @@ const PageContent = ({pageRawData, iid}) => {
         return <></>
     } else {
         return (
-            <AssignmentViewerContext.Provider value={{document, setDocument}}>
+            <AssignmentViewerContext.Provider value={{document, setDocument, logEvent, inviteConfigObject}}>
                 <SubmittingModal isOpen={isLoading}/>
-                <div className="min-h-screen text-gray-800">
+                <div className={"min-h-screen text-gray-800 " + (inviteConfigObject.disableTextSelect ? "select-none" : null)}>
                     {/*//Navbar*/}
                     <div
                         className="py-3 px-4 lg:px-8 bg-white shadow flex justify-between items-center fixed w-full navbar">
@@ -147,7 +184,7 @@ const PageContent = ({pageRawData, iid}) => {
                                 className="font-medium text-gray-400 text-sm">{document.config.sections.findIndex(element => element === sectionId) + 1} of {document.config.sections.length}</span> : null}
                             <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 mr-2">{document.sections[sectionId].title}</h1>
                         </div>
-                        {document.sections[sectionId].items.map(item => (<QuestionCard item={item} key={item}/>))}
+                        {shuffledOrNot.map(item => (<QuestionCard item={item} key={item}/>))}
                         <div className="flex-row sm:flex items-center justify-between mt-4">
                             {(document.config['timing'] === 1 && (parseInt(document.sections[sectionId].config.hours) + parseInt(document.sections[sectionId].config.mins) > 0)) ?
                                 <span
@@ -233,7 +270,7 @@ const ExamViewer = ({session}) => {
         window.location.href = '/results/' + iid + '?status=success'
         return null
     } else {
-        return <PageContent pageRawData={data.assignments_submission_by_pk.content} iid={iid}/>
+        return <PageContent pageRawData={data.assignments_submission_by_pk.content} inviteConfig={data.assignments_submission_by_pk.inviteByInvite.config} iid={iid}/>
     }
 }
 

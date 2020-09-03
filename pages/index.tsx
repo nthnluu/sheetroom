@@ -5,7 +5,6 @@ import {GetServerSideProps} from "next";
 import DesktopGraphic from "../components/LandingPage/DesktopGraphic";
 import Footer from "../components/Misc/Footer";
 import Head from "next/head";
-import {motion} from "framer-motion";
 
 const InlineButton = ({label, onClick, selected}) => {
     return <button className={"px-1 rounded-md font-medium mr-1 mt-1 sm:mt-0 focus:outline-none " + (selected ? "bg-blue-200 text-blue-600 focus:bg-blue-100" : "bg-gray-200 focus:bg-gray-100")} onClick={onClick}>{label}</button>
@@ -293,55 +292,55 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                             {/*    </div>*/}
                             {/*</div>*/}
                         </div>
-                        <div className="py-12 mt-56 md:mt-32 lg:mt-24">
+                        {/*<div className="py-12 mt-56 md:mt-32 lg:mt-24">*/}
 
-                            <div className="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-screen-xl lg:px-8">
-                                <h4 className="text-2xl leading-8 font-extrabold text-gray-900 tracking-tight sm:text-3xl sm:leading-9">
-                                    Getting started is easy
-                                </h4>
-                                <div className="lg:grid lg:grid-cols-3 lg:gap-8 mt-12">
-                                    <div>
-                                        <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                                            </svg>
-                                        </div>
-                                        <div className="mt-5">
-                                            <h5 className="text-lg leading-6 font-medium text-gray-900">Build your assignment</h5>
-                                            <p className="mt-2 text-base leading-6 text-gray-500">
-                                                Write your assignments with ease using our intuitive, drag and drop editor.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="mt-10 lg:mt-0">
-                                        <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-                                            </svg>
-                                        </div>
-                                        <div className="mt-5">
-                                            <h5 className="text-lg leading-6 font-medium text-gray-900">Create a class</h5>
-                                            <p className="mt-2 text-base leading-6 text-gray-500">
-                                                Adding students to a class lets you collect names, limit attempts, and group together submissions. Students can sign in to see any upcoming assignments and their past submissions.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="mt-10 lg:mt-0">
-                                        <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
-                                            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                            </svg>
-                                        </div>
-                                        <div className="mt-5">
-                                            <h5 className="text-lg leading-6 font-medium text-gray-900">Export data</h5>
-                                            <p className="mt-2 text-base leading-6 text-gray-500">
-                                               Once you collect results, you can easily export it to Canvas or Google Classroom.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {/*    <div className="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-screen-xl lg:px-8">*/}
+                        {/*        <h4 className="text-2xl leading-8 font-extrabold text-gray-900 tracking-tight sm:text-3xl sm:leading-9">*/}
+                        {/*            Getting started is easy*/}
+                        {/*        </h4>*/}
+                        {/*        <div className="lg:grid lg:grid-cols-3 lg:gap-8 mt-12">*/}
+                        {/*            <div>*/}
+                        {/*                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">*/}
+                        {/*                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">*/}
+                        {/*                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />*/}
+                        {/*                    </svg>*/}
+                        {/*                </div>*/}
+                        {/*                <div className="mt-5">*/}
+                        {/*                    <h5 className="text-lg leading-6 font-medium text-gray-900">Build your assignment</h5>*/}
+                        {/*                    <p className="mt-2 text-base leading-6 text-gray-500">*/}
+                        {/*                        Write your assignments with ease using our intuitive, drag and drop editor.*/}
+                        {/*                    </p>*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*            <div className="mt-10 lg:mt-0">*/}
+                        {/*                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">*/}
+                        {/*                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">*/}
+                        {/*                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />*/}
+                        {/*                    </svg>*/}
+                        {/*                </div>*/}
+                        {/*                <div className="mt-5">*/}
+                        {/*                    <h5 className="text-lg leading-6 font-medium text-gray-900">Create a class</h5>*/}
+                        {/*                    <p className="mt-2 text-base leading-6 text-gray-500">*/}
+                        {/*                        Adding students to a class lets you collect names, limit attempts, and group together submissions. Students can sign in to see any upcoming assignments and their past submissions.*/}
+                        {/*                    </p>*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*            <div className="mt-10 lg:mt-0">*/}
+                        {/*                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">*/}
+                        {/*                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">*/}
+                        {/*                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />*/}
+                        {/*                    </svg>*/}
+                        {/*                </div>*/}
+                        {/*                <div className="mt-5">*/}
+                        {/*                    <h5 className="text-lg leading-6 font-medium text-gray-900">Export data</h5>*/}
+                        {/*                    <p className="mt-2 text-base leading-6 text-gray-500">*/}
+                        {/*                       Once you collect results, you can easily export it to Canvas or Google Classroom.*/}
+                        {/*                    </p>*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
 
 

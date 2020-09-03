@@ -98,6 +98,7 @@ const SectionOptionsModal = ({isOpen, onCancel, section}) => {
                                 </span>
 
                             </span>:null}
+        <ToggleRow label="Shuffle Items" value={document.sections[section].config['shuffle']} onEnable={() => setConfigValue("shuffle", true)} onDisable={() => setConfigValue("shuffle", false)}/>
     </div>}
     />)
 }
