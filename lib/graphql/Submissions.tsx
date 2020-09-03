@@ -95,7 +95,7 @@ query StudentSubmissions($userId: Int!) {
 
 export const getAllSubmissionsForUser = gql`
 query GetAllSubmissionsForUser($userId: Int!) {
-  assignments_submission(where: {created_by: {_eq: $userId}}) {
+  assignments_submission(where: {created_by: {_eq: $userId}}, order_by: {scoreReportByScoreReport: {created_at: desc_nulls_last}}) {
   id
     inviteByInvite {
       classByClass {
