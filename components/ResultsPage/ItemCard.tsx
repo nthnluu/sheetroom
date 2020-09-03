@@ -36,10 +36,10 @@ const ItemCard = ({data, item}) => {
                 </div>
 
 
-            </div>  : <div className="flex justify-between w-full">
+            </div>  : <div className="flex justify-between w-full mt-6">
 
                 <div className="w-full" >
-                    <Image publicId={currentItem.block.data} secure="true" className="mx-auto" style={{maxHeight: '15rem'}}/>
+                    <Image publicId={currentItem.block.data} secure="true" className="mx-auto rounded-lg shadow-sm" style={{maxHeight: '15rem'}}/>
                 </div>
 
             </div>) : null}
