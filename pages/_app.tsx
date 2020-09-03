@@ -14,7 +14,7 @@ import {loadStripe} from "@stripe/stripe-js";
 import { CloudinaryContext } from "cloudinary-react";
 import Head from "next/head";
 
-const stripePromise = loadStripe('pk_test_51HM11eI8UDkQvU4dcFBIfj4XvOA97im3W2WjzkzBGtxvaJV33L5txdtFvF0zCGIlbZJx0wu9YDYp7YT7mE7wFrMt00svbOJBLI');
+const stripePromise = loadStripe('pk_live_51HM11eI8UDkQvU4dUPMNb1kEmsBuFORTIxwxfeaGksA0xyPalSLA4SdhXMiCUTlJtxHvjE3eBRhuUYbWIXMWfAoQ00EmQDBG2g');
 
 const MuiTheme = createMuiTheme({
     palette: {
