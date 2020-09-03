@@ -3,6 +3,8 @@ import MultipleChoice from "./Controllers/MultipleChoice";
 import MultipleAnswers from "./Controllers/MultipleAnswers";
 import ShortAnswer from "./Controllers/ShortAnswer";
 import Math from "./Controllers/Math";
+import React from "react";
+import {Image} from 'cloudinary-react';
 
 const Controller = ({item, data}) => {
 
@@ -28,6 +30,19 @@ const ItemCard = ({data, item}) => {
         <section className="mb-8">
             {/*@ts-ignore*/}
             <InactiveQuillEditor value={currentItem.question}/>
+            {currentItem.block ? (currentItem.block.type === 'desmos' ? <div className="flex justify-between w-full mt-6">
+                <div className="w-full">
+                    <img src={currentItem.block.data} className="mx-auto rounded-lg border border-gray-300 shadow-sm"/>
+                </div>
+
+
+            </div>  : <div className="flex justify-between w-full mt-6">
+
+                <div className="w-full" >
+                    <Image publicId={currentItem.block.data} secure="true" className="mx-auto rounded-lg shadow-sm" style={{maxHeight: '15rem'}}/>
+                </div>
+
+            </div>) : null}
         </section>
         <div>
             <Controller item={item} data={data}/>
