@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import JsonDebugBox from "../JsonDebugBox";
 import NewTooltip from "../Misc/Tooltip";
 import KickStudentModal from "../Modals/KickStudentModal";
 
