@@ -14,9 +14,10 @@ interface Props {
     config: string;
     userAttempts: number;
     submissions: any;
+    resumeAssignment?: string
 }
 
-const AssignmentCard: React.FC<Props> = ({firstName, submissions, lastName, title, inviteId, config,  userAttempts}) => {
+const AssignmentCard: React.FC<Props> = ({firstName, resumeAssignment, submissions, lastName, title, inviteId, config,  userAttempts}) => {
     const [prepareSubmissionResult, mutateSubmission] = useMutation(prepareSubmission)
     const [isLoading, toggleLoading] = useState(false)
 
@@ -29,21 +30,25 @@ const AssignmentCard: React.FC<Props> = ({firstName, submissions, lastName, titl
         <h1 className="text-2xl font-semibold text-gray-800">{title}</h1>
         <h2 className="text-gray-400">Assigned by {firstName} {lastName}</h2>
         <div className="sm:flex justify-end mt-4">
-            {isWithinDueDate ? (inviteConfig.multipleAttempts ? (((inviteConfig.allowedAttempts ? userAttempts < parseInt(inviteConfig.allowedAttempts) : true)) ? <div className="flex-row sm:flex justify-between sm:space-x-2 items-center">
+            {resumeAssignment && isWithinDueDate ? <a type="button" href={'/view/' + resumeAssignment}
+                                                           className="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}Resume
+                assignment
+            </a> : <>{isWithinDueDate ? (inviteConfig.multipleAttempts ? (((inviteConfig.allowedAttempts ? userAttempts < parseInt(inviteConfig.allowedAttempts) : true)) ? <div className="flex-row sm:flex justify-between sm:space-x-2 items-center">
                     <p className="mb-1 md:mb-0 w-full sm:w-auto text-center text-gray-500 px-2 py-1 border rounded-md shadow-sm  h-full flex justify-center items-center border-gray-300">
                         {inviteConfig.allowedAttempts ? `Attempt ${userAttempts} of ${inviteConfig.allowedAttempts}` : <span>
                         <i className="fas fa-infinity mr-2"></i>Unlimited attempts</span>}</p>
                     <button type="button" disabled={isLoading} onClick={() => {
-                    toggleLoading(true)
-                    mutateSubmission({inviteId: inviteId})
-                        .then(result => window.location.href = '/view/' + result.data.prepareSubmission.id)
-                        .catch(() => toggleLoading(false))
-                }
-                }
-                                       className="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
-                    {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}
-                    Start assignment
-                </button></div> : <p className="mb-1 md:mb-0 w-full sm:w-auto text-center text-red-500 px-2 py-1 border rounded-lg border-red-500">
+                        toggleLoading(true)
+                        mutateSubmission({inviteId: inviteId})
+                            .then(result => window.location.href = '/view/' + result.data.prepareSubmission.id)
+                            .catch(() => toggleLoading(false))
+                    }
+                    }
+                            className="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                        {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}
+                        Start assignment
+                    </button></div> : <p className="mb-1 md:mb-0 w-full sm:w-auto text-center text-red-500 px-2 py-1 border rounded-lg border-red-500">
                     <i
                         className="fas fa-exclamation-circle mr-1"/>You're out of attempts.</p>) : ((userAttempts ? userAttempts < 1 : true) ? <button type="button" disabled={isLoading} onClick={() => {
                     toggleLoading(true)
@@ -52,7 +57,7 @@ const AssignmentCard: React.FC<Props> = ({firstName, submissions, lastName, titl
                         .catch(() => toggleLoading(false))
                 }
                 }
-                                                        className="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
+                                                                                                                                                       className="inline-flex w-full sm:w-auto justify-center items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150">
                     {isLoading ? <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}Start
                     assignment
                 </button> : <p className="mb-1 md:mb-0 w-full sm:w-auto text-center text-red-500 px-2 py-1 border rounded-lg border-red-500">
@@ -60,7 +65,8 @@ const AssignmentCard: React.FC<Props> = ({firstName, submissions, lastName, titl
                         className="fas fa-exclamation-circle mr-1"/>You're out of attempts.</p>)) :
                 <p className="mb-1 md:mb-0 w-full sm:w-auto text-center text-red-500 px-2 py-1 border rounded-lg border-red-500">
                     <i
-                        className="fas fa-exclamation-circle mr-1"/>The deadline has passed</p>}
+                        className="fas fa-exclamation-circle mr-1"/>The deadline has passed</p>}</>}
+
 
         </div>
     </div>
