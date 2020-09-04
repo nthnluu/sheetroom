@@ -362,7 +362,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                             <h2 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
                                 Ready to dive in?
                                 <br />
-                                <span className="text-blue-600">Start your free trial today.</span>
+                                <span className="text-blue-600">Start for free today.</span>
                             </h2>
                             <div className="mt-8 flex lg:flex-shrink-0 lg:mt-0">
                                 <div className="inline-flex rounded-md shadow">
