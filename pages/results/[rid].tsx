@@ -21,7 +21,7 @@ const PageLayout: React.FC<{ session, data, status, sid }> = ({session, data, st
             <div className="px-4 max-w-4xl mx-auto py-12">
                 {status === "success" ? <>
                     {inviteConfig.hideScore ? <div className="mb-12">
-                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 text-center">Assignment submitted
+                        <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 text-center">Assignment submitted
                             successfully.</h1>
                         <h2 className="text-xl text-gray-500 text-center">Your instructor has hidden your score and
                             responses.</h2>
