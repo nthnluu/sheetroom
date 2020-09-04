@@ -223,6 +223,30 @@ const Pricing: React.FC<{ session: any; profileData: any; }> = ({session, profil
                                                         Image uploads
                                                     </p>
                                                 </li>
+                                                <li className="flex items-start">
+                                                    <div className="flex-shrink-0">
+                                                        <svg className="h-6 w-6 text-green-500" fill="none"
+                                                             viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                                  strokeWidth={2} d="M5 13l4 4L19 7"/>
+                                                        </svg>
+                                                    </div>
+                                                    <p className="ml-3 text-base leading-6 text-gray-700">
+                                                        Exam security features
+                                                    </p>
+                                                </li>
+                                                <li className="flex items-start">
+                                                    <div className="flex-shrink-0">
+                                                        <svg className="h-6 w-6 text-green-500" fill="none"
+                                                             viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                                  strokeWidth={2} d="M5 13l4 4L19 7"/>
+                                                        </svg>
+                                                    </div>
+                                                    <p className="ml-3 text-base leading-6 text-gray-700">
+                                                        Activity Log
+                                                    </p>
+                                                </li>
                                                 {/*<li className="flex items-start">*/}
                                                 {/*    <div className="flex-shrink-0">*/}
                                                 {/*        <svg className="h-6 w-6 text-green-500" fill="none"*/}
