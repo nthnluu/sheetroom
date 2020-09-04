@@ -11,7 +11,6 @@ import ItemCard from "../../components/ResultsPage/ItemCard";
 import CheckForUser from "../../lib/CheckForUser";
 import myFixed from "../../lib/MyFixed";
 import Error from "next/error";
-import JsonDebugBox from "../../components/JsonDebugBox";
 import AnalyticsCard from "../../components/ResultsPage/AnalyticsCard";
 
 const PageLayout: React.FC<{ session, data, status, sid, profileData }> = ({session, data, status, sid, profileData}) => {
