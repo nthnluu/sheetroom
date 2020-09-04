@@ -49,7 +49,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
             <Head>
                 <title>Sheetroom</title>
             </Head>
-            <div className="min-h-screen overflow-x-hidden bg-gradient-to-tr from-yellow-50 via-teal-100 to-blue-50" style={{backgroundColor: '#E8F5FE'}}>
+            <div className="min-h-screen overflow-x-hidden bg-gradient-to-tr from-purple-50 via-blue-100 to-blue-50" style={{backgroundColor: '#E8F5FE'}}>
                 <div className="z-50">
                     <Navbar session={session} unfixed transparent darkText/>
                 </div>
@@ -59,6 +59,18 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-center font-semibold text-gray-800 leading-tight z-40">Beautiful
                                 assignments for desktop, mobile and print.
                             </h1>
+                            <div className="mt-8 flex lg:flex-shrink-0 justify-center">
+                                <div className="inline-flex rounded-md shadow">
+                                    <a href="/signin" className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+                                        Get started
+                                    </a>
+                                </div>
+                                <div className="ml-3 inline-flex rounded-md shadow">
+                                    <a href="/features" className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+                                        See how it works
+                                    </a>
+                                </div>
+                            </div>
                         </header>
                         <DesktopGraphic/>
                     </div>
@@ -299,7 +311,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                         {/*        </h4>*/}
                         {/*        <div className="lg:grid lg:grid-cols-3 lg:gap-8 mt-12">*/}
                         {/*            <div>*/}
-                        {/*                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">*/}
+                        {/*                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">*/}
                         {/*                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">*/}
                         {/*                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />*/}
                         {/*                    </svg>*/}
@@ -312,7 +324,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                         {/*                </div>*/}
                         {/*            </div>*/}
                         {/*            <div className="mt-10 lg:mt-0">*/}
-                        {/*                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">*/}
+                        {/*                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">*/}
                         {/*                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">*/}
                         {/*                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />*/}
                         {/*                    </svg>*/}
@@ -325,7 +337,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                         {/*                </div>*/}
                         {/*            </div>*/}
                         {/*            <div className="mt-10 lg:mt-0">*/}
-                        {/*                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">*/}
+                        {/*                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">*/}
                         {/*                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">*/}
                         {/*                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />*/}
                         {/*                    </svg>*/}
@@ -343,6 +355,29 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                     </div>
 
 
+                </section>
+                <section>
+                    <div className="bg-gray-50">
+                        <div className="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+                            <h2 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
+                                Ready to dive in?
+                                <br />
+                                <span className="text-blue-600">Start your free trial today.</span>
+                            </h2>
+                            <div className="mt-8 flex lg:flex-shrink-0 lg:mt-0">
+                                <div className="inline-flex rounded-md shadow">
+                                    <a href="/signin" className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+                                        Get started
+                                    </a>
+                                </div>
+                                <div className="ml-3 inline-flex rounded-md shadow">
+                                    <a href="/features" className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+                                        See how it works
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
             <Footer/>

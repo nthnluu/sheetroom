@@ -144,7 +144,7 @@ const PageContent = ({session, profileData, data}) => {
                        title={data.assignments_invite_by_pk.assignmentByAssignment.title}
                        onCancel={() => toggleJoinCodeModal(false)} isOpen={joinCodeModal}/>
         <Navbar session={session} unfixed profileData={profileData}/>
-        <div className="max-w-5xl mx-auto px-2 mt-16">
+        <div className="max-w-5xl mx-auto px-2 mt-8">
             <div className="flex-row sm:flex justify-between items-center mb-12">
                 <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl sm:truncate">
                     {data.assignments_invite_by_pk.assignmentByAssignment.title}
