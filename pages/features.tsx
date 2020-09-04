@@ -315,12 +315,6 @@ const Features = () => {
                                 Get started
                             </a>
                         </div>
-                        <div className="ml-3 inline-flex rounded-md shadow">
-                            <a href="/features"
-                               className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-blue-600 bg-white hover:text-blue-500 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
-                                See how it works
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
