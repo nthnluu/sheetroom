@@ -12,8 +12,9 @@ import CheckForUser from "../../lib/CheckForUser";
 import myFixed from "../../lib/MyFixed";
 import Error from "next/error";
 import JsonDebugBox from "../../components/JsonDebugBox";
+import AnalyticsCard from "../../components/ResultsPage/AnalyticsCard";
 
-const PageLayout: React.FC<{ session, data, status, sid }> = ({session, data, status, sid}) => {
+const PageLayout: React.FC<{ session, data, status, sid, profileData }> = ({session, data, status, sid, profileData}) => {
     const inviteConfig = JSON.parse(data.inviteByInvite.config)
     return (
         <>
@@ -72,6 +73,9 @@ const PageLayout: React.FC<{ session, data, status, sid }> = ({session, data, st
 
                     </div>
                 </>}
+
+                {profileData.data.users_by_pk.account_type === "teacher" && profileData.data.users_by_pk.is_pro ? <AnalyticsCard eventLog={data.content.content.config.event_log}/> : null}
+
             </div>
 
 
@@ -138,7 +142,7 @@ const ClassPage = ({session, profileData}) => {
         return <LoadingPlaceholder/>
     } else {
         if (data.assignments_submission_by_pk.scoreReportByScoreReport) {
-            return <PageLayout sid={rid} session={session} data={data.assignments_submission_by_pk} status={status}/>
+            return <PageLayout profileData={profileData} sid={rid} session={session} data={data.assignments_submission_by_pk} status={status}/>
         } else {
             return <InProgress data={data} session={session} profileData={profileData} submissionId={rid}/>
         }
