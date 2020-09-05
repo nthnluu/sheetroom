@@ -9,6 +9,8 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import InfoSnackbar from "../Snackbars/InfoSnackbar";
 import DeleteAssignmentModal from "../Modals/DeleteAssignmentModal";
 import {assignmentGridStudent, assignmentGridTeacher} from "../../lib/graphql/Assignments";
+import JsonDebugBox from "../JsonDebugBox";
+import {it} from "@jest/globals";
 
 
 const LoadingPlaceholder = () => {
@@ -61,7 +63,7 @@ const StudentListItem = ({item}) => {
                             </h2>
                           </span>
                         </div>
-                        <p className="text-gray-500 text-sm space-x-2 flex items-center">
+                        <span className="text-gray-500 text-sm space-x-2 flex items-center">
                             {/*<span>AP Calculus</span>*/}
                             {/*<span>·</span>*/}
 
@@ -72,10 +74,10 @@ const StudentListItem = ({item}) => {
                             </span>
                                 {listConfig.dueDateEnabled ? <div>Due
                                     on {moment(listConfig.dueDate).format('ddd, MMM DD')} at {moment(listConfig.dueDate).format('h:mm A')}</div> : null}
-                                {!listConfig.multipleAttempts ? <div>1 attempt allowed</div> : (listConfig.allowedAttempts ? <div>{`Attempt ${item.submissions_aggregate.aggregate.count} of ${listConfig.allowedAttempts}`}</div> : <div>Unlimited attempts</div>)}
+                                {!listConfig.multipleAttempts ? <div>1 attempt allowed</div> : (listConfig.allowedAttempts ? <div>{`Attempt ${item.submissions.length} of ${listConfig.allowedAttempts}`}</div> : <div>Unlimited attempts</div>)}
                             </div>
 
-                        </p>
+                        </span>
                     </div>
                     <div className="flex flex-col flex-shrink-0 items-end space-y-3">
                 <span className="flex items-center space-x-4">
@@ -204,7 +206,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
     const assignmentArray = data ? (profileData.data.users_by_pk.account_type === "teacher" ? data.assignments_assignment : data.assignments_invite.filter(element => {
         const itemConfig = JSON.parse(element.config)
         const isWithinDueDate = itemConfig.dueDateEnabled ? moment(itemConfig.dueDate).isAfter(moment()) : true
-        const attemptsGood = itemConfig.multipleAttempts ? (itemConfig.allowedAttempts ? element.submissions_aggregate.aggregate.count < parseInt(itemConfig.allowedAttempts) : true) : (element.submissions_aggregate.aggregate.count < 1)
+        const attemptsGood = itemConfig.multipleAttempts ? (itemConfig.allowedAttempts ? (element.submissions.filter(submission => submission.score_report).length < parseInt(itemConfig.allowedAttempts)) : true) : (element.submissions.filter(submission => submission.score_report).length < 1)
         return isWithinDueDate && attemptsGood
     })) : null
 
@@ -225,6 +227,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({session, openDialog, pro
         return (<>
             <DeleteAssignmentModal itemId={currentAssignmentId} toggleSnackbar={toggleSnackbar}
                                    title="Delete Assignment?" onCancel={() => toggleModal(false)} isOpen={deleteModal}/>
+
             <InfoSnackbar isOpen={snackbarOpen} onClose={() => toggleSnackbar(false)} label="🗑 Assignment Deleted"/>
             {profileData.data.users_by_pk.account_type === "teacher" ?
                 <ul className="relative z-0 border-b  divide-y divide-gray-200 border-gray-200">
