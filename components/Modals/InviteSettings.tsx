@@ -94,7 +94,7 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
     const userIsPro = profileData.data.users_by_pk.is_pro
 
 
-    return (<div className="w-full h-48">
+    return (<div className="w-full h-48 overflow-y-auto">
         <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
               tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
