@@ -14,10 +14,11 @@ export default function ShortAnswer({item, data}) {
         }
     })
 
+
     const studentContent = data.content.content.items[item].student_input[0]
-    const selected = data.content.content.items[item].config.case_sensitive ? studentContent :  studentContent.toUpperCase()
+    const selected = data.content.content.items[item].config.case_sensitive ? studentContent :  (studentContent ?  studentContent.toUpperCase() : undefined)
     const allowedDistances = data.content.content.items[item].answer_objects.map(answer => data.content.content.answer_objects[answer].content.length * 0.2)
-    const levDistances = data.content.content.items[item].answer_objects.map(answer => getEditDistance((data.content.content.items[item].config.case_sensitive ? data.content.content.answer_objects[answer].content : data.content.content.answer_objects[answer].content.toUpperCase()), selected))
+    const levDistances = data.content.content.items[item].answer_objects.map(answer => (selected && data.content.content.answer_objects[answer].content ? getEditDistance((data.content.content.items[item].config.case_sensitive ? data.content.content.answer_objects[answer].content : data.content.content.answer_objects[answer].content.toUpperCase()), selected) : null))
     const isCorrect = data.content.content.items[item].config.tolerate_typos ? levDistances.some(element => allowedDistances.some(allowedDistance => element <= allowedDistance)) : allAnswerContents.includes(selected)
 
 
