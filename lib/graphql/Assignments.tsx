@@ -82,14 +82,13 @@ mutation DeleteAssignment($assignmentPk: uuid!) {
 export const assignmentGridStudent = gql`
 subscription StudentAssignmentGrid($userId: Int!) {
   assignments_invite(where: {classByClass: {studentProfiles: {student: {_eq: $userId}}}}) {
+  id
     assignmentByAssignment {
       title
     }
-    submissions_aggregate(where: {studentProfile: {student: {_eq: $userId}}}) {
-        aggregate {
-          count
-        }
-      }
+    submissions(where: {studentProfile: {student: {_eq: $userId}}}) {
+      score_report
+    }
     join_code
     config
     user {
