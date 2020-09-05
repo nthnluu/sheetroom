@@ -9,9 +9,6 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import InfoSnackbar from "../Snackbars/InfoSnackbar";
 import DeleteAssignmentModal from "../Modals/DeleteAssignmentModal";
 import {assignmentGridStudent, assignmentGridTeacher} from "../../lib/graphql/Assignments";
-import JsonDebugBox from "../JsonDebugBox";
-import {it} from "@jest/globals";
-
 
 const LoadingPlaceholder = () => {
     return (<div className="p-6 border-b border-gray-200 mb-12">
