@@ -9,13 +9,11 @@ import {debounce} from 'lodash'
 import EditorLayout from "../../components/AssignmentEditor/EditorLayout";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import {assignmentSubscription, updateAssignmentContent} from "../../lib/graphql/Assignments";
 import ReactGA from "react-ga";
 import CheckForUser from "../../lib/CheckForUser";
-import JsonDebugBox from "../../components/JsonDebugBox";
 
 const PageContent: React.FC<{ pageData, aid: string, initialPage?: string; session: string, profileData; }> = ({pageData, aid, initialPage, profileData, session}) => {
     // A client ID to identify the current user working on the project

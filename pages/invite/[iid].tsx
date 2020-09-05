@@ -15,7 +15,6 @@ import InviteSettingsModal from "../../components/Modals/InviteSettingsModal";
 import myFixed from "../../lib/MyFixed";
 import Footer from "../../components/Misc/Footer";
 import DeleteInviteModal from "../../components/Modals/DeleteInviteModal";
-import JsonDebugBox from "../../components/JsonDebugBox";
 
 const LoadingPlaceholder: React.FC = () => {
     return (
