@@ -9,7 +9,7 @@ const Settings = ({session, profileData, classId}) =>  {
         {accountType === "teacher" ? <DeleteClassModal classId={classId} userId={session.id} onCancel={() => toggleDeleteModal(false)} isOpen={deleteModal}/> :  <LeaveClassModal classId={classId} userId={session.id} onCancel={() => toggleDeleteModal(false)} isOpen={deleteModal}/>}
 
         <h1 className="text-2xl text-gray-800 font-semibold mr-1 mb-4 mt-10">Settings</h1>
-        <div className="bg-white shadow sm:rounded-lg">
+        <div className="bg-white shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
                 <h3 className="text-lg leading-6 font-medium text-gray-900">
                     {accountType === "teacher" ?  "Delete this class": "Leave this class"}

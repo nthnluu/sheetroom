@@ -104,7 +104,7 @@ const JoinCode = ({error = false}) => {
             <div>
                 <label htmlFor="joincode" className="sr-only">Join Code</label>
                 <div className="relative rounded-lg shadow-sm mt-4">
-                    <input id="joincode"
+                    <input id="joincode" autoComplete="none"
                            className="form-input block w-full text-xl sm:text-2xl sm:leading-5 p-3 text-center placeholder-gray-200"
                            placeholder="42069RAWRXD"/>
                 </div>

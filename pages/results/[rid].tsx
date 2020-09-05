@@ -23,12 +23,12 @@ const PageLayout: React.FC<{ session, data, status, sid, profileData }> = ({sess
                     {inviteConfig.hideScore ? <div className="mb-12">
                         <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 text-center">Assignment submitted
                             successfully.</h1>
-                        <h2 className="text-xl text-gray-500 text-center">Your instructor has hidden your score and
+                        <h2 className="text-lg sm:text-xl text-gray-500 text-center">Your instructor has hidden your score and
                             responses.</h2>
                     </div> : <div className="mb-12">
-                        <h1 className="text-4xl font-semibold text-gray-800 text-center">Assignment submitted
+                        <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 text-center">Assignment submitted
                             successfully.</h1>
-                        <h2 className="text-xl text-gray-500 text-center">You may view your results below.</h2>
+                        <h2 className="text-lg sm:text-xl text-gray-500 text-center">You may view your results below.</h2>
                     </div>}
                 </> :  <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl sm:truncate mb-8">
                     {data.content.title}
@@ -45,7 +45,7 @@ const PageLayout: React.FC<{ session, data, status, sid, profileData }> = ({sess
                             className="font-light"> - {myFixed(((data.scoreReportByScoreReport.earned_points / (data.scoreReportByScoreReport.total_points > 0 ? data.scoreReportByScoreReport.total_points : 1)) * 100), 2)}%</span>
                     </div>
                     <div className="flex-row">
-                        <div className="text-lg font-medium text-gray-800">
+                        <div className="text-sm sm:text-base md:text-lg font-medium text-gray-800">
                             Submitted
                             at {moment(data.scoreReportByScoreReport.created_at).format("h:mm A on MMM D, YYYY")}
                         </div>

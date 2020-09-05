@@ -94,7 +94,7 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
     const userIsPro = profileData.data.users_by_pk.is_pro
 
 
-    return (<div className="w-full">
+    return (<div className="w-full h-48">
         <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
               tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
@@ -185,6 +185,8 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
                                     </option>
                                     <option value={3}>Average of all
                                         attempts
+                                    </option>
+                                    <option value={3}>All scores
                                     </option>
                                 </select>
                             </div>

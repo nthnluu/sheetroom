@@ -9,22 +9,29 @@ import {debounce} from 'lodash'
 import EditorLayout from "../../components/AssignmentEditor/EditorLayout";
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import {assignmentSubscription, updateAssignmentContent} from "../../lib/graphql/Assignments";
 import ReactGA from "react-ga";
 import CheckForUser from "../../lib/CheckForUser";
 
-const PageContent: React.FC<{ pageData, aid: string, session: string, profileData; }> = ({pageData, aid, profileData, session}) => {
+const PageContent: React.FC<{ pageData, aid: string, initialPage?: string; session: string, profileData; }> = ({pageData, aid, initialPage, profileData, session}) => {
     // A client ID to identify the current user working on the project
     const [clientId] = useState(uuidv4())
 
+    const getInitialPage = () => {
+        switch(initialPage) {
+            case('results'):
+                return 2
+            default:
+                return 1
+        }
+    }
     //Stores the current state of the document
     // const [assignment, setAssignment] = useState(data.assignments_assignment_by_pk.content ? data.assignments_assignment_by_pk.content : initialDocumentContent);
     const [document, setDocument] = useState(pageData.assignments_assignment_by_pk.content);
     const [currentItem, setCurrentItem] = useState(document.sections[document.config.sections[0]] ? document.sections[document.config.sections[0]].items[0] : null);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(getInitialPage());
 
     //Tracks the save status -- 0: saved; 1: saving; 2: error
     const [saveStatus, setSaveStatus] = useState(0);
@@ -124,7 +131,7 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
 
 //get Quiz ID from URL
     const router = useRouter();
-    const {aid} = router.query;
+    const {aid, page} = router.query;
     const [pageData, setPageData] = useState()
 
     // @ts-ignore
@@ -181,7 +188,7 @@ const QuizEditor: InferGetServerSidePropsType<typeof getServerSideProps> = ({ses
                         <title>{data.assignments_assignment_by_pk.title} | Sheetroom</title>
                     </Head>
                     {/*@ts-ignore*/}
-                    <PageContent pageData={data} aid={aid} session={session} profileData={profileData}/>
+                    <PageContent pageData={data} initialPage={page} aid={aid} session={session} profileData={profileData}/>
                 </>)}
         </div>
     )

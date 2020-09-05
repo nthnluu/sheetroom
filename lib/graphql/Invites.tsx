@@ -84,6 +84,7 @@ subscription InvitePage($inviteId: uuid!) {
   id
     config
     is_public
+    is_disabled
     join_code
     assignmentByAssignment {
       title
@@ -133,5 +134,23 @@ query GetInvitesForClass($classId: uuid!) {
         }
       }
     }
+  }
+}`
+
+export const deleteInvite = gql`
+mutation DeleteInvite($inviteId: uuid!) {
+  delete_assignments_invite_by_pk(id: $inviteId) {
+    assignmentByAssignment {
+      id
+    }
+    __typename
+  }
+}`
+
+
+export const toggleIsDisabled = gql`
+    mutation ToggleIsDisabled($inviteId: uuid!, $newState: Boolean!) {
+  update_assignments_invite_by_pk(pk_columns: {id: $inviteId}, _set: {is_disabled: $newState}) {
+    is_disabled
   }
 }`

@@ -53,15 +53,18 @@ const Submissions = ({course, session}) => {
                         <h1 className="text-2xl text-gray-800 font-semibold mr-1 mb-4 mt-10">Submissions</h1>
                         <div className="bg-white shadow overflow-hidden rounded-md">
                             <ul className="divide-y divide-gray-200">
-                                {data.assignments_submission.map(submission => <li>
+                                {data.assignments_submission.map(submission => <li key={submission.id}>
                                     <a href={"/results/" + submission.id}
                                        className="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
                                         <div className="px-4 py-4 flex items-center sm:px-6">
                                             <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                                                 <div>
-                                                    <div className="text-sm leading-5 font-medium text-blue-600 truncate">
-                                                        {submission.inviteByInvite.assignmentByAssignment.title}
+                                                    <div className="flex justify-start">
+                                                        <div className="text-sm leading-5 font-medium text-blue-600 truncate">
+                                                            {submission.inviteByInvite.assignmentByAssignment.title}
+                                                        </div>
                                                     </div>
+
                                                     <div className="mt-2 flex">
                                                         <div className="flex items-center text-sm leading-5 text-gray-400">
                                                             <svg className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
