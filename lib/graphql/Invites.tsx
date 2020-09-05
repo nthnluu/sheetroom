@@ -84,6 +84,7 @@ subscription InvitePage($inviteId: uuid!) {
   id
     config
     is_public
+    is_disabled
     join_code
     assignmentByAssignment {
       title
@@ -143,5 +144,13 @@ mutation DeleteInvite($inviteId: uuid!) {
       id
     }
     __typename
+  }
+}`
+
+
+export const toggleIsDisabled = gql`
+    mutation ToggleIsDisabled($inviteId: uuid!, $newState: Boolean!) {
+  update_assignments_invite_by_pk(pk_columns: {id: $inviteId}, _set: {is_disabled: $newState}) {
+    is_disabled
   }
 }`
