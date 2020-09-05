@@ -13,6 +13,8 @@ import * as jsonexport from "jsonexport/dist"
 import JoinCodeModal from "../../components/Modals/JoinCodeModal";
 import InviteSettingsModal from "../../components/Modals/InviteSettingsModal";
 import myFixed from "../../lib/MyFixed";
+import Footer from "../../components/Misc/Footer";
+import DeleteInviteModal from "../../components/Modals/DeleteInviteModal";
 
 const LoadingPlaceholder: React.FC = () => {
     return (
@@ -49,10 +51,13 @@ const PageContent = ({session, profileData, data}) => {
         const ms = moment(now).diff(moment(then));
         const duration = moment.duration(ms);
 
-        return Math.floor(duration.asHours()) + moment.utc(ms).format(":mm:ss")
+        return prependZero(Math.floor(duration.asHours())) + moment.utc(ms).format(":mm:ss")
     }
 
 
+    function prependZero (num) {
+        return ('0' + num).slice(-2)
+    }
     const getAverageTime = () => {
         const durations = completeSubmissions.map(submission => {
             const then = new Date(submission.created_at).getTime()
@@ -64,7 +69,7 @@ const PageContent = ({session, profileData, data}) => {
         const numSubmissions = completeSubmissions.length
 
         const avgDurationMs = numerator / numSubmissions
-        let result = Math.floor(avgDurationMs / (1000 * 60 * 60)) + ":" + Math.floor(avgDurationMs / (1000 * 60)) % 60 + ":" + Math.floor(avgDurationMs / 1000) % 60;
+        let result = prependZero(Math.floor(avgDurationMs / (1000 * 60 * 60))) + ":" + prependZero(Math.floor(avgDurationMs / (1000 * 60)) % 60) + ":" + prependZero(Math.floor(avgDurationMs / 1000) % 60);
         return numSubmissions === 0 ? "00:00:00" : result
     }
 
@@ -135,8 +140,13 @@ const PageContent = ({session, profileData, data}) => {
 
     const [joinCodeModal, toggleJoinCodeModal] = useState(false)
     const [inviteSettingsModal, toggleInviteSettingsModal] = useState(false)
+    const [deleteInviteModal, toggleDeleteInviteModal] = useState(false)
 
-    return <div className="bg-gray-50 min-h-screen">
+
+
+    return <>
+        <DeleteInviteModal onCancel={() => toggleDeleteInviteModal(false)} isOpen={deleteInviteModal} inviteId={data.assignments_invite_by_pk.id}/>
+        <div className="bg-gray-50 min-h-screen pb-24">
         <InviteSettingsModal inviteId={data.assignments_invite_by_pk.id}
                              onCancel={() => toggleInviteSettingsModal(false)} settingsObject={assignmentConfig}
                              isOpen={inviteSettingsModal} profileData={profileData} session={session}/>
@@ -247,7 +257,7 @@ const PageContent = ({session, profileData, data}) => {
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 mt-2">
                     <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
 
-                            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <div className="shadow overflow-hidden border-b border-gray-200 rounded-lg">
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead>
                                     <tr>
@@ -299,16 +309,63 @@ const PageContent = ({session, profileData, data}) => {
             </div></>:
                 <NoSubmissionsPlaceholder/>}
 
+            <div className="bg-white shadow rounded-lg mt-12 divide-y divide-gray-200">
+                <div className="px-4 py-5 sm:p-6">
+                    <h3 className="text-base leading-6 font-medium text-gray-900 flex justify-start items-center" id="renew-headline">
+                        <svg className="h-5 mr-1 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg> Lock submissions
+                    </h3>
+                    <div className="mt-2 sm:flex sm:items-start sm:justify-between">
+                        <div className="max-w-xl text-sm leading-5 text-gray-500">
+                            <p id="renew-description">
+                                Disable this invite's join code and prevent any new submissions.
+                            </p>
+                        </div>
+                        <div className="mt-5 sm:mt-0 sm:ml-6 sm:flex-shrink-0 sm:flex sm:items-center">
+                           <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/>
+                            {/* On: "bg-blue-600", Off: "bg-gray-200" */}
+                            <span role="checkbox" tabIndex={0} aria-checked="false" aria-labelledby="renew-headline" aria-describedby="renew-description" className="bg-gray-200 relative inline-block flex-no-shrink h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline">
+                {/* On: "translate-x-5", Off: "translate-x-0" */}
+                                <span aria-hidden="true" className="translate-x-0 inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200" />
+              </span>
+                        </div>
+                    </div>
+                </div>
+                <div className="px-4 py-5 sm:p-6">
+                    <div className="sm:flex sm:items-start sm:justify-between">
+                        <div>
+                            <h3 className="text-base leading-6 font-medium text-gray-900">
+                                Delete this invite
+                            </h3>
+                            <div className="mt-2 max-w-xl text-sm leading-5 text-gray-500">
+                                <p>
+                                   Permanently delete all submission data associated with this invite.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="mt-5 sm:mt-0 sm:ml-6 sm:flex-shrink-0 sm:flex sm:items-center">
+            <span className="inline-flex rounded-md shadow-sm">
+              <button type="button" onClick={() => toggleDeleteInviteModal(true)}
+                      className="inline-flex items-center justify-center px-4 py-2 border border-transparent font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-50 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-red-200 transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+        Delete invite
+      </button>
+            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
+
     </div>
+    <Footer/>
+    </>
 }
 const InvitePage = ({session, profileData}) => {
     const router = useRouter();
     const {iid} = router.query;
-    const [pageData, setPageData] = useState()
-
     // @ts-ignore
     const handleSubscription = (messages = [], response) => {
         return response;

@@ -135,3 +135,13 @@ query GetInvitesForClass($classId: uuid!) {
     }
   }
 }`
+
+export const deleteInvite = gql`
+mutation DeleteInvite($inviteId: uuid!) {
+  delete_assignments_invite_by_pk(id: $inviteId) {
+    assignmentByAssignment {
+      id
+    }
+    __typename
+  }
+}`

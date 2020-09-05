@@ -5,8 +5,8 @@ const EntryRow = ({entry}) => {
     const [key, value] = Object.entries(entry)[0]
     switch (key) {
         case('user_in_tab'):
-            return (<li className="p-2 text-gray-500 flex justify-between items-center">
-                <h2 className="font-medium uppercase text-sm">
+            return (<li className="py-2 text-gray-500 flex justify-between items-center">
+                <h2 className="font-medium uppercase text-xs sm:text-sm">
                     <svg className="h-4 mr-2 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -14,11 +14,11 @@ const EntryRow = ({entry}) => {
                     </svg>
                     User entered tab
                 </h2>
-                <span>{moment(value).format('h:mm a')}</span>
+                <span className="flex-shrink-0">{moment(value).format('h:mm a')}</span>
             </li>)
         case('user_exit_tab'):
-            return (<li className="p-2 text-red-500 flex justify-between items-center">
-                <h2 className="font-medium uppercase text-sm inline-flex items-start">
+            return (<li className="py-2 text-red-500 flex justify-between items-center">
+                <h2 className="font-medium uppercase  text-xs sm:text-sm inline-flex items-start">
                     <svg className="h-4 mr-2 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -26,11 +26,11 @@ const EntryRow = ({entry}) => {
                     </svg>
                     User left tab
                 </h2>
-                <span>{moment(value).format('h:mm a')}</span>
+                <span className="flex-shrink-0">{moment(value).format('h:mm a')}</span>
             </li>)
         case('user_pasted_text'):
-            return (<li className="p-2 text-red-500 flex justify-between items-center">
-                <h2 className="font-medium uppercase text-sm inline-flex items-start">
+            return (<li className="py-2 text-red-500 flex justify-between items-center">
+                <h2 className="font-medium uppercase  text-xs sm:text-sm inline-flex items-start">
                     <svg className="h-4 mr-2 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -43,12 +43,12 @@ const EntryRow = ({entry}) => {
                     </span>
                 </h2>
                 {/*//@ts-ignore*/}
-                <span>{moment(value.time).format('h:mm a')}</span>
+                <span className="flex-shrink-0">{moment(value.time).format('h:mm a')}</span>
             </li>)
         default:
-            return (<li className="p-2 text-gray-500 flex justify-between items-center">
-                <h2 className="font-medium uppercase text-sm">{key}</h2>
-                <span>{moment(value).format('h:mm a')}</span>
+            return (<li className="py-2 text-gray-500 flex justify-between items-center">
+                <h2 className="font-medium uppercase text-xs sm:text-sm">{key}</h2>
+                <span className="flex-shrink-0">{moment(value).format('h:mm a')}</span>
             </li>)
 
     }
@@ -58,8 +58,8 @@ const AnalyticsCard = ({eventLog}) => {
     const eventLogMap = eventLog.reverse()
     return <div className="border border-gray-200 rounded-lg shadow-sm mt-4 p-6 text-gray-800">
         <div className="flex justify-between items-center">
-            <h1 className="text-lg  font-semibold">Activity Log</h1>
-            <h2 className="inline-flex items-center opacity-50 text-sm"><svg xmlns="http://www.w3.org/2000/svg" className="inline-flex items-center h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <h1 className="text-base sm:text-lg font-semibold">Activity Log</h1>
+            <h2 className="inline-flex items-center opacity-50 text-xs sm:text-sm"><svg xmlns="http://www.w3.org/2000/svg" className="inline-flex items-center h-4 sm:h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg> Only you can see this</h2>
         </div>
