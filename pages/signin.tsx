@@ -23,6 +23,20 @@ export default function SignIn() {
             <div className="flex justify-center">
                 <div className="space-y-4 p-4 mt-32 md:mt-48 md:mt-56 h-full">
                     <h1 className="font-bold text-2xl text-center sm:text-3xl md:text-4xl text-gray-800">Continue to Sheetroom</h1>
+                    <div>
+                        <button type="button" onClick={() => signIn("google", {callbackUrl: 'http://localhost:3000/'})}
+                                className="items-center inline-flex  justify-center w-full text-center px-6 py-3 border border-gray-300 text-base leading-6 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                            {/*// @ts-ignore*/}
+                          <img src="/g_logo.svg" className="h-4 inline-block mr-2"/>Sign in with Google
+                        </button>
+                        <div className="py-4 pt-8 -mb-6">
+                            <Divider/>
+                            <div
+                                className="mb-2 text-gray-500 font-medium text-lg text-center bg-white mx-auto -mt-4 w-12">Or
+                            </div>
+                        </div>
+
+                    </div>
                     <form onSubmit={event => {
                         event.preventDefault();
                         toggleIsLoading(true)
@@ -46,20 +60,7 @@ export default function SignIn() {
                         </button>
                         {error ? <p className="text-center text-sm text-red-500">Please enter a valid email.</p> : null}
                     </form>
-                    <div>
-                        <div className="py-4">
-                            <Divider/>
-                            <div
-                                className="mb-2 text-gray-500 font-medium text-lg text-center bg-white mx-auto -mt-4 w-12">Or
-                            </div>
-                        </div>
 
-                        <button type="button" onClick={() => signIn("google", {callbackUrl: 'http://localhost:3000/'})}
-                                className="items-center w-full text-center px-6 py-3 border border-gray-300 text-base leading-6 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                            {/*// @ts-ignore*/}
-                            <i className="fab fa-google mr-2"/>Sign in with Google
-                        </button>
-                    </div>
                 </div>
 
             </div>
