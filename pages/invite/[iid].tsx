@@ -360,12 +360,10 @@ const PageContent = ({session, profileData, data}) => {
                                 </p>
                             </div>
                             <div className="mt-5 sm:mt-0 sm:ml-6 sm:flex-shrink-0 sm:flex sm:items-center">
-                                {disableIsLoading ?
-                                    <CircularProgress color="inherit" size={15} className="mr-2 h-auto"/> : null}
                                 <span role="checkbox" tabIndex={0} onClick={() => toggleDisabled()}
                                       aria-checked={inviteIsDisabled} aria-labelledby="renew-headline"
                                       aria-describedby="renew-description"
-                                      className={"relative inline-block flex-no-shrink h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline " + (inviteIsDisabled ? " bg-blue-600 " : " bg-gray-200 ") + (disableIsLoading ? " pointer-events-none" : null)}>
+                                      className={"relative inline-block flex-no-shrink h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline " + (inviteIsDisabled ? " bg-blue-600 " : " bg-gray-200 ") + (disableIsLoading ? " pointer-events-none opacity-50" : null)}>
                                 <span aria-hidden="true"
                                       className={(inviteIsDisabled ? "translate-x-5" : "translate-x-0") + " inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200"}/>
                             </span>
