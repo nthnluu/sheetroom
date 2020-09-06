@@ -43,7 +43,7 @@ const ResultPage = () => {
 
     const {fetching, data, error} = result
 
-    if (fetching) return <LoadingPlaceholder/>
+    if (fetching && !data) return <LoadingPlaceholder/>
 
 
     return (<div>
