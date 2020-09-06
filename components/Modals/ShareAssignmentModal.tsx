@@ -31,7 +31,8 @@ const ExistingInvitesSection = ({aid}) => {
                     style={{maxHeight: '11.1rem'}}>
                     {data.assignments_invite.map((invite, index) => <li key={invite.id}
                                                                         className={"p-3 border-gray-300 leading-tight " + (index === (data.assignments_invite.length - 1) ? null : "border-b")}>
-                        <a href={"/invite/" + invite.id} className="font-medium text-gray-700 text-sm hover:text-blue-600 focus:underline">{moment(invite.created_at).format("dddd, MMMM Do YYYY")} ({invite.join_code})</a>
+                        <a href={"/invite/" + invite.id}
+                           className="font-medium text-gray-700 text-sm hover:text-blue-600 focus:underline">{moment(invite.created_at).format("dddd, MMMM Do YYYY")} ({invite.join_code})</a>
                         <p className="text-sm text-gray-400">{invite.is_public ? <><i
                             className="fas fa-globe-americas mr-1"/>Public</> : `Assigned to ${invite.classByClass ? invite.classByClass.title : "a class"}`}</p>
                     </li>)}
@@ -43,7 +44,7 @@ const ExistingInvitesSection = ({aid}) => {
     )
 }
 
-const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId,  profileData}) => {
+const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId, profileData}) => {
     const [newInviteCode, setInviteCode] = useState(nanoid(8))
     const [modalStep, setModalStep] = useState(0)
     const [sharingSetting, setSharingSetting] = useState("public")
@@ -75,6 +76,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId,  profile
     function cancelModal() {
         onCancel();
         toggleLoading(false)
+        setSharingSetting("public")
         setSelectedClass(undefined);
         setSettingsObject(defaultConfig)
         setTimeout(() => {
@@ -94,7 +96,12 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId,  profile
         <button type="button" disabled={sharingSetting !== "public" && !selectedClass && modalStep === 1}
                 onClick={() => {
                     if (modalStep === 0) {
-                        setModalStep(1)
+                        if (sharingSetting === "gclass") {
+                            window.location.href = '/api/google-classroom/auth-teacher?assignmentId=' + assignmentId
+
+                        } else {
+                            setModalStep(1)
+                        }
                     } else if (modalStep === 1) {
                         toggleLoading(true)
                         createNewInvite({
@@ -122,9 +129,9 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId,  profile
                 <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
         <button type="button" onClick={modalStep === 0 ? cancelModal : () => setModalStep(0)}
                 className="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-            {modalStep === 0 ? "Cancel" : "Back"}
-        </button>
-      </span> : null}
+        {modalStep === 0 ? "Cancel" : "Back"}
+            </button>
+            </span> : null}
 
         </div>
 
@@ -138,12 +145,12 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId,  profile
                                      <div className="my-4 text-left">
                                          <div className="flex items-start">
                                              <div className="flex items-center h-5">
-                                                 <input id="comments" type="radio" name="form-input share_scope"
+                                                 <input id="public_radio" type="radio" name="form-input share_scope"
                                                         value="public" defaultChecked={sharingSetting === "public"}
                                                         className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"/>
                                              </div>
                                              <div className="ml-3 text-sm leading-5">
-                                                 <label htmlFor="comments"
+                                                 <label htmlFor="public_radio"
                                                         className="font-medium text-gray-700">Public</label>
                                                  <p className="text-gray-500">Anyone with the link can view and submit
                                                      this
@@ -153,15 +160,31 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId,  profile
                                          <div className="mt-4">
                                              <div className="flex items-start">
                                                  <div className="flex items-center h-5">
-                                                     <input id="candidates" type="radio" name="form-input share_scope"
-                                                            value="class" defaultChecked={sharingSetting !== "public"}
+                                                     <input id="class_radio" type="radio" name="form-input share_scope"
+                                                            value="class" defaultChecked={sharingSetting === "class"}
                                                             className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"/>
                                                  </div>
                                                  <div className="ml-3 text-sm leading-5">
-                                                     <label htmlFor="candidates" className="font-medium text-gray-700">Assign
+                                                     <label htmlFor="class_radio" className="font-medium text-gray-700">Assign
                                                          to class</label>
                                                      <p className="text-gray-500">Only class members can view and submit
                                                          this assignment.</p>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div className="mt-4">
+                                             <div className="flex items-start">
+                                                 <div className="flex items-center h-5">
+                                                     <input id="gclass_radio" type="radio" name="form-input share_scope"
+                                                            value="gclass" defaultChecked={sharingSetting === "gclass"}
+                                                            className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"/>
+                                                 </div>
+                                                 <div
+                                                     className="ml-3 text-sm leading-5 flex justify-start items-center">
+                                                     <img src="/Google_Classroom.svg"
+                                                          className="h-6 mr-1 inline-block"/>
+                                                     <label htmlFor="gclass_radio" className="font-medium text-gray-700">Assign
+                                                         through Google Classroom</label>
                                                  </div>
                                              </div>
                                          </div>
@@ -171,9 +194,9 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId,  profile
 
                          </> : (modalStep === 1 ?
                              <InviteSettings profileData={profileData} session={session} settingsObject={settingsObject}
-                                                    setSettingsObject={setSettingsObject}
-                                                    selectedClass={selectedClass} setSelectedClass={setSelectedClass}
-                                                    isPublic={sharingSetting === "public"}/> :
+                                             setSettingsObject={setSettingsObject}
+                                             selectedClass={selectedClass} setSelectedClass={setSelectedClass}
+                                             isPublic={sharingSetting === "public"}/> :
                              <div className="relative">
                                  <label htmlFor="newinvitelink" className="sr-only">Link to this invite</label>
                                  <div className="relative rounded-md shadow-sm">

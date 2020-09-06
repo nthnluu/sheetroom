@@ -1,7 +1,7 @@
 import Navbar from "../../components/PageLayouts/AppLayout/Navbar";
 import {GetServerSideProps} from "next";
 import {useRouter} from 'next/router'
-import React from "react";
+import React, {useEffect, useState} from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {useQuery} from "urql";
 import AssignmentCard from "../../components/JoinScreen/AssignmentCard";
@@ -10,7 +10,7 @@ import ClassCard from "../../components/JoinScreen/ClassCard";
 import CheckForUser from "../../lib/CheckForUser";
 import {fetchJoinCode} from "../../lib/graphql/FetchJoinCode";
 import JsonDebugBox from "../../components/JsonDebugBox";
-
+import google from 'googleapis'
 
 const InviteFetch = ({joinCode, profileData, session}) => {
 
@@ -51,13 +51,15 @@ const InviteFetch = ({joinCode, profileData, session}) => {
                 } else {
                     if (session) {
                         if (data.processJoinCode.payload.classByClass.studentProfiles.length > 0 || data.processJoinCode.payload.user.id === session.id) {
-                            return <><AssignmentCard resumeAssignment={data.processJoinCode.payload.submissions ? (data.processJoinCode.payload.submissions.some(element => element.score_report === null) ? data.processJoinCode.payload.submissions.find(element => element.score_report === null).id : null): null} inviteId={data.processJoinCode.payload.id}
-                                                     submissions={data.processJoinCode.payload.submissions.length}
-                                                     userAttempts={data.processJoinCode.payload.submissions.length}
-                                                     firstName={data.processJoinCode.payload.user.first_name}
-                                                     lastName={data.processJoinCode.payload.user.last_name}
-                                                     title={data.processJoinCode.payload.assignmentByAssignment.title}
-                                                     config={data.processJoinCode.payload.config}/></>
+                            return <><AssignmentCard
+                                resumeAssignment={data.processJoinCode.payload.submissions ? (data.processJoinCode.payload.submissions.some(element => element.score_report === null) ? data.processJoinCode.payload.submissions.find(element => element.score_report === null).id : null) : null}
+                                inviteId={data.processJoinCode.payload.id}
+                                submissions={data.processJoinCode.payload.submissions.length}
+                                userAttempts={data.processJoinCode.payload.submissions.length}
+                                firstName={data.processJoinCode.payload.user.first_name}
+                                lastName={data.processJoinCode.payload.user.last_name}
+                                title={data.processJoinCode.payload.assignmentByAssignment.title}
+                                config={data.processJoinCode.payload.config}/></>
                         } else {
                             return <JoinCode error/>
                         }
@@ -134,12 +136,38 @@ const InviteFetcher = ({joinCode, session, profileData}) => {
 
 const JoinPage = ({session, profileData}) => {
     const router = useRouter()
-    const {joinCode} = router.query
+    const {joinCode, gclass} = router.query
+    const [gClassKey, setgClass] = useState("")
+
+
+    const getStudentInfo = () => {
+        fetch("https://classroom.googleapis.com/v1/userProfiles/me", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${gClassKey}`
+            }
+        })
+            .then(result => result.json())
+            .then(json => setgClass(json))
+    }
+
+    let gClassroom;
+    useEffect(() => {
+        if (gclass) {
+            localStorage.removeItem('gclass');
+            //@ts-ignore
+            localStorage.setItem('gclass', gclass);
+            setgClass(localStorage.getItem('gclass'))
+        }
+    }, [])
+
 
     return (<div className="h-screen bg-gray-100">
         <Navbar session={session}/>
         <div className="h-full flex justify-center items-center max-w-3xl mx-auto px-4 md:px-0">
             <div className="w-full">
+                <button onClick={() => getStudentInfo()}>fetch student ionfo</button>
                 <InviteFetcher profileData={profileData} session={session} joinCode={joinCode}/>
             </div>
         </div>
