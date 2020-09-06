@@ -14,6 +14,10 @@ interface Props {
 const DesmosSettings: React.FC<Props> = ({onCancel, isOpen, item}) => {
 
     const {setDocument} = useContext(QuizContext);
+    const graphCalc = useRef(null);
+    let calculator
+
+
     const saveDesmosBlock = (newValue) => {
         setDocument(prevState => {
             return update(prevState, {
@@ -31,7 +35,6 @@ const DesmosSettings: React.FC<Props> = ({onCancel, isOpen, item}) => {
         })
     }
 
-    const graphCalc = useRef(null);
 
     const options = {
         keypad: true,
@@ -43,7 +46,7 @@ const DesmosSettings: React.FC<Props> = ({onCancel, isOpen, item}) => {
 
     }
 
-    let calculator
+
     useEffect(() => {
         calculator = Desmos.GraphingCalculator(graphCalc.current, options)
         calculator.setExpression({ id: 'graph1', latex: 'y=x^2' });
@@ -53,6 +56,7 @@ const DesmosSettings: React.FC<Props> = ({onCancel, isOpen, item}) => {
 
 
     function insert() {
+        calculator.updateSettings({ expressions: false, expressionsCollapsed: true });
         calculator.asyncScreenshot((data) => {
             saveDesmosBlock(data)
             onCancel();
