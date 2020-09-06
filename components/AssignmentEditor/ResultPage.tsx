@@ -1,4 +1,4 @@
-import {useQuery} from "urql";
+import {useSubscription} from "urql";
 import {getSubmissionsForAssignment} from "../../lib/graphql/Assignments";
 import React, {useContext} from "react";
 import QuizContext from "./QuizContext";
@@ -27,13 +27,18 @@ const NoSubmissionsPlaceholder = () => {
 const ResultPage = () => {
     const {aid} = useContext(QuizContext)
 
-    const [result] = useQuery({
+    const handleSubscription = (messages = [], response) => {
+        return response;
+    };
+
+
+    const [result] = useSubscription({
         query: getSubmissionsForAssignment,
         variables: {
             // @ts-ignore
             assignmentId: aid
         }
-    });
+    }, handleSubscription);
 
 
     const {fetching, data, error} = result
