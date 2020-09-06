@@ -47,7 +47,7 @@ export const updateAssignmentTitle = gql`
 `;
 
 export const getSubmissionsForAssignment = gql`
-query ResultsPage($assignmentId: uuid!) {
+subscription ResultsPage($assignmentId: uuid!) {
   assignments_assignment_by_pk(id: $assignmentId) {
     invites(order_by: {created_at: desc}) {
     is_disabled
