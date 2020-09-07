@@ -94,7 +94,7 @@ const AssignmentListItem = ({item, session, toggleModal, setAssignmentId, profil
         <>
             <li
                 className="relative pl-4 pr-4 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
-                <ShareAssignmentModal profileData={profileData} isOpen={shareDialog}
+                <ShareAssignmentModal title={item.title} profileData={profileData} isOpen={shareDialog}
                                       onCancel={() => toggleShareDialog(false)} session={session}
                                       assignmentId={item.id}/>
                 <div className="flex items-center justify-between space-x-4">

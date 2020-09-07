@@ -44,7 +44,7 @@ const ExistingInvitesSection = ({aid}) => {
     )
 }
 
-const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId, profileData}) => {
+const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId, profileData, title}) => {
     const [newInviteCode, setInviteCode] = useState(nanoid(8))
     const [modalStep, setModalStep] = useState(0)
     const [sharingSetting, setSharingSetting] = useState("public")
@@ -97,7 +97,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId, profileD
                 onClick={() => {
                     if (modalStep === 0) {
                         if (sharingSetting === "gclass") {
-                            window.location.href = '/api/google-classroom/auth-teacher?assignmentId=' + assignmentId
+                            window.location.href = `/api/google-classroom/auth-teacher?assignmentId=${assignmentId}&title=${title}`
 
                         } else {
                             setModalStep(1)
@@ -110,7 +110,8 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId, profileD
                             assignmentId: assignmentId,
                             isPublic: sharingSetting === "public",
                             settingsObject: JSON.stringify(settingsObject),
-                            classId: selectedClass ? selectedClass.id : null
+                            classId: selectedClass ? selectedClass.id : null,
+                            isGoogleClass: false
                         })
                             .then(() => setModalStep(2))
                             .then(result => console.log(createInviteResult))
