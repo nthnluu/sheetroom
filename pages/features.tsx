@@ -299,6 +299,7 @@ const Features = () => {
                 </svg>
             </div>
         </div>
+
         <section>
             <div className="bg-gray-50">
                 <div

@@ -356,6 +356,17 @@ const Index: React.FC<{ session: any }> = ({session}) => {
 
 
                 </section>
+                <section className="bg-white py-6">
+                    <div className="w-full max-w-7xl mx-auto p-6 sm:p-8 bg-white rounded-lg flex justify-between items-center">
+                        <div className="text-gray-800">
+                            <span className="uppercase font-medium flex items-center text-gray-400 text-sm mb-2"><img src="/gclass_color.svg" className="inline-block h-4 mr-2"/>Google Classroom Integration</span>
+                            <h1 className="text-2xl font-bold">Easily share and automatically export results to Google Classroom.</h1>
+                            <a href="/pricing" className="mt-4 block font-semibold text-blue-600">Learn How &rarr;</a>
+                        </div>
+
+
+                    </div>
+                </section>
                 <section>
                     <div className="bg-gray-50">
                         <div className="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
@@ -379,6 +390,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                         </div>
                     </div>
                 </section>
+
             </div>
             <Footer/>
         </>

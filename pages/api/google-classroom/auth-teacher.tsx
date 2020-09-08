@@ -10,6 +10,7 @@ export default async (req, res) => {
     const scopes = [
         'https://www.googleapis.com/auth/classroom.courses.readonly',
         'https://www.googleapis.com/auth/classroom.coursework.students',
+        'https://www.googleapis.com/auth/classroom.rosters.readonly'
     ];
 
     const url = oauth2Client.generateAuthUrl({
