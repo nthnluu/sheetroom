@@ -61,6 +61,7 @@ const GoogleClassLaunchButton = ({credentials, gClassInfo, inviteId, joinCode}) 
         {readyToStart === 0 ? <CircularProgress color="inherit" size={30} className="h-auto opacity-50"/> : null}
         {readyToStart === 1 ? <button type="button"
                                       onClick={() => {
+                                          toggleLoading(true)
                                           mutateSubmission({
                                               inviteId: inviteId, googleClassPayload: JSON.stringify({
                                                   credentials: credentials,
