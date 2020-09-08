@@ -55,8 +55,9 @@ assignments_invite_by_pk(id: $inviteId) {
 
 
 export const createInvite = gql`
-mutation CreateNewInvite($code: String!, $userId: Int!, $assignmentId: uuid!, $isPublic: Boolean!, $classId: uuid, $settingsObject: String!){
-    insert_assignments_invite_one(object: {join_code: $code, created_by: $userId, assignment: $assignmentId, config: $settingsObject, is_public: $isPublic, class: $classId}) {
+mutation CreateNewInvite($code: String!, $userId: Int!, $assignmentId: uuid!, $isPublic: Boolean!, $classId: uuid, $settingsObject: String!, $isGoogleClass: Boolean, $googleClassConfig: String){
+    insert_assignments_invite_one(object: {join_code: $code, created_by: $userId, assignment: $assignmentId, config: $settingsObject, is_public: $isPublic, class: $classId, is_google_class: $isGoogleClass, google_class_config: $googleClassConfig}) {
+    id
         join_code
         __typename
     }

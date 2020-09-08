@@ -31,6 +31,7 @@
     "desmos": "^1.5.3",
     "focus-trap-react": "^7.0.1",
     "framer-motion": "^2.3.0",
+    "googleapis": "^59.0.0",
     "graphql": "^15.2.0",
     "graphql-tag": "^2.10.3",
     "immutability-helper": "^3.1.1",

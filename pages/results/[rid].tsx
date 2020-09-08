@@ -12,6 +12,7 @@ import CheckForUser from "../../lib/CheckForUser";
 import myFixed from "../../lib/MyFixed";
 import Error from "next/error";
 import AnalyticsCard from "../../components/ResultsPage/AnalyticsCard";
+import JsonDebugBox from "../../components/JsonDebugBox";
 
 const PageLayout: React.FC<{ session, data, status, sid, profileData }> = ({session, data, status, sid, profileData}) => {
     const inviteConfig = JSON.parse(data.inviteByInvite.config)
@@ -22,12 +23,12 @@ const PageLayout: React.FC<{ session, data, status, sid, profileData }> = ({sess
                 {status === "success" ? <>
                     {inviteConfig.hideScore ? <div className="mb-12">
                         <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 text-center">Assignment submitted
-                            successfully.</h1>
+                            successfully {data.inviteByInvite.is_google_class ? "via Google Classroom" : null}</h1>
                         <h2 className="text-lg sm:text-xl text-gray-500 text-center">Your instructor has hidden your score and
                             responses.</h2>
                     </div> : <div className="mb-12">
                         <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 text-center">Assignment submitted
-                            successfully.</h1>
+                            successfully {data.inviteByInvite.is_google_class ? "via Google Classroom" : null}</h1>
                         <h2 className="text-lg sm:text-xl text-gray-500 text-center">You may view your results below.</h2>
                     </div>}
                 </> :  <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl sm:truncate mb-8">
@@ -73,7 +74,8 @@ const PageLayout: React.FC<{ session, data, status, sid, profileData }> = ({sess
                     </div>
                 </>}
 
-                {profileData.data.users_by_pk.account_type === "teacher" && profileData.data.users_by_pk.is_pro ? <AnalyticsCard eventLog={data.content.content.config.event_log}/> : null}
+                {session ? <>{profileData.data.users_by_pk.account_type === "teacher" && profileData.data.users_by_pk.is_pro ? <AnalyticsCard eventLog={data.content.content.config.event_log}/> : null}</> : null}
+
 
             </div>
 

@@ -70,7 +70,7 @@ const ClassSearch = ({selectedClass, setSelectedClass, session}) => {
 }
 
 
-const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObject, setSettingsObject, session, profileData, standalone = false}) => {
+const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObject, setSettingsObject, session, profileData, standalone = false, googleClass = false}) => {
     const [currentTab, setCurrentTab] = useState(0)
 
 
@@ -99,7 +99,44 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
               tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
             {/*@ts-ignore*/}
-            {standalone ? null : <>{isPublic ? <>
+            {googleClass ? <>
+                <div className="mt-4">
+                    <div>
+                        <label htmlFor="title" className="sr-only">title</label>
+                        <div className="relative rounded-md shadow-sm">
+                            <input id="title" className="form-input block w-full sm:text-sm sm:leading-5"
+                                   value={settingsObject.g_class_title} autoComplete="none"
+                                   onChange={event => setConfigValue("g_class_title", event.target.value)}
+                                   placeholder="New Title"/>
+                        </div>
+                    </div>
+                    <div className="mt-2">
+                        <label htmlFor="desc" className="sr-only">description</label>
+                        <div className="relative rounded-md shadow-sm">
+                            <textarea value={settingsObject.g_class_desc} autoComplete="none"
+                                      onChange={event => setConfigValue("g_class_desc", event.target.value)} rows={2}
+                                      id="desc" className="form-input block w-full sm:text-sm sm:leading-5 resize-none"
+                                      placeholder="Description"/>
+                        </div>
+                    </div>
+                    <div className="flex justify-between items-center mt-4">
+                        <div>
+                            <label htmlFor="points" className="font-medium text-gray-700">Total Points</label>
+                            <p className="text-gray-400 text-sm">Scores will be automatically scaled when sent to Google
+                                Classroom</p>
+                        </div>
+                        <input id="title" autoComplete="off"
+                               className="form-input text-center block w-14 sm:text-sm sm:leading-5"
+                               value={settingsObject.g_class_points} onChange={event => {
+                            //@ts-ignore
+                            if (!isNaN(event.target.value)) {
+                                setConfigValue("g_class_points", event.target.value)
+                            }
+                        }}/>
+                    </div>
+
+                </div>
+            </> : <> {standalone ? null : <>{isPublic ? <>
                 {/*<ToggleRow label="Collect student info" value={settingsObject.collectStudentInfo}*/}
                 {/*                     onEnable={() => setConfigValue("collectStudentInfo", true)}*/}
                 {/*                     onDisable={() => setConfigValue("collectStudentInfo", false)}/>*/}
@@ -127,7 +164,8 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
                     <ClassSearch session={session} selectedClass={selectedClass} setSelectedClass={setSelectedClass}/>
                 </div>
             </div>
-            }</>}
+            }</>}</>}
+
 
             {/*@ts-ignore*/}
             <ToggleRow label="Due date" value={settingsObject.dueDateEnabled}
@@ -168,8 +206,8 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
 
             {/*@ts-ignore*/}
             {isPublic ? null : <><ToggleRow label="Allow multiple attempts" value={settingsObject.multipleAttempts}
-                                             onEnable={() => setConfigValue("multipleAttempts", true)}
-                                             onDisable={() => setConfigValue("multipleAttempts", false)}/>
+                                            onEnable={() => setConfigValue("multipleAttempts", true)}
+                                            onDisable={() => setConfigValue("multipleAttempts", false)}/>
                 {settingsObject.multipleAttempts ? <div className="grid grid-cols-2 gap-4 text-left">
                         <div className="flex-row justify-start items-center mt-2">
                             <label htmlFor="keepScore" className="block text-xs uppercase leading-5 text-gray-400">
@@ -269,7 +307,8 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
             {/*</div> : null}*/}
 
 
-            <ToggleRow label="Submit if student leaves window" proOnly isPro={userIsPro} value={settingsObject.submitOnLeave}
+            <ToggleRow label="Submit if student leaves window" proOnly isPro={userIsPro}
+                       value={settingsObject.submitOnLeave}
                        onEnable={() => setConfigValue("submitOnLeave", true)}
                        onDisable={() => setConfigValue("submitOnLeave", false)}/>
 
@@ -282,10 +321,7 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
                        onDisable={() => setConfigValue("disablePaste", false)}/>
 
 
-            </> : null}
-
-
-
+        </> : null}
 
 
     </div>)

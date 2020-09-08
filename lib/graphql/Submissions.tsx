@@ -13,8 +13,8 @@ is_complete
 `;
 
 export const prepareSubmission = gql`
-mutation PrepareSubmission($inviteId: uuid!){
-  prepareSubmission(inviteId: $inviteId) {
+mutation PrepareSubmission($inviteId: uuid!, $googleClassPayload: String){
+  prepareSubmission(inviteId: $inviteId, googleClassPayload: $googleClassPayload) {
     id
   }
 }
@@ -40,8 +40,12 @@ export const getSubmissionWithScore = gql`
 query GetSubmission($submissionId: uuid!){
   assignments_submission_by_pk(id: $submissionId) {
   content
+  
   inviteByInvite {
-  config}
+  is_google_class
+  google_class_config
+  config
+  }
   answer_key
     scoreReportByScoreReport {
       earned_points
