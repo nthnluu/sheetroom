@@ -42,8 +42,11 @@ const GoogleClassLaunchButton = ({credentials, gClassInfo, inviteId, joinCode}) 
                     .then(result => result.json())
                     .then(json => {
                         if (json.studentSubmissions) {
-                            toggleReadyToStart(1)
-                            setSubmissionId(json.studentSubmissions[0].id)
+                             if (json.studentSubmissions[0].state !== "TURNED_IN") {
+                                 toggleReadyToStart(1)
+                                 setSubmissionId(json.studentSubmissions[0].id)
+                             }
+                             toggleReadyToStart(2)
                         } else {
                             toggleReadyToStart(2)
                         }
