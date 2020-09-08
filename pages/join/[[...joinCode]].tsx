@@ -12,7 +12,7 @@ import {fetchJoinCode} from "../../lib/graphql/FetchJoinCode";
 import JsonDebugBox from "../../components/JsonDebugBox";
 import google from 'googleapis'
 
-const InviteFetch = ({joinCode, profileData, session}) => {
+const InviteFetch = ({joinCode, profileData, session, googleClass}) => {
 
     // @ts-ignore
     const [result] = useQuery({query: fetchJoinCode, variables: {joinCode: joinCode}})
@@ -39,11 +39,15 @@ const InviteFetch = ({joinCode, profileData, session}) => {
             </div>
         </div>)
     } else {
+        // return <JsonDebugBox content={data}/>
         switch (data.processJoinCode.type) {
             case("assignment"):
                 if (data.processJoinCode.payload.is_public) {
                     //@ts-ignore
-                    return <AssignmentCard inviteId={data.processJoinCode.payload.id}
+                    return <AssignmentCard joinCode={joinCode} isGoogleClass={data.processJoinCode.payload.is_google_class}
+                                                                                  googleClassConfig={JSON.parse(data.processJoinCode.payload.google_class_config)}
+                                                                                  googleCredentials={googleClass}
+                                                                                  inviteId={data.processJoinCode.payload.id}
                                            firstName={data.processJoinCode.payload.user.first_name}
                                            lastName={data.processJoinCode.payload.user.last_name}
                                            title={data.processJoinCode.payload.assignmentByAssignment.title}
@@ -123,11 +127,11 @@ const JoinCode = ({error = false}) => {
 }
 
 
-const InviteFetcher = ({joinCode, session, profileData}) => {
+const InviteFetcher = ({joinCode, session, profileData, googleClass}) => {
     if (!joinCode) {
         return <JoinCode/>
     } else if (joinCode[0].length === 8 || joinCode[0].length === 9) {
-        return <InviteFetch session={session} profileData={profileData} joinCode={joinCode[0]}/>
+        return <InviteFetch googleClass={googleClass} session={session} profileData={profileData} joinCode={joinCode[0]}/>
     } else {
         return <JoinCode error/>
     }
@@ -136,39 +140,14 @@ const InviteFetcher = ({joinCode, session, profileData}) => {
 
 const JoinPage = ({session, profileData}) => {
     const router = useRouter()
-    const {joinCode, gclass} = router.query
-    const [gClassKey, setgClass] = useState("")
-
-
-    const getStudentInfo = () => {
-        fetch("https://classroom.googleapis.com/v1/userProfiles/me", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${gClassKey}`
-            }
-        })
-            .then(result => result.json())
-            .then(json => setgClass(json))
-    }
-
-    let gClassroom;
-    useEffect(() => {
-        if (gclass) {
-            localStorage.removeItem('gclass');
-            //@ts-ignore
-            localStorage.setItem('gclass', gclass);
-            setgClass(localStorage.getItem('gclass'))
-        }
-    }, [])
+    const {joinCode, gclass, gclass1, gclass2} = router.query
 
 
     return (<div className="h-screen bg-gray-100">
         <Navbar session={session}/>
         <div className="h-full flex justify-center items-center max-w-3xl mx-auto px-4 md:px-0">
             <div className="w-full">
-                <button onClick={() => getStudentInfo()}>fetch student ionfo</button>
-                <InviteFetcher profileData={profileData} session={session} joinCode={joinCode}/>
+                <InviteFetcher googleClass={{gclass: gclass, gclass1: gclass1, gClass2: gclass2}} profileData={profileData} session={session} joinCode={joinCode}/>
             </div>
         </div>
     </div>)

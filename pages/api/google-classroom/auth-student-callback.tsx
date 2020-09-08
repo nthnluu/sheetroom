@@ -11,7 +11,7 @@ export default async (req, res) => {
     const {tokens} = await oauth2Client.getToken(req.query.code)
     oauth2Client.setCredentials(tokens);
 
-    res.writeHead(302, {location: (`/join/${req.query.state}?gclass=${oauth2Client.credentials.access_token}`)})
+    res.writeHead(302, {location: (`/join/${req.query.state}?gclass=${oauth2Client.credentials.access_token}&gclass1=${oauth2Client.credentials.refresh_token}&gclass2=${oauth2Client.credentials.expiry_date}`)})
     res.end()
 }
 

@@ -183,7 +183,7 @@ const ShareAssignmentModal = ({isOpen, onCancel, session, assignmentId, profileD
                                                  <div
                                                      className="ml-3 text-sm leading-5 flex justify-start items-center">
                                                      <img src="/Google_Classroom.svg"
-                                                          className="h-6 mr-1 inline-block"/>
+                                                          className="h-6 opacity-75 mr-1 inline-block"/>
                                                      <label htmlFor="gclass_radio" className="font-medium text-gray-700">Assign
                                                          through Google Classroom</label>
                                                  </div>

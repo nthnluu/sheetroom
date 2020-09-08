@@ -12,7 +12,7 @@ export default async (req, res) => {
     oauth2Client.setCredentials(tokens);
 
     const stateQuery = JSON.parse(req.query.state)
-    res.writeHead(302, {location: (`/assign-to-google-classroom/?gclass=${oauth2Client.credentials.access_token}&assignmentId=${stateQuery.assignmentId}&title=${stateQuery.defaultTitle}`)})
+    res.writeHead(302, {location: (`/assign-to-google-classroom/?gclass=${oauth2Client.credentials.access_token}&gClass1=${oauth2Client.credentials.refresh_token}&gClass2=${oauth2Client.credentials.expiry_date}&assignmentId=${stateQuery.assignmentId}&title=${stateQuery.defaultTitle}`)})
     res.end()
 }
 

@@ -13,7 +13,7 @@ import JsonDebugBox from "../components/JsonDebugBox";
 
 const AssignToGoogleClassroom = ({profileData, session}) => {
     const router = useRouter()
-    const {assignmentId, gclass, title} = router.query
+    const {assignmentId, gclass, gClass1, gClass2, title} = router.query
     const [newInviteCode, setInviteCode] = useState(nanoid(8))
     const [classList, setClassList] = useState()
     const [googleClassId, setGoogleClassId] = useState()
@@ -132,7 +132,12 @@ const AssignToGoogleClassroom = ({profileData, session}) => {
                             isGoogleClass: true,
                             googleClassConfig: JSON.stringify({
                                 courseworkId: json.id,
-                                courseId: json.courseId
+                                courseId: json.courseId,
+                                credentials: {
+                                    gclass: gclass,
+                                    gClass1: gClass1,
+                                    gClass2: gClass2
+                                }
                             })
                         })
                             .then(result => window.location.href = '/invite/' + result.data.insert_assignments_invite_one.id)
@@ -183,7 +188,8 @@ const AssignToGoogleClassroom = ({profileData, session}) => {
             </> : <>
                 <h1 className="text-center text-3xl font-semibold mb-6">Post your assignment</h1>
                 <div>
-                    <InviteSettings googleClass profileData={profileData} settingsObject={settingsObject}
+                    {/*@ts-ignore*/}
+                    <InviteSettings session={session} isPublic={true} standalone={true} googleClass profileData={profileData} settingsObject={settingsObject}
                                     setSettingsObject={setSettingsObject}/>
                 </div>
                 <div className="mt-6">

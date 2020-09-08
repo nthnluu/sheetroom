@@ -8,13 +8,12 @@ export default async (req, res) => {
     );
 
     const scopes = [
-        'https://www.googleapis.com/auth/classroom.courses.readonly',
-        'https://www.googleapis.com/auth/classroom.coursework.students',
+        'https://www.googleapis.com/auth/classroom.coursework.me.readonly',
     ];
 
     const url = oauth2Client.generateAuthUrl({
         // 'online' (default) or 'offline' (gets refresh_token)
-        access_type: 'online',
+        access_type: 'offline',
 
         // If you only need one scope you can pass it as a string
         scope: scopes
