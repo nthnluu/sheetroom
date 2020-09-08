@@ -20,7 +20,7 @@ export default async (req, res) => {
         scope: scopes
     });
 
-    res.writeHead(302, {location: (url + "&state=" + JSON.stringify({assignmentId: req.query.assignmentId, defaultTitle: req.query.title}))})
+    res.writeHead(302, {location: (url + "&state=" + JSON.stringify({assignmentId: req.query.assignmentId, defaultTitle: req.query.title}) + "&prompt=consent")})
     res.end()
 }
 
