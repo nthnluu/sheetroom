@@ -85,6 +85,7 @@ subscription InvitePage($inviteId: uuid!) {
   id
     config
     is_public
+    is_google_class
     is_disabled
     join_code
     assignmentByAssignment {
@@ -92,6 +93,8 @@ subscription InvitePage($inviteId: uuid!) {
     }
     
     submissions(order_by: {scoreReportByScoreReport: {created_at: desc_nulls_last}}) {
+    first_name
+    last_name
       created_at
       id
       studentProfile {

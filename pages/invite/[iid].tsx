@@ -312,9 +312,9 @@ const PageContent = ({session, profileData, data}) => {
 
                                             {data.assignments_invite_by_pk.submissions.map(submission => <tr
                                                 key={submission.id}>
-                                                {!data.assignments_invite_by_pk.is_public ?
+                                                {!data.assignments_invite_by_pk.is_public || data.assignments_invite_by_pk.is_google_class  ?
                                                     <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                                        {`${submission.studentProfile.user.first_name} ${submission.studentProfile.user.last_name}`}
+                                                        {`${data.assignments_invite_by_pk.is_google_class ? submission.first_name : submission.studentProfile.user.first_name} ${data.assignments_invite_by_pk.is_google_class ? submission.last_name : submission.studentProfile.user.last_name}`}
                                                     </td> : null}
 
                                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
