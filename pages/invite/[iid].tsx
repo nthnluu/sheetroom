@@ -292,7 +292,7 @@ const PageContent = ({session, profileData, data}) => {
                                         <table className="min-w-full divide-y divide-gray-200">
                                             <thead>
                                             <tr>
-                                                {!data.assignments_invite_by_pk.is_public ?
+                                                {!data.assignments_invite_by_pk.is_public || data.assignments_invite_by_pk.is_google_class ?
                                                     <th className="px-6 py-3 bg-cool-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                                         Name
                                                     </th> : null}
