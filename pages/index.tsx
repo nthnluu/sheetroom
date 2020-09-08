@@ -361,7 +361,7 @@ const Index: React.FC<{ session: any }> = ({session}) => {
                         <div className="text-gray-800">
                             <span className="uppercase font-medium flex items-center text-gray-400 text-sm mb-2"><img src="/gclass_color.svg" className="inline-block h-4 mr-2"/>Google Classroom Integration</span>
                             <h1 className="text-2xl font-bold">Easily share and automatically export results to Google Classroom.</h1>
-                            <a href="/pricing" className="mt-4 block font-semibold text-blue-600">Learn How &rarr;</a>
+                            <a href="/signin" className="mt-4 block font-semibold text-blue-600">Learn How &rarr;</a>
                         </div>
 
 
