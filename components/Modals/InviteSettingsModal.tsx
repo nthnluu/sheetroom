@@ -15,7 +15,7 @@ interface Props {
     settingsObject: any;
     inviteId: any;
     isPublic: any;
-    isGoogleClass: any;
+    isGoogleClass?: any;
 }
 
 const InviteSettingsModal: React.FC<Props> = ({onCancel, isOpen, profileData, session, settingsObject, inviteId, isPublic, isGoogleClass}) => {
