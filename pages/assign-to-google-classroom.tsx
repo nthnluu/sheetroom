@@ -162,12 +162,13 @@ const AssignToGoogleClassroom = ({profileData, session}) => {
     return (<>
         <Navbar unfixed session={session}/>
         {/*<JsonDebugBox content={newGoogleClassworkDueDate}/>*/}
-        <div className="max-w-lg mx-auto mt-32 px-4">
+        <div className="max-w-lg mx-auto mt-24 sm:mt-38 md:mt-32 px-4">
             {currentPage === 0 ? <>
                 <h1 className="text-center text-3xl font-semibold mb-4">Select a class</h1>
                 <ul className="space-y-2">
                     {/*@ts-ignore*/}
-                    {classList ? classList.courses.map(classItem => <button key={classItem.id}
+
+                    {classList ? (classList.courses.length > 0 ? classList.courses.map(classItem => <button key={classItem.id}
                                                                             onClick={() => {
                                                                                 setGoogleClassId(classItem.id)
                                                                                 setCurrentPage(1)
@@ -183,7 +184,7 @@ const AssignToGoogleClassroom = ({profileData, session}) => {
                                       clipRule="evenodd"/>
                             </svg>
                         </div>
-                    </button>) : null}
+                    </button>) : <p>We couldn't find any Google Classroom classes</p>) : <div className="mx-auto text-center mt-12"><CircularProgress color="inherit" size={35} className="mr-2 h-auto"/></div>}
                 </ul>
             </> : <>
                 <h1 className="text-center text-3xl font-semibold mb-6">Post your assignment</h1>
