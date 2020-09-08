@@ -19,7 +19,7 @@ export default async (req, res) => {
         scope: scopes
     });
 
-    res.writeHead(302, {location: (url + "&state=" + req.query.joinCode)})
+    res.writeHead(302, {location: (url + "&state=" + req.query.joinCode + "&prompt=consent")})
     res.end()
 }
 
