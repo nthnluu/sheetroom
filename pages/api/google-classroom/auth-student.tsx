@@ -8,7 +8,7 @@ export default async (req, res) => {
     );
 
     const scopes = [
-        'https://www.googleapis.com/auth/classroom.coursework.me.readonly',
+        'https://www.googleapis.com/auth/classroom.coursework.me',
     ];
 
     const url = oauth2Client.generateAuthUrl({
