@@ -70,8 +70,8 @@ const ClassSearch = ({selectedClass, setSelectedClass, session}) => {
 }
 
 
-const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObject, setSettingsObject, session, profileData, standalone = false, googleClass = false}) => {
-    const [currentTab, setCurrentTab] = useState(0)
+const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObject, setSettingsObject, session, profileData, standalone = false, googleClass = false, isGoogleClass = false}) => {
+    const [currentTab, setCurrentTab] = useState(isGoogleClass ? 1 : 0)
 
 
     const setConfigValue = (configValue, value) => {
@@ -95,7 +95,7 @@ const InviteSettings = ({isPublic, selectedClass, setSelectedClass, settingsObje
 
 
     return (<div className="w-full">
-        <Tabs activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
+        <Tabs isGoogleClass={isGoogleClass} activeTab={currentTab} setActiveTab={index => setCurrentTab(index)}
               tabs={["General", "Visibility", "Advanced"]}/>
         {currentTab === 0 ? <>
             {/*@ts-ignore*/}

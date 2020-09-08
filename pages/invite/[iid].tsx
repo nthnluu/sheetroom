@@ -177,9 +177,9 @@ const PageContent = ({session, profileData, data}) => {
         <DeleteInviteModal onCancel={() => toggleDeleteInviteModal(false)} isOpen={deleteInviteModal}
                            inviteId={data.assignments_invite_by_pk.id}/>
         <div className="bg-gray-50 min-h-screen pb-24">
-            <InviteSettingsModal inviteId={data.assignments_invite_by_pk.id}
+            <InviteSettingsModal inviteId={data.assignments_invite_by_pk.id} isPublic={data.assignments_invite_by_pk.is_public}
                                  onCancel={() => toggleInviteSettingsModal(false)} settingsObject={assignmentConfig}
-                                 isOpen={inviteSettingsModal} profileData={profileData} session={session}/>
+                                 isOpen={inviteSettingsModal} profileData={profileData} session={session} isGoogleClass={data.assignments_invite_by_pk.is_google_class}/>
             <JoinCodeModal joinCode={data.assignments_invite_by_pk.join_code}
                            title={data.assignments_invite_by_pk.assignmentByAssignment.title}
                            onCancel={() => toggleJoinCodeModal(false)} isOpen={joinCodeModal}/>
