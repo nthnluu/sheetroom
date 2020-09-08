@@ -14,9 +14,11 @@ interface Props {
     session: any;
     settingsObject: any;
     inviteId: any;
+    isPublic: any;
+    isGoogleClass: any;
 }
 
-const InviteSettingsModal: React.FC<Props> = ({onCancel, isOpen, profileData, session, settingsObject, inviteId}) => {
+const InviteSettingsModal: React.FC<Props> = ({onCancel, isOpen, profileData, session, settingsObject, inviteId, isPublic, isGoogleClass}) => {
 
     const [updateMutationResult, updateMutation] = useMutation(updateInviteConfig)
     const [isLoading, toggleLoading] = useState(false)
@@ -56,7 +58,7 @@ const InviteSettingsModal: React.FC<Props> = ({onCancel, isOpen, profileData, se
         {/*@ts-ignore*/}
     </div>} isOpen={isOpen} onCancel={cancelModal} title="Invite Settings" content={<div>
         {/*@ts-ignore*/}
-       <InviteSettings standalone profileData={profileData} session={session} settingsObject={settingsConfig} setSettingsObject={setSettingsObject}/>
+       <InviteSettings isPublic={isPublic} standalone isGoogleClass={isGoogleClass} profileData={profileData} session={session} settingsObject={settingsConfig} setSettingsObject={setSettingsObject}/>
 
 
     </div>}
