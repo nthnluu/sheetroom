@@ -53,6 +53,7 @@ subscription ResultsPage($assignmentId: uuid!) {
     is_disabled
     id
     is_public
+    is_google_class
     join_code
       classByClass {
         title
