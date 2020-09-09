@@ -48,7 +48,8 @@ const Index: React.FC<{ session: any }> = ({session}) => {
         <>
             <Head>
                 <title>Sheetroom</title>
-                <meta>The easiest way to create beautiful assignments for desktop, mobile, and print.</meta>
+                <meta name="description" content="The easiest way to create beautiful assignments for desktop, mobile, and print."/>
+                <meta name="keywords" content="Google Classroom, assignment, builder, online quiz, quiz, quiz builder"/>
             </Head>
             <div className="min-h-screen overflow-x-hidden bg-gradient-to-tr from-purple-50 via-blue-100 to-blue-50" style={{backgroundColor: '#E8F5FE'}}>
                 <div className="z-50">
