@@ -9,7 +9,6 @@ import {createInvite} from "../lib/graphql/Invites";
 import {nanoid} from "nanoid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
-import JsonDebugBox from "../components/JsonDebugBox";
 
 const AssignToGoogleClassroom = ({profileData, session}) => {
     const router = useRouter()
@@ -167,8 +166,7 @@ const AssignToGoogleClassroom = ({profileData, session}) => {
                 <h1 className="text-center text-3xl font-semibold mb-4">Select a class</h1>
                 <ul className="space-y-2">
                     {/*@ts-ignore*/}
-
-                    {classList ? (classList.courses.length > 0 ? classList.courses.map(classItem => <button key={classItem.id}
+                    {classList ? (classList.courses ? classList.courses.map(classItem => <button key={classItem.id}
                                                                             onClick={() => {
                                                                                 setGoogleClassId(classItem.id)
                                                                                 setCurrentPage(1)
@@ -184,7 +182,7 @@ const AssignToGoogleClassroom = ({profileData, session}) => {
                                       clipRule="evenodd"/>
                             </svg>
                         </div>
-                    </button>) : <p>We couldn't find any Google Classroom classes</p>) : <div className="mx-auto text-center mt-12"><CircularProgress color="inherit" size={35} className="mr-2 h-auto"/></div>}
+                    </button>) : <p className="text-center text-sm text-gray-400 pt-12">We couldn't find any Google Classroom classes</p>) : <div className="mx-auto text-center mt-12"><CircularProgress color="inherit" size={35} className="mr-2 h-auto"/></div>}
                 </ul>
             </> : <>
                 <h1 className="text-center text-3xl font-semibold mb-6">Post your assignment</h1>
