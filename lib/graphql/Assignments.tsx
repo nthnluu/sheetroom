@@ -54,6 +54,7 @@ subscription ResultsPage($assignmentId: uuid!) {
     id
     is_public
     is_google_class
+    google_class_config
     join_code
       classByClass {
         title
