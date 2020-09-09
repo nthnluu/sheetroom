@@ -33,8 +33,13 @@ const ExistingInvitesSection = ({aid}) => {
                                                                         className={"p-3 border-gray-300 leading-tight " + (index === (data.assignments_invite.length - 1) ? null : "border-b")}>
                         <a href={"/invite/" + invite.id}
                            className="font-medium text-gray-700 text-sm hover:text-blue-600 focus:underline">{moment(invite.created_at).format("dddd, MMMM Do YYYY")} ({invite.join_code})</a>
-                        <p className="text-sm text-gray-400">{invite.is_public ? <><i
-                            className="fas fa-globe-americas mr-1"/>Public</> : `Assigned to ${invite.classByClass ? invite.classByClass.title : "a class"}`}</p>
+                        <p className="text-sm text-gray-400">
+                            {invite.is_google_class ? <>
+                                Google Classroom
+                            </> : <>{invite.is_public ? <><i
+                                className="fas fa-globe-americas mr-1"/>Public</> : `Assigned to ${invite.classByClass ? invite.classByClass.title : "a class"}`}</>}
+
+                        </p>
                     </li>)}
                 </ul>
                 <h2 className="font-medium text-gray-700 mt-4">Create New Invite</h2></> : null}
