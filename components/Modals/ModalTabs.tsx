@@ -1,6 +1,6 @@
 import React from "react";
 
-const Tabs = ({setActiveTab, activeTab, tabs, isGoogleClass}) => {
+const Tabs = ({setActiveTab, activeTab, tabs, isGoogleClass = false}) => {
     return (<div>
             {/*// <!-- Tabs at small breakpoint and up -->*/}
             <div className="block">
