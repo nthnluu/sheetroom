@@ -71,6 +71,7 @@ query GetAssignmentInvites($assignmentId: uuid!) {
     join_code
     created_at
     is_public
+    is_google_class
     classByClass {
       title
       __typename
