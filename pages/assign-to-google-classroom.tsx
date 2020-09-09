@@ -9,6 +9,7 @@ import {createInvite} from "../lib/graphql/Invites";
 import {nanoid} from "nanoid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import moment from "moment";
+import JsonDebugBox from "../components/JsonDebugBox";
 
 const AssignToGoogleClassroom = ({profileData, session}) => {
     const router = useRouter()
@@ -16,6 +17,7 @@ const AssignToGoogleClassroom = ({profileData, session}) => {
     const [newInviteCode, setInviteCode] = useState(nanoid(8))
     const [classList, setClassList] = useState()
     const [googleClassId, setGoogleClassId] = useState()
+    const [googleClassTitle, setGoogleClassTitle] = useState("")
     const [currentPage, setCurrentPage] = useState(0)
     const [isLoading, toggleLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -131,6 +133,7 @@ const AssignToGoogleClassroom = ({profileData, session}) => {
                             isGoogleClass: true,
                             googleClassConfig: JSON.stringify({
                                 courseworkId: json.id,
+                                courseTitle: googleClassTitle,
                                 courseId: json.courseId,
                                 credentials: {
                                     gclass: gclass,
@@ -168,12 +171,14 @@ const AssignToGoogleClassroom = ({profileData, session}) => {
                     {/*@ts-ignore*/}
                     {classList ? (classList.courses ? classList.courses.map(classItem => <button key={classItem.id}
                                                                             onClick={() => {
+                                                                                setGoogleClassTitle(`${classItem.name}${classItem.section ? (" " + "(" + classItem.section + ")") : ""}`)
                                                                                 setGoogleClassId(classItem.id)
                                                                                 setCurrentPage(1)
                                                                             }}
                                                                             className="w-full p-3 form-input justify-between items-center flex font-medium shadow-sm rounded-lg text-left">
 
-                        <div className="text-lg">{classItem.name}<span
+                        <div className="text-lg">{classItem.name}
+                        <span
                             className="font-light ml-2 text-gray-500">{classItem.section}</span></div>
                         <div>
                             <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
