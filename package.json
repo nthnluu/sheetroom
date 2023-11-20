@@ -45,7 +45,7 @@
     "moment": "^2.27.0",
     "nanoid": "^3.1.12",
     "next": "9.5.2",
-    "next-auth": "^3.1.0",
+    "next-auth": "^4.24.5",
     "next-urql": "^1.1.0",
     "pg": "^8.2.1",
     "qrcode.react": "^1.0.0",
